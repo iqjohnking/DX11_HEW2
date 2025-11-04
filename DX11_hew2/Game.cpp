@@ -45,10 +45,10 @@ void Game::Draw()
 	Renderer::DrawStart();
 
 	// テストオブジェクト描画
-	//Renderer::SetDepthEnable(1);
 	m_Cube.Draw(&m_Camera);
-	Renderer::SetDepthEnable(0);
+	//Renderer::SetDepthEnable(0);
 	m_Plane.Draw(&m_Camera);
+	//Renderer::SetDepthEnable(1);
 
 	// 描画後処理
 	Renderer::DrawEnd();
