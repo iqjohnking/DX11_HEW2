@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include "Renderer.h"
 
 // コンストラクタ
 GameScene::GameScene()

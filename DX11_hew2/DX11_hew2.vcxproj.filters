@@ -81,7 +81,7 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="SceneBase.cpp">
+    <ClCompile Include="MenuScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,6 +134,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -151,10 +154,5 @@
     <FxCompile Include="shader\litTextureVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SceneBase.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
-    </None>
   </ItemGroup>
 </Project>

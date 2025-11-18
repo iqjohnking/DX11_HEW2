@@ -1,7 +1,8 @@
 ﻿#include <chrono>
 #include <thread>
 #include "Application.h"
-#include "GameScene.h"
+#include "Renderer.h"           //SceneManager.h の中にもあるけど、こちも置いて
+#include "SceneManager.h"
 
 const auto ClassName = TEXT("2025 framework ひな型");     //ウィンドウクラス名
 const auto WindowName = TEXT("2025 framework ひな型");    //ウィンドウ名
@@ -61,7 +62,7 @@ bool Application::InitApp()
 
     // ウィンドウの設定
     WNDCLASSEX wc = {};
-    wc.cbSize = sizeof(WNDCLASSEX);
+    wc.cbSize = sizeof(WNDCLASSEX);                     //
     wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WndProc;
     wc.hIcon = LoadIcon(hInst, IDI_APPLICATION);
@@ -146,11 +147,9 @@ void Application::MainLoop()
 {
     MSG msg = {};
 
-    // ゲームオブジェクト
-    GameScene game;
-
-    // ゲーム初期化処理
-    game.Init();
+    // ★ SceneManager を取得
+    SceneManager& sm = SceneManager::GetInstance();
+    sm.Init();
     
     // FPS計測用変数
    int fpsCounter = 0;
@@ -170,40 +169,40 @@ void Application::MainLoop()
 
    // ゲームループ
    while (1)
-   {
-       // 新たにメッセージがあれば
-       if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-       {
-           // ウィンドウプロシージャにメッセージを送る
-           TranslateMessage(&msg);
-           DispatchMessage(&msg);
+    {
+       // ① Windows メッセージ処理（WM_XXX）
+       // 例：キーボード入力、マウス、ウィンドウ移動、閉じるボタンなど
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);         // メッセージ内容を OS が理解できる形式に変換
+            DispatchMessage(&msg);          // メッセージをウィンドウプロシージャ（WndProc）へ送る
 
-           // 「WM_QUIT」メッセージを受け取ったらループを抜ける
-           if (msg.message == WM_QUIT) {
-               break;
-           }
-       }
+            // WM_QUIT が来たらゲーム終了
+            if (msg.message == WM_QUIT) {
+                break;
+            }
+        }
         else
-       {
-           QueryPerformanceCounter(&liWork);// 現在時間を取得
-           nowCount = liWork.QuadPart;
-           // 1/60秒が経過したか？
-           if (nowCount >= oldCount + frequency / 60) {
+        {
+            // ② 高精度タイマーで現在時刻を取得（QueryPerformanceCounter）
+            QueryPerformanceCounter(&liWork);
+            nowCount = liWork.QuadPart;         //現在のCPUカウンタ値
 
-               // ゲーム更新
-               game.Update();
+            // ③ 60FPS 判定
+            if (nowCount >= oldCount + frequency / 60) {
 
-               // ゲーム描画
-               game.Draw();
+                sm.Update();
+                sm.Draw();
 
-               fpsCounter++; // ゲーム処理を実行したら＋１する
-               oldCount = nowCount;
-           }
+                fpsCounter++;               // FPS カウンタのインクリメント（デバッグ用）
+                oldCount = nowCount;        // 次フレームの基準時間を更新
+            }
+            // （1/60秒経っていない場合は何もせず while に戻る）
         }
     }
 
-   // ゲーム終了処理
-   game.Uninit();
+    // ★ 結束時
+    sm.Uninit();
 }
 
 //-----------------------------------------------------------------------------
