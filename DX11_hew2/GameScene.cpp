@@ -1,20 +1,20 @@
-#include "Game.h"
+#include "GameScene.h"
 #include "Renderer.h"
 
 // コンストラクタ
-Game::Game()
+GameScene::GameScene()
 {
 
 }
 
 // デストラクタ
-Game::~Game()
+GameScene::~GameScene()
 {
 
 }
 
 // 初期化
-void Game::Init()
+void GameScene::Init()
 {
 	// 描画終了処理
 	Renderer::Init();
@@ -28,7 +28,7 @@ void Game::Init()
 }
 
 // 更新
-void Game::Update()
+void GameScene::Update()
 {
 	// カメラ更新
 	m_Camera.Update();
@@ -39,7 +39,7 @@ void Game::Update()
 }
 
 // 描画
-void Game::Draw()
+void GameScene::Draw()
 {
 	// 描画前処理
 	Renderer::DrawStart();
@@ -55,7 +55,7 @@ void Game::Draw()
 }
 
 // 終了処理
-void Game::Uninit()
+void GameScene::Uninit()
 {
 	// カメラ終了処理
 	m_Camera.Uninit();

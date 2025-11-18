@@ -1,7 +1,7 @@
 ﻿#include <chrono>
 #include <thread>
 #include "Application.h"
-#include "Game.h"
+#include "GameScene.h"
 
 const auto ClassName = TEXT("2025 framework ひな型");     //ウィンドウクラス名
 const auto WindowName = TEXT("2025 framework ひな型");    //ウィンドウ名
@@ -10,6 +10,11 @@ HINSTANCE  Application::m_hInst;   // インスタンスハンドル
 HWND       Application::m_hWnd;    // ウィンドウハンドル
 uint32_t   Application::m_Width;   // ウィンドウの横幅
 uint32_t   Application::m_Height;  // ウィンドウの縦幅
+
+extern "C" {
+    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+    __declspec(dllexport) int   AmdPowerXpressRequestHighPerformance = 0x00000001;
+}
 
 //-----------------------------------------------------------------------------
 // コンストラクタ
@@ -142,7 +147,7 @@ void Application::MainLoop()
     MSG msg = {};
 
     // ゲームオブジェクト
-    Game game;
+    GameScene game;
 
     // ゲーム初期化処理
     game.Init();

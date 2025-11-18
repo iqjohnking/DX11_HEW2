@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\obj">
+      <UniqueIdentifier>{992c08d4-c0dd-44d9-aa7c-ef4af91fdf2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\obj">
+      <UniqueIdentifier>{5cb2d69b-8f00-46c0-964d-6cdc5a0f300a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\lib">
+      <UniqueIdentifier>{a42eecab-607c-4d07-99e7-38d989ee7a37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\lib">
+      <UniqueIdentifier>{233af66a-8075-4e4b-ba46-81de2e8ca1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\render">
+      <UniqueIdentifier>{0a97a4c7-de39-4f74-bbb8-782b93425d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\render">
+      <UniqueIdentifier>{c2e1aafb-67a4-4d85-b91c-4ecebb9e9904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\scenes">
+      <UniqueIdentifier>{6fbcbbd2-2b8f-4717-91a2-fc66fcc3975d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scenes">
+      <UniqueIdentifier>{7217119c-04d1-4732-b3fd-3ada644ebff2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -24,32 +48,41 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TestPlane.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TestCube.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="TestPlane.cpp">
+      <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>ソース ファイル\render</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>ソース ファイル\render</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>ソース ファイル\render</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,25 +92,7 @@
     <ClInclude Include="Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TestPlane.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
@@ -87,13 +102,37 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TestCube.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="TestPlane.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>ヘッダー ファイル\render</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>ヘッダー ファイル\render</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\render</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>ヘッダー ファイル\render</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>ヘッダー ファイル\render</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>ヘッダー ファイル\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,5 +151,10 @@
     <FxCompile Include="shader\litTextureVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SceneBase.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Application.h"
+#include "Input.h" //g‚í‚È‚¢‚©‚àAˆê’U’u‚¢‚Ä
 
 using namespace DirectX::SimpleMath;
 

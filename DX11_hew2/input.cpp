@@ -1,38 +1,31 @@
 #include "input.h"
 
-//コンストラクタ
-Input::Input()
-{
-	VibrationTime = 0;
-}
+Input* Input::m_Instance = {};
 
-//デストラクタ
-Input::~Input()
+void Input::Create()
 {
-	//振動を終了させる
-	XINPUT_VIBRATION vibration;
-	ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-	vibration.wLeftMotorSpeed = 0;
-	vibration.wRightMotorSpeed = 0;
-	XInputSetState(0, &vibration);
+	if (m_Instance)return;
+	m_Instance = new Input;
+
+	m_Instance->VibrationTime = 0;
 }
 
 void Input::Update()
 {
 	//1フレーム前の入力を記録しておく
-	for (int i = 0; i < 256; i++) { keyState_old[i] = keyState[i]; }
-	controllerState_old = controllerState;
+	for (int i = 0; i < 256; i++) { m_Instance->keyState_old[i] = m_Instance->keyState[i]; }
+	m_Instance->controllerState_old = m_Instance->controllerState;
 
 	//キー入力を更新
-	BOOL hr = GetKeyboardState(keyState);
+	BOOL hr = GetKeyboardState(m_Instance->keyState);
 
 	//コントローラー入力を更新(XInput)
-	XInputGetState(0, &controllerState);
+	XInputGetState(0, &(m_Instance->controllerState));
 
 	//振動継続時間をカウント
-	if (VibrationTime > 0) {
-		VibrationTime--;
-		if (VibrationTime == 0) { //振動継続時間が経った時に振動を止める
+	if (m_Instance->VibrationTime > 0) {
+		m_Instance->VibrationTime--;
+		if (m_Instance->VibrationTime == 0) { //振動継続時間が経った時に振動を止める
 			XINPUT_VIBRATION vibration;
 			ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
 			vibration.wLeftMotorSpeed = 0;
@@ -42,25 +35,42 @@ void Input::Update()
 	}
 }
 
+void Input::Release()
+{
+	//振動を終了させる
+	XINPUT_VIBRATION vibration;
+	ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+	vibration.wLeftMotorSpeed = 0;
+	vibration.wRightMotorSpeed = 0;
+	XInputSetState(0, &vibration);
+
+	//解放
+	if (m_Instance)
+	{
+		delete m_Instance;
+		m_Instance = NULL;
+	}
+}
+
 //キー入力
 bool Input::GetKeyPress(int key) //プレス
 {
-	return keyState[key] & 0x80;
+	return m_Instance->keyState[key] & 0x80;
 }
 bool Input::GetKeyTrigger(int key) //トリガー
 {
-	return (keyState[key] & 0x80) && !(keyState_old[key] & 0x80);
+	return (m_Instance->keyState[key] & 0x80) && !(m_Instance->keyState_old[key] & 0x80);
 }
 bool Input::GetKeyRelease(int key) //リリース
 {
-	return !(keyState[key] & 0x80) && (keyState_old[key] & 0x80);
+	return !(m_Instance->keyState[key] & 0x80) && (m_Instance->keyState_old[key] & 0x80);
 }
 
 //左アナログスティック
 DirectX::XMFLOAT2 Input::GetLeftAnalogStick(void)
 {
-	SHORT x = controllerState.Gamepad.sThumbLX; // -32768～32767
-	SHORT y = controllerState.Gamepad.sThumbLY; // -32768～32767
+	SHORT x = m_Instance->controllerState.Gamepad.sThumbLX; // -32768～32767
+	SHORT y = m_Instance->controllerState.Gamepad.sThumbLY; // -32768～32767
 
 	DirectX::XMFLOAT2 res;
 	res.x = x / 32767.0f; //-1～1
@@ -70,8 +80,8 @@ DirectX::XMFLOAT2 Input::GetLeftAnalogStick(void)
 //右アナログスティック
 DirectX::XMFLOAT2 Input::GetRightAnalogStick(void)
 {
-	SHORT x = controllerState.Gamepad.sThumbRX; // -32768～32767
-	SHORT y = controllerState.Gamepad.sThumbRY; // -32768～32767
+	SHORT x = m_Instance->controllerState.Gamepad.sThumbRX; // -32768～32767
+	SHORT y = m_Instance->controllerState.Gamepad.sThumbRY; // -32768～32767
 
 	DirectX::XMFLOAT2 res;
 	res.x = x / 32767.0f; //-1～1
@@ -82,28 +92,28 @@ DirectX::XMFLOAT2 Input::GetRightAnalogStick(void)
 //左トリガー
 float Input::GetLeftTrigger(void)
 {
-	BYTE t = controllerState.Gamepad.bLeftTrigger; // 0～255
+	BYTE t = m_Instance->controllerState.Gamepad.bLeftTrigger; // 0～255
 	return t / 255.0f;
 }
 //右トリガー
 float Input::GetRightTrigger(void)
 {
-	BYTE t = controllerState.Gamepad.bRightTrigger; // 0～255
+	BYTE t = m_Instance->controllerState.Gamepad.bRightTrigger; // 0～255
 	return t / 255.0f;
 }
 
 //ボタン入力
 bool Input::GetButtonPress(WORD btn) //プレス
 {
-	return (controllerState.Gamepad.wButtons & btn) != 0;
+	return (m_Instance->controllerState.Gamepad.wButtons & btn) != 0;
 }
 bool Input::GetButtonTrigger(WORD btn) //トリガー
 {
-	return (controllerState.Gamepad.wButtons & btn) != 0 && (controllerState_old.Gamepad.wButtons & btn) == 0;
+	return (m_Instance->controllerState.Gamepad.wButtons & btn) != 0 && (m_Instance->controllerState_old.Gamepad.wButtons & btn) == 0;
 }
 bool Input::GetButtonRelease(WORD btn) //リリース
 {
-	return (controllerState.Gamepad.wButtons & btn) == 0 && (controllerState_old.Gamepad.wButtons & btn) != 0;
+	return (m_Instance->controllerState.Gamepad.wButtons & btn) == 0 && (m_Instance->controllerState_old.Gamepad.wButtons & btn) != 0;
 }
 
 //振動
@@ -119,6 +129,6 @@ void Input::SetVibration(int frame, float powor)
 	XInputSetState(0, &vibration);
 
 	//振動継続時間を代入
-	VibrationTime = frame;
+	m_Instance->VibrationTime = frame;
 }
 
