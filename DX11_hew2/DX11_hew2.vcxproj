@@ -166,6 +166,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="TestPlane.h" />
+    <ClInclude Include="Test_melonlemon13.h" />
     <ClInclude Include="Test_TR.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
