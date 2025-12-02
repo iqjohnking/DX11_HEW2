@@ -164,6 +164,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Test kawaguchi.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="TestPlane.h" />
     <ClInclude Include="Test_melonlemon13.h" />
