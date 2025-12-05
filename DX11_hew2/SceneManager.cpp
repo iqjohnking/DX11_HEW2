@@ -20,66 +20,66 @@ SceneManager& SceneManager::GetInstance() {
 
 void SceneManager::Init()
 {
-    // ˆêŠJŽnAi“ü GAMEiˆ½æ MENUj
-    ChangeScene(GAME);
+	// ˆêŠJŽnAi“ü GAMEiˆ½æ MENUj
+	ChangeScene(GAME);
 }
 
 void SceneManager::ChangeScene(Scenes nextScene)
 {
-    // æ”cäp“I scene ´{
-    if (currentScene) {
-        currentScene->Uninit();
-        delete currentScene;
-        currentScene = nullptr;
-    }
+	// æ”cäp“I scene ´{
+	if (currentScene) {
+		currentScene->Uninit();
+		delete currentScene;
+		currentScene = nullptr;
+	}
 
-    scene = nextScene;
+	scene = nextScene;
 
-    switch (scene)
-    {
-    case MENU:
-        std::cout << "TODO: new MenuScene();" << std::endl;
-        currentScene = nullptr;
-        break;
+	switch (scene)
+	{
+	case MENU:
+		std::cout << "TODO: new MenuScene();" << std::endl;
+		currentScene = nullptr;
+		break;
 
-    case GAME:
-        currentScene = new GameScene();
-        break;
+	case GAME:
+		currentScene = new GameScene();
+		break;
 
-    case RESULT:
-        std::cout << "TODO: new ResultScene();" << std::endl;
-        currentScene = nullptr;
-        break;
+	case RESULT:
+		std::cout << "TODO: new ResultScene();" << std::endl;
+		currentScene = nullptr;
+		break;
 
-    case QUIT:
-        currentScene = nullptr;
-        break;
-    }
+	case QUIT:
+		currentScene = nullptr;
+		break;
+	}
 
-    if (currentScene) {
-        currentScene->Init();
-    }
+	if (currentScene) {
+		currentScene->Init();
+	}
 }
 
 void SceneManager::Update()
 {
-    if (currentScene) {
-        currentScene->Update();
-    }
+	if (currentScene) {
+		currentScene->Update();
+	}
 }
 
 void SceneManager::Draw()
 {
-    if (currentScene) {
-        currentScene->Draw();
-    }
+	if (currentScene) {
+		currentScene->Draw();
+	}
 }
 
 void SceneManager::Uninit()
 {
-    if (currentScene) {
-        currentScene->Uninit();
-        delete currentScene;
-        currentScene = nullptr;
-    }
+	if (currentScene) {
+		currentScene->Uninit();
+		delete currentScene;
+		currentScene = nullptr;
+	}
 }
