@@ -13,6 +13,9 @@ protected:
 	Shader m_Shader; // シェーダー
 
 public:
+
+	virtual ~Object() {} //仮デストラクタ（※派生クラスのリソース解放のために必要）
+
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(Camera* cam) = 0;
@@ -21,4 +24,5 @@ public:
 	// 位置の取得
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	DirectX::SimpleMath::Vector3 GetRotation() const { return m_Rotation; }
+
 };

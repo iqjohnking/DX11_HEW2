@@ -22,7 +22,10 @@ ID3D11DepthStencilView* Renderer::m_pDepthStencilView{};
 ID3D11Buffer* Renderer::m_pWorldBuffer{}; // ワールド行列
 ID3D11Buffer* Renderer::m_pViewBuffer{}; // ビュー行列
 ID3D11Buffer* Renderer::m_pProjectionBuffer{}; // プロジェクション行列
+
 ID3D11Buffer* Renderer::m_pLightBuffer{}; // ライト設定（平行光源
+ID3D11Buffer* Renderer::m_pMaterialBuffer{}; // マテリアル設定
+ID3D11Buffer* Renderer::m_pTextureBuffer{}; // UV情報
 
 // デプスステンシルステート
 ID3D11DepthStencilState* Renderer::m_pDepthStateEnable{};
@@ -69,10 +72,6 @@ HRESULT Renderer::Init()
 		&m_pDeviceContext); // 作成されたデバイスコンテキストを受け取るポインタ
 	if (FAILED(hr)) return hr;
 
-	hr = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, NULL, 0, 
-		D3D11_SDK_VERSION, &swapChainDesc, &m_pSwapChain, &m_pDevice, &m_FeatureLevel, &m_pDeviceContext);
-	if (FAILED(hr)) return hr;
-
 	// レンダーターゲットビュー・デプスステンシルバッファ・デプスステンシルビュー作成
 	hr = CreateRenderAndDepthResources();
 	if (FAILED(hr)) return hr;
@@ -101,6 +100,7 @@ HRESULT Renderer::Init()
 	hr = m_pDevice->CreateRasterizerState(&rasterizerDesc, &rs);
 	if (FAILED(hr)) return hr;
 	m_pDeviceContext->RSSetState(rs);
+	rs->Release();
 
 	// ブレンド ステート生成
 	D3D11_BLEND_DESC BlendDesc{};
@@ -165,6 +165,7 @@ HRESULT Renderer::Init()
 	if (FAILED(hr)) return hr;
 
 	m_pDeviceContext->PSSetSamplers(0, 1, &samplerState);
+	samplerState->Release();
 
 	// 定数バッファ生成
 	D3D11_BUFFER_DESC bufferDesc{};
@@ -190,22 +191,43 @@ HRESULT Renderer::Init()
 	m_pDeviceContext->VSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
 	if (FAILED(hr)) return hr;
 
-	//３番目の定数バッファにLight行列
-
+	//３番目の定数バッファにLight光源情報
 	bufferDesc.ByteWidth = sizeof(LIGHT);
-
 	hr = m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pLightBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(3, 1, &m_pLightBuffer);
 	if (FAILED(hr)) return hr;
 
 	//Lightの初期化
-	LIGHT light{};
+	LIGHT light{}; //LIGHT 型の変数を生成し、すべてのメンバーを 0 または既定値で初期化する。
 	light.Enable = true;
-	light.Direction = Vector4(0.0f, -1.0f, 0.8f, 0.0f);//方向
+	light.Direction = Vector4(0.0f, -1.0f, 0.9f, 0.0f);//方向
 	light.Direction.Normalize();
-	light.Diffuse = Color(1.5f, 1.5, 1.5f, 1.0f);//平行光源の強さといろ
-	light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);//環境光の強さといろ
+	light.Diffuse = Color(1.5f, 1.5f, 1.5f, 1.0f);//平行光源の強さといろ
+	//light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);//環境光の強さといろ
+	light.Ambient = Color(0.5f, 0.5f, 0.5f, 1.0f);//環境光の強さといろ
 	SetLight(light);
+
+	//４番目の定数バッファにマテリアル情報
+	bufferDesc.ByteWidth = sizeof(MATERIAL);
+	hr = m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pMaterialBuffer);
+	m_pDeviceContext->VSSetConstantBuffers(4, 1, &m_pMaterialBuffer);
+	m_pDeviceContext->PSSetConstantBuffers(4, 1, &m_pMaterialBuffer);
+	if (FAILED(hr)) return hr;
+
+	//マテリアルの初期化
+	MATERIAL material{}; //MATERIAL 型の変数を生成し、すべてのメンバーを 0 または既定値で初期化する。
+	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f); //環境反射
+	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f); //拡散反射
+	SetMaterial(material);
+
+	//５番目の定数バッファにUV情報
+	bufferDesc.ByteWidth = sizeof(Matrix);
+	hr = m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pTextureBuffer);
+	m_pDeviceContext->VSSetConstantBuffers(5, 1, &m_pTextureBuffer);
+	//m_pDeviceContext->PSSetConstantBuffers(5, 1, &m_pTextureBuffer);
+	if (FAILED(hr)) return hr;
+	// Uv初期化
+	SetUV(0.0f, 0.0f, 1.0f, 1.0f);
 
 	return S_OK;
 }
@@ -261,10 +283,19 @@ void Renderer::Uninit()
 	m_pDeviceContext->ClearState();
 
 	SAFE_RELEASE(m_pLightBuffer);
+	SAFE_RELEASE(m_pMaterialBuffer);
+	SAFE_RELEASE(m_pTextureBuffer);
 
 	SAFE_RELEASE(m_pWorldBuffer);
 	SAFE_RELEASE(m_pViewBuffer);
 	SAFE_RELEASE(m_pProjectionBuffer);
+
+	SAFE_RELEASE(m_pDepthStateEnable);
+	SAFE_RELEASE(m_pDepthStateDisable);
+	for (int i = 0; i < MAX_BLENDSTATE; i++) {
+		SAFE_RELEASE(m_pBlendState[i]);
+	}
+
 
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pRenderTargetView);
@@ -302,6 +333,22 @@ void Renderer::SetLight(LIGHT Light)
 {
 	// LIGHTの設定をGPU側へ送る
 	m_pDeviceContext->UpdateSubresource(m_pLightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void Renderer::SetMaterial(MATERIAL Material)
+{
+	// MATERIALの設定をGPU側へ送る
+	m_pDeviceContext->UpdateSubresource(m_pMaterialBuffer, 0, NULL, &Material, 0, 0);
+}
+//--------------------------------------------------------------------------------------
+// UV情報を設定
+//--------------------------------------------------------------------------------------
+void Renderer::SetUV(float u, float v, float uw, float vh)
+{
+	// UV情報をMatrix型でまとめる/Uv行列を作成
+	Matrix mat = Matrix::CreateScale(uw,vh,1.0f);
+	mat *= Matrix::CreateTranslation(u, v, 0.0f).Transpose();
+	m_pDeviceContext->UpdateSubresource(m_pTextureBuffer, 0, NULL, &mat, 0, 0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -469,7 +516,7 @@ HRESULT Renderer::CompileShader(const char* szFileName, LPCSTR szEntryPoint, LPC
 	char csoFileName[256];
 	const char* dot = strrchr(szFileName, '.');  // 最後の '.' を探す
 	if (dot) {
-		int basenameLen = dot - szFileName;
+		int basenameLen = (int)(dot - szFileName);
 		strncpy(csoFileName, szFileName, basenameLen); // 拡張子がある場合は拡張子を除いたファイル名をコピー
 		csoFileName[basenameLen] = '\0';   // 終端文字を追加
 	}
@@ -537,8 +584,10 @@ HRESULT Renderer::CompileShader(const char* szFileName, LPCSTR szEntryPoint, LPC
 			if (pErrorBlob != nullptr) {
 				MessageBoxA(NULL, (char*)pErrorBlob->GetBufferPointer(), "Error", MB_OK);
 			}
-			if (pErrorBlob) pErrorBlob->Release();
-			if (pBlob)(pBlob)->Release();
+			//if (pErrorBlob) pErrorBlob->Release();
+			//if (pBlob)(pBlob)->Release();
+			SAFE_RELEASE(pErrorBlob);
+			SAFE_RELEASE(pBlob);
 			return E_FAIL;
 		}
 
@@ -546,8 +595,12 @@ HRESULT Renderer::CompileShader(const char* szFileName, LPCSTR szEntryPoint, LPC
 		if (pErrorBlob) pErrorBlob->Release();
 
 		// コンパイル成功時のバイナリデータを呼び出し元に渡す
-		*ppShaderObject = (pBlob)->GetBufferPointer();
-		*pShaderObjectSize = (pBlob)->GetBufferSize();
+		//*ppShaderObject = (pBlob)->GetBufferPointer();
+		*pShaderObjectSize = (int)(pBlob)->GetBufferSize();
+		unsigned char* byteArray = new unsigned char[*pShaderObjectSize];
+		memcpy(byteArray, pBlob->GetBufferPointer(), *pShaderObjectSize);
+		*ppShaderObject = byteArray;
+		SAFE_RELEASE(pBlob);
 	}
 
 	return S_OK;
