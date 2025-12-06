@@ -172,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TitleBG.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="Test_TR.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TitleBG.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="VertexBuffer.h" />

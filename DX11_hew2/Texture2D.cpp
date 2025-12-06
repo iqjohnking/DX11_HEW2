@@ -12,9 +12,9 @@ void Texture2D::Init()
 	m_Vertices.resize(4);
 
 	m_Vertices[0].position = Vector3(-0.5f, 0.5f, 0);
-	m_Vertices[1].position = Vector3(0.5f, 0.5f, 0);
+	m_Vertices[1].position = Vector3( 0.5f, 0.5f, 0);
 	m_Vertices[2].position = Vector3(-0.5f, -0.5f, 0);
-	m_Vertices[3].position = Vector3(0.5f, -0.5f, 0);
+	m_Vertices[3].position = Vector3( 0.5f, -0.5f, 0);
 
 	m_Vertices[0].color = Color(1, 1, 1, 1);
 	m_Vertices[1].color = Color(1, 1, 1, 1);

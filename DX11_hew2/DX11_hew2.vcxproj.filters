@@ -111,14 +111,17 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>ソース ファイル\render</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBG.cpp">
+      <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +228,10 @@
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleBG.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

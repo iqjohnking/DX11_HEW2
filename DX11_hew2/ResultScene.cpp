@@ -21,15 +21,18 @@ void ResultScene::Init()
 	// 背景画像オブジェクト生成
 	Texture2D* pt = Game::GetInstance()->AddObject<Texture2D>();
 	pt->SetTexture("assets/texture/background2.png");
+	pt->SetPosition(0.0f, 0.0f, 0.0f);
+	pt->SetRotation(0.0f, 0.0f, 0.0f);
 	pt->SetScale(1280.0f, 720.0f, 0.0f);
 	m_MySceneObjects.emplace_back(pt);
 
 	//リザルト文字列オブジェクト生成
 	Texture2D* pt2 = Game::GetInstance()->AddObject<Texture2D>();
-	pt2->SetTexture("assets/texture/resultString.png");
+	pt2->SetTexture("assets/texture/resultString.png");	
+	pt->SetPosition(0.0f, 0.0f, 0.0f);
+	pt->SetRotation(0.0f, 0.0f, 0.0f);
 	pt2->SetScale(700.0f, 100.0f, 0.0f);
 	pt2->SetUV(1, 5, 1, 13);
-
 	m_MySceneObjects.emplace_back(pt2);
 
 

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Texture2D.h"
+#include "TitleBG.h"
 
 // コンストラクタ
 TitleScene::TitleScene()
@@ -19,12 +20,18 @@ TitleScene::~TitleScene()
 void TitleScene::Init()
 {
 	//背景画像オブジェクト生成
+	//Texture2D実質的な2Dオブジェクト
+	/*
 	Texture2D* bg = Game::GetInstance()->AddObject<Texture2D>();
 	bg->SetTexture("assets/texture/background1.png");
 	bg->SetPosition(0.0f, 0.0f, 0.0f);
 	bg->SetRotation(0.0f, 0.0f, 0.0f);
 	bg->SetScale(1280.0f, 720.0f, 0.0f);
 	m_MySceneObjects.emplace_back(bg);
+	*/
+
+
+	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<TitleBG>());
 
 }
 

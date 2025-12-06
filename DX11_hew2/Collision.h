@@ -46,18 +46,18 @@ namespace Collision
 	};
 
 	//“–‚½‚è”»’è
-	bool CheckHit(const Line& line, const Plane& plane); //ü(–³ŒÀ‚Ì’·‚³)‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
-	bool CheckHit(const Segment& segment, const Plane& plane); //ü•ª‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
-	bool CheckHit(const Line& line, const Polygon& polygon); //ü(–³ŒÀ‚Ì’·‚³)‚Æƒ|ƒŠƒSƒ“
-	bool CheckHit(const Line& line, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact); //“¯ã
-	bool CheckHit(const Segment& segment, const Polygon& polygon); //ü•ª‚Æƒ|ƒŠƒSƒ“
-	bool CheckHit(const Segment& segment, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact); //“¯ã
-	bool CheckHit(const Sphere& sphere, const Plane& plane); //‹…‘Ì‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
-	bool CheckHit(const Sphere& sphere, const Polygon& polygon); //‹…‘Ì‚Æƒ|ƒŠƒSƒ“
-	bool CheckHit(const Sphere& sphere, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact); //“¯ã
-	bool CheckHit(Sphere sphere1, Sphere sphere2); //‹…‘Ì‚Æ‹…‘Ì
-	bool CheckHit(Sphere sphere1, Sphere sphere2, DirectX::SimpleMath::Vector3& contact); //“¯ã
-	bool CheckHit(AABB p1, AABB p2); // AABB‚ÆAABB
+	bool CheckHit(const Line& line, const Plane& plane);													// ü(–³ŒÀ‚Ì’·‚³)‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
+	bool CheckHit(const Segment& segment, const Plane& plane);												// ü•ª‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
+	bool CheckHit(const Line& line, const Polygon& polygon);												// ü(–³ŒÀ‚Ì’·‚³)‚Æƒ|ƒŠƒSƒ“
+	bool CheckHit(const Line& line, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact);			// “¯ã
+	bool CheckHit(const Segment& segment, const Polygon& polygon);											// ü•ª‚Æƒ|ƒŠƒSƒ“
+	bool CheckHit(const Segment& segment, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact);	// “¯ã
+	bool CheckHit(const Sphere& sphere, const Plane& plane);												// ‹…‘Ì‚Æ•½–Ê(–³ŒÀ‚Ì‘å‚«‚³)
+	bool CheckHit(const Sphere& sphere, const Polygon& polygon);											// ‹…‘Ì‚Æƒ|ƒŠƒSƒ“
+	bool CheckHit(const Sphere& sphere, const Polygon& polygon, DirectX::SimpleMath::Vector3& contact);		// “¯ã
+	bool CheckHit(Sphere sphere1, Sphere sphere2);															// ‹…‘Ì‚Æ‹…‘Ì
+	bool CheckHit(Sphere sphere1, Sphere sphere2, DirectX::SimpleMath::Vector3& contact);					// “¯ã
+	bool CheckHit(AABB p1, AABB p2);																		// AABB‚ÆAABB
 
 	//“àÏEŠOÏ
 	float Dot(const DirectX::SimpleMath::Vector3& v1, const DirectX::SimpleMath::Vector3& v2);
