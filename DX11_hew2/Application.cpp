@@ -90,17 +90,29 @@ bool Application::InitApp()
 	auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
 	AdjustWindowRect(&rc, style, FALSE);
 
-	// ウィンドウを生成
+	// ここでモニターの中央座標を計算して CreateWindowEx に渡す
+	LONG winWidth = rc.right - rc.left;
+	LONG winHeight = rc.bottom - rc.top;
+
+	// 画面解像度（プライマリモニタ）を取得
+	int screenW = GetSystemMetrics(SM_CXSCREEN);
+	int screenH = GetSystemMetrics(SM_CYSCREEN);
+
+	// 中央座標を計算
+	int posX = (screenW - winWidth) / 2;
+	int posY = (screenH - winHeight) / 2;
+
+	// CreateWindowEx に位置とサイズを渡す
 	m_hWnd = CreateWindowEx(
 		0,
 		//        WS_EX_TOPMOST,
 		ClassName,
 		WindowName,
 		style,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		rc.right - rc.left,
-		rc.bottom - rc.top,
+		posX, // 中央 X			// 		CW_USEDEFAULT,
+		posY, // 中央 Y			// 		CW_USEDEFAULT,
+		winWidth,				// 		rc.right - rc.left,
+		winHeight,				// 		rc.bottom - rc.top,
 		nullptr,
 		nullptr,
 		m_hInst,
