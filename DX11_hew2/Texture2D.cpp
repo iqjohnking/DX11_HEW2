@@ -72,15 +72,17 @@ void Texture2D::Draw(Camera* cam)
 	Matrix t = Matrix::CreateTranslation(m_Position.x, m_Position.y, m_Position.z);
 	Matrix s = Matrix::CreateScale(m_Scale.x, m_Scale.y, m_Scale.z);
 
-	Matrix worldmtx;
-	worldmtx = s * r * t;
+	// ピボット(Pivot)対応：モデルローカル座標の前後平行移動を挟む
+	Matrix toPivot   = Matrix::CreateTranslation(-m_Pivot.x, -m_Pivot.y, -m_Pivot.z);
+	Matrix fromPivot = Matrix::CreateTranslation( m_Pivot.x,  m_Pivot.y,  m_Pivot.z);
+
+	// 新しいワールド行列：ピボットで移動 → スケール → 回転 → 元に戻す → 最後にオブジェクト位置を適用
+	Matrix worldmtx = fromPivot * s * r * toPivot * t;
 	Renderer::SetWorldMatrix(&worldmtx); // GPUにセット
 
-	// 描画の処理
-	ID3D11DeviceContext* devicecontext;
-	devicecontext = Renderer::GetDeviceContext();
+	// 描画処理
+	ID3D11DeviceContext* devicecontext = Renderer::GetDeviceContext();
 
-	// トポロジーをセット（プリミティブタイプ）
 	devicecontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	m_Shader.SetGPU();
@@ -91,16 +93,25 @@ void Texture2D::Draw(Camera* cam)
 	m_Material->SetGPU();
 
 	// UVの設定を指定
-	float u = m_NumU - 1;
-	float v = m_NumV - 1;
-	float uw = 1 / m_SplitX;
-	float vh = 1 / m_SplitY;
+	float u, v, uw, vh;
+
+	if (m_RepeatTexture) {
+		uw = m_Scale.x / m_Texture.GetWidth();
+		vh = m_Scale.y / m_Texture.GetHeight();
+		u  = 0;
+		v  = 0;
+	} else {
+		u  = m_NumU - 1;
+		v  = m_NumV - 1;
+		uw = 1 / m_SplitX;
+		vh = 1 / m_SplitY;
+	}
 
 	Renderer::SetUV(u, v, uw, vh);
 
 	devicecontext->DrawIndexed(
-		(UINT)m_Indices.size(), // 描画するインデックス数
-		0, // 最初のインデックスバッファの位置
+		(UINT)m_Indices.size(),
+		0,
 		0);
 }
 
@@ -139,7 +150,7 @@ void Texture2D::SetRotation(const float& x, const float& y, const float& z)
 }
 void Texture2D::SetRotation(const Vector3& rot)
 {
-	m_Rotation = rot * 3.14f/180; // deg→radに変換
+	m_Rotation = rot * 3.14f/180; // degree→radianに変換
 }
 
 // 大きさを指定
@@ -156,8 +167,13 @@ void Texture2D::SetScale(const Vector3& scl)
 // UV座標を指定
 void Texture2D::SetUV(const float& nu, const float& nv, const float& sx, const float& sy)
 {
-	m_NumU = nu;
+	m_NumU = nu;  
 	m_NumV = nv;
-	m_SplitX = sx;
-	m_SplitY = sy;
+	m_SplitX = sx; // X方向の分割数
+	m_SplitY = sy; // Y方向の分割数
+}
+
+void Texture2D::EnableRepeatTexture(bool enable)
+{
+	m_RepeatTexture = enable;
 }

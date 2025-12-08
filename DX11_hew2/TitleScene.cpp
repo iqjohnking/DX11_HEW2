@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Texture2D.h"
 #include "TitleBG.h"
+#include "silkWall.h"
 
 // コンストラクタ
 TitleScene::TitleScene()
@@ -32,6 +33,7 @@ void TitleScene::Init()
 
 
 	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<TitleBG>());
+	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<silkWall>());
 
 }
 

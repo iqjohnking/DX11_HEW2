@@ -17,7 +17,7 @@ void TitleBG::Init()
 }
 void TitleBG::Update()
 {
-	Vector3 oldPos = m_Position;
-	oldPos.x += 0.1f;
-	m_Position = oldPos;
+	//Vector3 oldPos = m_Position;
+	//oldPos.x += 0.1f;
+	//m_Position = oldPos;
 }

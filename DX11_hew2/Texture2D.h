@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Material.h"
 
+
 //-----------------------------------------------------------------------------
 // Texture2Dクラス
 //-----------------------------------------------------------------------------
@@ -14,9 +15,8 @@ private:
 	// 頂点データ
 	std::vector<VERTEX_3D> m_Vertices;
 
-	//インデックスデータ
+	// インデックスデータ
 	std::vector<unsigned int> m_Indices;
-
 
 	// 描画の為の情報（メッシュに関わる情報）
 	IndexBuffer m_IndexBuffer; // インデックスバッファ
@@ -31,6 +31,11 @@ private:
 	float m_NumV = 1;
 	float m_SplitX = 1;
 	float m_SplitY = 1;
+
+	bool m_RepeatTexture = false;
+
+	// ピボット（モデルローカル座標、既定は原点）
+	DirectX::SimpleMath::Vector3 m_Pivot = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
 
 public:
 	void Init();
@@ -55,5 +60,16 @@ public:
 
 	// UV座標を指定
 	void SetUV(const float& nu, const float& nv, const float& sx, const float& sy);
+
+	// 繰り返し有効化
+	void EnableRepeatTexture(bool enable);
+
+	// ピボット設定（モデルローカル座標）
+	void SetPivot(const DirectX::SimpleMath::Vector3& pivot) { m_Pivot = pivot; }
+	void SetPivot(const float& x, const float& y, const float& z) { m_Pivot = DirectX::SimpleMath::Vector3(x,y,z); }
+
+	// テクスチャサイズ取得ラッパ（既存Textureのアクセサを使う）
+	int GetTextureWidth() const { return m_Texture.GetWidth(); }
+	int GetTextureHeight() const { return m_Texture.GetHeight(); }
 };
 
