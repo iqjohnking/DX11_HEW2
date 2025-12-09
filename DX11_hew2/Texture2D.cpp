@@ -74,10 +74,11 @@ void Texture2D::Draw(Camera* cam)
 
 	// ピボット(Pivot)対応：モデルローカル座標の前後平行移動を挟む
 	Matrix toPivot   = Matrix::CreateTranslation(-m_Pivot.x, -m_Pivot.y, -m_Pivot.z);
-	Matrix fromPivot = Matrix::CreateTranslation( m_Pivot.x,  m_Pivot.y,  m_Pivot.z);
+	Matrix fromPivot = Matrix::CreateTranslation(m_Pivot.x, m_Pivot.y, m_Pivot.z);
 
 	// 新しいワールド行列：ピボットで移動 → スケール → 回転 → 元に戻す → 最後にオブジェクト位置を適用
-	Matrix worldmtx = fromPivot * s * r * toPivot * t;
+	Matrix worldmtx = toPivot * s * r * fromPivot * t;
+	//Matrix worldmtx = toPivot * s * r * t;
 	Renderer::SetWorldMatrix(&worldmtx); // GPUにセット
 
 	// 描画処理
@@ -95,16 +96,36 @@ void Texture2D::Draw(Camera* cam)
 	// UVの設定を指定
 	float u, v, uw, vh;
 
-	if (m_RepeatTexture) {
-		uw = m_Scale.x / m_Texture.GetWidth();
-		vh = m_Scale.y / m_Texture.GetHeight();
-		u  = 0;
-		v  = 0;
-	} else {
-		u  = m_NumU - 1;
-		v  = m_NumV - 1;
+
+	switch (repeatState)
+	{
+	case m_RepeatTexture::m_false:
+		u = m_NumU - 1;
+		v = m_NumV - 1;
 		uw = 1 / m_SplitX;
 		vh = 1 / m_SplitY;
+		break;
+
+	case m_RepeatTexture::m_true:
+		u = 0;
+		v = 0;
+		uw = m_Scale.x / m_Texture.GetWidth();
+		vh = m_Scale.y / m_Texture.GetHeight();
+		break;
+
+	case m_RepeatTexture::xOnly:
+		u = 0;
+		v = 0;
+		uw = m_Scale.x / m_Texture.GetWidth();
+		vh = 1 / m_SplitY;
+		break;
+
+	case m_RepeatTexture::yOnly:
+		u = 0;
+		v = 0;
+		uw = 1 / m_SplitX;
+		vh = m_Scale.y / m_Texture.GetHeight();
+		break;
 	}
 
 	Renderer::SetUV(u, v, uw, vh);
@@ -148,9 +169,24 @@ void Texture2D::SetRotation(const float& x, const float& y, const float& z)
 	Vector3 r = { x, y, z };
 	SetRotation(r);
 }
+void Texture2D::SetRotation(const float& z)
+{
+	Vector3 r = { 0.0f, 0.0f, z };
+	SetRotation(r);
+}
 void Texture2D::SetRotation(const Vector3& rot)
 {
-	m_Rotation = rot * 3.14f/180; // degree→radianに変換
+	m_Rotation = rot * PI /180; // degree→radianに変換
+}
+
+void Texture2D::SetRotationRad(const float& x, const float& y, const float& z)
+{
+	Vector3 r = { x, y, z };
+	SetRotationRad(r);
+}
+void Texture2D::SetRotationRad(const Vector3& rot)
+{
+	m_Rotation = rot; // 已經是 rad，直接存
 }
 
 // 大きさを指定
@@ -171,9 +207,4 @@ void Texture2D::SetUV(const float& nu, const float& nv, const float& sx, const f
 	m_NumV = nv;
 	m_SplitX = sx; // X方向の分割数
 	m_SplitY = sy; // Y方向の分割数
-}
-
-void Texture2D::EnableRepeatTexture(bool enable)
-{
-	m_RepeatTexture = enable;
 }

@@ -33,6 +33,7 @@ void Game::Init()
 	// 初期シーンを設定（必須）
 	m_Instance->ChangeScene(TITLE);
 
+	//m_Instance->m_DebugDrawer.Init();
 
 
 	//オブジェクトを追加
@@ -75,8 +76,18 @@ void Game::Draw()
 
 	for (auto& o : m_Instance->m_Objects) {
 		o->Draw(&m_Instance->m_Camera);
+
+		//todo: デバッグ描画のON/OFF
+		if (o->HasCollider()) {
+			//auto box = o->GetCollider();
+			//m_Instance->m_DebugDrawer.DrawAABB(box, &m_Instance->m_Camera);
+			//todo: 球体とかも描画
+		}
 	}
 
+
+	
+	
 	// 描画後処理
 	Renderer::DrawEnd();
 }
@@ -93,6 +104,8 @@ void Game::Uninit()
 	Input::Release();
 	// 描画終了処理
 	Renderer::Uninit();
+
+	//m_Instance->m_DebugDrawer.Uninit();
 
 	// インスタンス削除
 	delete m_Instance;

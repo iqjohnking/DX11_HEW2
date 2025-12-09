@@ -217,6 +217,20 @@ namespace Collision
 
 		return true;
 	}
+	
+
+	//==================================
+// ¡CheckHitŠÖ”
+// ü•ª‚Æ‹…‘Ì‚Ì“–‚½‚è”»’è
+//==================================
+	bool CheckHit(const Segment& segment, const Sphere& sphere)
+	{
+		// ‹…‚Ì’†S‚©‚çü•ª‚Ü‚Å‚ÌÅ’Z‹——£‚ğ‹‚ß‚é
+		float distance = DistancePointToSegment(sphere.center, segment);
+
+		// ‹——£‚ª”¼ŒaˆÈ“à‚È‚çÕ“Ë
+		return (distance <= sphere.radius);
+	}
 
 	//=========================================================================================
 	//=========================================================================================
@@ -495,6 +509,7 @@ namespace Collision
 	//==================================
 	// AABB‚ğİ’è
 	//==================================
+	/*
 	AABB SetAABB(Vector3 centerposition, float width, float height, float depth)
 	{
 		AABB aabb{};
@@ -512,6 +527,6 @@ namespace Collision
 		aabb.max.z = centerposition.z + depth / 2.0f;
 
 		return aabb;
-	}
+	}*/
 
 }

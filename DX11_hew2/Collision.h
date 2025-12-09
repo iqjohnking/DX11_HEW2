@@ -59,6 +59,10 @@ namespace Collision
 	bool CheckHit(Sphere sphere1, Sphere sphere2, DirectX::SimpleMath::Vector3& contact);					// ìØè„
 	bool CheckHit(AABB p1, AABB p2);																		// AABBÇ∆AABB
 
+	//newCheck
+	bool CheckHit(const Segment& segment, const Sphere& sphere);											// ê¸ï™Ç∆ãÖëÃ
+
+
 	//ì‡êœÅEäOêœ
 	float Dot(const DirectX::SimpleMath::Vector3& v1, const DirectX::SimpleMath::Vector3& v2);
 	DirectX::SimpleMath::Vector3 Cross(const DirectX::SimpleMath::Vector3& v1, const DirectX::SimpleMath::Vector3& v2);
@@ -79,5 +83,5 @@ namespace Collision
 	DirectX::SimpleMath::Vector3 moveSphere(const Segment& capsule, const float& radius, const Polygon& polygon, const DirectX::SimpleMath::Vector3& contact, float& distance);
 	DirectX::SimpleMath::Vector3 moveSphere(const Sphere& sphere, const Polygon& polygon, const DirectX::SimpleMath::Vector3& contact);
 
-	AABB SetAABB(DirectX::SimpleMath::Vector3 centerposition, float width, float height, float depth);
+	//AABB SetAABB(DirectX::SimpleMath::Vector3 centerposition, float width, float height, float depth);
 }

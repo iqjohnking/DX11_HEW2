@@ -1,9 +1,7 @@
 #pragma once
 #include <iostream>
-
 //#include "GolfBall.h"
 //#include "Ground.h"
-
 #include "Renderer.h"
 #include "TitleScene.h"
 #include "Stage1Scene.h"
@@ -13,9 +11,7 @@ enum SceneName {
 	TITLE,
 	STAGE1,
 	RESULT
-
 };
-
 
 class Game
 {
@@ -27,6 +23,8 @@ private:
 
 	// カメラ
 	Camera  m_Camera;
+
+	// デバッグ用衝突判定描画	
 
 	// テストオブジェクト
 	//GolfBall m_Ball;
@@ -49,11 +47,11 @@ public:
 	Camera* GetCamera() { return &m_Camera; }
 
 	void ChangeScene(SceneName sceneName); // シーン変更
+
 	void DeleteObject(Object* ptr); // オブジェクト削除
 	void DeleteAllObjects(); // オブジェクト全削除
 
-	// オブジェクトを追加する（※テンプレート関数）
-	// 引数なしバージョン
+	// オブジェクトを追加する（※テンプレート関数）// 引数なしバージョン
 	/*
 	template <typename T> 
 	T* AddObject()
@@ -79,9 +77,10 @@ public:
 	}
 
 	*/
+
 	// オブジェクトを追加する（※テンプレート関数）
 	// 任意個数の引数 Args... を取り、そのまま T のコンストラクタに渡す
-	template <typename T, typename... Args>
+	template <typename T, typename... Args> 
 	T* AddObject(Args&&... args)
 	{
 		// T(args...) でオブジェクトを生成
@@ -107,6 +106,4 @@ public:
 		}
 		return result;
 	}
-
-
 };

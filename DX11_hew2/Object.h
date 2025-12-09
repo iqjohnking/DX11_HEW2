@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "Shader.h"
+#include "Collision.h"
 
 class Object {
 protected:
@@ -20,6 +21,10 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw(Camera* cam) = 0;
 	virtual void Uninit() = 0;
+
+	virtual bool HasCollider() const { return false; }
+	//virtual Collision::AABB GetCollider() const { return {}; }
+
 
 	// ˆÊ’u‚ÌŽæ“¾
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }

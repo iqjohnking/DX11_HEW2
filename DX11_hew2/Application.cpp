@@ -11,6 +11,12 @@ HWND       Application::m_hWnd;    // ウィンドウハンドル
 uint32_t   Application::m_Width;   // ウィンドウの横幅
 uint32_t   Application::m_Height;  // ウィンドウの縦幅
 
+int			Application::ogPosX;
+int			Application::ogPosY;
+uint32_t	Application::og_Width;
+uint32_t	Application::og_Height;
+
+// NVIDIA Optimus 対応
 
 extern "C" {
 	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
@@ -117,6 +123,13 @@ bool Application::InitApp()
 		nullptr,
 		m_hInst,
 		nullptr);
+
+	ogPosX   = posX;
+	ogPosY   = posY;
+	og_Width = winWidth;
+	og_Height= winHeight;
+
+
 
 	if (m_hWnd == nullptr)
 	{
@@ -230,6 +243,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	static bool isMessageBoxShowed = false;
 	switch (uMsg)
 	{
+	
 	case WM_DESTROY:// ウィンドウ破棄のメッセージ
 		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
 		break;
@@ -271,7 +285,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 
 				// 通常ウィンドウに戻す
 				SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW); // ウィンドウ枠を戻す
-				SetWindowPos(hWnd, HWND_TOP, 100, 100, m_Width, m_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+				SetWindowPos(hWnd, HWND_TOP, ogPosX, ogPosY, og_Width, og_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 			}
 		}
 		break;

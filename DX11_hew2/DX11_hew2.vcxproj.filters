@@ -37,6 +37,9 @@
     <Filter Include="ヘッダー ファイル\scenes">
       <UniqueIdentifier>{7217119c-04d1-4732-b3fd-3ada644ebff2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\test">
+      <UniqueIdentifier>{e6119f37-f78d-4f0a-bef1-37cd260ee1e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -74,15 +77,6 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>ソース ファイル\render</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuScene.cpp">
-      <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル</Filter>
@@ -124,6 +118,9 @@
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="slikWall.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="field.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
   </ItemGroup>
@@ -169,24 +166,6 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>ヘッダー ファイル\obj</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneBase.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Test_TR.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Test_melonlemon13.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Test kawaguchi.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -237,6 +216,21 @@
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="silkWall.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="field.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_melonlemon13.h">
+      <Filter>ヘッダー ファイル\test</Filter>
+    </ClInclude>
+    <ClInclude Include="Test kawaguchi.h">
+      <Filter>ヘッダー ファイル\test</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_TR.h">
+      <Filter>ヘッダー ファイル\test</Filter>
+    </ClInclude>
+    <ClInclude Include="playerHand.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>

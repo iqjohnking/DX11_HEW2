@@ -52,16 +52,10 @@ public:
 
 	//void SetGround(Ground* ground);
 
-
-	/////////////////////////////////////////
-
 	void SetCamera(Camera* cam) { m_Cam = cam; }  // © ’Ç‰ÁFƒJƒƒ‰‚ğ’“ü
 
 	float GetYaw();//y
 	float GetRoll();//z
 	float GetPitch();//x
-
-
-
 };
 
