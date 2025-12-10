@@ -14,7 +14,7 @@ void field::Init()
 	SetTexture("assets/texture/field.png");
 	SetPosition(0.0f, 0.0f, 0.0f);
 	SetRotation(0.0f, 0.0f, 0.0f);
-	SetScale(700.0f, 700.f, 0.0f);
+	SetScale(1080.f, 1080.f, 0.0f);
 }
 
 void field::Update()

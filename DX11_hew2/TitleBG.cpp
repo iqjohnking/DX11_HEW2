@@ -13,7 +13,7 @@ void TitleBG::Init()
 	// Šp“x‚ðŽw’è
 	SetRotation(0.0f, 0.0f, 0.0f);
 	// ‘å‚«‚³‚ðŽw’è
-	SetScale(1280.0f, 720.0f, 0.0f);
+	SetScale(1920, 1080, 0.0f);
 }
 void TitleBG::Update()
 {

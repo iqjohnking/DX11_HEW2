@@ -42,6 +42,15 @@ void TitleScene::Init()
 		// 
 		//m_SilkWalls[i]->SetPosition({ -350.f ,  300.f -100.0f * (i+1) , 0.0f });
 	}
+	// 左手（W / S 控制）
+	m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+	//handL->SetSide(HandSide::Left);
+
+	// 右手（↑ / ↓ 控制）
+	m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
+	//handR->SetSide(HandSide::Right);
+
+
 }
 
 // 更新
@@ -53,30 +62,47 @@ void TitleScene::Update()
 		Game::GetInstance()->ChangeScene(STAGE1);
 	}
 	// 例：スペースキーを押したら糸の壁を順番に発射する
-	if (Input::GetKeyTrigger(VK_D))
+	// 左手往右手發（D）
+	if (Input::GetKeyTrigger('D'))   // 或 VK_D 也可，建議用 'D'
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
-		if (w)
+		if (w && m_HandL && m_HandR)
 		{
-			// TODO: ここは本当は「右手 / 左手の位置」を渡す
-			// 例：Vector3 startPos = rightHand->GetPosition();
-			Vector3 startPos(-350.0f, 300.0f - (m_NextSilkIndex * 200.f), 0.0f);
-			Vector3 targetPos(0.0f, 0.0f, 0.0f);
+			Vector3 startPos = m_HandL->GetPosition();  // 左手位置
+			Vector3 targetPos = m_HandR->GetPosition(); // 右手位置
 			w->Fire(startPos, targetPos);
-		}
 
-		// 次に使うインデックスを進める（0 → 1 → 2 → 0 → …）
-		++m_NextSilkIndex;
-		if (m_NextSilkIndex >= 3)
+			// 用掉一條絲 → 往下一個 index
+			++m_NextSilkIndex;
+			if (m_NextSilkIndex >= 3)
+			{
+				m_NextSilkIndex = 0;
+			}
+		}
+	}
+
+	// 右手往左手發（J 或者 ←）
+	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT))
+	{
+		silkWall* w = m_SilkWalls[m_NextSilkIndex];
+		if (w && m_HandL && m_HandR)
 		{
-			m_NextSilkIndex = 0;
+			Vector3 startPos = m_HandR->GetPosition();  // 右手位置
+			Vector3 targetPos = m_HandL->GetPosition(); // 左手位置
+			w->Fire(startPos, targetPos);
+
+			++m_NextSilkIndex;
+			if (m_NextSilkIndex >= 3)
+			{
+				m_NextSilkIndex = 0;
+			}
 		}
 	}
 
 	for (int i = 0; i < 3; ++i)
 	{
 		silkWall* wall = m_SilkWalls[i];
-		if (!wall) continue;              // 防禦性檢?
+		if (!wall) continue;              // 防禦性檢
 
 		// 例）球との当たり判定（Ball クラスに GetCollider() がある前提）
 	   /*

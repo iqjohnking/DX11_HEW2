@@ -9,6 +9,7 @@ void silkWall::Init()
 
 	// 重複テクスチャを有効に（レンダラー側でもサンプラがWRAPなら有効）
 	SetRepeatTexture(m_RepeatTexture::xOnly);
+	//SetRepeatTexture(m_RepeatTexture::m_false);
 
 	// テクスチャ設定
 	SetTexture("assets/texture/spiderSilkKari.png");

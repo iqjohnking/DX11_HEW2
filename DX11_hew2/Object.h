@@ -23,7 +23,6 @@ public:
 	virtual void Uninit() = 0;
 
 	virtual bool HasCollider() const { return false; }
-	//virtual Collision::AABB GetCollider() const { return {}; }
 
 
 	// ˆÊ’u‚ÌŽæ“¾

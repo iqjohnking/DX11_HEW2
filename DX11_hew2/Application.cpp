@@ -27,7 +27,7 @@ extern "C" {
 // コンストラクタ
 //-----------------------------------------------------------------------------
 Application::Application(uint32_t width, uint32_t height)
-{ 
+{
 	m_Height = height;
 	m_Width = width;
 
@@ -38,7 +38,7 @@ Application::Application(uint32_t width, uint32_t height)
 // デストラクタ
 //-----------------------------------------------------------------------------
 Application::~Application()
-{ 
+{
 	timeEndPeriod(1); // タイマー精度を元に戻す
 }
 
@@ -115,19 +115,19 @@ bool Application::InitApp()
 		ClassName,
 		WindowName,
 		style,
-		posX, // 中央 X			// 		CW_USEDEFAULT,
-		posY, // 中央 Y			// 		CW_USEDEFAULT,
-		winWidth,				// 		rc.right - rc.left,
-		winHeight,				// 		rc.bottom - rc.top,
+		CW_USEDEFAULT,					//	  posX, // 中央 X		
+		CW_USEDEFAULT,					//	  posY, // 中央 Y		
+		rc.right - rc.left,				//	  winWidth,				
+		rc.bottom - rc.top,				//	  winHeight,			
 		nullptr,
 		nullptr,
 		m_hInst,
 		nullptr);
 
-	ogPosX   = posX;
-	ogPosY   = posY;
+	ogPosX = posX;
+	ogPosY = posY;
 	og_Width = winWidth;
-	og_Height= winHeight;
+	og_Height = winHeight;
 
 
 
@@ -144,6 +144,9 @@ bool Application::InitApp()
 
 	// ウィンドウにフォーカスを設定
 	SetFocus(m_hWnd);
+
+	SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP | WS_MINIMIZEBOX);
+	SetWindowPos(m_hWnd, HWND_TOP, 0, 0, m_Width, m_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
 	// 正常終了
 	return true;
@@ -181,57 +184,57 @@ void Application::MainLoop()
 
 
 	// FPS計測用変数
-   int fpsCounter = 0;
-   long long oldTick = GetTickCount64(); // 前回計測時の時間
-   long long nowTick = oldTick; // 今回計測時の時間
+	int fpsCounter = 0;
+	long long oldTick = GetTickCount64(); // 前回計測時の時間
+	long long nowTick = oldTick; // 今回計測時の時間
 
-   // FPS固定用変数
-   LARGE_INTEGER liWork; // workがつく変数は作業用変数
-   long long frequency;// どれくらい細かく時間をカウントできるか
-   QueryPerformanceFrequency(&liWork);
-   frequency = liWork.QuadPart;
-   // 時間（単位：カウント）取得
-   QueryPerformanceCounter(&liWork);
-   long long oldCount = liWork.QuadPart;// 前回計測時の時間
-   long long nowCount = oldCount;// 今回計測時の時間
+	// FPS固定用変数
+	LARGE_INTEGER liWork; // workがつく変数は作業用変数
+	long long frequency;// どれくらい細かく時間をカウントできるか
+	QueryPerformanceFrequency(&liWork);
+	frequency = liWork.QuadPart;
+	// 時間（単位：カウント）取得
+	QueryPerformanceCounter(&liWork);
+	long long oldCount = liWork.QuadPart;// 前回計測時の時間
+	long long nowCount = oldCount;// 今回計測時の時間
 
 
-   // ゲームループ
-   while (1)
-   {
-	   // 新たにメッセージがあれば
-	   if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	   {
-		   // ウィンドウプロシージャにメッセージを送る
-		   TranslateMessage(&msg);
-		   DispatchMessage(&msg);
+	// ゲームループ
+	while (1)
+	{
+		// 新たにメッセージがあれば
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// ウィンドウプロシージャにメッセージを送る
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 
-		   // 「WM_QUIT」メッセージを受け取ったらループを抜ける
-		   if (msg.message == WM_QUIT) {
-			   break;
-		   }
-	   }
+			// 「WM_QUIT」メッセージを受け取ったらループを抜ける
+			if (msg.message == WM_QUIT) {
+				break;
+			}
+		}
 		else
-	   {
-		   QueryPerformanceCounter(&liWork);// 現在時間を取得
-		   nowCount = liWork.QuadPart;
-		   // 1/60秒が経過したか？
-		   if (nowCount >= oldCount + frequency / 60) {
+		{
+			QueryPerformanceCounter(&liWork);// 現在時間を取得
+			nowCount = liWork.QuadPart;
+			// 1/60秒が経過したか？
+			if (nowCount >= oldCount + frequency / 60) {
 
-			   // ゲーム更新
-			   Game::Update();
+				// ゲーム更新
+				Game::Update();
 
-			   // ゲーム描画
-			   Game::Draw();
+				// ゲーム描画
+				Game::Draw();
 
-			   fpsCounter++; // ゲーム処理を実行したら＋１する
-			   oldCount = nowCount;
-		   }
+				fpsCounter++; // ゲーム処理を実行したら＋１する
+				oldCount = nowCount;
+			}
 		}
 	}
 
-   // ゲーム終了処理
-   Game::Uninit();
+	// ゲーム終了処理
+	Game::Uninit();
 }
 
 //-----------------------------------------------------------------------------
@@ -243,7 +246,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	static bool isMessageBoxShowed = false;
 	switch (uMsg)
 	{
-	
+
 	case WM_DESTROY:// ウィンドウ破棄のメッセージ
 		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
 		break;
@@ -285,7 +288,10 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 
 				// 通常ウィンドウに戻す
 				SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW); // ウィンドウ枠を戻す
-				SetWindowPos(hWnd, HWND_TOP, ogPosX, ogPosY, og_Width, og_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+				
+				
+				//SetWindowPos(hWnd, HWND_TOP, ogPosX, ogPosY, og_Width, og_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+				SetWindowPos(hWnd, HWND_TOP, 0, 0, 1280, 720, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 			}
 		}
 		break;

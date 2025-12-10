@@ -95,6 +95,15 @@ void Camera::Update()
 	pos.z += cos(m_CameraDirV) * cos(m_CameraDirH) * radius;
 
 	m_Position = pos;
+
+
+//if(getkey)
+//
+//
+//	projectionMatrix = DirectX::XMMatrixOrthographicLH(
+//		static_cast<float>(Application::GetWidth()),
+//		static_cast<float>(Application::GetHeight()),
+//		nearPlane, farPlane);	//¶èŒn			// 2D —p‚Ì³Ë‰es—ñ‚ğì¬‚·‚é
 }
 
 //=======================================
