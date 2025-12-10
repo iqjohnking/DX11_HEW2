@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "Shader.h"
+#include "Collision.h"
 
 class Object {
 protected:
@@ -13,12 +14,19 @@ protected:
 	Shader m_Shader; // シェーダー
 
 public:
+
+	virtual ~Object() {} //仮デストラクタ（※派生クラスのリソース解放のために必要）
+
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(Camera* cam) = 0;
 	virtual void Uninit() = 0;
 
+	virtual bool HasCollider() const { return false; }
+
+
 	// 位置の取得
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	DirectX::SimpleMath::Vector3 GetRotation() const { return m_Rotation; }
+
 };

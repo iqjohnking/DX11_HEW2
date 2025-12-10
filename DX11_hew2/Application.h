@@ -23,6 +23,11 @@ private:
 	static uint32_t    m_Width;        // ウィンドウの横幅
 	static uint32_t    m_Height;       // ウィンドウの縦幅
 
+	static int ogPosX;
+	static int ogPosY;
+	static uint32_t    og_Width;        // ogウィンドウの横幅
+	static uint32_t    og_Height;       // ogウィンドウの縦幅
+
 	static bool InitApp(); //初期化
 	static void UninitApp(); //終了処理
 	static void MainLoop(); //メインループ

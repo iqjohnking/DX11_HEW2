@@ -23,4 +23,7 @@ public:
 	bool LoadFromFemory(const unsigned char* data,int len);
 
 	void SetGPU();
+	int GetWidth() const { return m_width; }
+	int GetHeight() const { return m_height; }
+
 };

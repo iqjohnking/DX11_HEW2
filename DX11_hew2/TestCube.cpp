@@ -194,7 +194,7 @@ void TestCube::Update()
 {
 	static float oldtime = 0;
 	static float degree = 0;
-	oldtime += 0.01;
+	oldtime += 0.01f;
 	degree = DirectX::XMConvertToRadians(cosf(oldtime) * 30.f);
 
 	m_Rotation.y = oldtime;
