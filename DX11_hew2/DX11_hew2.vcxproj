@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\directxtk\include;$(IncludePath);</IncludePath>
-    <LibraryPath>C:\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\directxtk\include;C:\assimp\5.2.5\include</IncludePath>
+    <LibraryPath>C:\assimp\5.2.5\lib;C:\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\directxtk\include;$(IncludePath);</IncludePath>
-    <LibraryPath>C:\directxtk\lib\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\directxtk\include;C:\assimp\5.2.5\include</IncludePath>
+    <LibraryPath>C:\assimp\5.2.5\lib;C:\directxtk\lib\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -136,40 +136,82 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AssimpPerse.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="field.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GolfBall.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="playerHand.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="slikWall.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="Stage1Scene.cpp" />
+    <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="TestCube.cpp" />
-    <ClCompile Include="TestPlane.cpp" />
+    <ClCompile Include="TestCube.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TestPlane.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TitleBG.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AssimpPerse.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="field.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GolfBall.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="playerHand.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="silkWall.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="Stage1Scene.h" />
+    <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Test kawaguchi.h" />
-    <ClInclude Include="TestCube.h" />
-    <ClInclude Include="TestPlane.h" />
+    <ClInclude Include="TestCube.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="TestPlane.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Test_melonlemon13.h" />
     <ClInclude Include="Test_TR.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TitleBG.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="utility.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,9 +235,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="SceneBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

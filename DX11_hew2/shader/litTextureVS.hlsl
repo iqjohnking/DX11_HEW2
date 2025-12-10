@@ -22,9 +22,10 @@ PS_IN main(in VS_IN input)
     float d = -dot(Light.Direction.xyz, worldNormal.xyz);   //光の方向と法線の内積を計算
     d = saturate(d);                                        //dの値を0～1にクランプ
     
-    output.col.xyz = input.col.xyz * d * Light.Diffuse.xyz; // 拡散光の影響を乗算
+    output.col.xyz  = input.col.xyz * d * Light.Diffuse.xyz;// 拡散光の影響を乗算
     output.col.xyz += input.col.xyz * Light.Ambient.xyz;    // アンビエント光(環境の)を加算
-    output.col.a = input.col.a;                             // アルファ値はそのまま使用
+    output.col.xyz += Material.Emission.xyz ;               // Emissionを加算
+    output.col.a    = input.col.a * Material.Diffuse.a;     // アルファ値はそのまま使用
 	
 	//texture=============================
 	// テクスチャ座標はそのまま使用

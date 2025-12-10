@@ -40,10 +40,32 @@ struct LIGHT
 {
 	BOOL Enable;			//光を使うか否かのフラグ
 	BOOL Dummy[3];			
-	DirectX::SimpleMath::Vector4 Direction; //平行光源の方向
-	DirectX::SimpleMath::Color Diffuse;		//平行光源の強さと色
-	DirectX::SimpleMath::Color Ambient;		//環境光の強さと色
+	DirectX::SimpleMath::Vector4	Direction;		//平行光源の方向
+	DirectX::SimpleMath::Color		Diffuse;		//平行光源の強さと色
+	DirectX::SimpleMath::Color		Ambient;		//環境光の強さと色
 	
+};
+
+//サブセット//CPU側
+struct SUBSET {
+	std::string MtrlName;			//マテリアル名 
+	unsigned int IndexNum	= 0;	//インデックス数
+	unsigned int VertexNum	= 0;	//頂点数
+	unsigned int IndexBase	= 0;	//開始インデックス
+	unsigned int VertexBase = 0;	//頂点ベース
+	unsigned int MaterialIdx = 0;	//マテリアルの番号
+};
+
+//マテリアル//GPU側
+struct MATERIAL
+{
+	DirectX::SimpleMath::Color		Ambient;		//環境反射
+	DirectX::SimpleMath::Color		Diffuse;		//拡散反射（≒カラー
+	DirectX::SimpleMath::Color		Specular;		//鏡面反射
+	DirectX::SimpleMath::Color		Emission;		//発光
+	float Shiness;									//光沢の滑らかさ
+	BOOL TextureEnable;								//テクスチャの使うか否かのフラグ
+	BOOL Dummy[2];									//alignment padding用
 };
 
 
@@ -66,7 +88,9 @@ private:
 	static ID3D11Buffer*			m_pViewBuffer;
 	static ID3D11Buffer*			m_pProjectionBuffer;
 
-	static ID3D11Buffer*			m_pLightBuffer;
+	static ID3D11Buffer*			m_pLightBuffer;		//
+	static ID3D11Buffer*			m_pMaterialBuffer;	//マテリアルバファー
+	static ID3D11Buffer*			m_pTextureBuffer;	//UV情報
 
 	static ID3D11DepthStencilState* m_pDepthStateEnable;
 	static ID3D11DepthStencilState* m_pDepthStateDisable;
@@ -109,6 +133,8 @@ public:
 	static bool CreateConstantBufferWrite(unsigned int bytesize, ID3D11Buffer** pConstantBuffer);
 	
 	static void SetLight(LIGHT Light);
+	static void SetMaterial(MATERIAL Material);
+	static void SetUV(float u, float v, float uw, float vh);
 
 	//=============================================================================
 	// ブレンド ステート設定
