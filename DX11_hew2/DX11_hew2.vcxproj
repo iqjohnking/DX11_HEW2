@@ -152,6 +152,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shrinemaiden.cpp" />
     <ClCompile Include="slikWall.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="Stage1Scene.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shrinemaiden.h" />
     <ClInclude Include="silkWall.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="Stage1Scene.h" />
