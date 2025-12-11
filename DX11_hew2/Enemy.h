@@ -1,11 +1,34 @@
 #pragma once
+#include "Texture2D.h"
 
-class Enemy {
+class Enemy :public Texture2D 
+{
 protected:
-	int enemy_x, enemy_y;
-	int enemy_chase_x[61], enemy_chase_y[61];	//巫女を追いかけるための座標配列
-	int enemy_work_x, enemy_work_y;	//敵の速度に合わせた座標移動をするための計算用変数
+	//敵の速度
+	DirectX::SimpleMath::Vector3 enemy_speed;
+
+	//敵の現在の座標
+	DirectX::SimpleMath::Vector3 enemy_pos;
+
+	//巫女を追いかけるための座標配列
+	DirectX::SimpleMath::Vector3 enemy_chase[61];
+
+	//敵の速度に合わせた座標移動をするための計算用変数
+	DirectX::SimpleMath::Vector3 enemy_pos_work;
+
+	//生きているかのフラグ
+	bool alive_flg_enemy;
 
 public:
+	Enemy();
+	~Enemy();
+
+	virtual void Init();
+	virtual void Update();
+
+	//巫女を追いかけるための関数
 	void Enemy_move();
+
+	//敵を追加する関数
+	void Add_Enemy();	
 };
