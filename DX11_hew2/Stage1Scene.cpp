@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "GolfBall.h"
 #include "Ground.h"
+#include "Enemy.h"
+#include "Shrinemaiden.h"
 
 // コンストラクタ
 Stage1Scene::Stage1Scene()
@@ -23,8 +25,7 @@ void Stage1Scene::Init()
 	Camera* cam = Game::GetInstance()->GetCamera();
 
 	// オブジェクトを作成
-	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<GolfBall>(cam));
-	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Ground>());
+	
 
 }
 

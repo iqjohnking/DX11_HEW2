@@ -1,4 +1,6 @@
 #include "TitleScene.h"
+#include "Shrinemaiden.h"
+#include "Enemy.h"
 
 
 using namespace DirectX::SimpleMath;
@@ -24,6 +26,9 @@ void TitleScene::Init()
 	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<TitleBG>());
 	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<field>());
 	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<silkWall>());
+
+	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Shrinemaiden>());
+	m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Enemy>());
 
 	// 背景
 	auto* bg = Game::GetInstance()->AddObject<TitleBG>();
@@ -108,6 +113,12 @@ void TitleScene::Update()
 	   /*
 
 	   */
+	}
+
+	//オブジェクトのアップデート
+	for (auto& obj : m_MySceneObjects)
+	{
+		obj->Update();
 	}
 }
 

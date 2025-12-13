@@ -1,34 +1,39 @@
 #pragma once
-#include "Texture2D.h"
+#include "Object.h"
 
-class Enemy :public Texture2D 
+class Enemy :public Object
 {
 protected:
-	//“G‚Ì‘¬“x
+	//ï¿½Gï¿½Ì‘ï¿½ï¿½x
 	DirectX::SimpleMath::Vector3 enemy_speed;
 
-	//“G‚ÌŒ»İ‚ÌÀ•W
-	DirectX::SimpleMath::Vector3 enemy_pos;
+	//ï¿½Gï¿½Ì‘Oï¿½Ìï¿½ï¿½W
+	DirectX::SimpleMath::Vector3 old_enemy_pos;
 
-	//›Ş—‚ğ’Ç‚¢‚©‚¯‚é‚½‚ß‚ÌÀ•W”z—ñ
+	//ï¿½Şï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìï¿½ï¿½Wï¿½zï¿½ï¿½
 	DirectX::SimpleMath::Vector3 enemy_chase[61];
 
-	//“G‚Ì‘¬“x‚É‡‚í‚¹‚½À•WˆÚ“®‚ğ‚·‚é‚½‚ß‚ÌŒvZ—p•Ï”
+	//ï¿½Gï¿½Ì‘ï¿½ï¿½xï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌŒvï¿½Zï¿½pï¿½Ïï¿½
 	DirectX::SimpleMath::Vector3 enemy_pos_work;
 
-	//¶‚«‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ìƒtï¿½ï¿½ï¿½O
 	bool alive_flg_enemy;
 
 public:
 	Enemy();
 	~Enemy();
 
-	virtual void Init();
-	virtual void Update();
+	/*virtual void Init();
+	virtual void Update();*/
 
-	//›Ş—‚ğ’Ç‚¢‚©‚¯‚é‚½‚ß‚ÌŠÖ”
+	void Init()override;
+	void Update()override;
+	void Draw(Camera* cam)override;
+	void Uninit()override;
+
+	//ï¿½Şï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌŠÖï¿½
 	void Enemy_move();
 
-	//“G‚ğ’Ç‰Á‚·‚éŠÖ”
+	//ï¿½Gï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
 	void Add_Enemy();	
 };
