@@ -106,4 +106,17 @@ public:
 		}
 		return result;
 	}
+
+	//オブジェクトの位置を取得
+	template<typename T>
+	std::vector<DirectX::SimpleMath::Vector3> GetPositions()
+	{
+		std::vector<DirectX::SimpleMath::Vector3> result;
+		for (auto& obj : m_Objects)
+		{
+			if (T* d = dynamic_cast<T*>(obj.get()))
+				result.emplace_back(d->GetPosition());
+		}
+		return result;
+	}
 };

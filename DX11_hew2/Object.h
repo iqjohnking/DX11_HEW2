@@ -29,4 +29,7 @@ public:
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	DirectX::SimpleMath::Vector3 GetRotation() const { return m_Rotation; }
 
+	//à íuÇÃê›íË
+	void SetPosition(const DirectX::SimpleMath::Vector3& p) { m_Position = p; }
+
 };

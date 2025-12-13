@@ -1,7 +1,7 @@
 #pragma once
-#include "Texture2D.h"	//基底クラス
+#include "Object.h"	//基底クラス
 
-class Shrinemaiden :public Texture2D
+class Shrinemaiden :public Object
 {
 private:
 	//敵から逃げる速度
@@ -12,9 +12,6 @@ private:
 
 	//この速度以下になると停止する
 	float stop_speed = 0.1f;
-
-	//巫女の位置
-	DirectX::SimpleMath::Vector3 shrinemaiden_pos;
 
 	//巫女の前の位置
 	DirectX::SimpleMath::Vector3 old_shrinemaiden_pos;
@@ -35,8 +32,10 @@ private:
 
 	//方向を取ってそこにspeedをかける
 public:
-	void Init() override;
-	void Update() override;
+	void Init()override;
+	void Update()override;
+	void Draw(Camera* cam)override;
+	void Uninit()override;
 
 
 	void Shrinemaiden_move();
