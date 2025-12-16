@@ -82,6 +82,7 @@ void silkWall::Fire(const Vector3& startPos, const Vector3& targetPos)
 	SetScale(0.0f, GetScale().y, GetScale().z);
 
 	m_IsActive = true;
+	m_IsGrowing = true;
 
 	UpdateCollider();
 }
