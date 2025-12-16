@@ -132,6 +132,9 @@
     <ClCompile Include="Shrinemaiden.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy1.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -246,6 +249,9 @@
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="Shrinemaiden.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>

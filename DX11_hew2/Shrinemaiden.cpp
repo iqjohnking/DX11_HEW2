@@ -6,6 +6,9 @@ void Shrinemaiden::Init()
 	shrinemaiden_pos = Vector3(0.0f, 0.0f, 0.0f);
 	stage_center = Vector3(0.0f, 0.0f, 0.0f);
 	alive_flg_Shrinemaiden = true;
+
+	Texture2D::Init();
+	SetTexture("assets/texture/miko.png");
 }
 
 void Shrinemaiden::Update()
