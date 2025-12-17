@@ -1,4 +1,5 @@
 #include "Enemy1.h"
+#include "Shrinemaiden.h"
 using namespace DirectX::SimpleMath;
 
 void Enemy1::Init()
@@ -9,12 +10,15 @@ void Enemy1::Init()
 	//初期化処理
 	Texture2D::Init();
 
-	//SetTexture()
+	SetTexture("assets/texture/enemy.png");
+	SetPosition(100.0f, 100.0f, 0.0f);
+	SetRotation(0.0f, 0.0f, 0.0f);
+	SetScale(50.0f, 50.0f, 0.0f);
 }
 
 void Enemy1::Update()
 {
-
+	SetPosition(enemy_pos);
 }
 
 
@@ -28,10 +32,9 @@ void Enemy1::Enemy_move()
 	}
 
 	//巫女の位置を敵の座標配列に代入
-	//↓巫女のクラスを作って巫女の座標を参照できるようになったらコメント外す
-	//enemy_chase[0] = player_pos;
+	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか
 
-	//↓速度が巫女の1/3の敵なら	
+	//↓速度が巫女の1/3の敵なら
 	//enemy_pos_work = enemy_chase[60] - enemy_chase[59];
 	//enemy_pos_work = enemy_pos_work / 3;
 	//enemy_pos += enemy_pos_work;

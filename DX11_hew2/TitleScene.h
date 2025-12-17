@@ -10,6 +10,8 @@
 #include "silkWall.h"
 #include "playerHand.h"
 #include "field.h"
+#include "Shrinemaiden.h"
+#include "Enemy1.h"	
 
 class silkWall;   // ‘O•ûéŒ¾
 

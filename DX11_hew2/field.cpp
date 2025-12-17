@@ -11,10 +11,10 @@ void field::Init()
 	//SetRepeatTexture(m_RepeatTexture::m_false);
 
 	// テクスチャ設定
-	SetTexture("assets/texture/miko.png");
+	SetTexture("assets/texture/field.png");
 	SetPosition(0.0f, 0.0f, 0.0f);
 	SetRotation(0.0f, 0.0f, 0.0f);
-	SetScale(900.f, 900.f, 0.0f);
+	SetScale(1000.f, 1000.f, 0.0f);
 }
 
 void field::Update()

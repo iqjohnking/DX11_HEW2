@@ -50,7 +50,13 @@ void TitleScene::Init()
 	m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
 	//handR->SetSide(HandSide::Right);
 
+	//›Ş—
+	auto* sh = Game::GetInstance()->AddObject<Shrinemaiden>();
+	m_MySceneObjects.emplace_back(sh);
 
+	//“G1
+	auto* enemy = Game::GetInstance()->AddObject<Enemy1>();
+	m_MySceneObjects.emplace_back(enemy);
 }
 
 // XV
