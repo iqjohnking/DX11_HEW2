@@ -139,7 +139,7 @@
     <ClCompile Include="AssimpPerse.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy_base.cpp" />
     <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="AssimpPerse.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy_base.h" />
     <ClInclude Include="Enemy1.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="Game.h" />

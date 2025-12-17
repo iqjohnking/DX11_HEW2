@@ -1,11 +1,11 @@
-#include "Enemy.h"
+#include "Enemy_base.h"
 
-void Enemy::Init()
+void Enemy_base::Init()
 {
 	//基底クラスなので内容なし
 }
 
-void Enemy::Update()
+void Enemy_base::Update()
 {
 	//基底クラス
 }
@@ -13,7 +13,7 @@ void Enemy::Update()
 
 //フレームカウントを用意して、敵の速度に合わせてこの関数を実行するのもありかも
 //敵の速度が巫女の1/3なら、3フレームに1回実行する…など (←だと敵の動きがカクカクになりそう？)
-void Enemy::Enemy_move()
+void Enemy_base::Enemy_move()
 {	
 	for (int i = 60; i > 0; i--)  //座標配列の値の移動
 	{
@@ -35,7 +35,7 @@ void Enemy::Enemy_move()
 	enemy_pos = enemy_chase[60];
 }
 
-void Enemy::Add_Enemy()
+void Enemy_base::Add_Enemy()
 {
 	//今のところなし
 }

@@ -31,7 +31,10 @@ void Enemy1::Enemy_move()
 		enemy_chase[i] = enemy_chase[i - 1];
 	}
 
-	//巫女の位置を敵の座標配列に代入
+	//巫女の座標をゲット
+	//Vector3 miko_pos = Shrinemaiden::Get_Shrinemaiden_pos();	//現状これだと取れないみたいなので修正求
+
+	//巫女の座標を敵の座標配列に代入
 	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか
 
 	//↓速度が巫女の1/3の敵なら

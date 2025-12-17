@@ -1,7 +1,7 @@
 #pragma once
-#include "Enemy.h"
+#include "Enemy_base.h"
 
-class Enemy1 :public Enemy
+class Enemy1 :public Enemy_base
 {
 protected:
 	//“G‚Ì‘¬“x

@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture2D.h"
 
-class Enemy :public Texture2D 
+class Enemy_base :public Texture2D 
 {
 protected:
 	//“G‚Ì‘¬“x
