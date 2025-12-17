@@ -49,6 +49,8 @@ void TitleScene::Init()
 	// ‰EŽèiª / « T§j
 	m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
 	//handR->SetSide(HandSide::Right);
+	m_HandL->SetAnotherHand(m_HandR);
+	m_HandR->SetAnotherHand(m_HandL);
 
 
 }

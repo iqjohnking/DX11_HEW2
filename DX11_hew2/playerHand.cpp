@@ -25,53 +25,74 @@ void playerHand::Init()
 
 	// 手的
 	SetTexture("assets/texture/hand.png");
-	Vector3 initPosition = Vector3(0.0f, 0.0f, 0.0f);
-	float initRadian = 0.0f;
+	//Vector3 initPosition = Vector3(0.0f, 0.0f, 0.0f);
+	//float initRadian = 0.0f;
+
+	SetScale(100.0f, 50.0f, 0.0f);
+
+	SetFieldCenter(Vector3(0.0f, 0.0f, 0.0f));
+	SetRadius(500.0f);
+
 	if (m_Side == HandSide::Left)
 	{
-		initPosition.x = -450.0f;  // 左
+		Vector3 pos;
+		m_FiledAngleRad += PI;
+		pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_Radius;
+		pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_Radius;
+		pos.z = 0.0f;
+		SetPosition(pos);
 	}
-	else if(m_Side == HandSide::Right)
+	else if (m_Side == HandSide::Right)
 	{
-		initPosition.x = 450.0f;   // 右
-		initRadian = PI;   // 右
+		Vector3 pos;
+		pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_Radius;
+		pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_Radius;
+		pos.z = 0.0f;
+		SetPosition(pos);
 	}
 	else
 	{
 		return; //error
 	}
 
-	SetPosition(initPosition);
-	SetRotationRad(0.0f, 0.0f, initRadian);
-	SetScale(50.0f, 150.0f, 0.0f);
+	//SetRotationRad(0.0f, 0.0f, initRadian);
+	//SetAnotherHand(nullptr);
 
 }
 
 void playerHand::Update()
 {
+	Move();
+
+}
+
+void playerHand::Move()
+{
 	Vector3 pos = GetPosition();
-	float dy = 0.0f;
+	float dAngle = 0.0f;
 	if (m_Side == HandSide::Left)
 	{
-		if (Input::GetKeyPress(VK_W)||Input::GetButtonPress(XINPUT_UP))
+		//if (Input::GetKeyPress(VK_W)||Input::GetButtonPress(XINPUT_UP))
+		if (Input::GetKeyPress(VK_W))
 		{
-			dy += m_Speed;
+			dAngle -= m_AngleSpeed;
 		}
-		if (Input::GetKeyPress(VK_S) || Input::GetButtonPress(XINPUT_DOWN))
+		//if (Input::GetKeyPress(VK_S) || Input::GetButtonPress(XINPUT_DOWN))
+		if (Input::GetKeyPress(VK_S))
 		{
-			dy -= m_Speed;
+			dAngle += m_AngleSpeed;
 		}
 	}
 	else if (m_Side == HandSide::Right)
 	{
 		// 右手：↑ / ↓
-		if (Input::GetKeyPress(VK_UP)|| Input::GetKeyPress(VK_I))
+		if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I))
 		{
-			dy += m_Speed;
+			dAngle += m_AngleSpeed;
 		}
-		if (Input::GetKeyPress(VK_DOWN)|| Input::GetKeyPress(VK_K))
+		if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K))
 		{
-			dy -= m_Speed;
+			dAngle -= m_AngleSpeed;
 		}
 	}
 	else
@@ -79,7 +100,44 @@ void playerHand::Update()
 		return; //error
 	}
 
-	pos.y += dy;
+	float newAngle = m_FiledAngleRad + dAngle;
+	// 角度正規化（保持在 -PI ~ PI 之間，避免數字發散）
+	if (newAngle > PI)m_FiledAngleRad -= TWO_PI;
+	else if (newAngle < -PI)m_FiledAngleRad += TWO_PI;
 
-	SetPosition(pos);
+	// 2) 由「角度 + 半徑」計算新位置
+	Vector3 newPos;
+	newPos.x = m_FiledCenter.x + cosf(newAngle) * m_Radius;
+	newPos.y = m_FiledCenter.y + sinf(newAngle) * m_Radius;
+	newPos.z = 0.0f;
+
+	bool allowMove = true;
+	if (m_Side == HandSide::Left)
+	{
+		// 左制限（x > center.x）
+		if (newPos.x > m_FiledCenter.x - 1)
+			allowMove = false;
+	}
+	else if (m_Side == HandSide::Right)
+	{
+		// 右制限（x < center.x）
+		if (newPos.x < m_FiledCenter.x + 1)
+			allowMove = false;
+	}
+
+	if (allowMove) {
+		m_FiledAngleRad = newAngle;
+		pos = newPos;
+		SetPosition(pos);
+	}
+
+	if (m_AnotherHand)
+	{
+		Vector3 otherPos = m_AnotherHand->GetPosition();
+		Vector3 dir = otherPos - pos;
+
+		float angleToOther = atan2f(dir.y, dir.x);   // 弧度
+		//float angleDeg = XMConvertToDegrees(angleToOther);
+		SetRotationRad(0.0f, 0.0f, angleToOther);
+	}
 }

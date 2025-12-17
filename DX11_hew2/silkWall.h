@@ -12,7 +12,7 @@ class silkWall : public Texture2D
 private:
 	bool  m_IsActive    = false; // 有効フラグ 
 	bool  m_IsGrowing   = false; // 伸び中フラグ
-	float m_ExpandSpeed = 10.0f; // 1フレームあたりの伸び量
+	float m_ExpandSpeed = 50.0f; // 1フレームあたりの伸び量
 	float m_MaxLength   = 0.0f;  // 目標位置までの最大長さ
 
 	DirectX::SimpleMath::Vector3 m_StartPos;
