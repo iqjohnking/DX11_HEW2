@@ -1,11 +1,11 @@
 #pragma once
-#include "Texture2D.h"
+#include "Enemy.h"
 
-class Enemy :public Texture2D 
+class Enemy1 :public Enemy
 {
 protected:
 	//“G‚Ì‘¬“x
-	float enemy_speed;
+	float enemy_speed = 0.7f;	//›Ş—‚Ì1/3‚Ì‘¬“x
 
 	//“G‚ÌŒ»İ‚ÌÀ•W
 	DirectX::SimpleMath::Vector3 enemy_pos;
@@ -20,12 +20,12 @@ protected:
 	bool alive_flg_enemy;
 
 public:
-	virtual void Init();
-	virtual void Update();
+	void Init() override;
+	void Update() override;
 
 	//›Ş—‚ğ’Ç‚¢‚©‚¯‚é‚½‚ß‚ÌŠÖ”
 	void Enemy_move();
 
 	//“G‚ğ’Ç‰Á‚·‚éŠÖ”
-	void Add_Enemy();	
+	void Add_Enemy();
 };

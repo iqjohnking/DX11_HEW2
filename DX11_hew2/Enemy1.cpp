@@ -1,30 +1,40 @@
-#include "Enemy.h"
+#include "Enemy1.h"
+#include "Shrinemaiden.h"
+using namespace DirectX::SimpleMath;
 
-void Enemy::Init()
+void Enemy1::Init()
 {
-	//基底クラスなので内容なし
+	enemy_pos = Vector3(100.0f, 100.0f, 0.0f);
+	alive_flg_enemy = true;
+
+	//初期化処理
+	Texture2D::Init();
+
+	SetTexture("assets/texture/enemy.png");
+	SetPosition(100.0f, 100.0f, 0.0f);
+	SetRotation(0.0f, 0.0f, 0.0f);
+	SetScale(50.0f, 50.0f, 0.0f);
 }
 
-void Enemy::Update()
+void Enemy1::Update()
 {
-	//基底クラス
+	SetPosition(enemy_pos);
 }
 
 
 //フレームカウントを用意して、敵の速度に合わせてこの関数を実行するのもありかも
 //敵の速度が巫女の1/3なら、3フレームに1回実行する…など (←だと敵の動きがカクカクになりそう？)
-void Enemy::Enemy_move()
-{	
+void Enemy1::Enemy_move()
+{
 	for (int i = 60; i > 0; i--)  //座標配列の値の移動
 	{
 		enemy_chase[i] = enemy_chase[i - 1];
-	}	
+	}
 
 	//巫女の位置を敵の座標配列に代入
-	//↓巫女のクラスを作って巫女の座標を参照できるようになったらコメント外す
-	//enemy_chase[0] = player_pos;
+	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか
 
-	//↓速度が巫女の1/3の敵なら	
+	//↓速度が巫女の1/3の敵なら
 	//enemy_pos_work = enemy_chase[60] - enemy_chase[59];
 	//enemy_pos_work = enemy_pos_work / 3;
 	//enemy_pos += enemy_pos_work;
@@ -35,7 +45,7 @@ void Enemy::Enemy_move()
 	enemy_pos = enemy_chase[60];
 }
 
-void Enemy::Add_Enemy()
+void Enemy1::Add_Enemy()
 {
 	//今のところなし
 }

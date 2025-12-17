@@ -52,7 +52,13 @@ void TitleScene::Init()
 	m_HandL->SetAnotherHand(m_HandR);
 	m_HandR->SetAnotherHand(m_HandL);
 
+	//›Ş—
+	auto* sh = Game::GetInstance()->AddObject<Shrinemaiden>();
+	m_MySceneObjects.emplace_back(sh);
 
+	//“G1
+	auto* enemy = Game::GetInstance()->AddObject<Enemy1>();
+	m_MySceneObjects.emplace_back(enemy);
 }
 
 // XV

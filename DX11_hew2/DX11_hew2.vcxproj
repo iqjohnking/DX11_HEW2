@@ -140,6 +140,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GolfBall.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy1.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GolfBall.h" />
