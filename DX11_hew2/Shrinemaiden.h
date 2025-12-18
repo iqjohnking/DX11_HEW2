@@ -43,6 +43,8 @@ public:
 	//巫女の座標を取るゲッター
 	DirectX::SimpleMath::Vector3 Get_Shrinemaiden_pos() const { return shrinemaiden_pos; }
 
+	float get_run_speed() const { return run_speed; }
+
 	//糸の位置参照する関数 (hitcheck)
 	//敵の位置参照する関数 (敵の位置-巫女の位置)
 	//ステージの位置参照する関数　(中心点-巫女の位置)

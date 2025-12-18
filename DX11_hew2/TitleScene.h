@@ -11,7 +11,10 @@
 #include "playerHand.h"
 #include "field.h"
 #include "Shrinemaiden.h"
+#include "Enemy_base.h"	
 #include "Enemy1.h"	
+//#include "Enemy2.h"	
+//#include "Enemy3.h"	
 
 class silkWall;   // 前方宣言
 
@@ -22,6 +25,8 @@ private:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	silkWall* m_SilkWalls[3]{};   // 場に出せる糸の壁は最大3つ
+	Enemy1* Enemy1List[20]{};   // 場に出せる糸の壁は最大3つ
+	//Enemy2* Enemy2List[20]{};   // 場に出せる糸の壁は最大3つ
 	playerHand* m_HandL = nullptr; // 左手
 	playerHand* m_HandR = nullptr; // 右手
 	int       m_NextSilkIndex = 0; // 次に使うインデックス

@@ -4,14 +4,14 @@ using namespace DirectX::SimpleMath;
 
 void Enemy1::Init()
 {
-	enemy_pos = Vector3(100.0f, 100.0f, 0.0f);
+	//enemy_pos = Vector3(100.0f, 100.0f, 0.0f);
 	alive_flg_enemy = true;
-
+	
 	//初期化処理
 	Texture2D::Init();
 
 	SetTexture("assets/texture/enemy.png");
-	SetPosition(100.0f, 100.0f, 0.0f);
+	//SetPosition(100.0f, 100.0f, 0.0f);
 	SetRotation(0.0f, 0.0f, 0.0f);
 	SetScale(50.0f, 50.0f, 0.0f);
 
@@ -20,14 +20,14 @@ void Enemy1::Init()
 
 void Enemy1::Update()
 {
-	SetPosition(enemy_pos);
-	Enemy_move();
+	//SetPosition(enemy_pos);
+	move();
 }
 
 
 //フレームカウントを用意して、敵の速度に合わせてこの関数を実行するのもありかも
 //敵の速度が巫女の1/3なら、3フレームに1回実行する…など (←だと敵の動きがカクカクになりそう？)
-void Enemy1::Enemy_move()
+void Enemy1::move()
 {
 	//for (int i = 60; i > 0; i--)  //座標配列の値の移動
 	//{
@@ -36,9 +36,34 @@ void Enemy1::Enemy_move()
 
 	//巫女の座標をゲット
 	//Vector3 miko_pos = Shrinemaiden::Get_Shrinemaiden_pos();	//現状これだと取れないみたいなので修正求
+	Vector3 now_pos = GetPosition();
+	Vector3 target_pos = Vector3(0, 0, 0);
 	Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
 
-	enemy_pos = miko_pos;
+	Vector3 direction = miko_pos - now_pos;
+
+	float length = direction.Length();
+
+	if (length > 0.0f) {
+		// 正規化して3倍
+		direction /= length;
+
+		float chaceSpd = 0;
+		if (length > 100.0f) {
+			chaceSpd = 1;
+		}
+		else {
+			chaceSpd = 0.5f;
+		}
+
+		direction *= m_Miko->get_run_speed() * chaceSpd;
+
+		// 新しい位置を計算
+		Vector3 target_pos = now_pos + direction;
+		SetPosition(target_pos);
+		float angleRad = atan2f(direction.y, direction.x);
+		SetRotationRad(0.0f, 0.0f, angleRad);
+	}
 
 	//巫女の座標を敵の座標配列に代入
 	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか

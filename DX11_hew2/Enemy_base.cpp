@@ -34,7 +34,7 @@ void Enemy_base::Enemy_move()
 
 	//↓巫女と同じ速度の敵の場合の移動
 	//現在の敵の座標を更新
-	enemy_pos = enemy_chase[60];
+	//enemy_pos = enemy_chase[60];
 }
 
 void Enemy_base::Add_Enemy()

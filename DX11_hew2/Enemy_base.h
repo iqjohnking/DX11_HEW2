@@ -10,7 +10,7 @@ protected:
 	float enemy_speed;
 
 	//“G‚ÌŒ»İ‚ÌÀ•W
-	DirectX::SimpleMath::Vector3 enemy_pos;
+	//DirectX::SimpleMath::Vector3 enemy_pos;
 
 	//›Ş—‚ğ’Ç‚¢‚©‚¯‚é‚½‚ß‚ÌÀ•W”z—ñ
 	DirectX::SimpleMath::Vector3 enemy_chase[61];

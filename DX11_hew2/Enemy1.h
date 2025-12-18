@@ -7,8 +7,8 @@ protected:
 	//敵の速度
 	float enemy_speed = 0.7f;	//巫女の1/3の速度
 
-	//敵の現在の座標
-	DirectX::SimpleMath::Vector3 enemy_pos;
+	//敵の行きたい座標
+	//DirectX::SimpleMath::Vector3 target_pos;
 
 	//巫女を追いかけるための座標配列
 	DirectX::SimpleMath::Vector3 enemy_chase[61];
@@ -24,7 +24,7 @@ public:
 	void Update() override;
 
 	//巫女を追いかけるための関数
-	void Enemy_move();
+	void move();
 
 	//敵を追加する関数
 	void Add_Enemy();
