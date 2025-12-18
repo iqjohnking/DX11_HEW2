@@ -31,8 +31,3 @@ void Shrinemaiden::Shrinemaiden_move()
 	//ˆÚ“®ŠJn
 	//‚à‚µˆÚ“®æ‚É•Ç‚ª‚ ‚ê‚Î
 }
-
-Vector3 Shrinemaiden::Get_Shrinemaiden_pos() const
-{
-	return shrinemaiden_pos;
-}

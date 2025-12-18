@@ -1,6 +1,8 @@
 #pragma once
 #include "Texture2D.h"
 
+class Shrinemaiden;
+
 class Enemy_base :public Texture2D 
 {
 protected:
@@ -19,6 +21,9 @@ protected:
 	//¶‚«‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO
 	bool alive_flg_enemy;
 
+	//›Ş—
+	Shrinemaiden* m_Miko = nullptr;
+
 public:
 	virtual void Init();
 	virtual void Update();
@@ -28,4 +33,7 @@ public:
 
 	//“G‚ğ’Ç‰Á‚·‚éŠÖ”
 	void Add_Enemy();	
+
+	//›Ş—‚ÌˆÊ’u‚ğæ“¾
+	void SetTarget(Shrinemaiden* sh) { m_Miko = sh; };
 };

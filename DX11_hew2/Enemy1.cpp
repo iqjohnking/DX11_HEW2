@@ -14,11 +14,14 @@ void Enemy1::Init()
 	SetPosition(100.0f, 100.0f, 0.0f);
 	SetRotation(0.0f, 0.0f, 0.0f);
 	SetScale(50.0f, 50.0f, 0.0f);
+
+	//Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
 }
 
 void Enemy1::Update()
 {
 	SetPosition(enemy_pos);
+	Enemy_move();
 }
 
 
@@ -26,13 +29,16 @@ void Enemy1::Update()
 //敵の速度が巫女の1/3なら、3フレームに1回実行する…など (←だと敵の動きがカクカクになりそう？)
 void Enemy1::Enemy_move()
 {
-	for (int i = 60; i > 0; i--)  //座標配列の値の移動
-	{
-		enemy_chase[i] = enemy_chase[i - 1];
-	}
+	//for (int i = 60; i > 0; i--)  //座標配列の値の移動
+	//{
+	//	enemy_chase[i] = enemy_chase[i - 1];
+	//}
 
 	//巫女の座標をゲット
 	//Vector3 miko_pos = Shrinemaiden::Get_Shrinemaiden_pos();	//現状これだと取れないみたいなので修正求
+	Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
+
+	enemy_pos = miko_pos;
 
 	//巫女の座標を敵の座標配列に代入
 	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか
@@ -45,7 +51,7 @@ void Enemy1::Enemy_move()
 
 	//↓巫女と同じ速度の敵の場合の移動
 	//現在の敵の座標を更新
-	enemy_pos = enemy_chase[60];
+	//enemy_pos = enemy_chase[60];
 }
 
 void Enemy1::Add_Enemy()
