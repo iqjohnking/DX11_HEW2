@@ -61,6 +61,7 @@ namespace Collision
 
 	//newCheck
 	bool CheckHit(const Segment& segment, const Sphere& sphere);											// ü•ª‚Æ‹…‘Ì
+	bool CheckHit(const Segment& segment, const Sphere& sphere, DirectX::SimpleMath::Vector3& contact);											// ü•ª‚Æ‹…‘Ì
 
 
 	//“àÏEŠOÏ

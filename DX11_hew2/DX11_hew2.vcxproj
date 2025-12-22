@@ -144,7 +144,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Enemy_base.cpp" />
     <ClCompile Include="Enemy1.cpp" />
-    <ClCompile Include="field.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GolfBall.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -183,12 +183,13 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Enemy_base.h" />
     <ClInclude Include="Enemy1.h" />
-    <ClInclude Include="field.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GolfBall.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="DeBugLine2D.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

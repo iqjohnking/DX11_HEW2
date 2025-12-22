@@ -22,14 +22,14 @@ TitleScene::~TitleScene()
 void TitleScene::Init()
 {
 	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<TitleBG>());
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<field>());
+	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Field>());
 	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<silkWall>());
 
 	// 背景
-	auto* bg = Game::GetInstance()->AddObject<TitleBG>();
+	auto* bg  = Game::GetInstance()->AddObject<TitleBG>();
 	m_MySceneObjects.emplace_back(bg);
 	// 場地
-	auto* fld = Game::GetInstance()->AddObject<field>();
+	auto* fld = Game::GetInstance()->AddObject<Field>();
 	m_MySceneObjects.emplace_back(fld);
 
 
@@ -45,13 +45,15 @@ void TitleScene::Init()
 
 
 	
-	// 左手（W / S 控制）
-	m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
-	//handL->SetSide(HandSide::Left);
+	// 左手（W / S ）
+	//m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+	auto* m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+	m_MySceneObjects.emplace_back(m_HandL);
 
-	// 右手（↑ / ↓ 控制）
-	m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
-	//handR->SetSide(HandSide::Right);
+	// 右手（↑ / ↓ ）
+	auto* m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
+	m_MySceneObjects.emplace_back(m_HandR);
+
 	m_HandL->SetAnotherHand(m_HandR);
 	m_HandR->SetAnotherHand(m_HandL);
 

@@ -120,7 +120,7 @@
     <ClCompile Include="slikWall.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="field.cpp">
+    <ClCompile Include="Field.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="playerHand.cpp">
@@ -230,7 +230,7 @@
     <ClInclude Include="silkWall.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="field.h">
+    <ClInclude Include="Field.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="Test_melonlemon13.h">
@@ -254,6 +254,9 @@
     <ClInclude Include="Enemy1.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
+    <ClInclude Include="DeBugLine2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -271,5 +274,8 @@
     <FxCompile Include="shader\litTextureVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest" />
   </ItemGroup>
 </Project>

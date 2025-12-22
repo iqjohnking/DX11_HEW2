@@ -225,11 +225,48 @@ namespace Collision
 //==================================
 	bool CheckHit(const Segment& segment, const Sphere& sphere)
 	{
-		// 球の中心から線分までの最短距離を求める
-		float distance = DistancePointToSegment(sphere.center, segment);
+		Vector3 p;
+		return CheckHit(segment, sphere, p);
+	}
 
-		// 距離が半径以内なら衝突
-		return (distance <= sphere.radius);
+	bool CheckHit(const Segment& segment, const Sphere& sphere, DirectX::SimpleMath::Vector3& contact)
+	{
+		// 線分の方向ベクトル
+		Vector3 dir = segment.end - segment.start;
+
+		// 線分の始点を基準とした球の中心位置
+		Vector3 v = sphere.center - segment.start;
+
+		// 線分方向への射影比率を計算
+		float len2 = dir.LengthSquared();
+		if (len2 <= 0.0f)
+			return false;
+
+		float t = Dot(v, dir) / len2;
+
+		// 線分の範囲内（0～1）に制限
+		if (t < 0.0f) t = 0.0f;
+		if (t > 1.0f) t = 1.0f;
+
+		// 線分上で球の中心に最も近い点
+		Vector3 closest = segment.start + dir * t;
+
+		// 最近点と球中心との距離で当たり判定
+		float dist2 = (closest - sphere.center).LengthSquared();
+		float r2 = sphere.radius * sphere.radius;
+
+		if (r2 > dist2)
+		{
+			// 接触点を計算
+			// ※球が線分に向かって衝突してきたものとして扱う
+			Vector3 n = closest - sphere.center;
+			n.Normalize();
+			contact = sphere.center + n * sphere.radius;
+
+			return true;
+		}
+
+		return false;
 	}
 
 	//=========================================================================================
