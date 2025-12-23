@@ -1,7 +1,6 @@
 #include "Field.h"
 #include "DeBugLine2D.h"
 
-using namespace DirectX::SimpleMath;
 
 void Field::Init()
 {
@@ -13,12 +12,12 @@ void Field::Init()
 
 	// テクスチャ設定
 	SetTexture("assets/texture/field.png");
-	SetPosition(0.0f, 0.0f, 0.0f);
+	SetPosition(m_Center);
 	SetRotation(0.0f, 0.0f, 0.0f);
-	SetScale(1000.f, 1000.f, 0.0f);
+	SetScale(m_Radius*2, m_Radius*2, 0.0f);
 
 	// 16 辺の円形場地境界を生成
-	BuildBorder(Vector3(0.0f, 0.0f, 0.0f), 450.0f, 16);
+	BuildBorder(m_Center, m_Radius, 16);
 }
 
 void Field::Update()
@@ -38,7 +37,6 @@ void Field::DrawDebug(Camera* cam)
 	static bool initialized = false;
 	if (!initialized)
 	{
-
 		line.Texture2D::Init();
 		line.Init();
 		line.SetTexture("assets/texture/ui_back.png"); // 準備好的 1x1 白貼圖

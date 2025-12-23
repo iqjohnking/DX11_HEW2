@@ -3,21 +3,23 @@
 
 class Shrinemaiden :public Texture2D
 {
-private:
+protected:
 	//敵から逃げる速度
-	float run_speed = 2.0f;
+	float m_speed = 1.0f;
 
 	//範囲内に敵がいなくなったら減速する速度
 	float deceleration_speed = 0.2f;
-
 	//この速度以下になると停止する
 	float stop_speed = 0.1f;
 
+	//物理用変数
+	DirectX::SimpleMath::Vector3 m_Velocity{ 0.0f, 0.0f, 0.0f };
+
 	//巫女の位置
-	DirectX::SimpleMath::Vector3 shrinemaiden_pos;
+	DirectX::SimpleMath::Vector3 m_pos;
 
 	//巫女の前の位置
-	DirectX::SimpleMath::Vector3 old_shrinemaiden_pos;
+	DirectX::SimpleMath::Vector3 m_old_pos;
 
 	//敵の位置に合わせた座標移動をするための計算用変数
 	float shrinemaiden_work;	
@@ -41,9 +43,9 @@ public:
 	void Shrinemaiden_move();
 
 	//巫女の座標を取るゲッター
-	DirectX::SimpleMath::Vector3 Get_Shrinemaiden_pos() const { return shrinemaiden_pos; }
+	DirectX::SimpleMath::Vector3 Get_Shrinemaiden_pos() const { return m_pos; }
 
-	float get_run_speed() const { return run_speed; }
+	float getSpeed() const { return m_speed; }
 
 	//糸の位置参照する関数 (hitcheck)
 	//敵の位置参照する関数 (敵の位置-巫女の位置)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Texture2D.h"
-//#include <vector> 
+
+using namespace DirectX::SimpleMath;
 
 //-----------------------------------------------------------------------------
 // Texture2Dクラス
@@ -33,8 +34,9 @@ private:
 	};
 
 	std::vector<Edge> m_Edges;          // 境界ポリゴンの全辺
-	DirectX::SimpleMath::Vector3 m_Center{ 0.0f, 0.0f, 0.0f }; // 場地中心
-	float m_Radius = 450.0f;             // 場地半径
+
+	Vector3 m_Center { 0.0f, 0.0f, 0.0f }; // 場地中心
+	float m_Radius = 500.0f;             // 場地半径
 	int   m_EdgeCount = 16;               // 辺の数
 
 	// Vector3 用の簡易内積（Dot）

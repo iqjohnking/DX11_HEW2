@@ -21,14 +21,10 @@ TitleScene::~TitleScene()
 // 初期化
 void TitleScene::Init()
 {
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<TitleBG>());
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Field>());
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<silkWall>());
-
 	// 背景
 	auto* bg  = Game::GetInstance()->AddObject<TitleBG>();
 	m_MySceneObjects.emplace_back(bg);
-	// 場地
+	// FIELD
 	auto* fld = Game::GetInstance()->AddObject<Field>();
 	m_MySceneObjects.emplace_back(fld);
 
@@ -38,13 +34,8 @@ void TitleScene::Init()
 	{
 		m_SilkWalls[i] = Game::GetInstance()->AddObject<silkWall>();
 		m_MySceneObjects.emplace_back(m_SilkWalls[i]);
-
-		// 
-		//m_SilkWalls[i]->SetPosition({ -350.f ,  300.f -100.0f * (i+1) , 0.0f });
 	}
 
-
-	
 	// 左手（W / S ）
 	//m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
 	auto* m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
@@ -62,24 +53,19 @@ void TitleScene::Init()
 	m_MySceneObjects.emplace_back(sh);
 
 	////敵1
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 60; ++i)
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 		Enemy1List[i]->SetTarget(sh);
 		Enemy1List[i]->SetPosition({ -350.f ,  500.f - 50.0f * (i + 1) , 0.0f });
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
-
-		// 
-
 	}
-	//auto* enemy = Game::GetInstance()->AddObject<Enemy1>();
-	//enemy->SetTarget(sh);
-	//m_MySceneObjects.emplace_back(enemy);
 }
 
 // 更新
 void TitleScene::Update()
 {
+	// こちのものcontrol.h/cppに移行する予定
 	// エンターキーを押してステージ1へ
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
@@ -126,12 +112,7 @@ void TitleScene::Update()
 	for (int i = 0; i < 3; ++i)
 	{
 		silkWall* wall = m_SilkWalls[i];
-		if (!wall) continue;              // 防禦性檢
-
-		// 例）球との当たり判定（Ball クラスに GetCollider() がある前提）
-	   /*
-
-	   */
+		if (!wall) continue;              // 防禦性チェック
 	}
 }
 
@@ -139,6 +120,7 @@ void TitleScene::Update()
 void TitleScene::Uninit()
 {
 	// このシーンのオブジェクトを削除する
+	// 
 	for (auto& o : m_MySceneObjects) {
 		Game::GetInstance()->DeleteObject(o);
 	}

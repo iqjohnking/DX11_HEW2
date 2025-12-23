@@ -4,82 +4,63 @@ using namespace DirectX::SimpleMath;
 
 void Enemy1::Init()
 {
-	//enemy_pos = Vector3(100.0f, 100.0f, 0.0f);
 	alive_flg_enemy = true;
-	
+
+	m_Radius = 25.0f; //個別調整
+
 	//初期化処理
 	Texture2D::Init();
 
 	SetTexture("assets/texture/enemy.png");
-	//SetPosition(100.0f, 100.0f, 0.0f);
+	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
 	SetRotation(0.0f, 0.0f, 0.0f);
-	SetScale(50.0f, 50.0f, 0.0f);
+	SetScale(m_Radius * 2, m_Radius * 2, 0);
 
-	//Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
 }
 
 void Enemy1::Update()
 {
-	//SetPosition(enemy_pos);
 	move();
 }
 
 
-//フレームカウントを用意して、敵の速度に合わせてこの関数を実行するのもありかも
-//敵の速度が巫女の1/3なら、3フレームに1回実行する…など (←だと敵の動きがカクカクになりそう？)
 void Enemy1::move()
 {
-	//for (int i = 60; i > 0; i--)  //座標配列の値の移動
-	//{
-	//	enemy_chase[i] = enemy_chase[i - 1];
-	//}
-
 	//巫女の座標をゲット
-	//Vector3 miko_pos = Shrinemaiden::Get_Shrinemaiden_pos();	//現状これだと取れないみたいなので修正求
 	Vector3 now_pos = GetPosition();
 	Vector3 target_pos = Vector3(0, 0, 0);
 	Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
 
+	// 巫女の方向ベクトルを計算
 	Vector3 direction = miko_pos - now_pos;
-
+	// ベクトルの長さを計算
 	float length = direction.Length();
 
 	if (length > 0.0f) {
-		// 正規化して3倍
-		direction /= length;
+		// 正規化(1にする)
+		direction /= length; 
 
-		float chaceSpd = 0;
-		if (length > 100.0f) {
-			chaceSpd = 1;
-		}
-		else {
-			chaceSpd = 0.5f;
-		}
+		// 速度を調整
+		float t = length / m_maxDist;
+		t = std::clamp(t, 0.0f, 1.0f);
+		t = t * t;
 
-		direction *= m_Miko->get_run_speed() * chaceSpd;
+		m_speed = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
+
+		// 移動量を計算
+		float mikoSpeed = m_Miko->get_run_speed();
+		mikoSpeed *= m_speed;
+		direction *= mikoSpeed;
 
 		// 新しい位置を計算
-		Vector3 target_pos = now_pos + direction;
-		SetPosition(target_pos);
-		float angleRad = atan2f(direction.y, direction.x);
-		SetRotationRad(0.0f, 0.0f, angleRad);
+		//target_pos = now_pos + direction;
+		//SetPosition(target_pos);
+		//float angleRad = atan2f(direction.y, direction.x);
+		//SetRotationRad(0.0f, 0.0f, angleRad);
 	}
-
-	//巫女の座標を敵の座標配列に代入
-	//enemy_chase[0] = Shrinemaiden::shrinemaiden_pos;	//巫女のヘッダーの定義をprotectedにしても参照できなかったのでどうするか
-
-	//↓速度が巫女の1/3の敵なら
-	//enemy_pos_work = enemy_chase[60] - enemy_chase[59];
-	//enemy_pos_work = enemy_pos_work / 3;
-	//enemy_pos += enemy_pos_work;
-	//移動量算出→移動量を1/3に→現在の敵座標に移動量を足して移動完了、ということをしている
-
-	//↓巫女と同じ速度の敵の場合の移動
-	//現在の敵の座標を更新
-	//enemy_pos = enemy_chase[60];
 }
 
-void Enemy1::Add_Enemy()
-{
-	//今のところなし
-}
+//void Enemy1::Add_Enemy()
+//{
+//	//今のところなし
+//}
