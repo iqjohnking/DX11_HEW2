@@ -1,37 +1,28 @@
 #pragma once
-#include "Texture2D.h"
+#include "Character.h"
 
-class Shrinemaiden;
+class Shrinemaiden; // 前方宣言
 
-class Enemy_base :public Texture2D 
-{
+class Enemy_base :public Character{
 protected:
-	//敵の速度
-	float m_speed = 0.7f;	//巫女の1/3の速度
-	float m_maxDist = 500.0f;
-	float m_minSpeed = 1.00f;
-	float m_maxSpeed = 2.00f;
-
-	//生きているかのフラグ
-	bool alive_flg_enemy;
-
 	enum state {
-		SPAWNING,	//出現中 (アニメーション)
+		SPAWNING,	//出現中(アニメーション)
 		ALIVE,		//生存
-		DYING,		//消滅中 (アニメーション)使わないかも、繭になるから
-		DEAD		//消滅
+		DYING,		//消滅中(アニメーション)使わないかも、繭になるから
+		DEAD		//消滅	(アニメーション)使わないかも、繭になるから
 	};
 
-	//物理用変数
-	DirectX::SimpleMath::Vector3 m_Velocity{ 0.0f, 0.0f, 0.0f };
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
+	float m_maxDist = 500.0f; // アクションパタンが変化する距離（調整用）
 
 	//巫女
 	Shrinemaiden* m_Miko = nullptr;
 
 public:
-	virtual void Init();
-	virtual void Update();
+	virtual void Init() override = 0;
+	virtual void Update() override = 0;
+	virtual void Draw(Camera* cam) override = 0;
+	virtual void Uninit() override = 0;
 
 	//巫女を追いかけるための関数
 	virtual void move();
@@ -39,9 +30,6 @@ public:
 	//巫女の位置を取得
 	void SetTarget(Shrinemaiden* sh) { m_Miko = sh; };
 	//void SetTarget(Shrinemaiden& sh) { m_Miko = &sh; }; // 参照渡し版
-
-	const DirectX::SimpleMath::Vector3& GetVelocity() const { return m_Velocity; }
-	void SetVelocity(const DirectX::SimpleMath::Vector3& v) { m_Velocity = v; }
 
 	float GetRadius() const { return m_Radius; }
 

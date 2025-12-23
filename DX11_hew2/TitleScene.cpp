@@ -53,7 +53,7 @@ void TitleScene::Init()
 	m_MySceneObjects.emplace_back(sh);
 
 	////“G1
-	for (int i = 0; i < 60; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 		Enemy1List[i]->SetTarget(sh);
