@@ -33,21 +33,6 @@ void Game::Init()
 	// 初期シーンを設定（必須）
 	m_Instance->ChangeScene(TITLE);
 
-	//m_Instance->m_DebugDrawer.Init();
-
-
-	//オブジェクトを追加
-	/*
-	m_Objects.emplace_back(new GolfBall(&m_Camera));
-	m_Objects.emplace_back(new Ground);
-
-	//オブジェクト初期化
-	for (auto& o: m_Objects) {
-		o->Init();
-	}
-	//ゴルフボールにGroundのポインタをセット
-	dynamic_cast<GolfBall*>(m_Objects[0].get())->SetGround(dynamic_cast<Ground*>(m_Objects[1].get()));
-	*/
 }
 
 // 更新

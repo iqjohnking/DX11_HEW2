@@ -3,7 +3,7 @@ using namespace DirectX::SimpleMath;
 
 void Shrinemaiden::Init()
 {
-	shrinemaiden_pos = Vector3(0.0f, 0.0f, 0.0f);
+	m_pos = Vector3(0.0f, 0.0f, 0.0f);
 	stage_center = Vector3(0.0f, 0.0f, 0.0f);
 	alive_flg_Shrinemaiden = true;
 
@@ -18,10 +18,9 @@ void Shrinemaiden::Init()
 
 void Shrinemaiden::Update()
 {
-	shrinemaiden_pos.x++;	//テスト用、とりあえず右に動かす
-
-	old_shrinemaiden_pos = shrinemaiden_pos;
-	SetPosition(shrinemaiden_pos);
+	m_old_pos = m_pos;
+	m_pos.x++;	//テスト用、とりあえず右に動かす
+	SetPosition(m_pos);
 }
 
 void Shrinemaiden::Shrinemaiden_move()

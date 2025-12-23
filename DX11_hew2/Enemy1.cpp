@@ -48,7 +48,7 @@ void Enemy1::move()
 		m_speed = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
 
 		// ˆÚ“®—Ê‚ðŒvŽZ
-		float mikoSpeed = m_Miko->get_run_speed();
+		float mikoSpeed = m_Miko->GetSpeed();
 		mikoSpeed *= m_speed;
 		direction *= mikoSpeed;
 

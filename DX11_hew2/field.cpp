@@ -4,17 +4,18 @@
 
 void Field::Init()
 {
-	// 親クラス的初始化
-	Texture2D::Init();
-
-	// 重複テクスチャを設定
-	//SetRepeatTexture(m_RepeatTexture::m_false);
-
+	m_Position = Vector3(m_Center);					// 画面中心を設定
+	m_Rotation = Vector3(0.0f, 0.0f, 0.0f);					// 回転なし
+	m_Scale = Vector3(m_Radius * 2, m_Radius * 2, 0.0f);	// スケールはm_Radiusの2倍
+	
+	
 	// テクスチャ設定
-	SetTexture("assets/texture/field.png");
-	SetPosition(m_Center);
-	SetRotation(0.0f, 0.0f, 0.0f);
-	SetScale(m_Radius*2, m_Radius*2, 0.0f);
+	m_Texture2D.Texture2D::Init();// 親クラス的初始化
+	//SetRepeatTexture(m_RepeatTexture::m_false);// 重複テクスチャを設定
+	m_Texture2D.SetTexture("assets/texture/field.png");
+	m_Texture2D.SetPosition(m_Center);
+	m_Texture2D.SetRotation(0.0f, 0.0f, 0.0f);
+	m_Texture2D.SetScale(m_Radius*2, m_Radius*2, 0.0f);
 
 	// 16 辺の円形場地境界を生成
 	BuildBorder(m_Center, m_Radius, 16);
@@ -22,12 +23,12 @@ void Field::Init()
 
 void Field::Update()
 {
-	
+	m_Texture2D.Texture2D::Update();
 }
 
 void Field::Draw(Camera* cam)
 {
-	Texture2D::Draw(cam);
+	m_Texture2D.Texture2D::Draw(cam);
 	DrawDebug(cam);
 }
 
@@ -48,6 +49,12 @@ void Field::DrawDebug(Camera* cam)
 		line.SetLine(ed.p0, ed.p1);
 		line.Draw(cam);
 	}
+}
+
+void Field::Uninit()
+{
+	m_Texture2D.Uninit();
+	m_Edges.clear();
 }
 
 //float Field::Dot(const Vector3& v1, const Vector3& v2)
