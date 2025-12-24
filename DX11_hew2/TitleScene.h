@@ -16,7 +16,7 @@
 //#include "Enemy2.h"	
 //#include "Enemy3.h"	
 
-class silkWall;   // 前方宣言
+//class silkWall;   // 前方宣言 //何のために？
 
 // TitleSceneクラス
 class TitleScene : public Scene

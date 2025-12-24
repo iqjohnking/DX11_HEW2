@@ -1,6 +1,9 @@
 #include "Enemy1.h"
 #include "Shrinemaiden.h"
+#include "Field.h"
 using namespace DirectX::SimpleMath;
+
+
 
 void Enemy1::Init()
 {
@@ -13,11 +16,15 @@ void Enemy1::Init()
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
 
+	m_Collider.center = GetPosition();
+	m_Collider.radius = m_Radius;
+
 }
 
 void Enemy1::Update()
 {
 	move();
+	m_Collider.center = GetPosition();
 }
 
 void Enemy1::Draw(Camera* cam)
@@ -41,43 +48,67 @@ void Enemy1::move()
 	//巫女の座標をゲット
 	Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
 
-	// 巫女の方向ベクトルを計算
-	m_direction = miko_pos - now_pos;
-	float length = m_direction.Length();	// ベクトルの長さを計算
-	if (length <=  0.0001f) {
-		return;
+	// ターゲットを見失っていない場合の処理
+	if (lostTargetTimer <= 0) {
+		// 巫女の方向ベクトルを計算
+		m_direction = miko_pos - now_pos;
+		float length = m_direction.Length();	// ベクトルの長さを計算
+		if (length <= 0.0001f) {
+			return;
+		}
+		// 正規化(1にする)
+		m_direction /= length;
+
+		// 速度を調整
+		float t = length / m_maxDist;
+		t = std::clamp(t, 0.0f, 1.0f);
+		t = t * t;
+
+		// 基本速度
+		//float baseSpeed = m_TargetSpeed; 
+
+		float spdOffset = 0.0f; // 調整用オフセット値
+		spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
+
+		// 移動量を計算
+		float mikoSpeed = m_Miko->GetSpeed(); // 巫女現在の速度を取得
+		SetMinSpeed(mikoSpeed * 1.005f); // 最小速度を巫女速度の50%に設定
+
+		m_TargetSpeed = mikoSpeed * spdOffset;
+
+		m_TargetSpeed = std::clamp(m_TargetSpeed, m_minSpeed, m_maxSpeed);
+
+		if (m_velocity < m_TargetSpeed) {
+			m_velocity += m_acceleration;
+			if (m_velocity > m_TargetSpeed) m_velocity = m_TargetSpeed;
+		}
+		else if (m_velocity > m_TargetSpeed) {
+			m_velocity -= m_acceleration;
+			if (m_velocity < m_TargetSpeed) m_velocity = m_TargetSpeed;
+		}
+	}
+	else if (lostTargetTimer > 0) {
+		// ターゲットを見失っている場合の処理
+		lostTargetTimer -= 1;
+		if (lostTargetTimer < 0) lostTargetTimer = 0;
+		// 徐々に減速
+		//m_velocity -= m_acceleration;
+		if (m_velocity < 0) m_velocity = 0;
 	}
 
-	// 正規化(1にする)
-	m_direction /= length;
+	// 弾き飛ぶ処理
+	Vector3 vel = GetDirectionXVelocity();
+	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Radius);
 
-	// 速度を調整
-	float t = length / m_maxDist;
-	t = std::clamp(t, 0.0f, 1.0f);
-	t = t * t;
+	if (isRunintoWall) {
+		//m_dirXvel = vel;
+		m_direction = vel;
+		m_direction.Normalize(); // 正規化
 
-	// 基本速度
-	//float baseSpeed = m_TargetSpeed; 
-
-	float spdOffset = 0.0f; // 調整用オフセット値
-	spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
-
-	// 移動量を計算
-	float mikoSpeed = m_Miko->GetSpeed(); // 巫女現在の速度を取得
-	SetMinSpeed(mikoSpeed * 1.005f); // 最小速度を巫女速度の50%に設定
-
-	m_TargetSpeed = mikoSpeed * spdOffset;
-
-	m_TargetSpeed = std::clamp(m_TargetSpeed, m_minSpeed, m_maxSpeed);
-
-	if (m_velocity < m_TargetSpeed) {
-		m_velocity += m_acceleration;
-		if (m_velocity > m_TargetSpeed) m_velocity = m_TargetSpeed;
+		lostTargetTimer = 60.f; // ターゲットを見失うフレーム数
 	}
-	else if (m_velocity > m_TargetSpeed) {
-		m_velocity -= m_acceleration;
-		if (m_velocity < m_TargetSpeed) m_velocity = m_TargetSpeed;
-	}
+
+
 
 	// 新しい位置を計算
 	target_pos = now_pos + (m_direction * m_velocity);

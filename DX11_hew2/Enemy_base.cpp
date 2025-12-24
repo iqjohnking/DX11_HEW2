@@ -1,7 +1,5 @@
 #include "Enemy_base.h"
 
-class Shrinemaiden;
-
 void Enemy_base::Init()
 {
 	//Šî’êƒNƒ‰ƒX‚È‚Ì‚Å“à—e‚È‚µ

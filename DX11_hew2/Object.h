@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "Collision.h"
 #include "ObjectType.h"
-#include	<SimpleMath.h>
+#include <SimpleMath.h>
 
 class Object {
 protected:

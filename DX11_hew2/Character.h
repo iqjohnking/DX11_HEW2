@@ -6,14 +6,17 @@ class Character :public Object {
 protected:
 	int m_Hitpoint = 100; // キャラクターの体力
 
-	float m_minSpeed = 0.0f; // 最小移動速度
+	float m_minSpeed    = 0.0f; // 最小移動速度
 	float m_TargetSpeed = 1.0f; // キャラクターの目標速度
-	float m_maxSpeed = 10.0f; // 最大移動速度
+	float m_maxSpeed    = 10.0f; // 最大移動速度
 
 	float m_acceleration = 1.0f; // キャラクターの加速度
-	float m_velocity = 0.0f; // キャラクターの現在の速度
+	float m_velocity     = 0.0f; // キャラクターの現在の速度
 
 	DirectX::SimpleMath::Vector3 m_direction = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f); // キャラクターの移動方向（角度）
+	DirectX::SimpleMath::Vector3 m_dirXvel	 = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f); // キャラクターの移動方向*現在の速度
+
+
 
 	bool IsAlive = true; // キャラクターが生存しているかどうか
 public:

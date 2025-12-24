@@ -57,6 +57,7 @@ void TitleScene::Init()
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 		Enemy1List[i]->SetTarget(sh);
+		Enemy1List[i]->SetField(fld);
 		Enemy1List[i]->SetPosition({ -350.f ,  500.f - 50.0f * (i + 1) , 0.0f });
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}
