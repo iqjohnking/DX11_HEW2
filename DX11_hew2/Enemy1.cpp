@@ -46,7 +46,7 @@ void Enemy1::move()
 	Vector3 now_pos = GetPosition();
 	Vector3 target_pos = Vector3(0, 0, 0);
 	//巫女の座標をゲット
-	Vector3 miko_pos = m_Miko->Get_Shrinemaiden_pos();
+	Vector3 miko_pos = m_Miko->GetPosition();
 
 	// ターゲットを見失っていない場合の処理
 	if (lostTargetTimer <= 0) {
@@ -71,7 +71,7 @@ void Enemy1::move()
 		spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
 
 		// 移動量を計算
-		float mikoSpeed = m_Miko->GetSpeed(); // 巫女現在の速度を取得
+		float mikoSpeed = m_Miko->GetVelocity(); // 巫女現在の速度を取得
 		SetMinSpeed(mikoSpeed * 1.005f); // 最小速度を巫女速度の50%に設定
 
 		m_TargetSpeed = mikoSpeed * spdOffset;
@@ -96,7 +96,7 @@ void Enemy1::move()
 		if (m_velocity < 0) m_velocity = 0;
 	}
 
-	// 弾き飛ぶ処理
+	// 4) フィールド外に出ないようにする
 	Vector3 vel = GetDirectionXVelocity();
 	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Radius);
 

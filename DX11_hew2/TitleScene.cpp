@@ -51,6 +51,7 @@ void TitleScene::Init()
 	////巫女
 	auto* sh = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(sh);
+	sh->SetField(fld);
 
 	////敵1
 	for (int i = 0; i < 10; ++i)
@@ -115,6 +116,7 @@ void TitleScene::Update()
 		silkWall* wall = m_SilkWalls[i];
 		if (!wall) continue;              // 防禦性チェック
 	}
+
 }
 
 // 終了処理

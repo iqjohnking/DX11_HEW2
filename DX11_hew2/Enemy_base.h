@@ -32,8 +32,8 @@ public:
 
 	//›Ş—‚ÌˆÊ’u‚ğæ“¾
 	void SetTarget(Shrinemaiden* sh) { m_Miko = sh; };
-	void SetField(Field* field) { m_Field = field; };
 	//void SetTarget(Shrinemaiden& sh) { m_Miko = &sh; }; // QÆ“n‚µ”Å
+	void SetField(Field* field) { m_Field = field; };
 
 	float GetRadius() const { return m_Radius; }
 	Collision::Sphere& GetCollider() { return m_Collider; }

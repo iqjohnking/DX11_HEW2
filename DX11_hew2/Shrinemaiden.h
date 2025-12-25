@@ -1,54 +1,47 @@
 #pragma once
+#include "Character.h"
 #include "Texture2D.h"	//基底クラス
 
-class Shrinemaiden :public Texture2D
+class Field; // 前方宣言
+
+class Shrinemaiden :public Character
 {
 protected:
-	//敵から逃げる速度
-	float m_speed = 1.0f;
+	enum state {
+		SPAWNING,	//出現中(アニメーション)
+		ALIVE,		//生存
+		DYING,		//消滅中(アニメーション)使わないかも、繭になるから
+		DEAD		//消滅	(アニメーション)使わないかも、繭になるから
+	};
 
-	//範囲内に敵がいなくなったら減速する速度
-	float deceleration_speed = 0.2f;
-	//この速度以下になると停止する
-	float stop_speed = 0.1f;
+	Texture2D m_Texture2D;
 
-	//物理用変数
-	DirectX::SimpleMath::Vector3 m_Velocity{ 0.0f, 0.0f, 0.0f };
+	Collision::Sphere m_Collider; // 当たり判定の為の情報
+	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 
-	//巫女の位置
-	DirectX::SimpleMath::Vector3 m_pos;
+	float m_serchDistance = 1000.0f; //敵を探す距離
+	float m_deceleration  = 0.2f;	//範囲内に敵がいなくなったら減速する速度
+	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
 
-	//巫女の前の位置
-	DirectX::SimpleMath::Vector3 m_old_pos;
+	Field* m_Field = nullptr;
 
-	//敵の位置に合わせた座標移動をするための計算用変数
-	float shrinemaiden_work;	
-
-	//生きているかのフラグ
-	bool alive_flg_Shrinemaiden;
-
-	//敵の判定を取る円の半径
-	float range = 100.0f;
-
-	//ステージの中心
-	DirectX::SimpleMath::Vector3 stage_center;
-	//ステージの半径
-	float stage_radius = 500.0f;
-
-	//方向を取ってそこにspeedをかける
 public:
 	void Init() override;
 	void Update() override;
+	void Draw(Camera* cam) override;
+	void Uninit() override;
 
-	void Shrinemaiden_move();
-
-	//巫女の座標を取るゲッター
-	DirectX::SimpleMath::Vector3 Get_Shrinemaiden_pos() const { return m_pos; }
-
-	float GetSpeed() const { return m_speed; }
+	//巫女を移動させるための関数
+	void move();
 
 	//糸の位置参照する関数 (hitcheck)
 	//敵の位置参照する関数 (敵の位置-巫女の位置)
 	//ステージの位置参照する関数　(中心点-巫女の位置)
+
+
+
+	void SetField(Field* field) { m_Field = field; };
+
+	
 };
 

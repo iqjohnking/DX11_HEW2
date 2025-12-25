@@ -45,4 +45,5 @@ public:
 
 	bool GetIsAlive() const { return IsAlive; }// キャラクターが生存しているかどうかを取得
 	void SetIsAlive(bool isAlive) { IsAlive = isAlive; }// キャラクターの生存状態を設定
+
 };

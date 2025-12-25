@@ -63,16 +63,13 @@ void Game::Draw()
 		o->Draw(&m_Instance->m_Camera);
 
 		//todo: ƒfƒoƒbƒO•`‰æ‚ÌON/OFF
-		if (o->HasCollider()) {
-			//auto box = o->GetCollider();
-			//m_Instance->m_DebugDrawer.DrawAABB(box, &m_Instance->m_Camera);
-			//todo: ‹…‘Ì‚Æ‚©‚à•`‰æ
-		}
+		//if (o->HasCollider()) {
+		//	//auto box = o->GetCollider();
+		//	//m_Instance->m_DebugDrawer.DrawAABB(box, &m_Instance->m_Camera);
+		//	//todo: ‹…‘Ì‚Æ‚©‚à•`‰æ
+		//}
 	}
 
-
-	
-	
 	// •`‰æŒãˆ—
 	Renderer::DrawEnd();
 }
