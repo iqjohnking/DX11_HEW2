@@ -7,7 +7,7 @@ class Enemy1 : public Enemy_base
 protected:
 	Texture2D m_Texture2D;
 
-	float lostTargetTimer = 0.0f; //ターゲットを見失ったときのタイマー 
+	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
 	
 
 public:

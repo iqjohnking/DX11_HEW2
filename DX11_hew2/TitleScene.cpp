@@ -25,8 +25,8 @@ void TitleScene::Init()
 	auto* bg  = Game::GetInstance()->AddObject<TitleBG>();
 	m_MySceneObjects.emplace_back(bg);
 	// FIELD
-	auto* fld = Game::GetInstance()->AddObject<Field>();
-	m_MySceneObjects.emplace_back(fld);
+	m_Field = Game::GetInstance()->AddObject<Field>();
+	m_MySceneObjects.emplace_back(m_Field);
 
 
 	// silkWall*3
@@ -37,28 +37,27 @@ void TitleScene::Init()
 	}
 
 	// 左手（W / S ）
-	//m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
-	auto* m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+	m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
 	m_MySceneObjects.emplace_back(m_HandL);
 
 	// 右手（↑ / ↓ ）
-	auto* m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
+	m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
 	m_MySceneObjects.emplace_back(m_HandR);
 
 	m_HandL->SetAnotherHand(m_HandR);
 	m_HandR->SetAnotherHand(m_HandL);
 
 	////巫女
-	auto* sh = Game::GetInstance()->AddObject<Shrinemaiden>();
-	m_MySceneObjects.emplace_back(sh);
-	sh->SetField(fld);
+	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
+	m_MySceneObjects.emplace_back(m_Miko);
+	m_Miko->SetField(m_Field);
 
 	////敵1
 	for (int i = 0; i < 10; ++i)
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-		Enemy1List[i]->SetTarget(sh);
-		Enemy1List[i]->SetField(fld);
+		Enemy1List[i]->SetTarget(m_Miko);
+		Enemy1List[i]->SetField(m_Field);
 		Enemy1List[i]->SetPosition({ -350.f ,  500.f - 50.0f * (i + 1) , 0.0f });
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}

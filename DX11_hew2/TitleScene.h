@@ -7,16 +7,15 @@
 
 #include "Texture2D.h"
 #include "TitleBG.h"
+
 #include "silkWall.h"
 #include "playerHand.h"
-#include "field.h"
+#include "Field.h"
 #include "Shrinemaiden.h"
 #include "Enemy_base.h"	
 #include "Enemy1.h"	
 //#include "Enemy2.h"	
 //#include "Enemy3.h"	
-
-//class silkWall;   // 前方宣言 //何のために？
 
 // TitleSceneクラス
 class TitleScene : public Scene
@@ -31,7 +30,7 @@ private:
 	int         m_NextSilkIndex = 0; // 次に使う糸
 
 	Field*        m_Field  = nullptr;      // フィールド（境界判定用）
-	Shrinemaiden* m_Shrine = nullptr;     // 巫女
+	Shrinemaiden* m_Miko = nullptr;     // 巫女
 
 	void Init();   // 初期化
 	void Uninit(); // 終了処理

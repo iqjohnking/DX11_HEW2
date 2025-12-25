@@ -1,12 +1,20 @@
 #include "Enemy1.h"
 #include "Shrinemaiden.h"
 #include "Field.h"
+#include "Game.h"
 using namespace DirectX::SimpleMath;
 
 
 
 void Enemy1::Init()
 {
+	SetMinSpeed(0.0f);
+	SetTargetSpeed(2.0f);   // 好みで
+	SetMaxSpeed(5.0f);      // 巫女の最高速度
+	SetAcceleration(0.1f);  // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
+	SetVelocity(0.0f);      // 初速ゼロ
+	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
+	SetIsAlive(true);
 	m_Radius = 25.0f; //個別調整
 
 	//初期化処理
@@ -42,78 +50,103 @@ void Enemy1::move()
 {
 	if (!m_Miko) return;
 
-	// 現在の位置と目標位置を取得
 	Vector3 now_pos = GetPosition();
 	Vector3 target_pos = Vector3(0, 0, 0);
-	//巫女の座標をゲット
 	Vector3 miko_pos = m_Miko->GetPosition();
 
-	// ターゲットを見失っていない場合の処理
-	if (lostTargetTimer <= 0) {
-		// 巫女の方向ベクトルを計算
+	if (stunTimer <= 0) {
+		// 1) 巫女へ向かう基本方向
 		m_direction = miko_pos - now_pos;
-		float length = m_direction.Length();	// ベクトルの長さを計算
-		if (length <= 0.0001f) {
-			return;
-		}
-		// 正規化(1にする)
-		m_direction /= length;
+		float len = m_direction.Length();
+		if (len <= 0.0001f) return;
+		m_direction /= len;
 
-		// 速度を調整
-		float t = length / m_maxDist;
-		t = std::clamp(t, 0.0f, 1.0f);
-		t = t * t;
-
-		// 基本速度
-		//float baseSpeed = m_TargetSpeed; 
-
-		float spdOffset = 0.0f; // 調整用オフセット値
-		spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
-
-		// 移動量を計算
-		float mikoSpeed = m_Miko->GetVelocity(); // 巫女現在の速度を取得
-		SetMinSpeed(mikoSpeed * 1.005f); // 最小速度を巫女速度の50%に設定
-
-		m_TargetSpeed = mikoSpeed * spdOffset;
-
-		m_TargetSpeed = std::clamp(m_TargetSpeed, m_minSpeed, m_maxSpeed);
-
+		// 速度調整（既存）
+		float t = std::clamp(len / m_maxDist, 0.0f, 1.0f);
+		t *= t;
+		float spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
+		float mikoSpeed = m_Miko->GetVelocity();
+		SetMaxSpeed(mikoSpeed * 1.005f);
+		m_TargetSpeed = std::clamp(mikoSpeed * spdOffset, m_minSpeed, m_maxSpeed);
 		if (m_velocity < m_TargetSpeed) {
 			m_velocity += m_acceleration;
-			if (m_velocity > m_TargetSpeed) m_velocity = m_TargetSpeed;
+			if (m_velocity > m_TargetSpeed) {
+				m_velocity = m_TargetSpeed;
+			}
 		}
 		else if (m_velocity > m_TargetSpeed) {
 			m_velocity -= m_acceleration;
-			if (m_velocity < m_TargetSpeed) m_velocity = m_TargetSpeed;
+			if (m_velocity < m_TargetSpeed) {
+				m_velocity = m_TargetSpeed;
+			}
+		}
+
+		// 2) 敵同士の分離ステアリングを加算
+		{
+			// 他の敵一覧を取得
+			auto enemies = Game::GetInstance()->GetObjects<Enemy_base>();
+			Vector3 separation = Vector3::Zero;
+
+			// 分離影響半径（重なり検出 + マージン）
+			float selfR = m_Radius;
+			float margin = 6.0f; // 少し余裕（必要に応じ調整）
+			for (auto* eb : enemies) {
+				if (!eb || eb == this) continue;
+				if (!eb->GetIsAlive()) continue;
+
+				Vector3 otherPos = eb->GetPosition();
+				float otherR = 25.0f; // 他の敵半径。共通なら eb から取得する実装に変更可
+				float sumR = selfR + otherR + margin;
+
+				Vector3 toSelf = now_pos - otherPos;
+				float d2 = toSelf.LengthSquared();
+				if (d2 <= 1e-8f) {
+					// 同座標近傍はランダム微小押し出し
+					separation += Vector3(0.01f, 0.0f, 0.0f);
+					continue;
+				}
+				float d = sqrtf(d2);
+				if (d < sumR) {
+					// 重なり/過接近。距離に反比例で押し出す
+					Vector3 push = toSelf / d; // 正規化
+					float strength = (sumR - d) / sumR; // 0..1
+					separation += push * strength;
+				}
+			}
+
+			// 分離をブレンド（重みを調整）
+			if (separation.LengthSquared() > 1e-6f) {
+				separation.Normalize();
+				float separationWeight = 0.8f; // 分離優先度（0..1で調整）
+				Vector3 desired = m_direction * (1.0f - separationWeight) + separation * separationWeight;
+				if (desired.LengthSquared() > 1e-8f) {
+					desired.Normalize();
+					SetDirection(desired);
+					m_direction = desired;
+				}
+			}
 		}
 	}
-	else if (lostTargetTimer > 0) {
-		// ターゲットを見失っている場合の処理
-		lostTargetTimer -= 1;
-		if (lostTargetTimer < 0) lostTargetTimer = 0;
-		// 徐々に減速
-		//m_velocity -= m_acceleration;
+	else {
+		// スタン中は減速
+		stunTimer -= 1;
+		if (stunTimer < 0) stunTimer = 0;
 		if (m_velocity < 0) m_velocity = 0;
 	}
 
-	// 4) フィールド外に出ないようにする
+	// 3) フィールド外に出ないようにする（既存）
 	Vector3 vel = GetDirectionXVelocity();
 	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Radius);
-
 	if (isRunintoWall) {
-		//m_dirXvel = vel;
 		m_direction = vel;
-		m_direction.Normalize(); // 正規化
-
-		lostTargetTimer = 60.f; // ターゲットを見失うフレーム数
+		if (m_direction.LengthSquared() > 1e-8f) m_direction.Normalize();
+		stunTimer = 60.f;
 	}
 
-
-
-	// 新しい位置を計算
+	// 4) 新しい位置
 	target_pos = now_pos + (m_direction * m_velocity);
 	SetPosition(target_pos);
-	float angleRad = atan2f(m_direction.y, m_direction.x);
 
-	m_Texture2D.SetRotationRad(0.0f, 0.0f, angleRad);
+	//float angleRad = atan2f(m_direction.y, m_direction.x);
+	//m_Texture2D.SetRotationRad(0.0f, 0.0f, angleRad);
 }

@@ -19,9 +19,12 @@ protected:
 	Collision::Sphere m_Collider; // 当たり判定の為の情報
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 
-	float m_serchDistance = 1000.0f; //敵を探す距離
+	float m_serchDistance = 500.0f; //敵を探す距離
 	float m_deceleration  = 0.2f;	//範囲内に敵がいなくなったら減速する速度
 	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
+
+	DirectX::SimpleMath::Vector3 m_wallSlideDir = DirectX::SimpleMath::Vector3::Zero;
+	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー
 
 	Field* m_Field = nullptr;
 
