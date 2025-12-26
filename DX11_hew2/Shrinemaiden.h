@@ -4,6 +4,9 @@
 
 class Field; // 前方宣言
 
+
+
+
 class Shrinemaiden :public Character
 {
 protected:
@@ -24,7 +27,7 @@ protected:
 	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
 
 	DirectX::SimpleMath::Vector3 m_wallSlideDir = DirectX::SimpleMath::Vector3::Zero;
-	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー
+	float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー
 
 	Field* m_Field = nullptr;
 

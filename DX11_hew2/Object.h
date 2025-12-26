@@ -11,7 +11,7 @@ protected:
 	float const deltaTime = 1 / 60;  // 仮の固定フレームレート
 
 	ObjectType m_Type = ObjectType::NONE; // オブジェクトの種類
-	bool IsActive = true;            // 活性状態かどうか
+	bool isActive = true;            // 活性状態かどうか
 
 	// SRT情報（姿勢情報）
 	DirectX::SimpleMath::Vector3 m_Position = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
@@ -37,8 +37,8 @@ public:
 	// getter setter
 	ObjectType GetType() const { return m_Type; }
 	void SetType(ObjectType type) { m_Type = type; }
-	bool GetIsActive() const { return IsActive; }
-	void SetIsActive(bool isActive) { IsActive = isActive; }
+	bool IsActive() const { return isActive; }
+	void SetIsActive(bool isAct) { isActive = isAct; }
 
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	void SetPosition(DirectX::SimpleMath::Vector3 position) { m_Position = position; }

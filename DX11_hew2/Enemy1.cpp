@@ -9,9 +9,9 @@ using namespace DirectX::SimpleMath;
 void Enemy1::Init()
 {
 	SetMinSpeed(0.0f);
-	SetTargetSpeed(2.0f);   // 好みで
-	SetMaxSpeed(5.0f);      // 巫女の最高速度
-	SetAcceleration(0.1f);  // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
+	SetTargetSpeed(1.0f);   // 
+	SetMaxSpeed(2.5f);      // 
+	SetAcceleration(0.05f); // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
 	SetVelocity(0.0f);      // 初速ゼロ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
 	SetIsAlive(true);
@@ -19,9 +19,10 @@ void Enemy1::Init()
 
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
+
 	m_Texture2D.SetTexture("assets/texture/enemy.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
-	m_Texture2D.SetRotation(m_Rotation);
+	m_Texture2D.SetRotation(m_Rotation); 
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
 
 	m_Collider.center = GetPosition();
@@ -31,8 +32,12 @@ void Enemy1::Init()
 
 void Enemy1::Update()
 {
-	move();
-	m_Collider.center = GetPosition();
+	// IsActive が true のときだけ動作 
+	// IsActive = false の場合はいないけど
+	if (isActive) {
+		move();
+		m_Collider.center = GetPosition();
+	}
 }
 
 void Enemy1::Draw(Camera* cam)

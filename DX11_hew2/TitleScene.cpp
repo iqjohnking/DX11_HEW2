@@ -110,6 +110,32 @@ void TitleScene::Update()
 		}
 	}
 
+	if (Input::GetKeyTrigger('R'))   // ˆ½ VK_D –ç‰ÂCŒš‹c—p 'D'
+	{
+		std::vector<Object*> removeList;
+
+		//Enemy1‚ğ’T‚·
+		for (auto* obj : m_MySceneObjects)
+		{
+			if (dynamic_cast<Enemy_base*>(obj))
+			{
+				removeList.push_back(obj);
+			}
+		}
+
+		//@Œ©‚Â‚¯‚½Enemy1‚ğíœ‚·‚é
+		for (auto* obj : removeList)
+		{
+			Game::GetInstance()->DeleteObject(obj);
+
+			auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+			if (it != m_MySceneObjects.end())
+			{
+				m_MySceneObjects.erase(it);
+			}
+		}
+	}
+
 	for (int i = 0; i < 3; ++i)
 	{
 		silkWall* wall = m_SilkWalls[i];

@@ -134,7 +134,7 @@ bool Field::ResolveBorder(Vector3& pos, Vector3& vel, float objRadius) const
 			float push = (objRadius - dist);
 			pos += ed.n * push;
 
-			// ② 速度反射
+			// ② 速度反射 // 反射ベクトル計算
 			//   v' = v - 2 * (v・n) * n
 			float vn = vel.Dot(ed.n);
 			vel = vel - ed.n * (2.0f * vn);
