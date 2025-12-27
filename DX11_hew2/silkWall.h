@@ -35,7 +35,7 @@ public:
 	bool HasCollider() const override { return true; }
 	
 	const Collision::Segment& GetSegment() const { return m_Segment; }
-	bool CheckHit(const Collision::Sphere& sphere) const;
+	//bool CheckHit(const Collision::Sphere& sphere) const;
 
 	// Žè‚©‚ç”­ŽË‚·‚é‚Æ‚«‚ÉŒÄ‚Ô
 	void Fire(const DirectX::SimpleMath::Vector3& startPos,

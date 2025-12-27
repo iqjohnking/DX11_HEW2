@@ -66,21 +66,19 @@ void TitleScene::Init()
 // 更新
 void TitleScene::Update()
 {
-	// こちのものcontrol.h/cppに移行する予定
 	// エンターキーを押してステージ1へ
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
 		Game::GetInstance()->ChangeScene(STAGE1);
 	}
-	// 例：スペースキーを押したら糸の壁を順番に発射する
-	// 左手往右手發（D）
-	if (Input::GetKeyTrigger('D'))   // 或 VK_D 也可，建議用 'D'
+	//
+	if (Input::GetKeyTrigger('D'))   // 
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
 		{
-			Vector3 startPos = m_HandL->GetPosition();  // 左手位置
-			Vector3 targetPos = m_HandR->GetPosition(); // 右手位置
+			Vector3 startPos = m_HandL->GetPosition();  // 左手
+			Vector3 targetPos = m_HandR->GetPosition(); // 右手
 			w->Fire(startPos, targetPos);
 
 			// 用掉一條絲 → 往下一個 index
@@ -92,14 +90,14 @@ void TitleScene::Update()
 		}
 	}
 
-	// 右手往左手發（J 或者 ←）
+	// 
 	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT))
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
 		{
-			Vector3 startPos = m_HandR->GetPosition();  // 右手位置
-			Vector3 targetPos = m_HandL->GetPosition(); // 左手位置
+			Vector3 startPos = m_HandR->GetPosition();  // 右手
+			Vector3 targetPos = m_HandL->GetPosition(); // 左手
 			w->Fire(startPos, targetPos);
 
 			++m_NextSilkIndex;
@@ -110,7 +108,7 @@ void TitleScene::Update()
 		}
 	}
 
-	if (Input::GetKeyTrigger('R'))   // 或 VK_D 也可，建議用 'D'
+	if (Input::GetKeyTrigger('R'))   // 
 	{
 		std::vector<Object*> removeList;
 
@@ -141,6 +139,12 @@ void TitleScene::Update()
 		silkWall* wall = m_SilkWalls[i];
 		if (!wall) continue;              // 防禦性チェック
 	}
+
+	// 当たり判定処理
+
+
+
+
 
 }
 

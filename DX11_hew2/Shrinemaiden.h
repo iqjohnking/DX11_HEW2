@@ -30,6 +30,7 @@ protected:
 	float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー
 
 	Field* m_Field = nullptr;
+	bool hitBorder = false;
 
 public:
 	void Init() override;
@@ -47,6 +48,7 @@ public:
 
 
 	void SetField(Field* field) { m_Field = field; };
+	void SetHitBorder(bool hit) { hitBorder = hit; };
 
 	
 };

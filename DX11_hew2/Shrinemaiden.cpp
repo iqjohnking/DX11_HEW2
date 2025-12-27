@@ -2,6 +2,7 @@
 #include "Enemy_base.h"
 #include "Field.h"
 #include "Game.h"
+#include "silkWall.h"
 
 using namespace std;
 using namespace DirectX::SimpleMath;
@@ -120,7 +121,7 @@ void Shrinemaiden::move()
 	{
 		Vector3 adjVel = vel;
 
-		bool hitBorder = m_Field->ResolveBorder(pos, adjVel, m_Radius);
+		hitBorder = m_Field->ResolveBorder(pos, adjVel, m_Radius);
 
 		if (hitBorder)
 		{

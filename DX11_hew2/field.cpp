@@ -7,15 +7,15 @@ void Field::Init()
 	m_Position = Vector3(m_Center);					// 画面中心を設定
 	m_Rotation = Vector3(0.0f, 0.0f, 0.0f);					// 回転なし
 	m_Scale = Vector3(m_Radius * 2, m_Radius * 2, 0.0f);	// スケールはm_Radiusの2倍
-	
-	
+
+
 	// テクスチャ設定
 	m_Texture2D.Texture2D::Init();// 親クラス的初始化
 	//SetRepeatTexture(m_RepeatTexture::m_false);// 重複テクスチャを設定
 	m_Texture2D.SetTexture("assets/texture/field.png");
 	m_Texture2D.SetPosition(m_Center);
 	m_Texture2D.SetRotation(0.0f, 0.0f, 0.0f);
-	m_Texture2D.SetScale(m_Radius*2, m_Radius*2, 0.0f);
+	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);
 
 	// 16 辺の円形場地境界を生成
 	BuildBorder(m_Center, m_Radius, 16);
@@ -120,8 +120,17 @@ bool Field::ResolveBorder(Vector3& pos, Vector3& vel, float objRadius) const
 	{
 		// 有効距離：
 		// pos が辺から「法線方向にどれだけ内側にあるか」
+		// 一般敵には、距離ベクトルと法線ベクトルの内積で求められる
 		//float dist = Dot(pos - ed.p0, ed.n);
-		Vector3 toPos = pos - ed.p0;	// 辺からのベクトル
+		//
+		//					ed.n
+		//					|			pos	
+		//					|
+		//					|
+		//					|
+		//ed.p0------------------------------ed.p1
+		//
+		Vector3 toPos = pos - ed.p0;	// 辺からのベクトル //end - start = direction
 		float dist = toPos.Dot(ed.n);	// pos が辺から「法線方向にどれだけ内側にあるか」
 
 		// 半径より内側に入り込んでいたら衝突
@@ -135,9 +144,12 @@ bool Field::ResolveBorder(Vector3& pos, Vector3& vel, float objRadius) const
 			pos += ed.n * push;
 
 			// ② 速度反射 // 反射ベクトル計算
-			//   v' = v - 2 * (v・n) * n
+			// 反射ベクトル = 入射ベクトル - 2 * (入射ベクトル・法線ベクトル) * 法線ベクトル
+			// v' = v - 2 * (v・n) * n
+			// vel = vel - 2.0f * Dot(vel, ed.n) * ed.n;
+
 			float vn = vel.Dot(ed.n);
-			vel = vel - ed.n * (2.0f * vn);
+			vel = vel - (2.0f * vn * ed.n);
 		}
 	}
 

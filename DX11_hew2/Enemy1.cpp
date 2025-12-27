@@ -2,9 +2,10 @@
 #include "Shrinemaiden.h"
 #include "Field.h"
 #include "Game.h"
+#include "silkWall.h"
+
+using namespace std;
 using namespace DirectX::SimpleMath;
-
-
 
 void Enemy1::Init()
 {
@@ -34,8 +35,12 @@ void Enemy1::Update()
 {
 	// IsActive が true のときだけ動作 
 	// IsActive = false の場合はいないけど
-	if (isActive) {
-		move();
+	if (isActive) 
+	{
+		move();	
+		
+
+
 		m_Collider.center = GetPosition();
 	}
 }
@@ -93,14 +98,14 @@ void Enemy1::move()
 			Vector3 separation = Vector3::Zero;
 
 			// 分離影響半径（重なり検出 + マージン）
-			float selfR = m_Radius;
+			float selfR = m_Collider.radius;
 			float margin = 6.0f; // 少し余裕（必要に応じ調整）
 			for (auto* eb : enemies) {
 				if (!eb || eb == this) continue;
 				if (!eb->GetIsAlive()) continue;
 
 				Vector3 otherPos = eb->GetPosition();
-				float otherR = 25.0f; // 他の敵半径。共通なら eb から取得する実装に変更可
+				float otherR = eb->GetRadius(); // 他の敵半径。共通なら eb から取得する実装に変更可
 				float sumR = selfR + otherR + margin;
 
 				Vector3 toSelf = now_pos - otherPos;
@@ -141,16 +146,36 @@ void Enemy1::move()
 
 	// 3) フィールド外に出ないようにする（既存）
 	Vector3 vel = GetDirectionXVelocity();
-	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Radius);
+	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Collider.radius);
 	if (isRunintoWall) {
 		m_direction = vel;
 		if (m_direction.LengthSquared() > 1e-8f) m_direction.Normalize();
 		stunTimer = 60.f;
 	}
 
+	// 5) 絹の壁との衝突判定
+	vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+	for (auto w : silkWalls)
+	{
+		Vector3 contactPoint;
+		if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
+		{
+			// 衝突したらバックさせてスタン
+			m_velocity = 0.5f;
+			stunTimer = 1.f; // スタンタイマーをセット
+			//Vector3 now_pos = GetPosition();
+			Vector3 knockbackDir = now_pos - contactPoint;
+			m_direction = knockbackDir;
+			//SetPosition(GetPosition() + knockbackDir * 2.0f); // 少し後退
+			break;
+		}
+	}
+
 	// 4) 新しい位置
 	target_pos = now_pos + (m_direction * m_velocity);
 	SetPosition(target_pos);
+
+	
 
 	//float angleRad = atan2f(m_direction.y, m_direction.x);
 	//m_Texture2D.SetRotationRad(0.0f, 0.0f, angleRad);

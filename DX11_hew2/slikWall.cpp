@@ -69,17 +69,19 @@ void silkWall::Uninit()
 	m_Texture2D.Uninit();
 }
 
-////todo : obbになるか？sphereになる?
-bool silkWall::CheckHit(const Collision::Sphere& sphere) const
-{
-	if (!isActive)
-	{
-		return false;
-	}
-	
-	// bool CheckHit(const Segment& segment, const Sphere& sphere);
-	return Collision::CheckHit(m_Segment, sphere);
-}
+////todo : sphereになる?
+//bool silkWall::CheckHit(const Collision::Sphere& sphere) const
+//{
+//	if (!isActive)
+//	{
+//		return false;
+//	}
+//	
+//	// bool CheckHit(const Segment& segment, const Sphere& sphere);
+//	return Collision::CheckHit(m_Segment, sphere);
+//}
+
+
 void silkWall::Fire(const Vector3& startPos, const Vector3& targetPos)
 {
 	// 位置を設定（右手/左手の座標を渡す）
