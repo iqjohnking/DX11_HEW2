@@ -10,7 +10,7 @@ using namespace DirectX::SimpleMath;
 void Enemy1::Init()
 {
 	SetMinSpeed(0.0f);
-	SetTargetSpeed(1.0f);   // 
+	SetTargetSpeed(2.1f);   // 
 	SetMaxSpeed(2.5f);      // 
 	SetAcceleration(0.05f); // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
 	SetVelocity(0.0f);      // 初速ゼロ
@@ -28,7 +28,6 @@ void Enemy1::Init()
 
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
-
 }
 
 void Enemy1::Update()
@@ -71,13 +70,13 @@ void Enemy1::move()
 		if (len <= 0.0001f) return;
 		m_direction /= len;
 
-		// 速度調整（既存）
-		float t = std::clamp(len / m_maxDist, 0.0f, 1.0f);
-		t *= t;
-		float spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
-		float mikoSpeed = m_Miko->GetVelocity();
-		SetMaxSpeed(mikoSpeed * 1.005f);
-		m_TargetSpeed = std::clamp(mikoSpeed * spdOffset, m_minSpeed, m_maxSpeed);
+		// 速度調整
+		//float t = std::clamp(len / m_maxDist, 0.0f, 1.0f);
+		//t *= t;
+		//float spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
+		//float mikoSpeed = m_Miko->GetVelocity();
+		//SetMaxSpeed(mikoSpeed * 1.005f);
+		//m_TargetSpeed = std::clamp(mikoSpeed * spdOffset, m_minSpeed, m_maxSpeed);
 		if (m_velocity < m_TargetSpeed) {
 			m_velocity += m_acceleration;
 			if (m_velocity > m_TargetSpeed) {

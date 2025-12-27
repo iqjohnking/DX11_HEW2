@@ -42,4 +42,7 @@ public:
 		DirectX::SimpleMath::Vector3& vel,
 		float objRadius) const;
 
+	Vector3 GetCenter() const { return m_Center; }
+	float GetRadius() const { return m_Radius; }
+
 };

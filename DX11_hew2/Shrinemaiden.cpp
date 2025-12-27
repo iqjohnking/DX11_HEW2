@@ -33,6 +33,7 @@ void Shrinemaiden::Init()
 void Shrinemaiden::Update()
 {
 	move();
+
 	m_Collider.center = GetPosition();
 }
 
@@ -173,6 +174,22 @@ void Shrinemaiden::move()
 		{
 			// 壁から離れたら切線解除
 			m_wallSlideDir = Vector3::Zero;
+		}
+	}
+	vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+	for (auto w : silkWalls)
+	{
+		Vector3 contactPoint;
+		if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
+		{
+			// 衝突したらバックさせてスタン
+			m_velocity = 0.5f;
+			m_wallSlideTimer = 1.f; // スタンタイマーをセット
+			//Vector3 now_pos = GetPosition();
+			Vector3 knockbackDir = now_pos - contactPoint;
+			m_direction = knockbackDir;
+			//SetPosition(GetPosition() + knockbackDir * 2.0f); // 少し後退
+			break;
 		}
 	}
 

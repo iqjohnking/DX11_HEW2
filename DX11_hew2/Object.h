@@ -10,7 +10,7 @@ protected:
 	// 基本情報
 	float const deltaTime = 1 / 60;  // 仮の固定フレームレート
 
-	ObjectType m_Type = ObjectType::NONE; // オブジェクトの種類
+	ObjectType m_Type = ObjectType::NONE; // オブジェクトの種類 //今は使ってない
 	bool isActive = true;            // 活性状態かどうか
 
 	// SRT情報（姿勢情報）
@@ -42,8 +42,10 @@ public:
 
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	void SetPosition(DirectX::SimpleMath::Vector3 position) { m_Position = position; }
+
 	DirectX::SimpleMath::Vector3 GetRotation() const { return m_Rotation; }
 	void SetRotation(DirectX::SimpleMath::Vector3 rotation) { m_Rotation = rotation; }
+
 	DirectX::SimpleMath::Vector3 GetScale() const { return m_Scale; }
 	void SetScale(DirectX::SimpleMath::Vector3 scale) { m_Scale = scale; }
 	

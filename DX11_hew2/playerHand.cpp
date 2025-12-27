@@ -1,4 +1,6 @@
 #include "playerHand.h"
+#include "Field.h"
+#include "Game.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -20,18 +22,12 @@ playerHand::playerHand(int side)
 
 void playerHand::Init()
 {
-	// 初期化処理
-	Texture2D::Init();
-
-	// 手的
-	SetTexture("assets/texture/hand.png");
-	//Vector3 initPosition = Vector3(0.0f, 0.0f, 0.0f);
-	//float initRadian = 0.0f;
-
-	SetScale(100.0f, 50.0f, 0.0f);
-
-	SetFieldCenter(Vector3(0.0f, 0.0f, 0.0f));
-	SetRadius(500.0f);
+	// フィールド情報の取得//外でやるべきかも
+	m_Field = Game::GetInstance()->AddObject<Field>();
+	SetFieldCenter(m_Field->GetCenter());
+	SetRadius(m_Field->GetRadius() + 50.f );
+	Vector3 initScale = Vector3(100.0f, 50.0f, 0.0f);
+	SetScale(initScale);
 
 	if (m_Side == HandSide::Left)
 	{
@@ -55,8 +51,13 @@ void playerHand::Init()
 		return; //error
 	}
 
-	//SetRotationRad(0.0f, 0.0f, initRadian);
-	//SetAnotherHand(nullptr);
+	// 画像の初期化
+	m_Texture2D.Texture2D::Init();
+	m_Texture2D.SetTexture("assets/texture/hand.png");
+	m_Texture2D.SetPosition(m_Position);
+	m_Texture2D.SetRotation(m_Rotation);
+	m_Texture2D.SetScale(100.0f, 50.0f, 0.0f);
+
 
 }
 
@@ -64,6 +65,19 @@ void playerHand::Update()
 {
 	Move();
 
+}
+
+void playerHand::Draw(Camera* cam)
+{
+	m_Texture2D.SetPosition(GetPosition()); // 親クラスの位置を反映
+	m_Texture2D.SetScale(GetScale());		// 親クラスの大きさを反映
+	m_Texture2D.SetRotation(GetRotation()); // 親クラスの回転を反映
+	m_Texture2D.Draw(cam);
+}
+
+void playerHand::Uninit()
+{
+	m_Texture2D.Uninit();
 }
 
 void playerHand::Move()
@@ -101,11 +115,12 @@ void playerHand::Move()
 	}
 
 	float newAngle = m_FiledAngleRad + dAngle;
-	// 角度正規化（保持在 -PI ~ PI 之間，避免數字發散）
+	// 角度正規化（-PI ~ PI ）
 	if (newAngle > PI)m_FiledAngleRad -= TWO_PI;
 	else if (newAngle < -PI)m_FiledAngleRad += TWO_PI;
 
-	// 2) 由「角度 + 半徑」計算新位置
+	// 2) 角度 + 半徑によって、newPosを計算
+	// 角度だけど、実はフィールド壁に沿って動かすイメージ、回転することではない
 	Vector3 newPos;
 	newPos.x = m_FiledCenter.x + cosf(newAngle) * m_Radius;
 	newPos.y = m_FiledCenter.y + sinf(newAngle) * m_Radius;
@@ -124,20 +139,22 @@ void playerHand::Move()
 		if (newPos.x < m_FiledCenter.x + 1)
 			allowMove = false;
 	}
-
 	if (allowMove) {
-		m_FiledAngleRad = newAngle;
+		m_FiledAngleRad = newAngle; // 角度更新,次回以降の計算に使用
 		pos = newPos;
 		SetPosition(pos);
 	}
 
+	//　3) もう片方の手の方向を向く
 	if (m_AnotherHand)
 	{
 		Vector3 otherPos = m_AnotherHand->GetPosition();
 		Vector3 dir = otherPos - pos;
 
-		float angleToOther = atan2f(dir.y, dir.x);   // 弧度
+		float angleToBuddy = atan2f(dir.y, dir.x);   // 弧度
 		//float angleDeg = XMConvertToDegrees(angleToOther);
-		SetRotationRad(0.0f, 0.0f, angleToOther);
+		Vector3 newRot = Vector3(0.0f, 0.0f, angleToBuddy * (180.0f / PI)); // 角度に変換してデグリーに
+		SetRotation(newRot);
+		//SetRotationRad(0.0f, 0.0f, angleToOther);
 	}
 }
