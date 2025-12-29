@@ -16,6 +16,21 @@ int			Application::ogPosY;
 uint32_t	Application::og_Width;
 uint32_t	Application::og_Height;
 
+//
+static int gFrameX = -1;  // ウィンドウの左右の枠の合計
+static int gFrameY = -1;  // ウィンドウの上下の枠の合計
+static double gAspect = 0.0; // アスペクト比（16:9）
+
+// 枠の太さを測るための関数（計算用）
+static void UpdateFrameSize(HWND hWnd) {
+	RECT rw, rc;
+	GetWindowRect(hWnd, &rw);
+	GetClientRect(hWnd, &rc);
+	gFrameX = (rw.right - rw.left) - (rc.right - rc.left);
+	gFrameY = (rw.bottom - rw.top) - (rc.bottom - rc.top);
+}
+//
+
 // NVIDIA Optimus 対応
 
 extern "C" {
@@ -30,6 +45,9 @@ Application::Application(uint32_t width, uint32_t height)
 {
 	m_Height = height;
 	m_Width = width;
+
+	// アスペクト比を保存
+	gAspect = (double)width / (double)height;
 
 	timeBeginPeriod(1); //タイマー精度を1ミリ秒に設定
 }
@@ -93,7 +111,7 @@ bool Application::InitApp()
 	rc.bottom = static_cast<LONG>(m_Height);
 
 	// ウィンドウサイズを調整
-	auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	auto style = WS_OVERLAPPEDWINDOW | WS_CAPTION | WS_SYSMENU;
 	AdjustWindowRect(&rc, style, FALSE);
 
 	// ここでモニターの中央座標を計算して CreateWindowEx に渡す
@@ -135,7 +153,23 @@ bool Application::InitApp()
 	{
 		return false;
 	}
+	
+	// ウィンドウ枠のサイズを計測
+	UpdateFrameSize(m_hWnd);
+	og_Width = rc.right - rc.left;
+	og_Height = rc.bottom - rc.top;
 
+	// 作業領域（タスクバーを除いた範囲）の中心を計算
+	HMONITOR hMon = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi = { sizeof(MONITORINFO) };
+	GetMonitorInfo(hMon, &mi);
+
+	ogPosX = mi.rcWork.left + (mi.rcWork.right - mi.rcWork.left - (int)og_Width) / 2;
+	ogPosY = mi.rcWork.top + (mi.rcWork.bottom - mi.rcWork.top - (int)og_Height) / 2;
+
+	// 計算した中央位置へウィンドウを移動
+	SetWindowPos(m_hWnd, NULL, ogPosX, ogPosY, og_Width, og_Height, SWP_NOZORDER | SWP_FRAMECHANGED);
+	
 	// ウィンドウを表示
 	ShowWindow(m_hWnd, SW_SHOWNORMAL);
 
@@ -145,7 +179,7 @@ bool Application::InitApp()
 	// ウィンドウにフォーカスを設定
 	SetFocus(m_hWnd);
 
-	SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP | WS_MINIMIZEBOX);
+	//SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP | WS_MINIMIZEBOX);
 	SetWindowPos(m_hWnd, HWND_TOP, 0, 0, m_Width, m_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
 	// 正常終了
@@ -246,6 +280,29 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	static bool isMessageBoxShowed = false;
 	switch (uMsg)
 	{
+	// マウスでリサイズ中に比率を強制する
+	case WM_SIZING:
+	{
+		if (isFullscreen) return FALSE;
+		RECT* r = (RECT*)lParam;
+		if (gFrameX < 0 || gFrameY < 0) UpdateFrameSize(hWnd);
+
+		int clientW = (r->right - r->left) - gFrameX;
+		int clientH = (r->bottom - r->top) - gFrameY;
+
+		switch (wParam) {
+		case WMSZ_LEFT: case WMSZ_RIGHT: case WMSZ_TOPLEFT: case WMSZ_TOPRIGHT:
+		case WMSZ_BOTTOMLEFT: case WMSZ_BOTTOMRIGHT:
+			// 横幅に合わせて高さを変える
+			r->bottom = r->top + (int)(clientW / gAspect + 0.5) + gFrameY;
+			break;
+		case WMSZ_TOP: case WMSZ_BOTTOM:
+			// 高さに合わせて横幅を変える
+			r->right = r->left + (int)(clientH * gAspect + 0.5) + gFrameX;
+			break;
+		}
+		return TRUE;
+	}
 
 	case WM_DESTROY:// ウィンドウ破棄のメッセージ
 		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
