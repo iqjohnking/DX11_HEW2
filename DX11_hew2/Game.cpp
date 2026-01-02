@@ -59,19 +59,42 @@ void Game::Draw()
 	// 描画前処理
 	Renderer::DrawStart();
 
-	for (auto& o : m_Instance->m_Objects) {
+	// 1) m_Objects から生描画リストを作成
+	std::vector<Object*> drawList;
+	drawList.reserve(m_Instance->m_Objects.size());
+	for (auto& up : m_Instance->m_Objects) {
+		drawList.push_back(up.get());
+	}
+	// 2) 手動描画順で安定ソート（同値は生成順を保持）
+	// 小さい順に描画される（背面→前面）
+
+	std::stable_sort(drawList.begin(), drawList.end(),
+		[](const Object* a, const Object* b) {
+			return a->GetDrawOrder() < b->GetDrawOrder();
+		});
+	// 3) 並び替えた順で描画
+	for (auto* o : drawList) {
 		o->Draw(&m_Instance->m_Camera);
 
+		// デバッグ描画は必要に応じてここで
+		// if (o->HasCollider()) { ... }
+	}
+
+
+	// 描画後処理
+	Renderer::DrawEnd();
+
+	/*
+	for (auto& o : m_Instance->m_Objects) {
+		o->Draw(&m_Instance->m_Camera);
 		//todo: デバッグ描画のON/OFF
 		//if (o->HasCollider()) {
 		//	//auto box = o->GetCollider();
 		//	//m_Instance->m_DebugDrawer.DrawAABB(box, &m_Instance->m_Camera);
 		//	//todo: 球体とかも描画
 		//}
-	}
+	}*/
 
-	// 描画後処理
-	Renderer::DrawEnd();
 }
 
 // 終了処理

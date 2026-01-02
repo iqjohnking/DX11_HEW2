@@ -40,6 +40,7 @@ public:
 	// Žè‚©‚ç”­ŽË‚·‚é‚Æ‚«‚ÉŒÄ‚Ô
 	void Fire(const DirectX::SimpleMath::Vector3& startPos,
 			  const DirectX::SimpleMath::Vector3& targetPos);
+	void reInit();
 
 	void SetStartPos(const DirectX::SimpleMath::Vector3& pos) { m_StartPos = pos; }
 	DirectX::SimpleMath::Vector3 GetStartPos() const { return m_StartPos; }

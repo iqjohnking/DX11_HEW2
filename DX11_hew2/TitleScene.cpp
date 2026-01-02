@@ -202,11 +202,17 @@ void TitleScene::Update()
 
 				auto* mayu = Game::GetInstance()->AddObject<EnemyMayu>();
 				// 生成位置は三角形の重心に配置（必要なら別ロジックに変更）
-				const Vector3 centroid = (A + B + C) / 3.0f;
+				Vector3 centroid = (A + B + C) / 3.0f;
 				mayu->SetPosition(centroid);
 				mayu->SetRadius(mayuRadius); // 半径設定（後述の連動対応が必要）
 				m_MySceneObjects.emplace_back(mayu);
 			}
+
+			for (int i = 0; i < 3; ++i)
+			{
+				m_SilkWalls[i]->reInit();
+			}
+
 		}
 	}
 }

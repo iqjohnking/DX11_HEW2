@@ -23,6 +23,8 @@ protected:
 	// 描画の為の情報（見た目に関わる部分）
 	Shader m_Shader; // シェーダー
 
+	int m_DrawOrder = 0;
+
 public:
 
 	virtual ~Object() {} //仮デストラクタ（※派生クラスのリソース解放のために必要）
@@ -49,4 +51,6 @@ public:
 	DirectX::SimpleMath::Vector3 GetScale() const { return m_Scale; }
 	void SetScale(DirectX::SimpleMath::Vector3 scale) { m_Scale = scale; }
 	
+	int  GetDrawOrder() const { return m_DrawOrder; }
+	void SetDrawOrder(int order) { m_DrawOrder = order; }
 };

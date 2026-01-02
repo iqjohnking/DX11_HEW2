@@ -29,6 +29,7 @@ void silkWall::Init()
 	m_Segment.start = m_StartPos;
 	m_Segment.end = m_StartPos;
 
+	SetDrawOrder(3);
 }
 
 void silkWall::Update()
@@ -69,25 +70,14 @@ void silkWall::Uninit()
 	m_Texture2D.Uninit();
 }
 
-////todo : sphereになる?
-//bool silkWall::CheckHit(const Collision::Sphere& sphere) const
-//{
-//	if (!isActive)
-//	{
-//		return false;
-//	}
-//	
-//	// bool CheckHit(const Segment& segment, const Sphere& sphere);
-//	return Collision::CheckHit(m_Segment, sphere);
-//}
-
-
 void silkWall::Fire(const Vector3& startPos, const Vector3& targetPos)
 {
+	isActive = true;
+	m_IsGrowing = true;
+
 	// 位置を設定（右手/左手の座標を渡す）
 	SetStartPos(startPos);
 	SetEndPos(targetPos);
-
 
 	SetPosition(m_StartPos); // 親クラスの位置も更新
 
@@ -104,9 +94,24 @@ void silkWall::Fire(const Vector3& startPos, const Vector3& targetPos)
 	Vector3 resetScale = Vector3(0.0f, GetScale().y, GetScale().z);
 	SetScale(resetScale);
 
-	isActive = true;
-	m_IsGrowing = true;
+	UpdateCollider();
+}
 
+void silkWall::reInit()
+{
+	// 場に影響しない状態へ
+	isActive = false;      // UpdateCollider() が長さ0にする
+	m_IsGrowing = false;     // 伸張停止
+	m_TargetLength = 0.0f;   // 任意: 目標長さもゼロに戻す（次回Fire時に再設定）
+
+	// 表示スケールのX（長さ）をゼロへ。Y/Zは太さ維持ならそのままでもOK
+	m_Scale.x = 0.0f;
+
+	// 親クラス側のTransformにも反映（描画の整合）
+	SetScale(Vector3(0.0f, GetScale().y, GetScale().z));
+	// 端点は保持する（m_StartPos/m_EndPos は削除しない）
+
+	// コライダ更新（isActive=false なので start=end になる）
 	UpdateCollider();
 }
 

@@ -28,6 +28,7 @@ void Shrinemaiden::Init()
 
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
+	SetDrawOrder(6);
 }
 
 void Shrinemaiden::Update()

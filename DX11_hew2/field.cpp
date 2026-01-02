@@ -14,7 +14,8 @@ void Field::Init()
 	//SetRepeatTexture(m_RepeatTexture::m_false);// 重複テクスチャを設定
 	//m_Texture2D.SetTexture("assets/texture/field.png");
 	m_Texture2D.SetTexture("assets/texture/ground.png");
-	m_Texture2D.SetPosition(m_Center.x, m_Center.y, 1); // Z順序を最後に
+	//m_Texture2D.SetPosition(m_Center.x, m_Center.y, 1); // Z順序を最後に
+	m_Texture2D.SetPosition(0.0f, 0.0f, 0.0f); 
 	m_Texture2D.SetRotation(0.0f, 0.0f, 0.0f);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);
 
@@ -24,12 +25,14 @@ void Field::Init()
 
 void Field::Update()
 {
-	m_Texture2D.Texture2D::Update();
+	//m_Texture2D.Texture2D::Update();
 }
 
 void Field::Draw(Camera* cam)
 {
 	DrawDebug(cam);
+
+	//m_Texture2D.Texture2D::SetPosition(Field::GetPosition()); // 親クラスの位置を反映
 	m_Texture2D.Texture2D::Draw(cam);
 }
 

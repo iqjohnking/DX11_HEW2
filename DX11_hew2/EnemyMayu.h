@@ -2,12 +2,13 @@
 #include "Enemy_base.h"
 #include "Texture2D.h"
 
-class EnemyMayu : public Enemy_base
+class EnemyMayu : public Object
 {
 protected:
 	Texture2D m_Texture2D;
 
-	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
+	Collision::Sphere m_Collider; // 当たり判定の為の情報
+	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 
 
 public:
@@ -16,9 +17,6 @@ public:
 	void Draw(Camera* cam) override;
 	void Uninit() override;
 
-	DirectX::SimpleMath::Vector3 GetDirectionXVelocity() const {
-		return m_direction * m_velocity;
-	}
-
-
+	float GetRadius() const { return m_Radius; }
+	void SetRadius(float radius) { m_Radius = radius; }
 };

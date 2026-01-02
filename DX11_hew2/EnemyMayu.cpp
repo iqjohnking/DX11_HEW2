@@ -9,15 +9,6 @@ using namespace DirectX::SimpleMath;
 
 void EnemyMayu::Init()
 {
-	SetMinSpeed(0.0f);		// 移動しない
-	SetTargetSpeed(0.0f);   // 移動しない
-	SetMaxSpeed(0.0f);      // 移動しない
-	SetAcceleration(0.00f); // 移動しない
-	SetVelocity(0.0f);      // 移動しない
-	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
-	SetIsAlive(true);
-	SetRadius(25.0f);
-
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
@@ -27,6 +18,7 @@ void EnemyMayu::Init()
 	m_Texture2D.SetScale(m_Radius * 4, m_Radius * 4, 0); //初期値0,0,0//外で変える
 	m_Collider.center = GetPosition();		// 初期値0,0,0//外で変える
 	m_Collider.radius = GetRadius();		// 初期値0,0,0//外で変える
+	SetDrawOrder(2);
 }
 
 void EnemyMayu::Update()
@@ -43,7 +35,8 @@ void EnemyMayu::Update()
 
 void EnemyMayu::Draw(Camera* cam)
 {
-	m_Texture2D.SetPosition(GetPosition());
+	//Vector3 drawPos = Vector3 (m_Position.x, m_Position.y, m_Position.z);
+	m_Texture2D.SetPosition(m_Position);
 	m_Texture2D.SetScale(m_Radius * 4, m_Radius * 4, 0);
 	m_Texture2D.Draw(cam);
 }

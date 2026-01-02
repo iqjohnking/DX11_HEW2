@@ -28,6 +28,8 @@ void Enemy1::Init()
 
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
+
+	SetDrawOrder(4);
 }
 
 void Enemy1::Update()

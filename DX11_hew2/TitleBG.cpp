@@ -14,6 +14,8 @@ void TitleBG::Init()
 	SetRotation(0.0f, 0.0f, 0.0f);
 	// ‘å‚«‚³‚ðŽw’è
 	SetScale(1920, 1080, 0.0f);
+
+	SetDrawOrder(0);
 }
 void TitleBG::Update()
 {

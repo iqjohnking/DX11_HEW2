@@ -58,7 +58,7 @@ void playerHand::Init()
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(100.0f, 50.0f, 0.0f);
 
-
+	SetDrawOrder(2);
 }
 
 void playerHand::Update()
