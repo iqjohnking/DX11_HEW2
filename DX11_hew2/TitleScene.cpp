@@ -66,6 +66,9 @@ void TitleScene::Init()
 // 更新
 void TitleScene::Update()
 {
+	//-----------------------------------------------------------------------------
+	// 操作／INPUT
+	//-----------------------------------------------------------------------------
 	// エンターキーを押してステージ1へ
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
@@ -140,8 +143,42 @@ void TitleScene::Update()
 		if (!wall) continue;              // 防禦性チェック
 	}
 
-	// 当たり判定処理
+	//-----------------------------------------------------------------------------
+	// silkWallの三角形判定
+	//-----------------------------------------------------------------------------
+	Vector3 A, B, C; // 三角形頂点
 
+	silkWall* walls[3] = { m_SilkWalls[0], m_SilkWalls[1], m_SilkWalls[2] };
+
+	const bool allReady = std::all_of(std::begin(walls), std::end(walls),
+		[](const silkWall* w) { return w && !w->IsGrowing(); });
+
+
+	// nullptr チェックのみ（就緒判定は行わない）
+	if (allReady)
+	{
+		// 3 本の silkWall から三角形生成を試行
+		if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
+		{
+			// 成功：A,B,C が三角形頂点
+			for (auto* obj : m_MySceneObjects)
+			{
+				auto* enemy = dynamic_cast<Enemy_base*>(obj);
+				if (!enemy) continue;
+
+				const auto pos = enemy->GetPosition();
+				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
+				{
+					// 敵が三角形内部 → 効果を適用（プロジェクトのインターフェイスに合わせて置換）
+					// enemy->TakeDamage(10.0f);
+					enemy->SetIsActive(false); // とりあえず非アクティブ化
+					
+						
+				}
+			}
+		}
+		// false の場合は三角形が構成できなかった（平行／交差なし／面積ゼロなど）
+	}
 
 
 

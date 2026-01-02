@@ -49,6 +49,9 @@
     <Filter Include="ソース ファイル\test">
       <UniqueIdentifier>{e52e8750-be70-4674-8e79-13f0c4d758f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\math_collision">
+      <UniqueIdentifier>{95dd6054-31a9-475e-85d0-d02a5ba2c783}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -96,9 +99,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
@@ -144,6 +144,15 @@
     <ClCompile Include="TestPlane.cpp">
       <Filter>ソース ファイル\test</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyMayu.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\math_collision</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleSilk.cpp">
+      <Filter>ソース ファイル\math_collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -175,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>ヘッダー ファイル\obj</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="AssimpPerse.h">
       <Filter>ヘッダー ファイル\lib</Filter>
@@ -271,6 +277,15 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMayu.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleSilk.h">
+      <Filter>ソース ファイル\math_collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\math_collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

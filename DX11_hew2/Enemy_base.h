@@ -36,6 +36,7 @@ public:
 	void SetField(Field* field) { m_Field = field; };
 
 	float GetRadius() const { return m_Radius; }
+	void SetRadius(float radius) { m_Radius = radius; }
 	Collision::Sphere& GetCollider() { return m_Collider; }
 	const Collision::Sphere& GetCollider() const { return m_Collider; }
 

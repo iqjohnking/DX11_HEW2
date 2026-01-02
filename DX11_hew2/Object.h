@@ -32,7 +32,7 @@ public:
 	virtual void Draw(Camera* cam) = 0;
 	virtual void Uninit() = 0;
 
-	virtual bool HasCollider() const { return false; }
+	//virtual bool HasCollider() const { return false; }
 
 	// getter setter
 	ObjectType GetType() const { return m_Type; }

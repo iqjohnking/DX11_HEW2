@@ -12,7 +12,8 @@ void Field::Init()
 	// テクスチャ設定
 	m_Texture2D.Texture2D::Init();// 親クラス的初始化
 	//SetRepeatTexture(m_RepeatTexture::m_false);// 重複テクスチャを設定
-	m_Texture2D.SetTexture("assets/texture/field.png");
+	//m_Texture2D.SetTexture("assets/texture/field.png");
+	m_Texture2D.SetTexture("assets/texture/ground.png");
 	m_Texture2D.SetPosition(m_Center);
 	m_Texture2D.SetRotation(0.0f, 0.0f, 0.0f);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);

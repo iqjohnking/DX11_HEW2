@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Collision.h"
+#include "TriangleSilk.h"
 
 #include "Texture2D.h"
 #include "TitleBG.h"

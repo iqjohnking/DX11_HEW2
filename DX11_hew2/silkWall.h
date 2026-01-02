@@ -32,7 +32,7 @@ public:
 	void Draw(Camera* cam) override;
 	void Uninit() override;
 
-	bool HasCollider() const override { return true; }
+	//bool HasCollider() const override { return true; }
 	
 	const Collision::Segment& GetSegment() const { return m_Segment; }
 	//bool CheckHit(const Collision::Sphere& sphere) const;
