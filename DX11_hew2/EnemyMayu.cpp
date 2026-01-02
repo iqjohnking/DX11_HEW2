@@ -35,6 +35,7 @@ void EnemyMayu::Update()
 	// IsActive = false ‚Ìê‡‚Í‚¢‚È‚¢‚¯‚Ç
 	if (isActive)
 	{
+		//“–‚½‚è”»’èXV
 		m_Collider.center = GetPosition();
 		m_Collider.radius = GetRadius();
 	}
@@ -43,16 +44,11 @@ void EnemyMayu::Update()
 void EnemyMayu::Draw(Camera* cam)
 {
 	m_Texture2D.SetPosition(GetPosition());
-	//m_Texture2D.SetScale(m_Radius * 4, m_Radius * 4, 0);
+	m_Texture2D.SetScale(m_Radius * 4, m_Radius * 4, 0);
 	m_Texture2D.Draw(cam);
 }
 
 void EnemyMayu::Uninit()
 {
 	m_Texture2D.Uninit();
-}
-
-void Enemy1::move()
-{
-	
 }

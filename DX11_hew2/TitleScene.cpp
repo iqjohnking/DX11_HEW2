@@ -24,10 +24,11 @@ void TitleScene::Init()
 	// 背景
 	auto* bg  = Game::GetInstance()->AddObject<TitleBG>();
 	m_MySceneObjects.emplace_back(bg);
+	bg->Texture2D::SetPosition(0.0f, 0.0f, 2.0f); // Z順序を最後に
+
 	// FIELD
 	m_Field = Game::GetInstance()->AddObject<Field>();
 	m_MySceneObjects.emplace_back(m_Field);
-
 
 	// silkWall*3
 	for (int i = 0; i < 3; ++i)
@@ -35,6 +36,7 @@ void TitleScene::Init()
 		m_SilkWalls[i] = Game::GetInstance()->AddObject<silkWall>();
 		m_MySceneObjects.emplace_back(m_SilkWalls[i]);
 	}
+
 
 	// 左手（W / S ）
 	m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
@@ -150,6 +152,7 @@ void TitleScene::Update()
 
 	silkWall* walls[3] = { m_SilkWalls[0], m_SilkWalls[1], m_SilkWalls[2] };
 
+	// 3 本とも準備完了しているか？
 	const bool allReady = std::all_of(std::begin(walls), std::end(walls),
 		[](const silkWall* w) { return w && !w->IsGrowing(); });
 
@@ -158,9 +161,13 @@ void TitleScene::Update()
 	if (allReady)
 	{
 		// 3 本の silkWall から三角形生成を試行
+		// false の場合は三角形が構成できなかった（平行／交差なし／面積ゼロなど）
 		if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
 		{
-			// 成功：A,B,C が三角形頂点
+			int eliminatedCount = 0;
+			std::vector<Object*> toRemove; // 倒す予定リスト
+
+			// 敵を調べて、三角形内にいるやつを倒す予定リストに格納する
 			for (auto* obj : m_MySceneObjects)
 			{
 				auto* enemy = dynamic_cast<Enemy_base*>(obj);
@@ -169,20 +176,39 @@ void TitleScene::Update()
 				const auto pos = enemy->GetPosition();
 				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
 				{
-					// 敵が三角形内部 → 効果を適用（プロジェクトのインターフェイスに合わせて置換）
-					// enemy->TakeDamage(10.0f);
-					enemy->SetIsActive(false); // とりあえず非アクティブ化
-					
-						
+					toRemove.push_back(obj);
+					++eliminatedCount;
 				}
 			}
+
+			// 倒す予定の敵を削除する
+			//アニメーションの追加する必要あるか？
+			for (auto* obj : toRemove)
+			{
+				Game::GetInstance()->DeleteObject(obj);
+				auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+				if (it != m_MySceneObjects.end())
+				{
+					m_MySceneObjects.erase(it);
+				}
+			}
+
+			if (eliminatedCount > 0)
+			{
+				// 半径の設計例：基準 25 + 1体ごとに +5
+				const float baseRadius = 25.0f;
+				const float perKill = 5.0f;
+				const float mayuRadius = baseRadius + perKill * static_cast<float>(eliminatedCount);
+
+				auto* mayu = Game::GetInstance()->AddObject<EnemyMayu>();
+				// 生成位置は三角形の重心に配置（必要なら別ロジックに変更）
+				const Vector3 centroid = (A + B + C) / 3.0f;
+				mayu->SetPosition(centroid);
+				mayu->SetRadius(mayuRadius); // 半径設定（後述の連動対応が必要）
+				m_MySceneObjects.emplace_back(mayu);
+			}
 		}
-		// false の場合は三角形が構成できなかった（平行／交差なし／面積ゼロなど）
 	}
-
-
-
-
 }
 
 // 終了処理
