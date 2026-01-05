@@ -19,8 +19,11 @@ void Field::Init()
 	m_Texture2D.SetRotation(0.0f, 0.0f, 0.0f);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);
 
+
 	// 16 •Ó‚Ì‰~Œ`ê’n‹«ŠE‚ğ¶¬
 	BuildBorder(m_Center, m_Radius, 16);
+
+	SetDrawOrder(1);
 }
 
 void Field::Update()

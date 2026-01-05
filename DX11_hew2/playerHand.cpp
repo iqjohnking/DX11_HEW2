@@ -23,9 +23,16 @@ playerHand::playerHand(int side)
 void playerHand::Init()
 {
 	// フィールド情報の取得//外でやるべきかも
-	m_Field = Game::GetInstance()->AddObject<Field>();
+	auto w_Field = Game::GetInstance()->GetObjects<Field>();
+	if (w_Field.size() > 0) {
+		this->m_Field = w_Field[0];
+	}
+	else {
+		return; // error
+	}
+
 	SetFieldCenter(m_Field->GetCenter());
-	SetRadius(m_Field->GetRadius() + 50.f );
+	SetRadius(m_Field->GetRadius() + 50.f);
 	Vector3 initScale = Vector3(100.0f, 50.0f, 0.0f);
 	SetScale(initScale);
 

@@ -53,6 +53,7 @@ public:
 		m_AnotherHand = anotherHand;
 	}
 
+	void SetField(Field* field) { m_Field = field; };
 };
 
 

@@ -47,7 +47,9 @@ void TitleScene::Init()
 	m_MySceneObjects.emplace_back(m_HandR);
 
 	m_HandL->SetAnotherHand(m_HandR);
+	m_HandL->SetField(m_Field);
 	m_HandR->SetAnotherHand(m_HandL);
+	m_HandR->SetField(m_Field);
 
 	////巫女
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
@@ -71,12 +73,7 @@ void TitleScene::Update()
 	//-----------------------------------------------------------------------------
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
-	// エンターキーを押してステージ1へ
-	if (Input::GetKeyTrigger(VK_RETURN))
-	{
-		Game::GetInstance()->ChangeScene(STAGE1);
-	}
-	//
+
 	if (Input::GetKeyTrigger('D'))   // 
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
@@ -214,6 +211,14 @@ void TitleScene::Update()
 			}
 
 		}
+	}
+
+	// エンターキーを押してステージ1へ
+	if (Input::GetKeyTrigger(VK_RETURN))
+	{
+		Game::GetInstance()->ChangeScene(STAGE1);
+
+		return;
 	}
 }
 
