@@ -25,6 +25,7 @@ void Shrinemaiden::Init()
 	m_Texture2D.SetPosition(m_Position);
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);
+	//m_Texture2D.SetFlipX(1); // ç∂âEîΩì]
 
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;

@@ -4,10 +4,12 @@
 #include "IndexBuffer.h"
 #include "Texture.h"
 #include "Material.h"
+
+#include <string>
 //#include "Collision.h"
 
 static constexpr float	TWO_PI = 6.283185307f;
-static constexpr float		PI = 3.1415926535;
+static constexpr float		PI = 3.1415926535f;
 
 enum class m_RepeatTexture
 {
@@ -23,19 +25,16 @@ enum class m_RepeatTexture
 class Texture2D : public Object
 {
 private:
-	// 頂点データ
-	std::vector<VERTEX_3D> m_Vertices;
-
-	// インデックスデータ
-	std::vector<unsigned int> m_Indices;
+	std::vector<VERTEX_3D> m_Vertices;		// 頂点データ
+	std::vector<unsigned int> m_Indices;	// インデックスデータ
 
 	// 描画の為の情報（メッシュに関わる情報）
-	IndexBuffer m_IndexBuffer; // インデックスバッファ
+	IndexBuffer m_IndexBuffer;				// インデックスバッファ
 	VertexBuffer<VERTEX_3D> m_VertexBuffer; // 頂点バッファ
 
 	// 描画の為の情報（見た目に関わる部分）
-	Texture m_Texture; // テクスチャ
-	std::unique_ptr<Material> m_Material; //マテリアル
+	Texture m_Texture;						// テクスチャ
+	std::unique_ptr<Material> m_Material;	//マテリアル
 
 	// UV座標の情報
 	float m_NumU = 1;
@@ -48,6 +47,9 @@ private:
 
 	// ピボット（モデルローカル座標、既定は原点）
 	DirectX::SimpleMath::Vector3 m_Pivot = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
+
+	// 左右反転フラグ
+	bool m_FlipX = false;
 
 public:
 	void Init();				
@@ -88,5 +90,7 @@ public:
 
 	//繰り返し設定
 	void SetRepeatTexture(m_RepeatTexture state) { repeatState = state; }
+	void SetFlipX(bool flip) { m_FlipX = flip; }
+	bool IsFlipX() const { return m_FlipX; }
 };
 
