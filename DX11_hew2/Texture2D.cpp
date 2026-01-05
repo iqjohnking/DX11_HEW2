@@ -56,7 +56,40 @@ void Texture2D::Init()
 //=======================================
 void Texture2D::Update()
 {
+	if (m_AnimEnabled && m_CurrentClipIndex >= 0)
+	{
+		AnimClip& clip = m_AnimClips[m_CurrentClipIndex];
 
+
+		m_AnimTimer += 1;
+
+		if (m_AnimTimer >= clip.holdFrames)
+		{
+			m_AnimTimer = 0;
+			m_AnimFrame++;
+
+			if (m_AnimFrame > clip.endFrame)
+			{
+				m_AnimFrame = clip.startFrame;
+			}
+		}
+
+		// -----------------------------
+		// ƒtƒŒ[ƒ€”Ô† ¨ UV ŒvZ
+		// -----------------------------
+		int col = m_AnimFrame % m_AnimCols;
+		int row = m_AnimFrame / m_AnimCols;
+
+		int cellX = col + 1;
+		int cellY = row + 1;
+
+		SetUV(
+			static_cast<float>(cellX),        // m_NumU
+			static_cast<float>(cellY),        // m_NumV
+			static_cast<float>(m_AnimCols),   // m_SplitX
+			static_cast<float>(m_AnimRows)    // m_SplitY
+		);
+	}
 }
 
 //=======================================
@@ -218,4 +251,75 @@ void Texture2D::SetUV(const float& nu, const float& nv, const float& sx, const f
 	m_NumV = nv;
 	m_SplitX = sx; // X•ûŒü‚Ì•ªŠ„”
 	m_SplitY = sy; // Y•ûŒü‚Ì•ªŠ„”
+}
+
+void Texture2D::SetSpriteSheet(int cols, int rows)
+{
+	if (cols <= 0 || rows <= 0)
+		return;
+
+	m_AnimCols = cols;
+	m_AnimRows = rows;
+
+}
+
+void Texture2D::AddAnimClip(const std::string& name, int startFrame, int endFrame, int holdFrames)
+{
+	if (startFrame < 0 || endFrame < startFrame || holdFrames <= 0.0f)
+		return;
+
+	AnimClip clip;
+	clip.name = name;
+	clip.startFrame = startFrame;
+	clip.endFrame = endFrame;
+	clip.holdFrames = holdFrames;
+
+	m_AnimClips.push_back(clip);
+}
+
+void Texture2D::PlayAnim(const std::string& name)
+{
+	if (m_CurrentClipIndex >= 0 &&
+		m_AnimClips[m_CurrentClipIndex].name == name)
+	{
+		return;
+	}
+	for (size_t i = 0; i < m_AnimClips.size(); ++i)
+	{
+		if (m_AnimClips[i].name == name)
+		{
+			m_CurrentClipIndex = static_cast<int>(i);
+
+			const AnimClip& clip = m_AnimClips[m_CurrentClipIndex];
+
+			m_AnimFrame = clip.startFrame;
+			m_AnimTimer = 0.0f;
+			m_AnimEnabled = true;
+
+			return;
+		}
+	}
+}
+
+void Texture2D::StopAnimation()
+{
+	m_AnimEnabled = false;
+	m_CurrentClipIndex = -1;
+	m_AnimFrame = 0;
+	m_AnimTimer = 0.0f;
+}
+
+void Texture2D::PauseAnimation(bool pause)
+{
+	if (pause)
+	{
+		m_AnimEnabled = false;
+	}
+	else
+	{
+		if (m_CurrentClipIndex >= 0)
+		{
+			m_AnimEnabled = true;
+		}
+	}
 }

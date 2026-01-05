@@ -21,7 +21,8 @@ void Shrinemaiden::Init()
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/miko.png");
+	//m_Texture2D.SetTexture("assets/texture/miko.png");
+	m_Texture2D.SetTexture("assets/texture/mikoanime.png");
 	m_Texture2D.SetPosition(m_Position);
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0.0f);
@@ -30,11 +31,28 @@ void Shrinemaiden::Init()
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
 	SetDrawOrder(6);
+
+	//animation 設定
+	m_Texture2D.SetSpriteSheet(2,2);
+	m_Texture2D.AddAnimClip("idle", 0, 1, 10);
+	m_Texture2D.AddAnimClip("yowa", 2, 3, 10);
+
+	m_Texture2D.PlayAnim("idle");
 }
 
 void Shrinemaiden::Update()
 {
 	move();
+
+	m_Texture2D.Update();//アニメーション更新
+	if (m_velocity < 1.0f)
+	{
+		m_Texture2D.PlayAnim("yowa");
+	}
+	else {
+		m_Texture2D.PlayAnim("idle");
+	}
+
 
 	m_Collider.center = GetPosition();
 }
