@@ -41,6 +41,7 @@ void EnemyMayu::Update()
 		return;
 	}
 
+	// 1)絹の糸当たり判定
 	vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
 	for (auto w : silkWalls)
 	{
@@ -55,19 +56,38 @@ void EnemyMayu::Update()
 		}
 	}
 
-	if (isExploding) {
-		explodeTimer++;
-	}
 
-	if(explodeTimer > 60) {
+	// 2)消滅判定
+	if (explodeTimer > 60) {
 		toBeDeleted = true; //消滅
 	}
 
-	//当たり判定更新
+	// 3)当たり判定更新
 	m_Collider.center = GetPosition();
 	m_Collider.radius = GetRadius();
 
-	m_Texture2D.Update();//アニメーション更新
+
+	// 4)enemysとの衝突判定処理
+	if (isExploding) {
+		explodeTimer++;
+
+		auto enemys = Game::GetInstance()->GetObjects<Enemy_base>();
+		for (auto* e : enemys)
+		{
+			if (!e) continue;
+
+			// すでに減速中ならスキップ（衝突判定もしない）
+			if (e->GetIsSpdDown()) continue;
+
+			if (Collision::CheckHit(e->GetCollider(), m_Collider))
+			{
+				e->SetIsSpdDown(true);
+			}
+		}
+	}
+
+	// 5)アニメーション更新
+	m_Texture2D.Update();
 }
 
 void EnemyMayu::Draw(Camera* cam)

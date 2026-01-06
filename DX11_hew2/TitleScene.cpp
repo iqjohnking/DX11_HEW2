@@ -220,7 +220,6 @@ void TitleScene::Update()
 
 	//MAYUのなかにいるから、こちはなにもしない
 
-
 	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
 	{
 		Object* o = *it; // オブジェクト取得

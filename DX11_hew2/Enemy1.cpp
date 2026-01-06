@@ -40,8 +40,6 @@ void Enemy1::Update()
 	{
 		move();	
 		
-
-
 		m_Collider.center = GetPosition();
 	}
 }
@@ -73,12 +71,6 @@ void Enemy1::move()
 		m_direction /= len;
 
 		// 速度調整
-		//float t = std::clamp(len / m_maxDist, 0.0f, 1.0f);
-		//t *= t;
-		//float spdOffset = m_minSpeed + (m_maxSpeed - m_minSpeed) * t;
-		//float mikoSpeed = m_Miko->GetVelocity();
-		//SetMaxSpeed(mikoSpeed * 1.005f);
-		//m_TargetSpeed = std::clamp(mikoSpeed * spdOffset, m_minSpeed, m_maxSpeed);
 		if (m_velocity < m_TargetSpeed) {
 			m_velocity += m_acceleration;
 			if (m_velocity > m_TargetSpeed) {
@@ -91,6 +83,11 @@ void Enemy1::move()
 				m_velocity = m_TargetSpeed;
 			}
 		}
+		// 速度低下中なら減速
+		if (isSpdDown) {
+			m_velocity *= 0.9f;
+		}
+
 
 		// 2) 敵同士の分離ステアリングを加算
 		{
@@ -145,7 +142,7 @@ void Enemy1::move()
 		if (m_velocity < 0) m_velocity = 0;
 	}
 
-	// 3) フィールド外に出ないようにする（既存）
+	// 3) フィールド外に出ないようにする
 	Vector3 vel = GetDirectionXVelocity();
 	bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Collider.radius);
 	if (isRunintoWall) {
@@ -154,7 +151,7 @@ void Enemy1::move()
 		stunTimer = 60.f;
 	}
 
-	// 5) 絹の壁との衝突判定
+	// 4) 絹の壁との衝突判定
 	vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
 	for (auto w : silkWalls)
 	{
@@ -172,12 +169,11 @@ void Enemy1::move()
 		}
 	}
 
-	// 4) 新しい位置
+	// 5) 新しい位置
 	target_pos = now_pos + (m_direction * m_velocity);
 	SetPosition(target_pos);
 
 	
-
 	//float angleRad = atan2f(m_direction.y, m_direction.x);
 	//m_Texture2D.SetRotationRad(0.0f, 0.0f, angleRad);
 }

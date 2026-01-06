@@ -17,6 +17,8 @@ protected:
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 	float m_maxDist = 500.0f; // アクションパタンが変化する距離（調整用）
 
+	bool isSpdDown = false; //速度低下中かどうか
+
 	//巫女
 	Shrinemaiden* m_Miko = nullptr;
 	Field* m_Field = nullptr;	
@@ -35,10 +37,15 @@ public:
 	//void SetTarget(Shrinemaiden& sh) { m_Miko = &sh; }; // 参照渡し版
 	void SetField(Field* field) { m_Field = field; };
 
+
 	float GetRadius() const { return m_Radius; }
 	void SetRadius(float radius) { m_Radius = radius; }
 	Collision::Sphere& GetCollider() { return m_Collider; }
 	const Collision::Sphere& GetCollider() const { return m_Collider; }
 
+
+
+	void SetIsSpdDown(bool isDown) { isSpdDown = isDown; };
+	bool GetIsSpdDown() const { return isSpdDown; };
 
 };
