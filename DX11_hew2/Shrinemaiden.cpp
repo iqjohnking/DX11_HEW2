@@ -51,6 +51,7 @@ void Shrinemaiden::Update()
 	}
 	else {
 		m_Texture2D.PlayAnim("idle");
+		//m_Texture2D.StopAnimation();
 	}
 
 

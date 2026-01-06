@@ -12,6 +12,7 @@ protected:
 
 	ObjectType m_Type = ObjectType::NONE; // オブジェクトの種類 //今は使ってない
 	bool isActive = true;            // 活性状態かどうか
+	bool toBeDeleted = false;      // 削除予定かどうか//今は使ってない
 
 	// SRT情報（姿勢情報）
 	DirectX::SimpleMath::Vector3 m_Position = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
@@ -41,6 +42,8 @@ public:
 	void SetType(ObjectType type) { m_Type = type; }
 	bool IsActive() const { return isActive; }
 	void SetIsActive(bool isAct) { isActive = isAct; }
+
+	bool ToBeDeleted() const { return toBeDeleted; }
 
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
 	void SetPosition(DirectX::SimpleMath::Vector3 position) { m_Position = position; }

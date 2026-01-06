@@ -47,9 +47,9 @@ void TitleScene::Init()
 	m_MySceneObjects.emplace_back(m_HandR);
 
 	m_HandL->SetAnotherHand(m_HandR);
-	m_HandL->SetField(m_Field);
+	//m_HandL->SetField(m_Field);
 	m_HandR->SetAnotherHand(m_HandL);
-	m_HandR->SetField(m_Field);
+	//m_HandR->SetField(m_Field);
 
 	////巫女
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
@@ -114,7 +114,7 @@ void TitleScene::Update()
 	{
 		std::vector<Object*> removeList;
 
-		//Enemy1を探す
+		//Enemyを探す
 		for (auto* obj : m_MySceneObjects)
 		{
 			if (dynamic_cast<Enemy_base*>(obj))
@@ -213,7 +213,31 @@ void TitleScene::Update()
 		}
 	}
 
+
+	//-----------------------------------------------------------------------------
+	// silkWall と　mayu の当たり判定
+	//-----------------------------------------------------------------------------
+
+	//MAYUのなかにいるから、こちはなにもしない
+
+
+	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+	{
+		Object* o = *it; // オブジェクト取得
+		if (!o || o->ToBeDeleted())
+		{
+			Game::GetInstance()->DeleteObject(o); // オブジェクト削除
+			it = m_MySceneObjects.erase(it); // イテレータを更新
+		}
+		else
+		{
+			++it; // 次へ
+		}
+	}
+
+	//-----------------------------------------------------------------------------
 	// エンターキーを押してステージ1へ
+	//-----------------------------------------------------------------------------
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
 		Game::GetInstance()->ChangeScene(STAGE1);
