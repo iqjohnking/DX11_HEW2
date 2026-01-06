@@ -145,7 +145,38 @@ void silkWall::UpdateCollider()
 	if (curLength < 0.0f)  curLength = -curLength;
 	if (curLength > m_TargetLength) curLength = m_TargetLength;
 
-	// 牆的線分：從手的位置開始，沿著 dir 延伸 curLength
-	m_Segment.start = m_StartPos;
-	m_Segment.end	= m_StartPos + dir * curLength;
+	// ------------------------------
+	// 判定用に両端を延長する
+	// ------------------------------
+	// ゲームスケールに合わせて調整（例: 20?40）
+	const float extendLen = 100.0f;
+
+	// 実際の線分の有効長さ（スタート?ターゲット）
+	const float maxLength = m_TargetLength;
+
+	// 片側 extendLen ずつ延長したいので、両端で合計 2*extendLen 長くなる。
+	// ただし元の start から target を超えないようにクランプ。
+	float extra = extendLen;
+	if (curLength + 2.0f * extendLen > maxLength)
+	{
+		// 収まりきらない場合、両端の延長量を等しく縮める
+		float remain = maxLength - curLength;
+		if (remain <= 0.0f)
+		{
+			extra = 0.0f;
+		}
+		else
+		{
+			extra = remain * 0.5f;
+		}
+	}
+
+	// 判定用の start/end を計算
+	// start を「後ろ側」に、end を「前側」に延ばす
+	Vector3 collStart = m_StartPos - dir * extra;
+	Vector3 collEnd = m_StartPos + dir * (curLength + extra);
+
+	// コライダ更新
+	m_Segment.start = collStart;
+	m_Segment.end	= collEnd;
 }
