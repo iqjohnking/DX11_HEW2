@@ -10,7 +10,7 @@ using namespace DirectX::SimpleMath;
 void Enemy1::Init()
 {
 	SetMinSpeed(0.0f);
-	SetTargetSpeed(2.1f);   // 
+	SetTargetSpeed(1.3f);   // 
 	SetMaxSpeed(2.5f);      // 
 	SetAcceleration(0.05f); // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
 	SetVelocity(0.0f);      // 初速ゼロ

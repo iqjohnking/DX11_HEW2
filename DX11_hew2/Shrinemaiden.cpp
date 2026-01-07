@@ -13,6 +13,7 @@ void Shrinemaiden::Init()
 	SetTargetSpeed(1.0f);   // 
 	SetMaxSpeed(2.5f);      // 最高速度
 	SetAcceleration(0.08f); // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
+	SetSerchDistance(200.f);
 	SetVelocity(0.0f);      // 初速ゼロ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
 	SetIsAlive(true);
@@ -33,7 +34,7 @@ void Shrinemaiden::Init()
 	SetDrawOrder(6);
 
 	//animation 設定
-	m_Texture2D.SetSpriteSheet(2,2);
+	m_Texture2D.SetSpriteSheet(2, 2);
 	m_Texture2D.AddAnimClip("idle", 0, 1, 10);
 	m_Texture2D.AddAnimClip("yowa", 2, 3, 10);
 
@@ -81,9 +82,11 @@ void Shrinemaiden::move()
 	vector<Enemy_base*> enemies = Game::GetInstance()->GetObjects<Enemy_base>();
 	if (m_wallSlideTimer <= 0.0f)
 	{
-		for (auto e : enemies)
+		for (auto& e : enemies)
 		{
 			if (!e || !e->GetIsAlive()) continue;
+
+			if ((e->GetPosition() - now_pos).LengthSquared() > m_serchDistance * m_serchDistance) continue;
 
 			Vector3 fromEnemy = now_pos - e->GetPosition();
 			float distSq = fromEnemy.LengthSquared();
@@ -98,7 +101,7 @@ void Shrinemaiden::move()
 			SetDirection(escapeDir);
 
 			float v = m_velocity + m_acceleration;
-			if (v > m_maxSpeed) v = m_maxSpeed;
+			if (v > GetTargetSpeed())v = GetTargetSpeed();
 			SetVelocity(v);
 		}
 		else

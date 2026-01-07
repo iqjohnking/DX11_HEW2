@@ -22,7 +22,7 @@ protected:
 	Collision::Sphere m_Collider; // “–‚½‚è”»’è‚Ìˆ×‚Ìî•ñ
 	float m_Radius = 25.0f; // SetScale(50,50,0) ‚È‚Ì‚Å”¼Œa 25 ‚­‚ç‚¢
 
-	float m_serchDistance = 500.0f; //“G‚ğ’T‚·‹——£
+	float m_serchDistance = 100.0f; //“G‚ğ’T‚·‹——£
 	float m_deceleration  = 0.2f;	//”ÍˆÍ“à‚É“G‚ª‚¢‚È‚­‚È‚Á‚½‚çŒ¸‘¬‚·‚é‘¬“x
 	float m_stop_speed    = 0.001f;	//‚±‚Ì‘¬“xˆÈ‰º‚É‚È‚é‚Æ’â~‚·‚é
 
@@ -49,6 +49,7 @@ public:
 
 	void SetField(Field* field) { m_Field = field; };
 	void SetHitBorder(bool hit) { hitBorder = hit; };
+	void SetSerchDistance (float dist) { m_serchDistance = dist;};
 
 	
 };

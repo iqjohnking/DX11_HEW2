@@ -2,6 +2,8 @@
 
 Input* Input::m_Instance = {};
 
+
+
 void Input::Create()
 {
 	if (m_Instance)return;
@@ -20,7 +22,20 @@ void Input::Update()
 	BOOL hr = GetKeyboardState(m_Instance->keyState);
 
 	//コントローラー入力を更新(XInput)
-	XInputGetState(0, &(m_Instance->controllerState));
+	//XInputGetState(0, &(m_Instance->controllerState));
+	DWORD result = XInputGetState(0, &m_Instance->controllerState);
+
+	if (result == ERROR_SUCCESS)
+	{
+		// コントローラー接続中
+		m_Instance->isControllerConnected = true;
+	}
+	else
+	{
+		// 未接続：ゴミ値を使わないようにクリア
+		m_Instance->isControllerConnected = false;
+		ZeroMemory(&m_Instance->controllerState, sizeof(XINPUT_STATE));
+	}
 
 	//振動継続時間をカウント
 	if (m_Instance->VibrationTime > 0) {
@@ -69,24 +84,39 @@ bool Input::GetKeyRelease(int key) //リリース
 //左アナログスティック
 DirectX::XMFLOAT2 Input::GetLeftAnalogStick(void)
 {
-	SHORT x = m_Instance->controllerState.Gamepad.sThumbLX; // -32768～32767
-	SHORT y = m_Instance->controllerState.Gamepad.sThumbLY; // -32768～32767
+	SHORT x = m_Instance->controllerState.Gamepad.sThumbLX;
+	SHORT y = m_Instance->controllerState.Gamepad.sThumbLY;
 
 	DirectX::XMFLOAT2 res;
-	res.x = x / 32767.0f; //-1～1
-	res.y = y / 32767.0f; //-1～1
+	res.x = ApplyDeadZone(x, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	res.y = ApplyDeadZone(y, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	return res;
+	//SHORT x = m_Instance->controllerState.Gamepad.sThumbLX; // -32768～32767
+	//SHORT y = m_Instance->controllerState.Gamepad.sThumbLY; // -32768～32767
+	//
+	//DirectX::XMFLOAT2 res;
+	//res.x = x / 32767.0f; //-1～1
+	//res.y = y / 32767.0f; //-1～1
+	//return res;
 }
 //右アナログスティック
 DirectX::XMFLOAT2 Input::GetRightAnalogStick(void)
 {
 	SHORT x = m_Instance->controllerState.Gamepad.sThumbRX; // -32768～32767
 	SHORT y = m_Instance->controllerState.Gamepad.sThumbRY; // -32768～32767
-
+	
 	DirectX::XMFLOAT2 res;
 	res.x = x / 32767.0f; //-1～1
 	res.y = y / 32767.0f; //-1～1
 	return res;
+
+	//SHORT x = m_Instance->controllerState.Gamepad.sThumbRX;
+	//SHORT y = m_Instance->controllerState.Gamepad.sThumbRY;
+	//
+	//DirectX::XMFLOAT2 res;
+	//res.x = ApplyDeadZone(x, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	//res.y = ApplyDeadZone(y, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	//return res;
 }
 
 //左トリガー
@@ -132,3 +162,8 @@ void Input::SetVibration(int frame, float powor)
 	m_Instance->VibrationTime = frame;
 }
 
+float Input::ApplyDeadZone(short v, short deadZone)
+{
+	if (abs(v) < deadZone) return 0.0f;
+	return (float)v / 32767.0f;
+}

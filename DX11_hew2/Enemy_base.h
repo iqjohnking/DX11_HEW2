@@ -18,6 +18,7 @@ protected:
 	float m_maxDist = 500.0f; // アクションパタンが変化する距離（調整用）
 
 	bool isSpdDown = false; //速度低下中かどうか
+	bool isBecomingMayu = false; //繭になっているかどうか
 
 	//巫女
 	Shrinemaiden* m_Miko = nullptr;

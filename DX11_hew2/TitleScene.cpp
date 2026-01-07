@@ -62,7 +62,13 @@ void TitleScene::Init()
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 		Enemy1List[i]->SetTarget(m_Miko);
 		Enemy1List[i]->SetField(m_Field);
-		Enemy1List[i]->SetPosition({ -350.f ,  500.f - 50.0f * (i + 1) , 0.0f });
+		if (i < 5) {
+
+			Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+		}
+		else {
+			Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+		}
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}
 }
@@ -74,7 +80,7 @@ void TitleScene::Update()
 	// ëÄçÏÅ^INPUT
 	//-----------------------------------------------------------------------------
 
-	if (Input::GetKeyTrigger('D'))   // 
+	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
@@ -93,7 +99,7 @@ void TitleScene::Update()
 	}
 
 	// 
-	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT))
+	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
 	{
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
