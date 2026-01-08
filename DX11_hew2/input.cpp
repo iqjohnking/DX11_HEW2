@@ -88,15 +88,16 @@ DirectX::XMFLOAT2 Input::GetLeftAnalogStick(void)
 	SHORT y = m_Instance->controllerState.Gamepad.sThumbLY;
 
 	DirectX::XMFLOAT2 res;
-	res.x = ApplyDeadZone(x, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	res.y = ApplyDeadZone(y, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	res.x = x / 32767.0f; //-1Å`1
+	res.y = y / 32767.0f; //-1Å`1
 	return res;
-	//SHORT x = m_Instance->controllerState.Gamepad.sThumbLX; // -32768Å`32767
+
+	////SHORT x = m_Instance->controllerState.Gamepad.sThumbLX; // -32768Å`32767
 	//SHORT y = m_Instance->controllerState.Gamepad.sThumbLY; // -32768Å`32767
 	//
 	//DirectX::XMFLOAT2 res;
-	//res.x = x / 32767.0f; //-1Å`1
-	//res.y = y / 32767.0f; //-1Å`1
+	//res.x = ApplyDeadZone(x, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	//res.y = ApplyDeadZone(y, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	//return res;
 }
 //âEÉAÉiÉçÉOÉXÉeÉBÉbÉN
@@ -104,7 +105,7 @@ DirectX::XMFLOAT2 Input::GetRightAnalogStick(void)
 {
 	SHORT x = m_Instance->controllerState.Gamepad.sThumbRX; // -32768Å`32767
 	SHORT y = m_Instance->controllerState.Gamepad.sThumbRY; // -32768Å`32767
-	
+
 	DirectX::XMFLOAT2 res;
 	res.x = x / 32767.0f; //-1Å`1
 	res.y = y / 32767.0f; //-1Å`1
