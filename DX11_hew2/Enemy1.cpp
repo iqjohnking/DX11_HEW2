@@ -36,6 +36,9 @@ void Enemy1::Update()
 {
 	// IsActive ‚ª true ‚Ì‚Æ‚«‚¾‚¯“®ì 
 	// IsActive = false ‚Ìê‡‚Í‚¢‚È‚¢‚¯‚Ç
+	m_Collider.radius = m_Radius;
+
+
 	if (isActive) 
 	{
 		move();	
@@ -46,6 +49,8 @@ void Enemy1::Update()
 
 void Enemy1::Draw(Camera* cam)
 {
+
+	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
 	m_Texture2D.SetPosition(GetPosition());
 	m_Texture2D.Draw(cam);
 }

@@ -68,6 +68,7 @@ void TitleScene::Init()
 		}
 		else {
 			Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+			Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius()+5.f);
 		}
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}

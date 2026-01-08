@@ -159,19 +159,19 @@ void silkWall::UpdateCollider()
 	// 片側 extendLen ずつ延長したいので、両端で合計 2*extendLen 長くなる。
 	// ただし元の start から target を超えないようにクランプ。
 	float extra = extendLen;
-	if (curLength + 2.0f * extendLen > maxLength)
-	{
-		// 収まりきらない場合、両端の延長量を等しく縮める
-		float remain = maxLength - curLength;
-		if (remain <= 0.0f)
-		{
-			extra = 0.0f;
-		}
-		else
-		{
-			extra = remain * 0.5f;
-		}
-	}
+	//if (curLength + 2.0f * extendLen > maxLength)
+	//{
+	//	// 収まりきらない場合、両端の延長量を等しく縮める
+	//	float remain = maxLength - curLength;
+	//	if (remain <= 0.0f)
+	//	{
+	//		extra = 0.0f;
+	//	}
+	//	else
+	//	{
+	//		extra = remain * 0.5f;
+	//	}
+	//}
 
 	// 判定用の start/end を計算
 	// start を「後ろ側」に、end を「前側」に延ばす

@@ -37,6 +37,7 @@ protected:
 	Field* m_Field = nullptr;
 	bool hitBorder = false;
 
+	// 退路探索・移動状態
 	enum class EscapeState
 	{
 		SearchEscapePoint,
@@ -44,17 +45,24 @@ protected:
 	};
 
 	EscapeState m_EscapeState = EscapeState::SearchEscapePoint;
+
+	// 逃走目標地点
 	DirectX::SimpleMath::Vector3 m_EscapeTarget = DirectX::SimpleMath::Vector3::Zero;
 	float m_EscapeArriveDist = 10.0f; // 近づいたら再探索
+	int   m_StuckTimer = 0;
+	bool  m_IsStuck = false;
 	Vector3 m_LastFailedDir = Vector3::Zero;
 
 
-
+	// デバッグ描画用
 	std::vector<struct DebugTri> m_DebugTris;
 	bool m_DrawDebugTris = true;
 
 	void DrawDebugTriangles(Camera* cam);
 
+	//==================================================
+	// 2D幾何計算ヘルパー
+	//==================================================
 	static bool IsPointInTriangleXY(const DirectX::SimpleMath::Vector3& p,
 		const DirectX::SimpleMath::Vector3& a,
 		const DirectX::SimpleMath::Vector3& b,
