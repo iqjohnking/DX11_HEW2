@@ -1,11 +1,16 @@
 #pragma once
 #include "Character.h"
 #include "Texture2D.h"	//基底クラス
+#include "DeBugLine2D.h"
+
+struct DebugTri
+{
+	DirectX::SimpleMath::Vector3 a;
+	DirectX::SimpleMath::Vector3 b;
+	DirectX::SimpleMath::Vector3 c;
+};
 
 class Field; // 前方宣言
-
-
-
 
 class Shrinemaiden :public Character
 {
@@ -32,6 +37,41 @@ protected:
 	Field* m_Field = nullptr;
 	bool hitBorder = false;
 
+	enum class EscapeState
+	{
+		SearchEscapePoint,
+		MoveToEscapePoint,
+	};
+
+	EscapeState m_EscapeState = EscapeState::SearchEscapePoint;
+	DirectX::SimpleMath::Vector3 m_EscapeTarget = DirectX::SimpleMath::Vector3::Zero;
+	float m_EscapeArriveDist = 10.0f; // 近づいたら再探索
+	Vector3 m_LastFailedDir = Vector3::Zero;
+
+
+
+	std::vector<struct DebugTri> m_DebugTris;
+	bool m_DrawDebugTris = true;
+
+	void DrawDebugTriangles(Camera* cam);
+
+	static bool IsPointInTriangleXY(const DirectX::SimpleMath::Vector3& p,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b,
+		const DirectX::SimpleMath::Vector3& c);
+
+	static float DistPointToSegmentSqXY(const DirectX::SimpleMath::Vector3& p,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b);
+
+	static bool DoesCircleIntersectTriangleXY(const DirectX::SimpleMath::Vector3& center,
+		float radius,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b,
+		const DirectX::SimpleMath::Vector3& c);
+
+
+
 public:
 	void Init() override;
 	void Update() override;
@@ -41,16 +81,10 @@ public:
 	//巫女を移動させるための関数
 	void move();
 
-	//糸の位置参照する関数 (hitcheck)
-	//敵の位置参照する関数 (敵の位置-巫女の位置)
-	//ステージの位置参照する関数　(中心点-巫女の位置)
-
-
-
 	void SetField(Field* field) { m_Field = field; };
 	void SetHitBorder(bool hit) { hitBorder = hit; };
-	void SetSerchDistance (float dist) { m_serchDistance = dist;};
+	void SetSerchDistance (float dist) { m_serchDistance = dist;};	
+	void OnEscapeRouteFailed(const Vector3& now_pos);
 
-	
 };
 

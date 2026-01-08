@@ -45,4 +45,9 @@ public:
 	Vector3 GetCenter() const { return m_Center; }
 	float GetRadius() const { return m_Radius; }
 
+	// --- ›Ş—AI‚È‚Ç‚©‚ç‹«ŠE•Ó‚ğQÆ‚·‚é ---
+	const std::vector<Edge>& GetEdges() const { return m_Edges; }
+	int GetEdgeCount() const { return (int)m_Edges.size(); }
+
+
 };

@@ -10,6 +10,8 @@ void silkWall::Init()
 	m_ExpandSpeed = 50.0f;
 	//m_TargetLength = 0.0f; // fire()で設定されるので初期化不要
 
+	SetPosition(Vector3(-500000.0f, -500000.0f, 0.0f));// 初期位置（画面外）
+
 	m_Scale = DirectX::SimpleMath::Vector3(0.0f, 15.0f, .0f);
 
 	// 親クラス的初始化
