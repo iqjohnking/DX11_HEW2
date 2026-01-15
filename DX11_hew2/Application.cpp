@@ -177,18 +177,15 @@ bool Application::InitApp()
 	// ウィンドウを更新
 	UpdateWindow(m_hWnd);
 
-	
-
-	SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP | WS_MINIMIZEBOX);
-
-	SetWindowPos(m_hWnd, HWND_TOP, 0, 0, m_Width, m_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-	
-	Renderer::ResizeWindow(screenW, screenH);
-
 	// ウィンドウにフォーカスを設定
 	SetFocus(m_hWnd);
-	//SetWindowPos(m_hWnd, HWND_TOP, ogPosX, ogPosY, og_Width, og_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+
+	RECT rcClient;
+	GetClientRect(m_hWnd, &rcClient);
+	Renderer::ResizeWindow(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
 	
+	SendMessage(m_hWnd, WM_KEYDOWN, VK_F11, 0);
+
 	// 正常終了
 	return true;
 
@@ -285,14 +282,14 @@ void Application::MainLoop()
 //-----------------------------------------------------------------------------
 LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static bool isFullscreen = true;
+	static bool isFullscreen = FALSE;
 	static bool isMessageBoxShowed = false;
 	switch (uMsg)
 	{
-	// マウスでリサイズ中に比率を強制する
+		// マウスでリサイズ中に比率を強制する
 	case WM_SIZING:
 	{
-		/*
+		
 		if (isFullscreen) return FALSE;
 		RECT* r = (RECT*)lParam;
 		if (gFrameX < 0 || gFrameY < 0) UpdateFrameSize(hWnd);
@@ -300,7 +297,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		int clientW = (r->right - r->left) - gFrameX;
 		int clientH = (r->bottom - r->top) - gFrameY;
 
-		switch (wParam) 
+		switch (wParam)
 		{
 		case WMSZ_LEFT: case WMSZ_RIGHT: case WMSZ_TOPLEFT: case WMSZ_TOPRIGHT:
 		case WMSZ_BOTTOMLEFT: case WMSZ_BOTTOMRIGHT:
@@ -313,7 +310,20 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 			break;
 		}
 		return TRUE;
+		
 	}
+
+	case WM_SETCURSOR:
+	{
+		// フルスクリーン中、またはリサイズ中でなければ、矢印カーソルを強制する
+		if (isFullscreen || (LOWORD(lParam) == HTCLIENT))
+		{
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
+			return TRUE;
+		}
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	}
+	break;
 
 	case WM_DESTROY:// ウィンドウ破棄のメッセージ
 		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
@@ -322,7 +332,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	case WM_CLOSE:  // 「x」ボタンが押されたら
 	{
 		int res = MessageBoxA(NULL, "終了しますか？", "確認", MB_OKCANCEL);
-		if (res == IDOK) 
+		if (res == IDOK)
 		{
 			DestroyWindow(hWnd);  // 「WM_DESTROY」メッセージを送る
 		}
@@ -338,43 +348,59 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		else if (LOWORD(wParam) == VK_F11)
 		{
 			isFullscreen = !isFullscreen;
-			if (isFullscreen) 
+			if (isFullscreen)
 			{
-				//フルスクリーンに切り替え
-				//g_pSwapChain->SetFullscreenState(TRUE, NULL);
-				//ShowWindow(hWnd, SW_MAXIMIZE);
-
+			
 				// 疑似フルスクリーンモードに変更
 				SetWindowLongPtr(hWnd, GWL_STYLE, WS_POPUP | WS_MINIMIZEBOX); // ウィンドウ枠を削除
+				
 				// ディスプレイ解像度を取得
 				int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 				int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-				
+
 				SetWindowPos(hWnd, HWND_TOP, 0, 0, screenWidth, screenHeight, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-				
+
 				Renderer::ResizeWindow(screenWidth, screenHeight);
 			}
-			else 
+			else
 			{
-				//ウィンドウモードに戻す
-				//g_pSwapChain->SetFullscreenState(FALSE, NULL);
-				//ShowWindow(hWnd, SW_RESTORE);
 
 				// 通常ウィンドウに戻す
 				SetWindowLongPtr(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW); // ウィンドウ枠を戻す
-				
+
+				SetWindowPos(hWnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
 				UpdateFrameSize(hWnd);
+				
+				//int winW = 1280 + gFrameX;
+				//int winH = 720 + gFrameY;
+				
+				//モニターの解像度を取得して、中央の座標を再計算
+				int screenW = GetSystemMetrics(SM_CXSCREEN);
+				int screenH = GetSystemMetrics(SM_CYSCREEN);
 
-				SetWindowPos(hWnd, HWND_TOP, ogPosX, ogPosY, og_Width, og_Height, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+				int totalW = 1280 + gFrameX;
+				int totalH = 720 + gFrameY;
 
-				//復帰した後のサイズで描画領域を強制更新
-				Renderer::ResizeWindow(m_Width,m_Height);
+				//真ん中の位置を計算
+				ogPosX = (screenW - totalW) / 2;
+				ogPosY = (screenH - totalH) / 2;
+
+				//センターへ
+				SetWindowPos(hWnd, HWND_TOP, ogPosX, ogPosY, totalW,totalH, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+				
+				Renderer::ResizeWindow(1280,720);
+
+				SetCursor(LoadCursor(nullptr, IDC_ARROW));
+
+	
 			}
 		}
 		break;
-		*/
+		
+
 	case WM_ACTIVATE:
-		if (wParam == WA_INACTIVE) 
+		if (wParam == WA_INACTIVE)
 		{
 			// フルスクリーン表示かつメッセージボックス非表示なら
 			if (isFullscreen && !isMessageBoxShowed)
@@ -386,6 +412,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		// 標準挙動を実行
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
+		
 	case WM_SIZE: //ウィンドウサイズに変更があったメッセージ
 
 		if (wParam != SIZE_MINIMIZED)
@@ -393,22 +420,27 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 			RECT rc;
 			GetClientRect(hWnd, &rc);
 
-			int width = LOWORD(lParam); //横幅
-			int height = HIWORD(lParam); //縦幅
+			int width = rc.right - rc.left;
+			int height = rc.bottom - rc.top;
 			
-			if (width > 0 && height > 0) 
+
+			if (width > 0 && height > 0)
 			{
 				Renderer::ResizeWindow(width, height);
 			}
 		}
+		
 		break;
+		
 
 	default:
 		// 受け取ったメッセージに対してデフォルトの処理を実行
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 		break;
+		
 	}
 
 	return 0;
+	
 }
 
