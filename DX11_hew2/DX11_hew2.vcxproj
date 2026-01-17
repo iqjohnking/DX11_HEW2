@@ -151,6 +151,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageManager.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="playerHand.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MessageManager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectType.h" />
     <ClInclude Include="playerHand.h" />
