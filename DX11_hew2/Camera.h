@@ -15,7 +15,7 @@ private:
 	DirectX::SimpleMath::Matrix		m_ViewMatrix{};
 	
 	static constexpr float	TWO_PI = 6.283185307f;
-	static constexpr float		PI = 3.1415926535;
+	static constexpr float		PI = 3.1415926535f;
 
 	float m_CameraDirH = 0;
 	float m_CameraDirV = 0;

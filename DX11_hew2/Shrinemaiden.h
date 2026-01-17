@@ -1,46 +1,98 @@
 #pragma once
-#include "Object.h"	//基底クラス
+#include "Character.h"
+#include "Texture2D.h"	//基底クラス
+#include "DeBugLine2D.h"
 
-class Shrinemaiden :public Object
+struct DebugTri
 {
-private:
-	//敵から逃げる速度
-	float run_speed = 2.0f;
+	DirectX::SimpleMath::Vector3 a;
+	DirectX::SimpleMath::Vector3 b;
+	DirectX::SimpleMath::Vector3 c;
+};
 
-	//範囲内に敵がいなくなったら減速する速度
-	float deceleration_speed = 0.2f;
+class Field; // 前方宣言
 
-	//この速度以下になると停止する
-	float stop_speed = 0.1f;
+class Shrinemaiden :public Character
+{
+protected:
+	enum state {
+		SPAWNING,	//出現中(アニメーション)
+		ALIVE,		//生存
+		DYING,		//消滅中(アニメーション)使わないかも、繭になるから
+		DEAD		//消滅	(アニメーション)使わないかも、繭になるから
+	};
 
-	//巫女の前の位置
-	DirectX::SimpleMath::Vector3 old_shrinemaiden_pos;
+	Texture2D m_Texture2D;
 
-	//敵の位置に合わせた座標移動をするための計算用変数
-	float shrinemaiden_work;	
+	Collision::Sphere m_Collider; // 当たり判定の為の情報
+	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 
-	//生きているかのフラグ
-	bool alive_flg_Shrinemaiden;
+	float m_serchDistance = 100.0f; //敵を探す距離
+	float m_deceleration  = 0.2f;	//範囲内に敵がいなくなったら減速する速度
+	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
 
-	//敵の判定を取る円の半径
-	float range = 100.0f;
+	DirectX::SimpleMath::Vector3 m_wallSlideDir = DirectX::SimpleMath::Vector3::Zero;
+	float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー
 
-	//ステージの中心
-	DirectX::SimpleMath::Vector3 stage_center;
-	//ステージの半径
-	float stage_radius = 500.0f;
+	Field* m_Field = nullptr;
+	bool hitBorder = false;
 
-	//方向を取ってそこにspeedをかける
+	// 退路探索・移動状態
+	enum class EscapeState
+	{
+		SearchEscapePoint,
+		MoveToEscapePoint,
+	};
+
+	EscapeState m_EscapeState = EscapeState::SearchEscapePoint;
+
+	// 逃走目標地点
+	DirectX::SimpleMath::Vector3 m_EscapeTarget = DirectX::SimpleMath::Vector3::Zero;
+	float m_EscapeArriveDist = 10.0f; // 近づいたら再探索
+	int   m_StuckTimer = 0;
+	bool  m_IsStuck = false;
+	Vector3 m_LastFailedDir = Vector3::Zero;
+
+
+	// デバッグ描画用
+	std::vector<struct DebugTri> m_DebugTris;
+	bool m_DrawDebugTris = true;
+
+	void DrawDebugTriangles(Camera* cam);
+
+	//==================================================
+	// 2D幾何計算ヘルパー
+	//==================================================
+	static bool IsPointInTriangleXY(const DirectX::SimpleMath::Vector3& p,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b,
+		const DirectX::SimpleMath::Vector3& c);
+
+	static float DistPointToSegmentSqXY(const DirectX::SimpleMath::Vector3& p,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b);
+
+	static bool DoesCircleIntersectTriangleXY(const DirectX::SimpleMath::Vector3& center,
+		float radius,
+		const DirectX::SimpleMath::Vector3& a,
+		const DirectX::SimpleMath::Vector3& b,
+		const DirectX::SimpleMath::Vector3& c);
+
+
+
 public:
-	void Init()override;
-	void Update()override;
-	void Draw(Camera* cam)override;
-	void Uninit()override;
+	void Init() override;
+	void Update() override;
+	void Draw(Camera* cam) override;
+	void Uninit() override;
 
+	//巫女を移動させるための関数
+	void move();
 
-	void Shrinemaiden_move();
-	//糸の位置参照する関数 (hitcheck)
-	//敵の位置参照する関数 (敵の位置-巫女の位置)
-	//ステージの位置参照する関数　(中心点-巫女の位置)
+	void SetField(Field* field) { m_Field = field; };
+	void SetHitBorder(bool hit) { hitBorder = hit; };
+	void SetSerchDistance (float dist) { m_serchDistance = dist;};	
+	void OnEscapeRouteFailed(const Vector3& now_pos);
+
 };
 

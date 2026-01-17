@@ -45,6 +45,11 @@ namespace Collision
 		DirectX::SimpleMath::Vector3 max;
 	};
 
+	struct Capsule {
+		Segment segment;  // カプセルの中心線
+		float   radius;   // 半径
+	};
+
 	//当たり判定
 	bool CheckHit(const Line& line, const Plane& plane);													// 線(無限の長さ)と平面(無限の大きさ)
 	bool CheckHit(const Segment& segment, const Plane& plane);												// 線分と平面(無限の大きさ)
@@ -61,6 +66,7 @@ namespace Collision
 
 	//newCheck
 	bool CheckHit(const Segment& segment, const Sphere& sphere);											// 線分と球体
+	bool CheckHit(const Segment& segment, const Sphere& sphere, DirectX::SimpleMath::Vector3& contact);											// 線分と球体
 
 
 	//内積・外積

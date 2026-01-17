@@ -72,6 +72,8 @@ private:
 
 	int VibrationTime; //振動継続時間をカウントする変数
 
+	bool isControllerConnected = false;
+
 public:
 
 	//Input(); //コンストラクタ
@@ -102,5 +104,12 @@ public:
 	//flame：振動を継続する時間(単位：フレーム)
 	//power：振動の強さ(0～1)
 	static void SetVibration(int frame = 1, float powor = 1);
+
+	static bool IsControllerConnected()
+	{
+		return m_Instance->isControllerConnected;
+	}	
+	
+	static float ApplyDeadZone(short v, short deadZone);
 };
 

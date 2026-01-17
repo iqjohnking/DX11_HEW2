@@ -16,7 +16,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_Acceleration = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
 	
 	static constexpr float	TWO_PI = 6.283185307f;
-	static constexpr float		PI = 3.1415926535;
+	static constexpr float		PI = 3.1415926535f;
 
 	// •¨—ƒpƒ‰ƒ[ƒ^
 	//const float gravity = 1.0f;

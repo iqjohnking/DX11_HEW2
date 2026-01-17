@@ -133,14 +133,19 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>app.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AssimpPerse.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="field.cpp" />
+    <ClCompile Include="EnemyMayu.cpp" />
+    <ClCompile Include="Enemy_base.cpp" />
+    <ClCompile Include="Enemy1.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GolfBall.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -170,25 +175,31 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TitleBG.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TriangleSilk.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AssimpPerse.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="field.h" />
+    <ClInclude Include="EnemyMayu.h" />
+    <ClInclude Include="Enemy_base.h" />
+    <ClInclude Include="Enemy1.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GolfBall.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="DeBugLine2D.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectType.h" />
     <ClInclude Include="playerHand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResultScene.h" />
@@ -215,6 +226,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TitleBG.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TriangleSilk.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
@@ -239,6 +251,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

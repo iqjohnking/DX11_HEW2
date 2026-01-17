@@ -7,39 +7,46 @@
 // silkWall（蜘蛛糸の壁）
 // Texture2D を見た目に使いつつ、当たり判定は Segment（線分）で持つ
 //-----------------------------------------------------------------------------
-class silkWall : public Texture2D
+class silkWall : public Object
 {
-private:
-	bool  m_IsActive    = false; // 有効フラグ 
-	bool  m_IsGrowing   = false; // 伸び中フラグ
-	float m_ExpandSpeed = 10.0f; // 1フレームあたりの伸び量
-	float m_MaxLength   = 0.0f;  // 目標位置までの最大長さ
-
-	DirectX::SimpleMath::Vector3 m_StartPos;
-	DirectX::SimpleMath::Vector3 m_TargetPos;
+protected:
+	Texture2D m_Texture2D;
 
 	Collision::Segment m_Segment; // 当たり判定
+
+	DirectX::SimpleMath::Vector3 m_StartPos;
+	DirectX::SimpleMath::Vector3 m_EndPos;
+
+	int m_Hitpoint   = 3;    // 体力
+	bool m_IsGrowing = false; // 伸び中フラグ
+	bool m_IsPoised  = false; // 毒状態フラグ
+
+	float m_ExpandSpeed = 50.0f; // 1フレームあたりの伸び量
+	float m_TargetLength   = 0.0f;  // 目標位置までの最大長さ
 
 	void UpdateCollider();        // 内部用
 
 public:
-	void Init();
-	void Update();
+	void Init() override;
+	void Update() override;
+	void Draw(Camera* cam) override;
+	void Uninit() override;
 
-	bool HasCollider() const override { return true; }
+	//bool HasCollider() const override { return true; }
 	
 	const Collision::Segment& GetSegment() const { return m_Segment; }
-	bool CheckHit(const Collision::Sphere& sphere) const;
+	//bool CheckHit(const Collision::Sphere& sphere) const;
 
 	// 手から発射するときに呼ぶ
 	void Fire(const DirectX::SimpleMath::Vector3& startPos,
 			  const DirectX::SimpleMath::Vector3& targetPos);
+	void reInit();
 
 	void SetStartPos(const DirectX::SimpleMath::Vector3& pos) { m_StartPos = pos; }
 	DirectX::SimpleMath::Vector3 GetStartPos() const { return m_StartPos; }
-	void SetTargetPos(const DirectX::SimpleMath::Vector3& pos) { m_TargetPos = pos; }
-	DirectX::SimpleMath::Vector3 GetTargetPos() const { return m_TargetPos; }
+	void SetEndPos(const DirectX::SimpleMath::Vector3& pos) { m_EndPos = pos; }
+	DirectX::SimpleMath::Vector3 GetTargetPos() const { return m_EndPos; }
 
-	bool IsActive() const { return m_IsActive; }
+
 	bool IsGrowing() const { return m_IsGrowing; }
 };
