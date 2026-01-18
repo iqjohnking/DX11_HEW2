@@ -152,6 +152,8 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageManager.cpp" />
+    <ClCompile Include="MessagePage.cpp" />
+    <ClCompile Include="MessageUI.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="playerHand.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="Stage1Scene.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="TalkCharacter.cpp" />
     <ClCompile Include="TestCube.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -172,6 +175,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TitleBG.cpp" />
@@ -200,6 +204,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="MessageManager.h" />
+    <ClInclude Include="MessagePage.h" />
+    <ClInclude Include="MessageUI.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectType.h" />
     <ClInclude Include="playerHand.h" />
@@ -213,6 +219,7 @@
     <ClInclude Include="Stage1Scene.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TalkCharacter.h" />
     <ClInclude Include="Test kawaguchi.h" />
     <ClInclude Include="TestCube.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -224,6 +231,7 @@
     </ClInclude>
     <ClInclude Include="Test_melonlemon13.h" />
     <ClInclude Include="Test_TR.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TitleBG.h" />

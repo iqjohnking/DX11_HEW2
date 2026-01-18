@@ -52,6 +52,12 @@
     <Filter Include="ソース ファイル\math_collision">
       <UniqueIdentifier>{95dd6054-31a9-475e-85d0-d02a5ba2c783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Message">
+      <UniqueIdentifier>{1e577193-b1e7-48c2-a40d-1b245fd3ae1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Message">
+      <UniqueIdentifier>{2f36c4c5-b955-45d4-ab6d-229a337756da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -154,7 +160,19 @@
       <Filter>ソース ファイル\math_collision</Filter>
     </ClCompile>
     <ClCompile Include="MessageManager.cpp">
-      <Filter>ソース ファイル\obj</Filter>
+      <Filter>ソース ファイル\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageUI.cpp">
+      <Filter>ソース ファイル\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="TalkCharacter.cpp">
+      <Filter>ソース ファイル\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>ソース ファイル\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagePage.cpp">
+      <Filter>ソース ファイル\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +309,19 @@
       <Filter>ソース ファイル\math_collision</Filter>
     </ClInclude>
     <ClInclude Include="MessageManager.h">
-      <Filter>ヘッダー ファイル\obj</Filter>
+      <Filter>ヘッダー ファイル\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="TalkCharacter.h">
+      <Filter>ヘッダー ファイル\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageUI.h">
+      <Filter>ヘッダー ファイル\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>ヘッダー ファイル\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagePage.h">
+      <Filter>ヘッダー ファイル\Message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
