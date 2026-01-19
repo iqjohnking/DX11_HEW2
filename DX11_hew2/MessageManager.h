@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "Object.h"
 
 #include "MessagePage.h"
 #include "MessageUI.h"
@@ -9,15 +10,18 @@
 #include "Sound.h"
 
 //会話全体の管理
-class MessageManager
+class MessageManager : public Object
 {
 private:
-    MessageUI      m_UI;
-    Text           m_Text;
+    MessageUI* m_UI = nullptr;
+    Text* m_Text = nullptr;
+    TalkCharacter* m_LeftChar = nullptr;
+    TalkCharacter* m_RightChar = nullptr;
 
-    // 左右の立ち絵（1体ずつ）
-    TalkCharacter  m_LeftChar;
-    TalkCharacter  m_RightChar;
+    // 仮素材パス
+    std::string m_FramePath;
+    std::string m_TextDummyPath;
+    std::string m_CharaDummyPath;
 
     // 音
     Sound m_Sound;
@@ -37,15 +41,19 @@ private:
     void StopCurrentVoice();
 
 public:
-    void Init();
-    void Update();   // 入力を見てAdvanceする
-    void Draw(Camera* cam);
-    void Uninit();
+    void Init() override;
+    void Update() override;
+    void Draw(Camera* cam) override;   // 描画しない
+    void Uninit() override;
 
 public:
     // 外部API（Sceneなどから操作）
     void SetPages(const std::vector<MessagePage>& pages) { m_Pages = pages; }
     void ClearPages() { m_Pages.clear(); }
+
+    void SetFramePath(const std::string& path);
+    void SetTextDummyPath(const std::string& path);
+    void SetCharaDummyPath(const std::string& path);
 
     void Play();     // 会話開始（index=0）
     void Advance();  // 次へ

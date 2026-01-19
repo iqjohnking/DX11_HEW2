@@ -2,19 +2,27 @@
 #include "Scene.h"
 #include "Object.h"
 
+#include <vector>
+#include "MessageManager.h"
+#include "MessagePage.h"
+
 // Stage1Scenクラス
 class Stage1Scene : public Scene
 {
 private:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
-	void Init(); // 初期化
-	void Uninit(); // 終了処理
+	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
+	std::vector<MessagePage> m_TestPages;
+
+	void BuildTestPages();
 
 public:
 	Stage1Scene(); // コンストラクタ
 	~Stage1Scene(); // デストラクタ
 
 	void Update(); // 更新
+	void Init(); // 初期化
+	void Uninit(); // 終了処理
 };
 

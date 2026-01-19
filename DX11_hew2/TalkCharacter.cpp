@@ -41,17 +41,15 @@ void TalkCharacter::Init()
     m_Sprite.Init();
     ApplyLayoutToSprite();
 
-    // 初期テクスチャ（char/faceが未設定なら貼らない）
-    if (!m_CharId.empty() && !m_FaceId.empty())
-    {
-        auto path = BuildTexturePath();
-        m_Sprite.SetTexture(path.c_str());
-    }
+    // 最初は非表示
+    m_Visible = false;
+    m_Focus = true;
 }
 
 void TalkCharacter::Update()
 {
     // 今はアニメ無し。Texture2D側のUpdateは呼んでおく
+    ApplyLayoutToSprite();
     m_Sprite.Update();
 }
 
