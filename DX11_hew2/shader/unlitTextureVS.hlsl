@@ -9,6 +9,7 @@ PS_IN main(in VS_IN input)
 	matrix wvp;
 	wvp = mul(World, View);
 	wvp = mul(wvp, Projection);
+	
 	output.pos = mul(input.pos, wvp);
 	
 	//texture=============================

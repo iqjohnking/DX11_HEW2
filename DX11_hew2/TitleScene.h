@@ -8,7 +8,6 @@
 
 #include "Texture2D.h"
 #include "TitleBG.h"
-
 #include "silkWall.h"
 #include "playerHand.h"
 #include "Field.h"
