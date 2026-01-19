@@ -1,4 +1,5 @@
 #pragma once
+#include <memory> 
 #include <iostream>
 //#include "GolfBall.h"
 //#include "Ground.h"
@@ -80,15 +81,24 @@ public:
 
 	// オブジェクトを追加する（※テンプレート関数）
 	// 任意個数の引数 Args... を取り、そのまま T のコンストラクタに渡す
-	template <typename T, typename... Args> 
+	//template <typename T, typename... Args> 
+	//T* AddObject(Args&&... args)
+	//{
+	//	// T(args...) でオブジェクトを生成
+	//	auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
+	//
+	//	T* rawPtr = ptr.get();								// 生ポインタを退避
+	//	m_Instance->m_Objects.emplace_back(std::move(ptr)); // vector に格納
+	//	rawPtr->Init();										// 初期化
+	//	return rawPtr;
+	//}
+	template <typename T, typename... Args>
 	T* AddObject(Args&&... args)
 	{
-		// T(args...) でオブジェクトを生成
-		auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
-
-		T* rawPtr = ptr.get();								// 生ポインタを退避
-		m_Instance->m_Objects.emplace_back(std::move(ptr)); // vector に格納
-		rawPtr->Init();										// 初期化
+		auto ptr = std::unique_ptr<T>(new T(std::forward<Args>(args)...)); // make_uniqueの代わり
+		T* rawPtr = ptr.get();
+		m_Objects.emplace_back(std::move(ptr));
+		rawPtr->Init();
 		return rawPtr;
 	}
 
