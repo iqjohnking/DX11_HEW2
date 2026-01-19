@@ -8,7 +8,7 @@ void Text::Init()
     m_Sprite.Init();
 
     // 仮テキスト画像をセット
-    m_Sprite.SetTexture("assets/texture/text/Test_Text.png");
+    m_Sprite.SetTexture("assets/texture/Message/text/Test_Text.png");
 
     // レイアウト
     m_Sprite.SetPosition(m_Pos);

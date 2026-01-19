@@ -36,5 +36,6 @@ public:
     const std::string& GetName() const { return m_Name; }
     const std::string& GetText() const { return m_Text; }
 
+    void SetDummyTexture(const char* path) { m_Sprite.SetTexture(path); }
 };
 

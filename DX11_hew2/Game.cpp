@@ -33,6 +33,9 @@ void Game::Init()
 	// 初期シーンを設定（必須）
 	m_Instance->ChangeScene(TITLE);
 
+	//会話シーンテスト用
+	//m_Instance->ChangeScene(STAGE1);
+
 }
 
 // 更新

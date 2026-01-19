@@ -30,7 +30,7 @@ private:
     // 表示用スプライト
     Texture2D m_Sprite;
 
-    // 仮のレイアウト（あなたの座標系：画面中心(0,0)想定）
+    // 仮のレイアウト
     DirectX::SimpleMath::Vector3 m_BasePosL = DirectX::SimpleMath::Vector3(-500.0f, -50.0f, 0.0f);
     DirectX::SimpleMath::Vector3 m_BasePosR = DirectX::SimpleMath::Vector3(500.0f, -50.0f, 0.0f);
 
@@ -80,5 +80,7 @@ public:
     void SetBasePosLeft(const DirectX::SimpleMath::Vector3& p) { m_BasePosL = p; }
     void SetBasePosRight(const DirectX::SimpleMath::Vector3& p) { m_BasePosR = p; }
     void SetSize(const DirectX::SimpleMath::Vector3& s) { m_Size = s; }
+
+    void SetDummyTexture(const char* path) { m_Sprite.SetTexture(path); }
 };
 
