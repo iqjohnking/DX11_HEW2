@@ -31,10 +31,10 @@ void Game::Init()
 	m_Instance->m_Camera.Init();
 
 	// 初期シーンを設定（必須）
-	m_Instance->ChangeScene(TITLE);
+	//m_Instance->ChangeScene(TITLE);
 
 	//会話シーンテスト用
-	//m_Instance->ChangeScene(STAGE1);
+	m_Instance->ChangeScene(STAGE1);
 
 }
 
@@ -49,11 +49,21 @@ void Game::Update()
 	// カメラ更新
 	m_Instance->m_Camera.Update();
 
+	//オブジェクト更新中
+	m_Instance->m_IsUpdatingObjects = true;
+
 	//オブジェクト更新
 	for (auto& o : m_Instance->m_Objects) {
 		o->Update();
 	}
+	//オブジェクト更新終了
+	m_Instance->m_IsUpdatingObjects = false;
 
+	// ここで削除キューを反映
+	m_Instance->ApplyDeleteQueue();
+
+	// 最後に生成キューを反映
+	m_Instance->FlushSpawnQueue();
 }
 
 // 描画
@@ -129,9 +139,11 @@ void Game::ChangeScene(SceneName sceneName)
 {
 	// 読み込み済みシーンの削除
 	if (m_Instance->m_Scene != nullptr) {
+		m_Instance->m_Scene->Uninit();
 		delete m_Instance->m_Scene;
 		m_Instance->m_Scene = nullptr;
 	}
+	m_Instance->DeleteAllObjects();
 	switch (sceneName) {
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
@@ -145,23 +157,29 @@ void Game::ChangeScene(SceneName sceneName)
 	default:
 		break;
 	}
-
+	if (m_Instance->m_Scene)
+	{
+		m_Instance->m_Scene->Init();
+		// シーン初期化でAddObjectされたものを全て反映＆Initする
+		m_Instance->FlushSpawnQueue();
+	}
 }
 
 void Game::DeleteObject(Object* ptr)
 {
-	if (ptr == nullptr) {
-		return;
-	}
+	m_Instance->m_DeleteQueue.push_back(ptr);
+	//if (ptr == nullptr) {
+	//	return;
+	//}
 
-	ptr->Uninit();
+	//ptr->Uninit();
 
-	//要素の削除
-	erase_if(m_Instance->m_Objects, 
-		[ptr](const std::unique_ptr<Object>& element) {
-		return element.get() == ptr;
-		});
-	m_Instance->m_Objects.shrink_to_fit();
+	////要素の削除
+	//erase_if(m_Instance->m_Objects, 
+	//	[ptr](const std::unique_ptr<Object>& element) {
+	//	return element.get() == ptr;
+	//	});
+	//m_Instance->m_Objects.shrink_to_fit();
 }
 
 void Game::DeleteAllObjects()
@@ -171,7 +189,72 @@ void Game::DeleteAllObjects()
 	}
 	m_Instance->m_Objects.clear();
 	m_Instance->m_Objects.shrink_to_fit();
-
 }
 
+void Game::FlushSpawnQueue()
+{
+	// Init中にAddObjectされても安全にするため、
+	// 「今溜まっている分」をローカルへ退避してから処理する。
+	// Init中に増えた分は m_SpawnQueue に新しく溜まるので、空になるまで繰り返す。
 
+	while (!m_Instance->m_SpawnQueue.empty())
+	{
+		// いま溜まっている分をローカルに退避（これ以降 m_SpawnQueue は空）
+		std::vector<std::unique_ptr<Object>> batch;
+		batch.swap(m_Instance->m_SpawnQueue);
+
+		// batch を m_Objects に移しつつ Init
+		for (auto& up : batch)
+		{
+			if (!up) continue;
+
+			m_Instance->m_Objects.emplace_back(std::move(up));
+
+			Object* raw = m_Instance->m_Objects.back().get();
+			if (!raw) continue;
+
+			raw->Init();
+		}
+		// batch はここで破棄される（中身は全て move 済み）
+	}
+}
+
+void Game::ApplyDeleteQueue()
+{
+	/*
+	begin / end	配列の範囲指定
+	remove_if	消す候補を後ろに集める（まだ消さない）
+	erase	実際に消す
+	erase + remove_if	vector 削除の安全な唯一の正解*/
+	if (m_DeleteQueue.empty()) return;
+
+	// 1つずつ消す
+	for (Object* del : m_DeleteQueue)
+	{
+		if (!del) continue;
+
+		// オブジェクト配列から削除
+		{
+			auto& objs = m_Objects;
+			objs.erase(
+				std::remove_if(
+					objs.begin(),
+					objs.end(),
+					[del](const std::unique_ptr<Object>& o)
+					{
+						if (!o) return true;
+						if (o.get() != del) return false;
+
+						// 消す直前に終了処理
+						o->Uninit();
+						return true;
+					}
+				),
+				objs.end()
+			);
+		}
+	}
+
+	// 削除依頼を処理し終わったのでクリア
+	m_DeleteQueue.clear();
+}

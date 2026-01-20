@@ -36,6 +36,9 @@ private:
 
     DirectX::SimpleMath::Vector3 m_Size = DirectX::SimpleMath::Vector3(700.0f, 900.0f, 1.0f);
 
+    // 最後に適用したパス（無駄なLoad回避）
+    std::string m_LastAppliedPath;
+
 
 private:
     // charId/faceId から画像パスを作る
@@ -43,6 +46,9 @@ private:
 
     // 今の状態をm_Spriteに反映（位置、左右反転など）
     void ApplyLayoutToSprite();
+
+    // 必要な時だけSetTextureする
+    void ApplyTextureIfNeeded();
 
 public:
     // Object
@@ -59,19 +65,17 @@ public:
     void SetSide(TalkSide side) { m_Side = side; }
     TalkSide GetSide() const { return m_Side; }
 
-    void SetFocus(bool focus) { m_Focus = focus; }
+
+    // cpp実装
+    void SetFocus(bool focus);
     bool IsFocus() const { return m_Focus; }
 
     // キャラ/表情
-    void SetCharacter(const std::string& charId) { m_CharId = charId; }
-    void SetFace(const std::string& faceId) { m_FaceId = faceId; }
+    void SetCharacter(const std::string& charId);
+    void SetFace(const std::string& faceId);
 
     // まとめて設定
-    void Set(const std::string& charId, const std::string& faceId)
-    {
-        m_CharId = charId;
-        m_FaceId = faceId;
-    }
+    void Set(const std::string& charId, const std::string& faceId);
 
     const std::string& GetCharacter() const { return m_CharId; }
     const std::string& GetFace() const { return m_FaceId; }
@@ -83,4 +87,3 @@ public:
 
     void SetDummyTexture(const char* path) { m_Sprite.SetTexture(path); }
 };
-

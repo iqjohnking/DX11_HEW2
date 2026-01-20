@@ -58,6 +58,12 @@
     <Filter Include="ヘッダー ファイル\Message">
       <UniqueIdentifier>{2f36c4c5-b955-45d4-ab6d-229a337756da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{48cc2d18-7083-4147-82f9-56992ae5f83f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{54012351-f9f9-4118-9000-d8c7b5a6c976}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -173,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="MessagePage.cpp">
       <Filter>ソース ファイル\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBase.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="MessagePage.h">
       <Filter>ヘッダー ファイル\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBase.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

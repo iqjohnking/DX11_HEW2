@@ -6,13 +6,13 @@
 // コンストラクタ
 ResultScene::ResultScene()
 {
-	Init();
+	
 }
 
 // デストラクタ
 ResultScene::~ResultScene()
 {
-	Uninit();
+	
 }
 
 // 初期化
