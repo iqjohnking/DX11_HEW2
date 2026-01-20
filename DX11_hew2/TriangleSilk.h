@@ -21,8 +21,8 @@ namespace TriangleSilk
         const Vector3& B,
         const Vector3& C);
 
-    // TitleScene 側で m_SilkWalls から組み合わせを走査し、最初に見つかった三角形を返す
+    // Scene 側で m_SilkWalls から組み合わせを走査し、最初に見つかった三角形を返す
     // 戻り値: 見つかったら true。A,B,C に三角形頂点を格納。
-    bool FindFirstTriangleXY(const std::vector<silkWall*>& walls,
-        Vector3& A, Vector3& B, Vector3& C);
+    //bool FindFirstTriangleXY(const std::vector<silkWall*>& walls,
+    //    Vector3& A, Vector3& B, Vector3& C);
 }
