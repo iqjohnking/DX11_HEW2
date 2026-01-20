@@ -1,6 +1,5 @@
 #include "TitleScene.h"
 
-
 using namespace DirectX::SimpleMath;
 
 // Å‘åŽO‚Â‚ª‚ ‚é
@@ -55,7 +54,7 @@ void TitleScene::Init()
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
-
+	/*
 	////“G1
 	for (int i = 0; i < 10; ++i)
 	{
@@ -71,6 +70,23 @@ void TitleScene::Init()
 			Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius()+5.f);
 		}
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
+	}
+	*/
+	////“G4
+	for (int i = 0; i < 10; ++i)
+	{
+		Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
+		Enemy4List[i]->SetTarget(m_Miko);
+		Enemy4List[i]->SetField(m_Field);
+		if (i < 5) {
+
+			Enemy4List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+		}
+		else {
+			Enemy4List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+			Enemy4List[i]->SetRadius(Enemy4List[i]->GetRadius() + 5.f);
+		}
+		m_MySceneObjects.emplace_back(Enemy4List[i]);
 	}
 }
 

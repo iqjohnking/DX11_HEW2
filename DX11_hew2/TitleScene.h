@@ -14,6 +14,7 @@
 #include "Shrinemaiden.h"
 #include "Enemy_base.h"	
 #include "Enemy1.h"	
+#include "Enemy4.h"
 #include "EnemyMayu.h"	
 
 //#include "Enemy2.h"	
@@ -29,6 +30,7 @@ private:
 
 	silkWall*   m_SilkWalls[3]{};   // 糸の壁 最大3本
 	Enemy1*     Enemy1List[60]{};  // テスト用に60体
+	Enemy4*		Enemy4List[10]{};  // テスト用に10体
 	playerHand* m_HandL = nullptr; // 左手
 	playerHand* m_HandR = nullptr; // 右手
 	int         m_NextSilkIndex = 0; // 次に使う糸
