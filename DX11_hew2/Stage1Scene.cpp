@@ -11,13 +11,13 @@
 // コンストラクタ
 Stage1Scene::Stage1Scene()
 {
-	Init();
+	
 }
 
 // デストラクタ
 Stage1Scene::~Stage1Scene()
 {
-	Uninit();
+	
 }
 
 // 初期化
@@ -34,6 +34,7 @@ void Stage1Scene::Init()
 
     // 司令塔をObjectとして追加
     m_Message = Game::GetInstance()->AddObject<MessageManager>();
+    m_MySceneObjects.emplace_back(m_Message);
 
     // 会話素材の指定
     m_Message->SetFramePath("assets/texture/Message/UI/field.jpg");                 // 下枠

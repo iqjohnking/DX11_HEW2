@@ -9,5 +9,7 @@ public:
 	Scene(); // コンストラクタ
 	virtual ~Scene(); // デストラクタ(virtualが必要)
 
+	virtual void Init() = 0;
+	virtual void Uninit() = 0;
 	virtual void Update() = 0; // 更新（純粋仮想関数）
 };

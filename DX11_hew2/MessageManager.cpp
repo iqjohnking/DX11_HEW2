@@ -27,13 +27,27 @@ void MessageManager::Init()
     m_LeftChar->Show(false);
     m_RightChar->Show(false);
 
+    // ‚·‚Å‚ÉƒpƒX‚ªÝ’èÏ‚Ý‚È‚ç”½‰fiInit‘O‚ÉSet`‚ªŒÄ‚Î‚ê‚Ä‚àOK‚É‚·‚éj
+    if (!m_FramePath.empty())     m_UI->SetFrame(m_FramePath.c_str());
+    if (!m_TextDummyPath.empty()) m_Text->SetDummyTexture(m_TextDummyPath.c_str());
+    if (!m_CharaDummyPath.empty())
+    {
+        m_LeftChar->SetDummyTexture(m_CharaDummyPath.c_str());
+        m_RightChar->SetDummyTexture(m_CharaDummyPath.c_str());
+    }
+
     m_Playing = false;
     m_Index = 0;
 }
 
 void MessageManager::Uninit()
-{
-    Stop();
+{ 
+    // ”O‚Ì‚½‚ß’âŽ~
+    StopCurrentVoice();
+    m_Playing = false;
+
+    // •”•i‚ðÁ‚·
+    CleanupParts();
 }
 
 void MessageManager::Draw(Camera* cam)
@@ -74,8 +88,9 @@ void MessageManager::SetCharaDummyPath(const std::string& path)
 
 void MessageManager::Play()
 {
-    if (m_Pages.empty())
-        return;
+    if (m_Pages.empty()) return;
+    if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar) return;
+
 
     m_Playing = true;
     m_Index = 0;
@@ -90,17 +105,18 @@ void MessageManager::Play()
 
 void MessageManager::Stop()
 {
-    if (!m_Playing) return;
+    if (!m_Playing)
+    {
+        CleanupParts();
+        return;
+    }
 
     StopCurrentVoice();
 
     m_Playing = false;
     m_Index = 0;
 
-    m_UI->Show(false);
-    m_Text->Show(false);
-    m_LeftChar->Show(false);
-    m_RightChar->Show(false);
+    CleanupParts();
 }
 
 void MessageManager::Advance()
@@ -122,6 +138,19 @@ void MessageManager::Advance()
 void MessageManager::BeginPage(int index)
 {
     if (index < 0 || index >= (int)m_Pages.size()) return;
+
+    if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar)
+    {
+        m_Playing = false;
+        return;
+    }
+
+    // ‘ä–{‚ª–³‚¢ / ”ÍˆÍŠO ‚È‚çˆÀ‘S‚É’âŽ~
+    if (m_Pages.empty() || index < 0 || index >= (int)m_Pages.size())
+    {
+        Stop();
+        return;
+    }
 
     const MessagePage& p = m_Pages[index];
 
@@ -150,5 +179,19 @@ void MessageManager::BeginPage(int index)
 void MessageManager::StopCurrentVoice()
 {
     // m_Sound.StopVoice();
+}
+
+void MessageManager::CleanupParts()
+{
+    // Šù‚ÉÁ‚¦‚Ä‚¢‚½‚ç‰½‚à‚µ‚È‚¢
+    Game* g = Game::GetInstance();
+    if (!g) return;
+
+    //”ñ•\Ž¦‚Ì‚Ý
+    if (m_UI)      m_UI->Show(false);
+    if (m_Text)    m_Text->Show(false);
+    if (m_LeftChar)  m_LeftChar->Show(false);
+    if (m_RightChar) m_RightChar->Show(false);
+
 }
 

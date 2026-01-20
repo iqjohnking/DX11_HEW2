@@ -164,6 +164,7 @@
     <ClCompile Include="slikWall.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="Stage1Scene.cpp" />
+    <ClCompile Include="StageBase.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="TalkCharacter.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="silkWall.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="Stage1Scene.h" />
+    <ClInclude Include="StageBase.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TalkCharacter.h" />

@@ -29,16 +29,19 @@ private:
     // 台本
     std::vector<MessagePage> m_Pages;
 
+private:
     // 進行状態
     bool m_Playing = false;
     int  m_Index = 0;
 
-private:
     // 1ページ分を各部品に反映（心臓部）
     void BeginPage(int index);
 
     // ボイス停止（クリックで次へ進む瞬間に必ず呼ぶ）
     void StopCurrentVoice();
+
+    // 部品を全部Deleteする
+    void CleanupParts();
 
 public:
     void Init() override;
@@ -62,6 +65,5 @@ public:
     bool IsPlaying() const { return m_Playing; }
     int  GetIndex() const { return m_Index; }
     int  GetPageCount() const { return static_cast<int>(m_Pages.size()); }
-	
 };
 
