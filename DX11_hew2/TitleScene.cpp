@@ -169,7 +169,7 @@ void TitleScene::Update()
 		if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
 		{
 			int eliminatedCount = 0;
-			std::vector<Object*> toRemove; // “|‚·—\’èƒŠƒXƒg
+			//std::vector<Object*> toRemove; // “|‚·—\’èƒŠƒXƒg
 
 			// “G‚ð’²‚×‚ÄAŽOŠpŒ`“à‚É‚¢‚é‚â‚Â‚ð“|‚·—\’èƒŠƒXƒg‚ÉŠi”[‚·‚é
 			for (auto* obj : m_MySceneObjects)
@@ -180,23 +180,14 @@ void TitleScene::Update()
 				const auto pos = enemy->GetPosition();
 				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
 				{
-					toRemove.push_back(obj);
+					//toRemove.push_back(obj);
+					Vector3 centroid = (A + B + C) / 3.0f;
+					enemy->StartMayuing(centroid);
 					++eliminatedCount;
 				}
 			}
 
-			// “|‚·—\’è‚Ì“G‚ðíœ‚·‚é
-			//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’Ç‰Á‚·‚é•K—v‚ ‚é‚©H
-			for (auto* obj : toRemove)
-			{
-				Game::GetInstance()->DeleteObject(obj);
-				auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-				if (it != m_MySceneObjects.end())
-				{
-					m_MySceneObjects.erase(it);
-				}
-			}
-
+			// Mayu ‚ð¶¬‚·‚é
 			if (eliminatedCount > 0)
 			{
 				// ”¼Œa‚ÌÝŒv—áFŠî€ 25 + 1‘Ì‚²‚Æ‚É +5
@@ -211,6 +202,18 @@ void TitleScene::Update()
 				mayu->SetRadius(mayuRadius); // ”¼ŒaÝ’èiŒãq‚Ì˜A“®‘Î‰ž‚ª•K—vj
 				m_MySceneObjects.emplace_back(mayu);
 			}
+
+			// “|‚·—\’è‚Ì“G‚ðíœ‚·‚é
+			//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’Ç‰Á‚·‚é•K—v‚ ‚é‚©H
+			//for (auto* obj : toRemove)
+			//{
+			//	Game::GetInstance()->DeleteObject(obj);
+			//	auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+			//	if (it != m_MySceneObjects.end())
+			//	{
+			//		m_MySceneObjects.erase(it);
+			//	}
+			//}
 
 			for (int i = 0; i < 3; ++i)
 			{

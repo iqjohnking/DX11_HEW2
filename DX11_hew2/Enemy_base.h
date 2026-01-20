@@ -63,12 +63,15 @@ public:
 	//ó‘Ô‚Ìæ“¾
 	int GetState() const { return static_cast<int>(state); }
 
-	void StartMayuing(const Vector3& mayuPos)
+	void SetHitpoint(int hitpoint) {
+		m_Hitpoint = hitpoint;
+	}	// “G‚Ì‘Ì—Í‚ğİ’è
+
+	void StartMayuing(const DirectX::SimpleMath::Vector3& mayuPos)
 	{
 		m_StartMayuPos = GetPosition();
 		m_TargetMayuPos = mayuPos;
 		mayuingTimer = 60;                 // 1•b = 60framei˜ïİ60fpsj
 		state = EnemyState::ISMAYUING;
 	}
-
 };

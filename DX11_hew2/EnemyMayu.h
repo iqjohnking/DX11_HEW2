@@ -10,6 +10,8 @@ protected:
 	Collision::Sphere m_Collider; // 当たり判定の為の情報
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 	bool isExploding = false;
+
+	int spawnTimer = 0; //出現アニメーション用タイマー
 	int explodeTimer = 0;
 
 

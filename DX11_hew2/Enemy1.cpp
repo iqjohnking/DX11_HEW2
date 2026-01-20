@@ -218,7 +218,7 @@ void Enemy1::move()
 	}
 	case EnemyState::DEAD:
 	{
-
+		Game::GetInstance()->DeleteObject(this);
 		break;
 	}
 	default:
