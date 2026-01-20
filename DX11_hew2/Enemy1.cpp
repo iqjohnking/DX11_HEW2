@@ -196,7 +196,19 @@ void Enemy1::move()
 	}
 	case EnemyState::ISMAYUING:
 	{
+		float t = 1.0f - (float)mayuingTimer / 60.0f;
 
+		Vector3 pos = m_StartMayuPos + (m_TargetMayuPos - m_StartMayuPos) * t;
+		SetPosition(pos);
+
+		mayuingTimer--;
+		if (mayuingTimer <= 0)
+		{
+			SetPosition(m_TargetMayuPos);
+			mayuingTimer = 0;
+			
+			state = EnemyState::DEAD;
+		}
 		break;
 	}
 	case EnemyState::DYING:

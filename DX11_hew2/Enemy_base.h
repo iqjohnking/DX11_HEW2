@@ -15,6 +15,7 @@ protected:
 	};
 	EnemyState state = EnemyState::SPAWNING;
 	int spawnTimer = 0; //出現アニメーション用タイマー
+	int mayuingTimer = 0; //繭になる用タイマー
 
 	// hp = 12
 	// 毒壁の攻撃力は12、6、4、（１回、２回、３回ダメージが受けたら死ぬ）
@@ -28,7 +29,8 @@ protected:
 	bool isSpdDown = false; //速度低下中かどうか
 	bool isBecomingMayu = false; //繭になっているかどうか
 
-	DirectX::SimpleMath::Vector3 m_TargetPos = DirectX::SimpleMath::Vector3::Zero; // 目標地点
+	DirectX::SimpleMath::Vector3 m_StartMayuPos = DirectX::SimpleMath::Vector3::Zero; // 起
+	DirectX::SimpleMath::Vector3 m_TargetMayuPos = DirectX::SimpleMath::Vector3::Zero; // 迄
 
 	//巫女//field
 	Shrinemaiden* m_Miko = nullptr;
@@ -43,22 +45,30 @@ public:
 	//巫女を追いかけるための関数
 	virtual void move();
 
+
+
+
 	//巫女の位置を取得
 	void SetTarget(Shrinemaiden* sh) { m_Miko = sh; };
-	//void SetTarget(Shrinemaiden& sh) { m_Miko = &sh; }; // 参照渡し版 // 使わない //　
 	void SetField(Field* field) { m_Field = field; };
-
-
+	//半径の取得・設定
 	float GetRadius() const { return m_Radius; }
 	void SetRadius(float radius) { m_Radius = radius; }
+	//当たり判定情報の取得
 	Collision::Sphere& GetCollider() { return m_Collider; }
 	const Collision::Sphere& GetCollider() const { return m_Collider; }
-
+	//体力の取得・設定
 	void SetIsSpdDown(bool isDown) { isSpdDown = isDown; };
 	bool GetIsSpdDown() const { return isSpdDown; };
-
-	void SetIsBecomingMayu() { isBecomingMayu = true; };
-	
+	//状態の取得
 	int GetState() const { return static_cast<int>(state); }
+
+	void StartMayuing(const Vector3& mayuPos)
+	{
+		m_StartMayuPos = GetPosition();
+		m_TargetMayuPos = mayuPos;
+		mayuingTimer = 60;                 // 1秒 = 60frame（假設60fps）
+		state = EnemyState::ISMAYUING;
+	}
 
 };
