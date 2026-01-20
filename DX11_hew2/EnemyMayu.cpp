@@ -36,6 +36,14 @@ void EnemyMayu::Update()
 {
 	// IsActive が true のときだけ動作 
 	// IsActive = false の場合はいないけど
+
+	if (spawnTimer < 60)
+	{
+		m_Collider.radius = 0; //出現中は当たり判定なし
+		spawnTimer++;
+		return;
+	}
+
 	if (!isActive)
 	{
 		return;
@@ -63,8 +71,8 @@ void EnemyMayu::Update()
 	}
 
 	// 3)当たり判定更新
-	m_Collider.center = GetPosition();
-	m_Collider.radius = GetRadius();
+	m_Collider.center = GetPosition(); //当たり判定位置更新
+	m_Collider.radius = GetRadius(); //当たり判定半径更新
 
 
 	// 4)enemysとの衝突判定処理
@@ -92,6 +100,13 @@ void EnemyMayu::Update()
 
 void EnemyMayu::Draw(Camera* cam)
 {
+	if (spawnTimer < 60)
+	{
+		spawnTimer++;
+		m_Texture2D.SetScale(0, 0, 0);
+		return;
+	}
+
 	//Vector3 drawPos = Vector3 (m_Position.x, m_Position.y, m_Position.z);
 	m_Texture2D.SetPosition(m_Position);
 	m_Texture2D.SetScale(m_Radius * 4, m_Radius * 4, 0);
