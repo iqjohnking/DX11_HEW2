@@ -51,11 +51,6 @@ public:
 
 	static Game* GetInstance();
 
-	//SpawnƒLƒ…[‚ğ”½‰f
-	void FlushSpawnQueue();
-	//deleteƒLƒ…[‚ğ”½‰f
-	void ApplyDeleteQueue();
-
 	//Camera* GetCamera() { return &m_Instance->m_Camera; }
 	Camera* GetCamera() { return &m_Camera; }
 
@@ -78,6 +73,14 @@ public:
 		auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
 
 		T* rawPtr = ptr.get();								// ¶ƒ|ƒCƒ“ƒ^‚ğ‘Ş”ğ
+
+		// Update’†‚Íu“o˜^{Initv‚ğŒã‰ñ‚µiFlush‚Å‚â‚éj
+		if (m_Instance->m_IsUpdatingObjects)
+		{
+			m_Instance->m_SpawnQueue.emplace_back(std::move(ptr));
+			return rawPtr; // ¦‚±‚Ì“_‚Å‚Í‚Ü‚¾Init‚³‚ê‚Ä‚È‚¢
+		}
+
 		m_Instance->m_Objects.emplace_back(std::move(ptr)); // vector ‚ÉŠi”[
 		rawPtr->Init();										// ‰Šú‰»
 		return rawPtr;
