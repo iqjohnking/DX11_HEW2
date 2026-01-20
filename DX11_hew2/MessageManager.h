@@ -5,7 +5,7 @@
 
 #include "MessagePage.h"
 #include "MessageUI.h"
-#include "Text.h"
+#include "MessageText.h"
 #include "TalkCharacter.h"
 #include "Sound.h"
 
@@ -14,20 +14,22 @@ class MessageManager : public Object
 {
 private:
     MessageUI* m_UI = nullptr;
-    Text* m_Text = nullptr;
+    MessageText* m_Text = nullptr;
     TalkCharacter* m_LeftChar = nullptr;
     TalkCharacter* m_RightChar = nullptr;
 
-    // 仮素材パス
-    std::string m_FramePath;
-    std::string m_TextDummyPath;
-    std::string m_CharaDummyPath;
+	// 表示キャラID
+    std::string m_LeftCharId;
+    std::string m_RightCharId;
 
     // 音
     Sound m_Sound;
 
     // 台本
     std::vector<MessagePage> m_Pages;
+
+    // 枠画像パス
+    std::string m_FramePath; 
 
 private:
     // 進行状態
@@ -40,7 +42,13 @@ private:
     // ボイス停止（クリックで次へ進む瞬間に必ず呼ぶ）
     void StopCurrentVoice();
 
-    // 部品を全部Deleteする
+    // 部品が未生成なら生成して初期設定まで行う(保険)
+    void CreatePartsIfNeeded();
+
+    // 部品に共通設定を適用
+    void SetupParts();
+
+    // 部品を非表示にする
     void CleanupParts();
 
 public:
@@ -55,12 +63,14 @@ public:
     void ClearPages() { m_Pages.clear(); }
 
     void SetFramePath(const std::string& path);
-    void SetTextDummyPath(const std::string& path);
-    void SetCharaDummyPath(const std::string& path);
+
+    // 左右参加者を固定（Play前に呼ぶ）
+    void SetParticipants(const std::string& leftCharId, const std::string& rightCharId);
 
     void Play();     // 会話開始（index=0）
     void Advance();  // 次へ
     void Stop();     // 終了
+
 
     bool IsPlaying() const { return m_Playing; }
     int  GetIndex() const { return m_Index; }

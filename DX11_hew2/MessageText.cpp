@@ -1,14 +1,11 @@
-#include "Text.h"
+#include "MessageText.h"
 #include <iostream>   // デバッグ用
 
 using namespace DirectX::SimpleMath;
 
-void Text::Init()
+void MessageText::Init()
 {
     m_Sprite.Init();
-
-    // 仮テキスト画像をセット
-    m_Sprite.SetTexture("assets/texture/Message/text/Test_Text.png");
 
     // レイアウト
     m_Sprite.SetPosition(m_Pos);
@@ -17,17 +14,17 @@ void Text::Init()
     m_Visible = false;
 }
 
-void Text::Uninit()
+void MessageText::Uninit()
 {
     m_Sprite.Uninit();
 }
 
-void Text::Update()
+void MessageText::Update()
 {
     m_Sprite.Update();
 }
 
-void Text::Draw(Camera* cam)
+void MessageText::Draw(Camera* cam)
 {
     if (!m_Visible) return;
 
@@ -38,13 +35,13 @@ void Text::Draw(Camera* cam)
     m_Sprite.Draw(cam);
 }
 
-void Text::Clear()
+void MessageText::Clear()
 {
     m_Name.clear();
     m_Text.clear();
 }
 
-void Text::SetName(const std::string& name)
+void MessageText::SetName(const std::string& name)
 {
     m_Name = name;
 
@@ -52,7 +49,7 @@ void Text::SetName(const std::string& name)
     std::cout << "[Message][Name] " << m_Name << std::endl;
 }
 
-void Text::SetText(const std::string& text)
+void MessageText::SetText(const std::string& text)
 {
     m_Text = text;
 

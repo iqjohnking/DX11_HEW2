@@ -177,7 +177,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="MessageText.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TitleBG.cpp" />
@@ -235,7 +235,7 @@
     </ClInclude>
     <ClInclude Include="Test_melonlemon13.h" />
     <ClInclude Include="Test_TR.h" />
-    <ClInclude Include="Text.h" />
+    <ClInclude Include="MessageText.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TitleBG.h" />

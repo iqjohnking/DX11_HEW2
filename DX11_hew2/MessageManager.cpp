@@ -4,194 +4,275 @@
 
 void MessageManager::Init()
 {
-    // UI部品の初期化
-    m_UI = Game::GetInstance()->AddObject<MessageUI>();
-    m_Text = Game::GetInstance()->AddObject<Text>();
-    m_LeftChar = Game::GetInstance()->AddObject<TalkCharacter>();
-    m_RightChar = Game::GetInstance()->AddObject<TalkCharacter>();
+	m_Playing = false;
+	m_Index = 0;
 
-    // 描画順（必要なら調整）
-    m_LeftChar->SetDrawOrder(900);
-    m_RightChar->SetDrawOrder(900);
-    m_UI->SetDrawOrder(1000);
-    m_Text->SetDrawOrder(1100);
-
-    // 左右設定
-    m_LeftChar->SetSide(TalkSide::Left);
-    m_RightChar->SetSide(TalkSide::Right);
-
-
-    // 非表示で開始
-    m_UI->Show(false);
-    m_Text->Show(false);
-    m_LeftChar->Show(false);
-    m_RightChar->Show(false);
-
-    // すでにパスが設定済みなら反映（Init前にSet～が呼ばれてもOKにする）
-    if (!m_FramePath.empty())     m_UI->SetFrame(m_FramePath.c_str());
-    if (!m_TextDummyPath.empty()) m_Text->SetDummyTexture(m_TextDummyPath.c_str());
-    if (!m_CharaDummyPath.empty())
-    {
-        m_LeftChar->SetDummyTexture(m_CharaDummyPath.c_str());
-        m_RightChar->SetDummyTexture(m_CharaDummyPath.c_str());
-    }
-
-    m_Playing = false;
-    m_Index = 0;
+	CreatePartsIfNeeded();
 }
 
 void MessageManager::Uninit()
-{ 
-    // 念のため停止
-    StopCurrentVoice();
-    m_Playing = false;
+{
+	StopCurrentVoice();
+	m_Playing = false;
+	m_Index = 0;
 
-    // 部品を消す
-    CleanupParts();
+	CleanupParts();
+
+	// Deleteはしない
+	// ただしポインタは将来の事故防止で切っておく
+	m_UI = nullptr;
+	m_Text = nullptr;
+	m_LeftChar = nullptr;
+	m_RightChar = nullptr;
 }
 
 void MessageManager::Draw(Camera* cam)
 {
-   //各部品が勝手に描画するので何もなし
+	//各部品が勝手に描画するので何もなし
 }
 
 void MessageManager::Update()
 {
-    if (!m_Playing) return;
+	if (!m_Playing) return;
 
-    // 仮：Spaceで次へ
-    if (Input::GetKeyTrigger(VK_SPACE))
-    {
-        Advance();
-    }
+	// 仮：Spaceで次へ
+	if (Input::GetKeyTrigger(VK_SPACE))
+	{
+		Advance();
+	}
 }
 
 void MessageManager::SetFramePath(const std::string& path)
 {
-    m_FramePath = path;
-    if (m_UI) m_UI->SetFrame(m_FramePath.c_str());
-}
+	m_FramePath = path;
 
-void MessageManager::SetTextDummyPath(const std::string& path)
-{
-    m_TextDummyPath = path;
-    if (m_Text) m_Text->SetDummyTexture(path.c_str());
-}
-
-void MessageManager::SetCharaDummyPath(const std::string& path)
-{
-    m_CharaDummyPath = path;
-
-    if (m_LeftChar)  m_LeftChar->SetDummyTexture(path.c_str());
-    if (m_RightChar) m_RightChar->SetDummyTexture(path.c_str());
+	if (m_UI)
+	{
+		m_UI->SetFrame(m_FramePath);
+	}
 }
 
 void MessageManager::Play()
 {
-    if (m_Pages.empty()) return;
-    if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar) return;
+	// 部品が無いなら作る
+	CreatePartsIfNeeded();
 
+	if (m_Pages.empty()) return;
+	const MessagePage& p0 = m_Pages[0];
+	if (p0.leftFaceId.empty() || p0.rightFaceId.empty())
+	{
+		m_Playing = false;
+		m_Index = 0;
+		CleanupParts();
+		return;
+	}
+	if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar) return;
 
-    m_Playing = true;
-    m_Index = 0;
+	if (m_LeftCharId.empty() || m_RightCharId.empty()) return;
 
-    m_UI->Show(true);
-    m_Text->Show(true);
-    m_LeftChar->Show(true);
-    m_RightChar->Show(true);
+	// 念押しで参加者反映
+	m_LeftChar->SetCharacter(m_LeftCharId);
+	m_RightChar->SetCharacter(m_RightCharId);
 
-    BeginPage(m_Index);
+	m_Playing = true;
+	m_Index = 0;
+
+	m_UI->Show(true);
+	m_Text->Show(true);
+	m_LeftChar->Show(true);
+	m_RightChar->Show(true);
+
+	BeginPage(m_Index);
 }
 
 void MessageManager::Stop()
 {
-    if (!m_Playing)
-    {
-        CleanupParts();
-        return;
-    }
+	if (!m_Playing)
+	{
+		CleanupParts();
+		return;
+	}
 
-    StopCurrentVoice();
+	StopCurrentVoice();
 
-    m_Playing = false;
-    m_Index = 0;
+	m_Playing = false;
+	m_Index = 0;
 
-    CleanupParts();
+	CleanupParts();
 }
 
 void MessageManager::Advance()
 {
-    if (!m_Playing) return;
+	if (!m_Playing) return;
 
-    StopCurrentVoice();
+	StopCurrentVoice();
 
-    m_Index++;
-    if (m_Index >= (int)m_Pages.size())
-    {
-        Stop();
-        return;
-    }
+	m_Index++;
+	if (m_Index >= (int)m_Pages.size())
+	{
+		Stop();
+		return;
+	}
 
-    BeginPage(m_Index);
+	BeginPage(m_Index);
 }
 
 void MessageManager::BeginPage(int index)
 {
-    if (index < 0 || index >= (int)m_Pages.size()) return;
+	// 万一欠けてたら作る
+	CreatePartsIfNeeded();
 
-    if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar)
-    {
-        m_Playing = false;
-        return;
-    }
+	if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar)
+	{
+		m_Playing = false;
+		return;
+	}
 
-    // 台本が無い / 範囲外 なら安全に停止
-    if (m_Pages.empty() || index < 0 || index >= (int)m_Pages.size())
-    {
-        Stop();
-        return;
-    }
+	// 台本が無い / 範囲外 なら安全に停止
+	if (m_Pages.empty() || index < 0 || index >= (int)m_Pages.size())
+	{
+		Stop();
+		return;
+	}
 
-    const MessagePage& p = m_Pages[index];
+	const MessagePage& p = m_Pages[index];
 
-    // 文字
-    m_Text->SetName(p.speakerName);
-    m_Text->SetText(p.text);
+	// 文字
+	m_Text->SetName(p.speakerName);
+	m_Text->SetText(p.text);
 
-    // フォーカス
-    if (p.focus == FocusSide::Left)
-    {
-        m_LeftChar->SetFocus(true);
-        m_RightChar->SetFocus(false);
-    }
-    else if (p.focus == FocusSide::Right)
-    {
-        m_LeftChar->SetFocus(false);
-        m_RightChar->SetFocus(true);
-    }
-    else
-    {
-        m_LeftChar->SetFocus(true);
-        m_RightChar->SetFocus(true);
-    }
+	// Page0で左右の初期表情を決める(空なら何もしない＝TalkCharacter側の現状維持)
+	if (index == 0)
+	{
+		m_LeftChar->SetFace(p.leftFaceId);
+		m_RightChar->SetFace(p.rightFaceId);
+	}
+
+	// 話者側だけ表情を更新(空なら変更しない)
+	if (!p.speakerFaceId.empty())
+	{
+		if (p.focus == FocusSide::Left)
+		{
+			m_LeftChar->SetFace(p.speakerFaceId);
+		}
+		else if (p.focus == FocusSide::Right)
+		{
+			m_RightChar->SetFace(p.speakerFaceId);
+		}
+		// None は誰も変えない（前の表情を維持）
+	}
+
+	// フォーカス
+	if (p.focus == FocusSide::Left)
+	{
+		m_LeftChar->SetFocus(true);
+		m_RightChar->SetFocus(false);
+	}
+	else if (p.focus == FocusSide::Right)
+	{
+		m_LeftChar->SetFocus(false);
+		m_RightChar->SetFocus(true);
+	}
+	else
+	{
+		// Noneの場合：両方明るく
+		//要調整
+		m_LeftChar->SetFocus(true);
+		m_RightChar->SetFocus(true);
+	}
 }
 
 void MessageManager::StopCurrentVoice()
 {
-    // m_Sound.StopVoice();
+	// m_Sound.StopVoice();
+}
+
+void MessageManager::CreatePartsIfNeeded()
+{
+	// すでに揃っているなら何もしない
+	if (m_UI && m_Text && m_LeftChar && m_RightChar)
+		return;
+
+	Game* g = Game::GetInstance();
+	if (!g) return;
+
+	bool created = false;
+
+	if (!m_UI)
+	{
+		m_UI = g->AddObject<MessageUI>();
+		created = true;
+	}
+	if (!m_Text)
+	{
+		m_Text = g->AddObject<MessageText>();
+		created = true;
+	}
+	if (!m_LeftChar)
+	{
+		m_LeftChar = g->AddObject<TalkCharacter>();
+		created = true;
+	}
+	if (!m_RightChar)
+	{
+		m_RightChar = g->AddObject<TalkCharacter>();
+		created = true;
+	}
+
+	if (created)
+	{
+		SetupParts();
+	}
+}
+
+void MessageManager::SetupParts()
+{
+	// 描画順(必要なら調整)
+	m_LeftChar->SetDrawOrder(900);
+	m_RightChar->SetDrawOrder(900);
+	m_UI->SetDrawOrder(1000);
+	m_Text->SetDrawOrder(1100);
+
+	// 左右設定
+	m_LeftChar->SetSide(TalkSide::Left);
+	m_RightChar->SetSide(TalkSide::Right);
+
+	// いったん非表示（Playで表示）
+	m_UI->Show(false);
+	m_Text->Show(false);
+	m_LeftChar->Show(false);
+	m_RightChar->Show(false);
+
+	// 会話枠パスが設定済みなら反映
+	if (!m_FramePath.empty())
+	{
+		m_UI->SetFrame(m_FramePath);
+	}
+
+	if (!m_LeftCharId.empty())
+	{
+		m_LeftChar->SetCharacter(m_LeftCharId);
+	}
+	if (!m_RightCharId.empty())
+	{
+		m_RightChar->SetCharacter(m_RightCharId);
+	}
+}
+
+void MessageManager::SetParticipants(const std::string& leftCharId, const std::string& rightCharId)
+{
+	m_LeftCharId = leftCharId;
+	m_RightCharId = rightCharId;
+
+	// 既に部品があれば即反映してOK（無ければPlay時に反映）
+	if (m_LeftChar && !m_LeftCharId.empty())   m_LeftChar->SetCharacter(m_LeftCharId);
+	if (m_RightChar && !m_RightCharId.empty()) m_RightChar->SetCharacter(m_RightCharId);
 }
 
 void MessageManager::CleanupParts()
 {
-    // 既に消えていたら何もしない
-    Game* g = Game::GetInstance();
-    if (!g) return;
-
-    //非表示のみ
-    if (m_UI)      m_UI->Show(false);
-    if (m_Text)    m_Text->Show(false);
-    if (m_LeftChar)  m_LeftChar->Show(false);
-    if (m_RightChar) m_RightChar->Show(false);
-
+	if (m_UI) m_UI->Show(false);
+	if (m_Text) m_Text->Show(false);
+	if (m_LeftChar) m_LeftChar->Show(false);
+	if (m_RightChar) m_RightChar->Show(false);
 }
-

@@ -168,7 +168,7 @@
     <ClCompile Include="TalkCharacter.cpp">
       <Filter>ソース ファイル\Message</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="MessageText.cpp">
       <Filter>ソース ファイル\Message</Filter>
     </ClCompile>
     <ClCompile Include="MessagePage.cpp">
@@ -320,7 +320,7 @@
     <ClInclude Include="MessageUI.h">
       <Filter>ヘッダー ファイル\Message</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="MessageText.h">
       <Filter>ヘッダー ファイル\Message</Filter>
     </ClInclude>
     <ClInclude Include="MessagePage.h">
