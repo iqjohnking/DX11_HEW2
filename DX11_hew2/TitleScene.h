@@ -36,13 +36,13 @@ private:
 
 	Shrinemaiden* m_Miko = nullptr;     // 巫女
 
-	void Init();   // 初期化
-	void Uninit(); // 終了処理
-
 public:
+
 	TitleScene();  // コンストラクタ
 	~TitleScene(); // デストラクタ
 
-	void Update() override; // 更新
+	void Init() override; // 初期化
+	void Uninit()override; // 終了処理
+	void Update()override; // 更新
 };
 

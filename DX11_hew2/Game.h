@@ -32,6 +32,14 @@ private:
 	//Objects
 	std::vector<std::unique_ptr<Object>> m_Objects;
 
+	//追加
+	// 生成キュー
+	std::vector<std::unique_ptr<Object>> m_SpawnQueue;
+	//削除キュー
+	std::vector<Object*> m_DeleteQueue;
+	// オブジェクト更新中フラグ
+	bool m_IsUpdatingObjects = false;
+
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ
@@ -43,6 +51,11 @@ public:
 
 	static Game* GetInstance();
 
+	//Spawnキューを反映
+	void FlushSpawnQueue();
+	//deleteキューを反映
+	void ApplyDeleteQueue();
+
 	//Camera* GetCamera() { return &m_Instance->m_Camera; }
 	Camera* GetCamera() { return &m_Camera; }
 
@@ -50,6 +63,25 @@ public:
 
 	void DeleteObject(Object* ptr); // オブジェクト削除
 	void DeleteAllObjects(); // オブジェクト全削除
+
+	//追加
+	//Spawnキューを反映
+	void FlushSpawnQueue();
+	//deleteキューを反映
+	void ApplyDeleteQueue();
+
+	//キュー用に変更したい
+	template <typename T, typename... Args>
+	T* AddObject(Args&&... args)
+	{
+		// T(args...) でオブジェクトを生成
+		auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
+
+		T* rawPtr = ptr.get();								// 生ポインタを退避
+		m_Instance->m_Objects.emplace_back(std::move(ptr)); // vector に格納
+		rawPtr->Init();										// 初期化
+		return rawPtr;
+	}
 
 	// オブジェクトを追加する（※テンプレート関数）// 引数なしバージョン
 	/*
@@ -80,7 +112,7 @@ public:
 
 	// オブジェクトを追加する（※テンプレート関数）
 	// 任意個数の引数 Args... を取り、そのまま T のコンストラクタに渡す
-	template <typename T, typename... Args> 
+	/*template <typename T, typename... Args>
 	T* AddObject(Args&&... args)
 	{
 		// T(args...) でオブジェクトを生成
@@ -90,7 +122,7 @@ public:
 		m_Instance->m_Objects.emplace_back(std::move(ptr)); // vector に格納
 		rawPtr->Init();										// 初期化
 		return rawPtr;
-	}
+	}*/
 
 	// オブジェクトを取得する（※テンプレート関数）
 	template<typename T>

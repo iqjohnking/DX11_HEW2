@@ -9,13 +9,13 @@ using namespace DirectX::SimpleMath;
 // コンストラクタ
 TitleScene::TitleScene()
 {
-	Init();
+	
 }
 
 // デストラクタ
 TitleScene::~TitleScene()
 {
-	Uninit();
+	
 }
 
 // 初期化

@@ -21,8 +21,8 @@ public:
 	Stage1Scene(); // コンストラクタ
 	~Stage1Scene(); // デストラクタ
 
-	void Update(); // 更新
-	void Init(); // 初期化
-	void Uninit(); // 終了処理
+	void Init() override; // 初期化
+	void Uninit()override; // 終了処理
+	void Update()override; // 更新
 };
 
