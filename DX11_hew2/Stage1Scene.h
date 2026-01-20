@@ -6,6 +6,10 @@
 #include "MessageManager.h"
 #include "MessagePage.h"
 
+// 会話の進行状態
+//StageBaseに移動予定
+enum class Flow { StartTalk, Gameplay, EndTalk };
+
 // Stage1Scenクラス
 class Stage1Scene : public Scene
 {
@@ -13,9 +17,13 @@ private:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
-	std::vector<MessagePage> m_TestPages;
+	std::vector<MessagePage> m_Pages;
 
-	void BuildTestPages();
+	void BuildStartPages();
+
+	void BuildEndPages();
+
+	Flow m_Flow = Flow::StartTalk;
 
 public:
 	Stage1Scene(); // コンストラクタ

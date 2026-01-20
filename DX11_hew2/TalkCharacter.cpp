@@ -59,10 +59,10 @@ void TalkCharacter::Uninit()
 
 std::string TalkCharacter::BuildTexturePath() const
 {
-    // 仮運用：charId/faceId が空ならテスト画像
+    // charId/faceIdが揃ってないなら何も描画しない
     if (m_CharId.empty() || m_FaceId.empty())
     {
-        return "assets/texture/Message/character/MessageCharaTest.png";
+        return "";
     }
 
     // focus反映：非話者なら _dark を付ける

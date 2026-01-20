@@ -3,7 +3,7 @@
 #include <string>
 #include "Texture2D.h"
 
-class Text : public Object
+class MessageText : public Object
 {
 private:
     std::string m_Name;   // –¼‘O—“
