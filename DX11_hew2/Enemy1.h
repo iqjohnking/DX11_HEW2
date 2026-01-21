@@ -9,7 +9,7 @@ protected:
 	//Collision::Sphere m_Collider; // 当たり判定の為の情報　
 
 	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
-	
+	static constexpr int kMayuFrames = 15;
 
 public:
 	void Init() override;

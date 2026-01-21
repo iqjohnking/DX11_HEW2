@@ -17,11 +17,12 @@ void Enemy1::Init()
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
 	SetIsAlive(true);
 	m_Radius = 25.0f; //個別調整
+	mayuingTimer = 0;
 
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/enemy.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -47,10 +48,11 @@ void Enemy1::Update()
 
 	if (isActive)
 	{
-		move();
+		move(); //enumはこれ中に入ってることに注意
 
 		m_Collider.center = GetPosition();
 	}
+	m_Texture2D.Update();
 }
 
 void Enemy1::Draw(Camera* cam)
@@ -82,6 +84,8 @@ void Enemy1::move()
 			state = EnemyState::ALIVE;
 			m_Texture2D.PlayAnim("idle");
 		}
+		mayuingTimer;
+
 		break;
 	}
 	case EnemyState::ALIVE:
@@ -196,17 +200,20 @@ void Enemy1::move()
 	}
 	case EnemyState::ISMAYUING:
 	{
-		float t = 1.0f - (float)mayuingTimer / 60.0f;
+		
+
+		mayuingTimer++; // 0 -> kMayuFrames
+
+		float t = (float)mayuingTimer / (float)kMayuFrames;
+		if (t > 1.0f) t = 1.0f;
 
 		Vector3 pos = m_StartMayuPos + (m_TargetMayuPos - m_StartMayuPos) * t;
 		SetPosition(pos);
 
-		mayuingTimer--;
-		if (mayuingTimer <= 0)
+		if (mayuingTimer >= kMayuFrames)
 		{
 			SetPosition(m_TargetMayuPos);
-			mayuingTimer = 0;
-			
+			mayuingTimer = kMayuFrames;
 			state = EnemyState::DEAD;
 		}
 		break;

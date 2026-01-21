@@ -35,15 +35,19 @@ static bool IsSegmentInTriangleFanXY(
 	Vector3 d0 = s0 - a; d0.z = 0.0f;
 	Vector3 d1 = s1 - a; d1.z = 0.0f;
 
-	float c10 = Cross2DXY(dirB, d0);
-	float c20 = Cross2DXY(d0, dirC);
+	// ★追加：線分の中点もチェック（端点が外でも、横切りを拾える）
+	Vector3 mid = (s0 + s1) * 0.5f;
+	Vector3 dm = mid - a; dm.z = 0.0f;
 
-	float c11 = Cross2DXY(dirB, d1);
-	float c21 = Cross2DXY(d1, dirC);
+	// 端点 or 中点が扇形に入るなら unsafe
+	auto InWedgeOneWay = [&](const Vector3& d) -> bool
+		{
+			float c1 = Cross2DXY(dirB, d);
+			float c2 = Cross2DXY(d, dirC);
+			return (c1 >= 0.0f && c2 >= 0.0f);
+		};
 
-	// 線段任一端點落在扇形?就視為「?據該方向」
-	return (c10 >= 0.0f && c20 >= 0.0f) ||
-		(c11 >= 0.0f && c21 >= 0.0f);
+	return InWedgeOneWay(d0) || InWedgeOneWay(d1) || InWedgeOneWay(dm);
 }
 
 //==================================================
@@ -116,24 +120,23 @@ void Shrinemaiden::move()
 
 	if (m_IsStuck)
 	{
-		m_StuckTimer++;
-
-		// 停幾幀，等局勢改變（敵人動 / Silk 消失）
+		// 30フレイムことろ待機
 		if (m_StuckTimer < 30)   // 約 0.5 秒（60fps）
 		{
+			m_StuckTimer++;
 			SetVelocity(0.0f);
 			return;
 		}
 
-		// ★ 嘗試極小位移（側向）
+		// 側に移動し試して
 		Vector3 side(-m_LastFailedDir.y, m_LastFailedDir.x, 0.0f);
 		if (side.LengthSquared() > 1e-4f)
 			side.Normalize();
 
-		const float nudge = m_Radius * 0.3f; // 很小
+		const float nudge = m_Radius * 0.3f; // 小さいすぎる
 		Vector3 tryPos = GetPosition() + side * nudge;
 
-		// 確保不出場
+		// フィールド境界チェック
 		if (m_Field)
 		{
 			Vector3 dummyVel = tryPos - GetPosition();
@@ -146,7 +149,7 @@ void Shrinemaiden::move()
 			}
 		}
 
-		// 重置?住?態，重新搜尋
+		// リセット
 		m_IsStuck = false;
 		m_StuckTimer = 0;
 		m_EscapeState = EscapeState::SearchEscapePoint;
@@ -191,19 +194,21 @@ void Shrinemaiden::move()
 					Vector3 dirE = e->GetPosition() - a;
 					dirE.z = 0.0f;
 
-					// 方向（扇形）判定
+					// 方向ベクトル同士の角度チェック
 					float c1 = Cross2DXY(dirB, dirE);
 					float c2 = Cross2DXY(dirE, dirC);
 					const float dirDistSq = dirE.x * dirE.x + dirE.y * dirE.y;
 					const float dirLimitSq = m_serchDistance * m_serchDistance;
 
-					if (c1 >= 0.0f && c2 >= 0.0f && dirDistSq <= dirLimitSq)
+					if (((c1 >= 0.0f && c2 >= 0.0f) || (c1 <= 0.0f && c2 <= 0.0f)) 
+						&& dirDistSq <= dirLimitSq)
 					{
 						unsafe = true;
 						break;
 					}
 
 
+					// 三角形扇形内に敵がいるか？
 					// 円 vs 三角形
 					if (DoesCircleIntersectTriangleXY(
 						e->GetPosition(),
@@ -351,57 +356,95 @@ void Shrinemaiden::move()
 
 void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 {
-	// 1. 記?失敗方向（給下一次搜尋用）
+	// 1) 失敗方向記録
 	Vector3 failDir = m_direction;
 	failDir.z = 0.0f;
-	if (failDir.LengthSquared() > 1e-4f)
-		failDir.Normalize();
+	if (failDir.LengthSquared() > 1e-4f) failDir.Normalize();
 	m_LastFailedDir = failDir;
 
-	// 2. 計算後退方向
-	Vector3 backDir = -m_direction;
-	backDir.z = 0.0f;
-	if (backDir.LengthSquared() > 1e-4f)
-		backDir.Normalize();
+	// 2) 退避候補（後ろ、左右、斜め）
+	Vector3 f = failDir;
+	if (f.LengthSquared() <= 1e-4f) f = Vector3(1, 0, 0);
+	else f.Normalize();
 
-	Vector3 desiredPos = now_pos + backDir * (m_Radius * 2.5f);
+	Vector3 side(-f.y, f.x, 0.0f);
+	if (side.LengthSquared() > 1e-4f) side.Normalize();
 
-	// 3. ★ 如果後退會撞到 Field，就「暫時不動」
-	if (m_Field)
+	const float dist = m_Radius * 2.5f;
+
+	// 斜め方向は Normalize() してから使う（Normalized() は無い）
+	Vector3 diag1 = side - f; diag1.z = 0.0f;
+	if (diag1.LengthSquared() > 1e-4f) diag1.Normalize();
+
+	Vector3 diag2 = (-side) - f; diag2.z = 0.0f;
+	if (diag2.LengthSquared() > 1e-4f) diag2.Normalize();
+
+	Vector3 candidates[] =
 	{
-		Vector3 testPos = now_pos;
-		Vector3 testVel = desiredPos - now_pos;
+		now_pos + (-f) * dist,
+		now_pos + (side)*dist,
+		now_pos + (-side) * dist,
+		now_pos + (diag1)*dist,
+		now_pos + (diag2)*dist,
+	};
 
-		bool hitBorder = m_Field->ResolveBorder(testPos, testVel, m_Radius);
-
-		if (hitBorder)
+	auto IsFree = [&](const Vector3& candidatePos) -> bool
 		{
-			// ───────────────
-			// 退路不存在：原地停止
-			// ───────────────
-			SetPosition(now_pos);
+			// Field
+			if (m_Field)
+			{
+				Vector3 p = now_pos;
+				Vector3 v = candidatePos - now_pos;
+				const bool hit = m_Field->ResolveBorder(p, v, m_Radius);
+				if (hit) return false;
+			}
+
+			// SilkWall（Sphere 型を使わず、m_Collider と同型で判定）
+			const auto silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+
+			auto testCol = m_Collider;     // ← m_Collider と同じ型になる
+			testCol.center = candidatePos;
+
+			for (auto* w : silkWalls)
+			{
+				if (!w || !w->IsActive()) continue;
+				Vector3 cp;
+				if (Collision::CheckHit(w->GetSegment(), testCol, cp))
+					return false;
+			}
+
+			return true;
+		};
+
+	// 3) 退避を試す（成功したらそこへ移動して再探索）
+	for (auto& pCand : candidates)
+	{
+		Vector3 finalPos = pCand;
+
+		if (m_Field)
+		{
+			Vector3 p = now_pos;
+			Vector3 v = pCand - now_pos;
+			const bool hit = m_Field->ResolveBorder(p, v, m_Radius);
+			if (hit) continue;
+			finalPos = p + v;
+		}
+
+		if (IsFree(finalPos))
+		{
+			SetPosition(finalPos);
 			SetVelocity(0.0f);
-			SetDirection(Vector3::Zero);
 			m_EscapeState = EscapeState::SearchEscapePoint;
 			return;
 		}
-
-		// 沒撞牆，才真的後退
-		desiredPos = testPos + testVel;
 	}
 
-	// 4. 套用後退結果
-	SetPosition(now_pos);
+	// 4) 退路が無い：stuck モードへ
 	SetVelocity(0.0f);
-	SetDirection(Vector3::Zero);
 	m_EscapeState = EscapeState::SearchEscapePoint;
-
-	// ★ 記??住
 	m_IsStuck = true;
 	m_StuckTimer = 0;
-	return;
 }
-
 
 
 //==================================================
