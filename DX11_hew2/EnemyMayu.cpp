@@ -22,10 +22,13 @@ void EnemyMayu::Init()
 
 	//animation 設定
 	m_Texture2D.SetSpriteSheet(3, 3);
-	m_Texture2D.AddAnimClip("idle", 0, 0, 10);
-	m_Texture2D.AddAnimClip("yowa", 1, 8, 8);
+	m_Texture2D.AddAnimClip("SPAWNING", 7, 8, 10);
+	m_Texture2D.AddAnimClip("ALIVE", 0, 0, 10);
+	m_Texture2D.AddAnimClip("ISEXPLODING,", 1, 8, 10);
+	m_Texture2D.AddAnimClip("ISDESTROING,", 5, 8, 10);
+	m_Texture2D.AddAnimClip("DEAD", 8, 8, 10);
 
-	m_Texture2D.PlayAnim("idle");
+	m_Texture2D.PlayAnim("SPAWNING");
 
 
 
@@ -36,47 +39,66 @@ void EnemyMayu::Update()
 {
 	// IsActive が true のときだけ動作 
 	// IsActive = false の場合はいないけど
-
-	if (spawnTimer < 60)
-	{
-		m_Collider.radius = 0; //出現中は当たり判定なし
-		spawnTimer++;
-		return;
-	}
-
 	if (!isActive)
 	{
 		return;
 	}
 
-	// 1)絹の糸当たり判定
-	vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-	for (auto w : silkWalls)
+	m_Texture2D.Update();
+
+	switch (state) {
+	case MayuState::SPAWNING:
 	{
-		if (Collision::CheckHit(w->GetSegment(), m_Collider))
+		if (spawnTimer < kspawnTime)
 		{
-			m_Texture2D.PlayAnim("yowa");
-			if (!isExploding)
-			{
-				SetRadius(m_Radius * 2);
-			}
-			isExploding = true;
+			m_Texture2D.PlayAnim("SPAWNING");
+
+			m_Collider.radius = 0; //出現中は当たり判定なし
+			spawnTimer++;
+			//kspawnTime is 30 
 		}
+		else {
+			state = MayuState::ALIVE;
+			m_Texture2D.PlayAnim("ALIVE");
+		}
+		break;
 	}
+	case MayuState::ALIVE:
+	{
+
+		// 1)絹の糸当たり判定
+		vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+		for (auto w : silkWalls)
+		{
+			if (Collision::CheckHit(w->GetSegment(), m_Collider))
+			{
+				m_Texture2D.PlayAnim("yowa");
+				if (!isExploding)
+				{
+					SetRadius(m_Radius * 2);
+				}
+				isExploding = true;
+			}
+		}
 
 
-	// 2)消滅判定
-	if (explodeTimer > 60) {
-		toBeDeleted = true; //消滅
+
+
+		// 3)当たり判定更新
+		m_Collider.center = GetPosition(); //当たり判定位置更新
+		m_Collider.radius = GetRadius(); //当たり判定半径更新
+
+
+		// 4)enemysとの衝突判定処理
+		if (isExploding) {
+			state = MayuState::ISEXPLODING;
+			m_Texture2D.PlayAnim("ISEXPLODING,");
+		}
+		break;
 	}
+	case MayuState::ISEXPLODING:
+	{
 
-	// 3)当たり判定更新
-	m_Collider.center = GetPosition(); //当たり判定位置更新
-	m_Collider.radius = GetRadius(); //当たり判定半径更新
-
-
-	// 4)enemysとの衝突判定処理
-	if (isExploding) {
 		explodeTimer++;
 
 		auto enemys = Game::GetInstance()->GetObjects<Enemy_base>();
@@ -92,17 +114,35 @@ void EnemyMayu::Update()
 				e->SetIsSpdDown(true);
 			}
 		}
+
+		// 2)消滅判定
+		if (explodeTimer > 60) {
+			state = MayuState::DEAD;
+		}
+
+		break;
+	}
+	case MayuState::ISDESTROING:
+	{
+		break;
+	}
+	case MayuState::DEAD:
+	{
+
+		Game::GetInstance()->DeleteObject(this);
+		break;
 	}
 
-	// 5)アニメーション更新
-	m_Texture2D.Update();
+
+
+	}
 }
 
 void EnemyMayu::Draw(Camera* cam)
 {
-	if (spawnTimer < 60)
+	if (spawnTimer < kspawnTime)
 	{
-		spawnTimer++;
+		//spawnTimer++;
 		m_Texture2D.SetScale(0, 0, 0);
 		return;
 	}

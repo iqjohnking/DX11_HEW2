@@ -54,8 +54,10 @@ void TitleScene::Init()
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
-	/*
+	
 	////ìG1
+	
+	
 	for (int i = 0; i < 10; ++i)
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
@@ -71,8 +73,10 @@ void TitleScene::Init()
 		}
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}
-	*/
+	
+	
 	////ìG4
+	/*
 	for (int i = 0; i < 10; ++i)
 	{
 		Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
@@ -88,6 +92,7 @@ void TitleScene::Init()
 		}
 		m_MySceneObjects.emplace_back(Enemy4List[i]);
 	}
+	*/
 }
 
 // çXêV

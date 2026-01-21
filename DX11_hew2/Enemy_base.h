@@ -71,7 +71,7 @@ public:
 	{
 		m_StartMayuPos = GetPosition();
 		m_TargetMayuPos = mayuPos;
-		mayuingTimer = 60;                 // 1秒 = 60frame（假設60fps）
+		mayuingTimer = 0;                 // 1秒 = 60frame（假設60fps）
 		state = EnemyState::ISMAYUING;
 	}
 };

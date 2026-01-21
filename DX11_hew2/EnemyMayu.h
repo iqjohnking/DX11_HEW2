@@ -5,6 +5,15 @@
 class EnemyMayu : public Object
 {
 protected:
+	enum MayuState {
+		SPAWNING,	//0出現中(アニメーション)
+		ALIVE,		//1生存
+		ISEXPLODING,//2プレイヤーによって爆発中
+		ISDESTROING,//3エネミーによって消滅中
+		DEAD		//4消滅
+	};
+
+	MayuState state = MayuState::SPAWNING;
 	Texture2D m_Texture2D;
 
 	Collision::Sphere m_Collider; // 当たり判定の為の情報
@@ -12,6 +21,7 @@ protected:
 	bool isExploding = false;
 
 	int spawnTimer = 0; //出現アニメーション用タイマー
+	static constexpr int kspawnTime = 15; //出現アニメーション用タイマー
 	int explodeTimer = 0;
 
 
