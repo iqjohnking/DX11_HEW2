@@ -113,7 +113,7 @@ void Enemy2::move()
 
 			// 2) 敵同士の分離ステアリングを加算
 			// 他の敵一覧を取得
-			auto enemies = Game::GetInstance()->GetObjects<Enemy_base>();
+			auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
 			Vector3 separation = Vector3::Zero;
 
 			// 分離影響半径（重なり検出 + マージン）

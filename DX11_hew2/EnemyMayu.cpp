@@ -79,7 +79,7 @@ void EnemyMayu::Update()
 	if (isExploding) {
 		explodeTimer++;
 
-		auto enemys = Game::GetInstance()->GetObjects<Enemy_base>();
+		auto enemys = Game::GetInstance()->GetObjects<EnemyBase>();
 		for (auto* e : enemys)
 		{
 			if (!e) continue;

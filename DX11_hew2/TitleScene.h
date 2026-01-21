@@ -12,7 +12,7 @@
 #include "playerHand.h"
 #include "Field.h"
 #include "Shrinemaiden.h"
-#include "Enemy_base.h"	
+#include "EnemyBase.h"	
 #include "Enemy1.h"	
 #include"Enemy2.h"
 #include "Enemy4.h"

@@ -120,7 +120,7 @@
     <ClCompile Include="playerHand.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_base.cpp">
+    <ClCompile Include="EnemyBase.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="Shrinemaiden.cpp">
@@ -177,8 +177,11 @@
     <ClCompile Include="Enemy4.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="Stage_Base.cpp">
+    <ClCompile Include="StageBase.cpp">
       <Filter>ソース ファイル\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy2.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,7 +275,7 @@
     <ClInclude Include="playerHand.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_base.h">
+    <ClInclude Include="EnemyBase.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="Shrinemaiden.h">
@@ -332,8 +335,11 @@
     <ClInclude Include="Enemy4.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_Base.h">
+    <ClInclude Include="StageBase.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy2.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

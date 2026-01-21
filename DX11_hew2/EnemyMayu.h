@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy_base.h"
+#include "EnemyBase.h"
 #include "Texture2D.h"
 
 class EnemyMayu : public Object
