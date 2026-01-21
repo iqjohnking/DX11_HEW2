@@ -21,7 +21,7 @@ void Enemy2::Init()
 	//èâä˙âªèàóù
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/hand.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // èâä˙à íuÇÕäOïîÇ≈ê›íËÇ∑ÇÈëzíË
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -44,6 +44,7 @@ void Enemy2::Update()
 	// IsActive Ç™ true ÇÃÇ∆Ç´ÇæÇØìÆçÏ 
 	// IsActive = false ÇÃèÍçáÇÕÇ¢Ç»Ç¢ÇØÇ«
 	m_Collider.radius = m_Radius;
+	m_Texture2D.Update();
 
 	if (isActive)
 	{
@@ -156,6 +157,7 @@ void Enemy2::move()
 				if (m_cutTimer > 0.0f)
 				{
 					m_cutTimer -= 1.0f / 60.0f;
+					m_Texture2D.PlayAnim("atk");
 
 					if (m_cutTimer <= 0.0f)
 					{
@@ -163,7 +165,7 @@ void Enemy2::move()
 						{
 
 							m_targetWall->SetIsActive(false);//éÖÇè¡Ç∑
-
+							m_Texture2D.PlayAnim("idle");
 							m_targetWall = nullptr;
 						}
 					}
