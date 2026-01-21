@@ -36,6 +36,7 @@ public:
 	
 	const Collision::Segment& GetSegment() const { return m_Segment; }
 	//bool CheckHit(const Collision::Sphere& sphere) const;
+	bool GetIsActive() const { return isActive; }
 
 	// Žè‚©‚ç”­ŽË‚·‚é‚Æ‚«‚ÉŒÄ‚Ô
 	void Fire(const DirectX::SimpleMath::Vector3& startPos,

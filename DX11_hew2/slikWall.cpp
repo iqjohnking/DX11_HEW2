@@ -61,6 +61,8 @@ void silkWall::Update()
 
 void silkWall::Draw(Camera* cam)
 {
+	//if (!isActive) return;
+
 	m_Texture2D.SetPosition(GetPosition()); // 親クラスの位置を反映
 	m_Texture2D.SetScale(GetScale());	// 親クラスの大きさを反映
 	m_Texture2D.SetRotation(GetRotation()); // 親クラスの回転を反映
