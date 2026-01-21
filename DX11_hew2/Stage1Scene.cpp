@@ -37,7 +37,7 @@ void Stage1Scene::Init()
     m_Message->SetParticipants("kumo", "miko");
 
     // 会話素材の指定
-    m_Message->SetFramePath("assets/texture/Message/UI/field.jpg");
+    m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
     // 台本セット
     m_Message->SetPages(m_Pages);

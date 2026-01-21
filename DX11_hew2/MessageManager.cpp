@@ -243,10 +243,8 @@ void MessageManager::SetupParts()
 	// •`‰æ‡(•K—v‚È‚ç’²®)
 	m_LeftChar->SetDrawOrder(900);
 	m_RightChar->SetDrawOrder(900);
-	//m_UI->SetDrawOrder(1000);
-	//m_Text->SetDrawOrder(1100);
-	m_UI->SetDrawOrder(1100);
-	m_Text->SetDrawOrder(1000);
+	m_UI->SetDrawOrder(1000);
+	m_Text->SetDrawOrder(1100);
 
 	// ¶‰EÝ’è
 	m_LeftChar->SetSide(TalkSide::Left);
