@@ -1,4 +1,5 @@
 #include "Stage_Base.h"
+#include"Game.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -6,19 +7,19 @@ using namespace DirectX::SimpleMath;
 //silkWall* m_SilkWalls[3] = { nullptr, nullptr, nullptr };
 
 // コンストラクタ
-Stage_Base::Stage_Base()
+StageBase::StageBase()
 {
 
 }
 
 // デストラクタ
-Stage_Base::~Stage_Base()
+StageBase::~StageBase()
 {
 
 }
 
 // 初期化
-void Stage_Base::Init()
+void StageBase::Init()
 {
     //カメラのポインタを取得
     Camera* cam = Game::GetInstance()->GetCamera();
@@ -118,7 +119,7 @@ void Stage_Base::Init()
 }
 
 //更新
-void Stage_Base::Update()
+void StageBase::Update()
 {
 	if (!m_Message) return;
 
@@ -333,7 +334,7 @@ void Stage_Base::Update()
 }
 
 // 終了処理
-void Stage_Base::Uninit()
+void StageBase::Uninit()
 {
 	if (m_Message)
 	{
@@ -347,94 +348,18 @@ void Stage_Base::Uninit()
 	m_MySceneObjects.clear();
 }
 
-void Stage_Base::BuildStartPages()
+void StageBase::BuildStartPages()
 {
-	m_Pages.clear();
 
-	// Page0: 開始（左=女郎蜘蛛が話す）
-	{
-		MessagePage p;
-		p.speakerName = "女郎蜘蛛";
-		p.text = "開始テスト1";
-		p.voiceId = "";
-		p.focus = FocusSide::Left;
-
-		// Page0必須：左右の初期表情
-		p.leftFaceId = "normal";
-		p.rightFaceId = "angry";
-
-		// 話者（左）表情
-		p.speakerFaceId = "normal";
-
-		m_Pages.push_back(p);
-	}
-
-	// Page1: 右=巫女
-	{
-		MessagePage p;
-		p.speakerName = "巫女";
-		p.text = "開始テスト2";
-		p.voiceId = "";
-		p.focus = FocusSide::Right;
-
-		// 話者（右）だけ表情変更
-		p.speakerFaceId = "smile";
-
-		m_Pages.push_back(p);
-	}
-
-	// Page2: 左=女郎蜘蛛
-	{
-		MessagePage p;
-		p.speakerName = "女郎蜘蛛";
-		p.text = "開始テスト3";
-		p.voiceId = "";
-		p.focus = FocusSide::Left;
-
-		p.speakerFaceId = "surprised";
-
-		m_Pages.push_back(p);
-	}
 }
 
-void Stage_Base::BuildEndPages()
+void StageBase::BuildEndPages()
 {
-	m_Pages.clear();
-
-	// Page0: 終了（右=巫女が話す）
-	{
-		MessagePage p;
-		p.speakerName = "巫女";
-		p.text = "終了テスト1";
-		p.voiceId = "";
-		p.focus = FocusSide::Right;
-
-		// Page0必須：左右の初期表情（終了会話でも必須運用に合わせる）
-		p.leftFaceId = "normal";
-		p.rightFaceId = "normal";
-
-		// 話者（右）表情
-		p.speakerFaceId = "normal";
-
-		m_Pages.push_back(p);
-	}
-
-	// Page1: 左=女郎蜘蛛
-	{
-		MessagePage p;
-		p.speakerName = "女郎蜘蛛";
-		p.text = "終了テスト2";
-		p.voiceId = "";
-		p.focus = FocusSide::Left;
-
-		p.speakerFaceId = "angry";
-
-		m_Pages.push_back(p);
-	}
+	
 }
 
 //実行すると確率で敵がスポーン
-void Stage_Base::EnemyrandomSpawn()
+void StageBase::EnemyrandomSpawn()
 {
 	rand = get_rand_range(2.0f, 4.0f); //後で数値を変更
 	/*
@@ -445,7 +370,7 @@ void Stage_Base::EnemyrandomSpawn()
 	*/
 }
 
-void Stage_Base::StageClearCheck()
+void StageBase::StageClearCheck()
 {
 	//クリア条件を達成しているかどうか
 	//達成していたらm_Flowを変える
@@ -457,7 +382,7 @@ void Stage_Base::StageClearCheck()
 	*/
 }
 
-void Stage_Base::StageFailedCheck()
+void StageBase::StageFailedCheck()
 {
 	//ステージ失敗かどうか
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "Object.h"
-#include "Game.h"
 #include "Input.h"
 #include "Collision.h"
 #include "TriangleSilk.h"
@@ -29,7 +28,7 @@
 enum class Flow { StartTalk, Gameplay, EndTalk };
 
 // Stage_Baseクラス
-class Stage_Base : public Scene
+class StageBase : public Scene
 {
 private:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
@@ -64,12 +63,12 @@ protected:
 	void BuildEndPages();
 
 public:
-	Stage_Base();  // コンストラクタ
-	~Stage_Base(); // デストラクタ
+	StageBase();  // コンストラクタ
+	~StageBase(); // デストラクタ
 
-	void Init() override; // 初期化
-	void Uninit()override; // 終了処理
-	void Update()override; // 更新
+	virtual void Init() = 0; // 初期化
+	virtual void Uninit() = 0; // 終了処理
+	virtual void Update() = 0; // 更新
 
 	void EnemyrandomSpawn();
 	void StageClearCheck();
