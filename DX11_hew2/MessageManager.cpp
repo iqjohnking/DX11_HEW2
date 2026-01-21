@@ -70,6 +70,9 @@ void MessageManager::Play()
 
 	if (m_LeftCharId.empty() || m_RightCharId.empty()) return;
 
+	// 台本チェック
+	if (!ValidatePagesForPlay()) return;
+
 	// 念押しで参加者反映
 	m_LeftChar->SetCharacter(m_LeftCharId);
 	m_RightChar->SetCharacter(m_RightCharId);
@@ -138,8 +141,26 @@ void MessageManager::BeginPage(int index)
 	const MessagePage& p = m_Pages[index];
 
 	// 文字
-	m_Text->SetName(p.speakerName);
-	m_Text->SetText(p.text);
+	//m_Text->SetName(p.speakerName);
+	//m_Text->SetText(p.text);
+
+	// 文字（画像）
+	//m_Text->SetNameImage(p.nameImagePath);
+	//m_Text->SetTextImage(p.textImagePath);
+
+	// 名前画像（空なら変更しない運用にするなら if を付ける）
+	{
+		const std::string namePath = BuildNameImagePath(p.nameId);
+		if (!namePath.empty())
+			m_Text->SetNameImage(namePath);
+	}
+
+	// 本文画像
+	{
+		const std::string textPath = BuildTextImagePath(p.textId, p.textIndex);
+		if (!textPath.empty())
+			m_Text->SetTextImage(textPath);
+	}
 
 	// Page0で左右の初期表情を決める(空なら何もしない＝TalkCharacter側の現状維持)
 	if (index == 0)
@@ -275,4 +296,61 @@ void MessageManager::CleanupParts()
 	if (m_Text) m_Text->Show(false);
 	if (m_LeftChar) m_LeftChar->Show(false);
 	if (m_RightChar) m_RightChar->Show(false);
+}
+
+std::string MessageManager::BuildNameImagePath(const std::string& nameId) const
+{
+	if (nameId.empty()) return std::string();
+	return "assets/texture/Message/name/name_" + nameId + ".png";
+	//例)assets/texture/Message/name/name_miko.png
+}
+
+// 本文画像：assets/texture/Message/text/text_{id}_{000}.png
+std::string MessageManager::BuildTextImagePath(const std::string& textId, int index) const
+{
+	if (textId.empty()) return std::string();
+	if (index < 0) return std::string();
+
+	std::ostringstream oss;
+	oss << "assets/texture/Message/text/text_" << textId << "_"
+		<< std::setw(3) << std::setfill('0') << index
+		<< ".png";
+	return oss.str();
+	//例)assets/texture/Message/text/text_stage1_start_000.png
+}
+
+bool MessageManager::ValidatePagesForPlay() const
+{
+	if (m_Pages.empty())
+	{
+		//デバッグ用
+		std::cout << "[Message] pages empty\n";
+		return false;
+	}
+
+	const MessagePage& p0 = m_Pages[0];
+
+	// Page0は初期表示を確定させたいので必須
+	if (p0.nameId.empty())
+	{
+		//デバッグ用
+		std::cout << "[Message] Page0 nameId is empty\n";
+		return false;
+	}
+
+	if (p0.textId.empty())
+	{
+		//デバッグ用
+		std::cout << "[Message] Page0 textId is empty\n";
+		return false;
+	}
+
+	if (p0.textIndex < 0)
+	{
+		//デバッグ用
+		std::cout << "[Message] Page0 textIndex < 0\n";
+		return false;
+	}
+
+	return true;
 }

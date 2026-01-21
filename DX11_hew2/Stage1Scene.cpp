@@ -110,12 +110,16 @@ void Stage1Scene::BuildStartPages()
     // Page0: 開始（左=女郎蜘蛛が話す）
     {
         MessagePage p;
-        p.speakerName = "女郎蜘蛛";
-        p.text = "開始テスト1";
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "kumo";          // name_kumo.png
+        p.textId = "stage1_start";  // text_stage1_start_***
+        p.textIndex = 0;            // 000
+
         p.voiceId = "";
         p.focus = FocusSide::Left;
 
-        // Page0必須：左右の初期表情
+        // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "angry";
 
@@ -128,8 +132,12 @@ void Stage1Scene::BuildStartPages()
     // Page1: 右=巫女
     {
         MessagePage p;
-        p.speakerName = "巫女";
-        p.text = "開始テスト2";
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "miko";          // name_miko.png
+        p.textId = "stage1_start";
+        p.textIndex = 1;            // 001
+
         p.voiceId = "";
         p.focus = FocusSide::Right;
 
@@ -142,8 +150,12 @@ void Stage1Scene::BuildStartPages()
     // Page2: 左=女郎蜘蛛
     {
         MessagePage p;
-        p.speakerName = "女郎蜘蛛";
-        p.text = "開始テスト3";
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "kumo";
+        p.textId = "stage1_start";
+        p.textIndex = 2;            // 002
+
         p.voiceId = "";
         p.focus = FocusSide::Left;
 
@@ -152,7 +164,6 @@ void Stage1Scene::BuildStartPages()
         m_Pages.push_back(p);
     }
 }
-
 void Stage1Scene::BuildEndPages()
 {
     m_Pages.clear();
@@ -160,12 +171,16 @@ void Stage1Scene::BuildEndPages()
     // Page0: 終了（右=巫女が話す）
     {
         MessagePage p;
-        p.speakerName = "巫女";
-        p.text = "終了テスト1";
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "miko";        // name_miko.png
+        p.textId = "stage1_end";  // text_stage1_end_***
+        p.textIndex = 0;          // 000
+
         p.voiceId = "";
         p.focus = FocusSide::Right;
 
-        // Page0必須：左右の初期表情（終了会話でも必須運用に合わせる）
+        // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
 
@@ -178,8 +193,12 @@ void Stage1Scene::BuildEndPages()
     // Page1: 左=女郎蜘蛛
     {
         MessagePage p;
-        p.speakerName = "女郎蜘蛛";
-        p.text = "終了テスト2";
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "kumo";
+        p.textId = "stage1_end";
+        p.textIndex = 1;          // 001
+
         p.voiceId = "";
         p.focus = FocusSide::Left;
 

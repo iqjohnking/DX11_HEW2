@@ -51,6 +51,12 @@ private:
     // 部品を非表示にする
     void CleanupParts();
 
+    std::string BuildNameImagePath(const std::string& nameId) const;
+    std::string BuildTextImagePath(const std::string& textId, int index) const;
+
+    //台本のチェック
+    bool ValidatePagesForPlay() const;
+
 public:
     void Init() override;
     void Update() override;
