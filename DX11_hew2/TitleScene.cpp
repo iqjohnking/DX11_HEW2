@@ -73,21 +73,21 @@ void TitleScene::Init()
 	}
 	
 	////敵4
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
-		Enemy4List[i]->SetTarget(m_Miko);
-		Enemy4List[i]->SetField(m_Field);
-		if (i < 5) {
-
-			Enemy4List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy4List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy4List[i]->SetRadius(Enemy4List[i]->GetRadius() + 5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy4List[i]);
-	}
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
+	//	Enemy4List[i]->SetTarget(m_Miko);
+	//	Enemy4List[i]->SetField(m_Field);
+	//	if (i < 5) {
+	//
+	//		Enemy4List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+	//	}
+	//	else {
+	//		Enemy4List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+	//		Enemy4List[i]->SetRadius(Enemy4List[i]->GetRadius() + 5.f);
+	//	}
+	//	m_MySceneObjects.emplace_back(Enemy4List[i]);
+	//}
 }
 
 // 更新
@@ -133,37 +133,31 @@ void TitleScene::Update()
 		}
 	}
 
-	if (Input::GetKeyTrigger('R'))   // 
-	{
-		std::vector<Object*> removeList;
-
-		//Enemyを探す
-		for (auto* obj : m_MySceneObjects)
-		{
-			if (dynamic_cast<EnemyBase*>(obj))
-			{
-				removeList.push_back(obj);
-			}
-		}
-
-		//　見つけたEnemy1を削除する
-		for (auto* obj : removeList)
-		{
-			Game::GetInstance()->DeleteObject(obj);
-
-			auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-			if (it != m_MySceneObjects.end())
-			{
-				m_MySceneObjects.erase(it);
-			}
-		}
-	}
-
-	for (int i = 0; i < 3; ++i)
-	{
-		silkWall* wall = m_SilkWalls[i];
-		if (!wall) continue;              // 防禦性チェック
-	}
+	//if (Input::GetKeyTrigger('R'))   // 
+	//{
+	//	std::vector<Object*> removeList;
+	//
+	//	//Enemyを探す
+	//	for (auto* obj : m_MySceneObjects)
+	//	{
+	//		if (dynamic_cast<EnemyBase*>(obj))
+	//		{
+	//			removeList.push_back(obj);
+	//		}
+	//	}
+	//
+	//	//　見つけたEnemy1を削除する
+	//	for (auto* obj : removeList)
+	//	{
+	//		Game::GetInstance()->DeleteObject(obj);
+	//
+	//		auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+	//		if (it != m_MySceneObjects.end())
+	//		{
+	//			m_MySceneObjects.erase(it);
+	//		}
+	//	}
+	//}
 
 	//-----------------------------------------------------------------------------
 	// silkWallの三角形判定
@@ -219,17 +213,6 @@ void TitleScene::Update()
 				m_MySceneObjects.emplace_back(mayu);
 			}
 
-			// 倒す予定の敵を削除する
-			//アニメーションの追加する必要あるか？
-			//for (auto* obj : toRemove)
-			//{
-			//	Game::GetInstance()->DeleteObject(obj);
-			//	auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-			//	if (it != m_MySceneObjects.end())
-			//	{
-			//		m_MySceneObjects.erase(it);
-			//	}
-			//}
 
 			for (int i = 0; i < 3; ++i)
 			{
@@ -244,14 +227,12 @@ void TitleScene::Update()
 	// silkWall と　mayu の当たり判定
 	//-----------------------------------------------------------------------------
 
-	//MAYUのなかにいるから、こちはなにもしない
-
+	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
 	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
 	{
 		Object* o = *it; // オブジェクト取得
 		if (!o || o->ToBeDeleted())
 		{
-			Game::GetInstance()->DeleteObject(o); // オブジェクト削除
 			it = m_MySceneObjects.erase(it); // イテレータを更新
 		}
 		else
@@ -269,6 +250,8 @@ void TitleScene::Update()
 
 		return;
 	}
+
+
 }
 
 // 終了処理

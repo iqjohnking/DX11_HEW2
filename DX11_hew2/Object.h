@@ -43,6 +43,10 @@ public:
 	bool IsActive() const { return isActive; }
 	void SetIsActive(bool isAct) { isActive = isAct; }
 
+
+	void SetToBeDeleted() { toBeDeleted = true; }
+
+	
 	bool ToBeDeleted() const { return toBeDeleted; }
 
 	DirectX::SimpleMath::Vector3 GetPosition() const { return m_Position; }
