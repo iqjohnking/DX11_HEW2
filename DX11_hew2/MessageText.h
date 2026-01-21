@@ -14,12 +14,12 @@ private:
 
     // レイアウト(要調整)
     //話者
-    DirectX::SimpleMath::Vector3 m_NamePos = { -650.0f, -310.0f, 0.0f };
-    DirectX::SimpleMath::Vector3 m_NameSize = { 500.0f,  120.0f, 1.0f };
+    DirectX::SimpleMath::Vector3 m_NamePos = { 0.0f, 0.0f, 0.0f };
+    DirectX::SimpleMath::Vector3 m_NameSize = { 1920.0f,  1080.0f, 1.0f };
 
     //テキスト
-    DirectX::SimpleMath::Vector3 m_TextPos = { 0.0f,  -420.0f, 0.0f };
-    DirectX::SimpleMath::Vector3 m_TextSize = { 1800.0f, 300.0f, 1.0f };
+    DirectX::SimpleMath::Vector3 m_TextPos = { 0.0f, 0.0f, 0.0f };
+    DirectX::SimpleMath::Vector3 m_TextSize = { 1920.0f,  1080.0f, 1.0f };
 
     // 最後に貼ったパス（無駄なSetTexture回避）
     std::string m_LastNamePath;
