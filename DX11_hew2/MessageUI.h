@@ -11,7 +11,7 @@ private:
 
     Texture2D m_Frame;
 
-    // 仮レイアウト（画面下に固定）
+    // 仮レイアウト（画面下に固定）//(要調整)
     DirectX::SimpleMath::Vector3 m_Pos = DirectX::SimpleMath::Vector3(0.0f, -420.0f, 0.0f);
     DirectX::SimpleMath::Vector3 m_Size = DirectX::SimpleMath::Vector3(1920.0f, 360.0f, 1.0f);
 

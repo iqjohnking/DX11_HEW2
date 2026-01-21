@@ -6,18 +6,11 @@
 class MessageText : public Object
 {
 private:
-   //デバック用
-    std::string m_Name;   // 名前欄
-    std::string m_Text;   // 本文
-
     // 名前欄・本文の2枚
     Texture2D m_NameSprite;
     Texture2D m_TextSprite;
     // 表示状態
 	bool m_Visible = false;
-
-    // 仮表示用//デバッグ用
-    //Texture2D m_Sprite;
 
     // レイアウト(要調整)
     //話者
@@ -32,11 +25,6 @@ private:
     std::string m_LastNamePath;
     std::string m_LastTextPath;
 
-
-    // 枠の中に収まる想定の仮レイアウト
-    //DirectX::SimpleMath::Vector3 m_Pos = DirectX::SimpleMath::Vector3(0.0f, -420.0f, 0.0f);
-    //DirectX::SimpleMath::Vector3 m_Size = DirectX::SimpleMath::Vector3(1800.0f, 300.0f, 1.0f);
-
 public:
     // Object
     void Init() override;
@@ -50,8 +38,6 @@ public:
     bool IsVisible() const { return m_Visible; }
 
     void Clear();
-    //void SetName(const std::string& name);
-    //void SetText(const std::string& text);
     // ページごとに呼ぶ
     void SetNameImage(const std::string& path);
     void SetTextImage(const std::string& path);
@@ -67,11 +53,5 @@ public:
     {
         m_TextPos = pos; m_TextSize = size;
     }
-
-
-    //const std::string& GetName() const { return m_Name; }
-    //const std::string& GetText() const { return m_Text; }
-
-    //void SetDummyTexture(const char* path) { m_Sprite.SetTexture(path); }
 };
 
