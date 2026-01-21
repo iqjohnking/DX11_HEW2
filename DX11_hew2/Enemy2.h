@@ -1,10 +1,10 @@
 #pragma once
-#include "Enemy_base.h"
+#include "EnemyBase.h"
 #include "Texture2D.h"
 
 class silkWall;
 
-class Enemy2 : public Enemy_base
+class Enemy2 : public EnemyBase
 {
 protected:
 	Texture2D m_Texture2D;

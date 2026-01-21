@@ -140,7 +140,7 @@ void TitleScene::Update()
 		//Enemy‚ğ’T‚·
 		for (auto* obj : m_MySceneObjects)
 		{
-			if (dynamic_cast<Enemy_base*>(obj))
+			if (dynamic_cast<EnemyBase*>(obj))
 			{
 				removeList.push_back(obj);
 			}
@@ -190,7 +190,7 @@ void TitleScene::Update()
 			// “G‚ğ’²‚×‚ÄAOŠpŒ`“à‚É‚¢‚é‚â‚Â‚ğ“|‚·—\’èƒŠƒXƒg‚ÉŠi”[‚·‚é
 			for (auto* obj : m_MySceneObjects)
 			{
-				auto* enemy = dynamic_cast<Enemy_base*>(obj);
+				auto* enemy = dynamic_cast<EnemyBase*>(obj);
 				if (!enemy) continue;
 
 				const auto pos = enemy->GetPosition();

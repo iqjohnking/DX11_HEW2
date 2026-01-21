@@ -4,7 +4,7 @@
 class Shrinemaiden; // 前方宣言
 class Field; // 前方宣言
 
-class Enemy_base :public Character{
+class EnemyBase :public Character{
 protected:
 	enum EnemyState {
 		SPAWNING,	//0出現中(アニメーション)

@@ -1,8 +1,8 @@
 #pragma once
-#include "Enemy_base.h"
+#include "EnemyBase.h"
 #include "Texture2D.h"
 
-class Enemy1 : public Enemy_base
+class Enemy1 : public EnemyBase
 {
 protected:
 	Texture2D m_Texture2D;
