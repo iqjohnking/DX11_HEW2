@@ -165,6 +165,7 @@
     <ClCompile Include="Shrinemaiden.cpp" />
     <ClCompile Include="slikWall.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Stage1Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -223,6 +224,7 @@
     <ClInclude Include="Shrinemaiden.h" />
     <ClInclude Include="silkWall.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="Stage1.h" />
     <ClInclude Include="Stage1Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>

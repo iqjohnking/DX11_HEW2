@@ -19,6 +19,9 @@ void TalkCharacter::ApplyLayoutToSprite()
         // 右側キャラを左右反転したいなら true（素材による）
         m_Sprite.SetFlipX(false);
     }
+
+    // フォーカス状態に応じて明るさを反映
+    //m_Sprite.SetBrightness(m_Focus ? 1.0f : 0.45f);
 }
 
 void TalkCharacter::Init()
@@ -61,23 +64,23 @@ std::string TalkCharacter::BuildTexturePath() const
         return "";
     }
 
-    // focus反映：非話者なら _dark を付ける
-    std::string face = m_FaceId;
-    if (!m_Focus)
-    {
-        // すでに "_dark" なら二重に付けない
-        const std::string suffix = "_dark";
-        if (face.size() < suffix.size() ||
-            face.compare(face.size() - suffix.size(), suffix.size(), suffix) != 0)
-        {
-            face += suffix; // normal -> normal_dark
-        }
-    }
+    //// focus反映：非話者なら _dark を付ける
+    //std::string face = m_FaceId;
+    //if (!m_Focus)
+    //{
+    //    // すでに "_dark" なら二重に付けない
+    //    const std::string suffix = "_dark";
+    //    if (face.size() < suffix.size() ||
+    //        face.compare(face.size() - suffix.size(), suffix.size(), suffix) != 0)
+    //    {
+    //        face += suffix; // normal -> normal_dark
+    //    }
+    //}
 
     // 例：assets/texture/Message/character/miko_normal.png
     // 例：assets/texture/Message/character/miko_normal_dark.png
     std::string base = "assets/texture/Message/character/";
-    std::string path = base + m_CharId + "_" + face + ".png";
+    std::string path = base + m_CharId + "_" + m_FaceId + ".png";
     return path;
 }
 
@@ -90,6 +93,7 @@ void TalkCharacter::ApplyTextureIfNeeded()
         return; // 変化なし
 
     m_Sprite.SetTexture(path.c_str());
+    m_Sprite.SetBrightness(m_Focus ? 1.0f : 0.3f);
     m_LastAppliedPath = path;
 }
 
@@ -99,7 +103,9 @@ void TalkCharacter::SetFocus(bool focus)
         return;
 
     m_Focus = focus;
-    ApplyTextureIfNeeded(); // normal <-> normal_dark へ切替
+
+    // 話者は明るく、非話者は暗く
+    m_Sprite.SetBrightness(m_Focus ? 1.0f : 0.3f);
 }
 
 

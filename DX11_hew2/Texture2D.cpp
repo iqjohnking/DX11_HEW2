@@ -1,14 +1,14 @@
-#include "Texture2D.h"
+ï»¿#include "Texture2D.h"
 
 using namespace std;
 using namespace DirectX::SimpleMath;
 
 //=======================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=======================================
 void Texture2D::Init()
 {
-	// ’¸“_ƒf[ƒ^
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	m_Vertices.resize(4);
 
 	m_Vertices[0].position = Vector3(-0.5f, 0.5f, 0);
@@ -26,10 +26,10 @@ void Texture2D::Init()
 	m_Vertices[2].uv = Vector2(0, 1);
 	m_Vertices[3].uv = Vector2(1, 1);
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	m_VertexBuffer.Create(m_Vertices);
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	m_Indices.resize(4);
 
 	m_Indices[0] = 0;
@@ -37,22 +37,22 @@ void Texture2D::Init()
 	m_Indices[2] = 2;
 	m_Indices[3] = 3;
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	m_IndexBuffer.Create(m_Indices);
 
-	// ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg¶¬
+	// ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	m_Shader.Create("shader/unlitTextureVS.hlsl", "shader/unlitTexturePS.hlsl");
 
-	// ƒ}ƒeƒŠƒAƒ‹î•ñæ“¾
+	// ãƒãƒ†ãƒªã‚¢ãƒ«æƒ…å ±å–å¾—
 	m_Material = std::make_unique<Material>();
 	MATERIAL mtrl;
 	mtrl.Diffuse = Color(1, 1, 1, 1);
-	mtrl.TextureEnable = true; // ƒeƒNƒXƒ`ƒƒ‚ğg‚¤‚©”Û‚©‚Ìƒtƒ‰ƒO
+	mtrl.TextureEnable = true; // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ã†ã‹å¦ã‹ã®ãƒ•ãƒ©ã‚°
 	m_Material->Create(mtrl);
 }
 
 //=======================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=======================================
 void Texture2D::Update()
 {
@@ -75,7 +75,7 @@ void Texture2D::Update()
 		}
 
 		// -----------------------------
-		// ƒtƒŒ[ƒ€”Ô† ¨ UV ŒvZ
+		// ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå· â†’ UV è¨ˆç®—
 		// -----------------------------
 		int col = m_AnimFrame % m_AnimCols;
 		int row = m_AnimFrame / m_AnimCols;
@@ -93,28 +93,28 @@ void Texture2D::Update()
 }
 
 //=======================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=======================================
 void Texture2D::Draw(Camera* cam)
 {
-	//ƒJƒƒ‰‚ğ‘I‘ğ‚·‚é
+	//ã‚«ãƒ¡ãƒ©ã‚’é¸æŠã™ã‚‹
 	cam->SetCamera(1);
 
-	// SRTî•ñì¬
+	// SRTæƒ…å ±ä½œæˆ
 	Matrix r = Matrix::CreateFromYawPitchRoll(m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	Matrix t = Matrix::CreateTranslation(m_Position.x, m_Position.y, m_Position.z);
 	Matrix s = Matrix::CreateScale(m_Scale.x, m_Scale.y, m_Scale.z);
 
-	// ƒsƒ{ƒbƒg(Pivot)‘Î‰Fƒ‚ƒfƒ‹ƒ[ƒJƒ‹À•W‚Ì‘OŒã•½sˆÚ“®‚ğ‹²‚Ş
+	// ãƒ”ãƒœãƒƒãƒˆ(Pivot)å¯¾å¿œï¼šãƒ¢ãƒ‡ãƒ«ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™ã®å‰å¾Œå¹³è¡Œç§»å‹•ã‚’æŒŸã‚€
 	Matrix toPivot   = Matrix::CreateTranslation(-m_Pivot.x, -m_Pivot.y, -m_Pivot.z);
 	Matrix fromPivot = Matrix::CreateTranslation(m_Pivot.x, m_Pivot.y, m_Pivot.z);
 
-	// V‚µ‚¢ƒ[ƒ‹ƒhs—ñFƒsƒ{ƒbƒg‚ÅˆÚ“® ¨ ƒXƒP[ƒ‹ ¨ ‰ñ“] ¨ Œ³‚É–ß‚· ¨ ÅŒã‚ÉƒIƒuƒWƒFƒNƒgˆÊ’u‚ğ“K—p
+	// æ–°ã—ã„ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ï¼šãƒ”ãƒœãƒƒãƒˆã§ç§»å‹• â†’ ã‚¹ã‚±ãƒ¼ãƒ« â†’ å›è»¢ â†’ å…ƒã«æˆ»ã™ â†’ æœ€å¾Œã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½ç½®ã‚’é©ç”¨
 	Matrix worldmtx = toPivot * s * r * fromPivot * t;
 	//Matrix worldmtx = toPivot * s * r * t;
-	Renderer::SetWorldMatrix(&worldmtx); // GPU‚ÉƒZƒbƒg
+	Renderer::SetWorldMatrix(&worldmtx); // GPUã«ã‚»ãƒƒãƒˆ
 
-	// •`‰æˆ—
+	// æç”»å‡¦ç†
 	ID3D11DeviceContext* devicecontext = Renderer::GetDeviceContext();
 
 	devicecontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -126,7 +126,7 @@ void Texture2D::Draw(Camera* cam)
 	m_Texture.SetGPU();
 	m_Material->SetGPU();
 
-	// UV‚Ìİ’è‚ğw’è
+	// UVã®è¨­å®šã‚’æŒ‡å®š
 	float u, v, uw, vh;
 
 
@@ -161,12 +161,12 @@ void Texture2D::Draw(Camera* cam)
 		break;
 	}
 
-	// ----- ’Ç‰Á: ¶‰E”½“] -----
+	// ----- è¿½åŠ : å·¦å³åè»¢ -----
 	if (m_FlipX)
 	{
-		// •‚ğ•‰‚É‚µAŠJnU‚ğ1ƒZƒ‹‰E‚Ö‚¸‚ç‚·
-		// •ªŠ„ƒ‚[ƒh(m_false)‚Å‚ÍƒZƒ‹’PˆÊ‚Ì•(1/m_SplitX)‚ğg—p
-		// ”½“]‚ÌŠJnU‚ÍuŒ»İƒZƒ‹‚Ì‰E’[v‚É‚È‚é‚½‚ß +uw ‘O’ñ‚Å•‰‰»
+		// å¹…ã‚’è² ã«ã—ã€é–‹å§‹Uã‚’1ã‚»ãƒ«å³ã¸ãšã‚‰ã™
+		// åˆ†å‰²ãƒ¢ãƒ¼ãƒ‰(m_false)ã§ã¯ã‚»ãƒ«å˜ä½ã®å¹…(1/m_SplitX)ã‚’ä½¿ç”¨
+		// åè»¢æ™‚ã®é–‹å§‹Uã¯ã€Œç¾åœ¨ã‚»ãƒ«ã®å³ç«¯ã€ã«ãªã‚‹ãŸã‚ +uw å‰æã§è² åŒ–
 		u = u + uw;
 		uw = -uw;
 	}
@@ -181,22 +181,22 @@ void Texture2D::Draw(Camera* cam)
 }
 
 //=======================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=======================================
 void Texture2D::Uninit()
 {
 
 }
 
-// ƒeƒNƒXƒ`ƒƒ‚ğw’è
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æŒ‡å®š
 void Texture2D::SetTexture(const char* imgname)
 {
-	// ƒeƒNƒXƒ`ƒƒƒ[ƒh
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ­ãƒ¼ãƒ‰
 	bool sts = m_Texture.Load(imgname);
 	assert(sts == true);
 }
 
-// ˆÊ’u‚ğw’è
+// ä½ç½®ã‚’æŒ‡å®š
 void Texture2D::SetPosition(const float& x, const float& y, const float& z)
 {
 	Vector3 p = { x, y, z };
@@ -207,7 +207,7 @@ void Texture2D::SetPosition(const Vector3& pos)
 	m_Position = pos;
 }
 
-// Šp“x‚ğw’è
+// è§’åº¦ã‚’æŒ‡å®š
 void Texture2D::SetRotation(const float& x, const float& y, const float& z)
 {
 	Vector3 r = { x, y, z };
@@ -220,7 +220,7 @@ void Texture2D::SetRotation(const float& z)
 }
 void Texture2D::SetRotation(const Vector3& rot)
 {
-	m_Rotation = rot * PI /180; // degree¨radian‚É•ÏŠ·
+	m_Rotation = rot * PI /180; // degreeâ†’radianã«å¤‰æ›
 }
 
 void Texture2D::SetRotationRad(const float& x, const float& y, const float& z)
@@ -230,10 +230,10 @@ void Texture2D::SetRotationRad(const float& x, const float& y, const float& z)
 }
 void Texture2D::SetRotationRad(const Vector3& rot)
 {
-	m_Rotation = rot; // ›ßãS¥ radC’¼Ú‘¶
+	m_Rotation = rot; // å·²ç¶“æ˜¯ radï¼Œç›´æ¥å­˜
 }
 
-// ‘å‚«‚³‚ğw’è
+// å¤§ãã•ã‚’æŒ‡å®š
 void Texture2D::SetScale(const float& x, const float& y, const float& z)
 {
 	Vector3 s = { x, y, z };
@@ -244,13 +244,13 @@ void Texture2D::SetScale(const Vector3& scl)
 	m_Scale = scl;
 }
 
-// UVÀ•W‚ğw’è
+// UVåº§æ¨™ã‚’æŒ‡å®š
 void Texture2D::SetUV(const float& nu, const float& nv, const float& sx, const float& sy)
 {
 	m_NumU = nu;  
 	m_NumV = nv;
-	m_SplitX = sx; // X•ûŒü‚Ì•ªŠ„”
-	m_SplitY = sy; // Y•ûŒü‚Ì•ªŠ„”
+	m_SplitX = sx; // Xæ–¹å‘ã®åˆ†å‰²æ•°
+	m_SplitY = sy; // Yæ–¹å‘ã®åˆ†å‰²æ•°
 }
 
 void Texture2D::SetSpriteSheet(int cols, int rows)
@@ -322,4 +322,25 @@ void Texture2D::PauseAnimation(bool pause)
 			m_AnimEnabled = true;
 		}
 	}
+}
+
+void Texture2D::SetMulColor(const DirectX::SimpleMath::Color& c)
+{
+	if (!m_Material) return;
+
+	// Material::SetDiffuse ã¯ GPU ã«é€ã‚‰ãªã„ã®ã§ã€å¿…ãš Update() ã™ã‚‹
+	m_Material->SetDiffuse(DirectX::XMFLOAT4(c.x, c.y, c.z, c.w));
+	m_Material->Update();
+}
+
+void Texture2D::SetBrightness(float b)
+{
+	// b ã¯ 0ã€œ1 ã‚’æƒ³å®šï¼ˆå¿…è¦ãªã‚‰ Clamp ã—ã¦ã‚‚OKï¼‰
+	SetMulColor(DirectX::SimpleMath::Color(b, b, b, 1.0f));
+}
+
+void Texture2D::SetAlpha(float a)
+{
+	// æ˜ã‚‹ã•ã¯ãã®ã¾ã¾ã§é€æ˜åº¦ã ã‘
+	SetMulColor(DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, a));
 }

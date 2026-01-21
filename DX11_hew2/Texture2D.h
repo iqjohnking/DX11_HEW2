@@ -137,7 +137,14 @@ public:
 	// 一時停止 / 再開
 	void PauseAnimation(bool pause);
 
+	// スプライト全体に乗算する色（テクスチャ * 頂点色 * Diffuse）
+	void SetMulColor(const DirectX::SimpleMath::Color& c);
 
+	// 暗くする専用（RGBを同値にする）
+	void SetBrightness(float b);
+
+	// 透明度だけ変えたい時（暗さとは別）
+	void SetAlpha(float a);
 
 };
 

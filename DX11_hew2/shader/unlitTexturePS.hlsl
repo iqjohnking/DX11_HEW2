@@ -13,6 +13,9 @@ float4 main(in PS_IN input) : SV_Target
 	color *= input.col;
 
 	//color = input.col;
+	
+	// ’Ç‰ÁiMaterial ‚Ì Diffuse ‚ğŠ|‚¯‚éj
+    color *= Material.Diffuse;
 
 	return color;
 }
