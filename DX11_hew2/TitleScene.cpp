@@ -54,7 +54,7 @@ void TitleScene::Init()
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
-	/*
+	
 	////敵1
 	for (int i = 0; i < 10; ++i)
 	{
@@ -71,24 +71,7 @@ void TitleScene::Init()
 		}
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}
-	*/
-	////敵2
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
-		Enemy2List[i]->SetTarget(m_Miko);
-		Enemy2List[i]->SetField(m_Field);
-		if (i < 5) {
-
-			Enemy2List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy2List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy2List[i]);
-	}
-
+	
 	////敵4
 	for (int i = 0; i < 10; ++i)
 	{
@@ -191,7 +174,7 @@ void TitleScene::Update()
 
 	// 3 本とも準備完了しているか？
 	const bool allReady = std::all_of(std::begin(walls), std::end(walls),
-		[](const silkWall* w) { return w && w->GetIsActive() && !w->IsGrowing(); });
+		[](const silkWall* w) { return w && !w->IsGrowing(); });
 
 
 	// nullptr チェックのみ（就緒判定は行わない）

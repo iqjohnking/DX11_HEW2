@@ -36,7 +36,7 @@ void MessageManager::Update()
 	if (!m_Playing) return;
 
 	// 仮：Spaceで次へ
-	if (Input::GetKeyTrigger(VK_SPACE))
+	if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
 	{
 		Advance();
 	}
@@ -140,14 +140,6 @@ void MessageManager::BeginPage(int index)
 
 	const MessagePage& p = m_Pages[index];
 
-	// 文字
-	//m_Text->SetName(p.speakerName);
-	//m_Text->SetText(p.text);
-
-	// 文字（画像）
-	//m_Text->SetNameImage(p.nameImagePath);
-	//m_Text->SetTextImage(p.textImagePath);
-
 	// 名前画像（空なら変更しない運用にするなら if を付ける）
 	{
 		const std::string namePath = BuildNameImagePath(p.nameId);
@@ -196,10 +188,10 @@ void MessageManager::BeginPage(int index)
 	}
 	else
 	{
-		// Noneの場合：両方明るく
+		// Noneの場合：両方暗く
 		//要調整
-		m_LeftChar->SetFocus(true);
-		m_RightChar->SetFocus(true);
+		m_LeftChar->SetFocus(false);
+		m_RightChar->SetFocus(false);
 	}
 }
 

@@ -26,10 +26,6 @@ void Stage1Scene::Init()
 	//カメラのポインタを取得
 	Camera* cam = Game::GetInstance()->GetCamera();
 
-	//// オブジェクトを作成
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<GolfBall>(cam));
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Ground>());
-
     // まず開始会話の台本を作る
     BuildStartPages();
 
@@ -41,7 +37,7 @@ void Stage1Scene::Init()
     m_Message->SetParticipants("kumo", "miko");
 
     // 会話素材の指定
-    m_Message->SetFramePath("assets/texture/Message/UI/field.jpg");
+    m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
     // 台本セット
     m_Message->SetPages(m_Pages);

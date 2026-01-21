@@ -36,7 +36,7 @@ public:
 		static std::mt19937_64 mt64(0);
 
 		// [min_val, max_val] ‚Ìˆê—l•ª•z®” (double) ‚Ì•ª•z¶¬Ší
-		std::uniform_real_distribution<double> get_rand_uni_real(2.0, 4.0);
+		std::uniform_real_distribution<double> get_rand_uni_real(min_val, max_val);
 
 		// —”‚ğ¶¬
 		return get_rand_uni_real(mt64);
