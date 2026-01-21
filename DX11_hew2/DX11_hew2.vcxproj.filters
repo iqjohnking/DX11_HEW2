@@ -177,11 +177,8 @@
     <ClCompile Include="Enemy4.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="StageBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy2.cpp">
-      <Filter>ソース ファイル\obj</Filter>
+    <ClCompile Include="Stage_Base.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,11 +332,8 @@
     <ClInclude Include="Enemy4.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="StageBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy2.h">
-      <Filter>ヘッダー ファイル\obj</Filter>
+    <ClInclude Include="Stage_Base.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
