@@ -177,6 +177,9 @@
     <ClCompile Include="Enemy4.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
+    <ClCompile Include="Stage_Base.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="Enemy4.h">
       <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Base.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
