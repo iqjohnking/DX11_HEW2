@@ -181,7 +181,7 @@
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
     <ClCompile Include="Enemy2.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +339,7 @@
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
     <ClInclude Include="Enemy2.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

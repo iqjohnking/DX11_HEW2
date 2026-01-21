@@ -1,5 +1,5 @@
 #include "Shrinemaiden.h"
-#include "Enemy_base.h"
+#include "EnemyBase.h"
 #include "Field.h"
 #include "Game.h"
 #include "silkWall.h"
@@ -116,7 +116,7 @@ void Shrinemaiden::Uninit()
 void Shrinemaiden::move()
 {
 	const Vector3 now_pos = GetPosition();
-	const auto enemies = Game::GetInstance()->GetObjects<Enemy_base>();
+	const auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
 
 	if (m_IsStuck)
 	{
