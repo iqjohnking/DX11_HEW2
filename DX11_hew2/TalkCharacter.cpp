@@ -19,10 +19,6 @@ void TalkCharacter::ApplyLayoutToSprite()
         // 右側キャラを左右反転したいなら true（素材による）
         m_Sprite.SetFlipX(false);
     }
-
-    // Focus（暗くする等）は Texture2D 側に色/α設定が無いので今は未適用
-    // 後で Texture2D に頂点Color/Material Diffuse を変更する関数を足せば実装できる
-    //のちに実装予定
 }
 
 void TalkCharacter::Init()

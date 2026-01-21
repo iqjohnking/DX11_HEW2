@@ -26,10 +26,6 @@ void Stage1Scene::Init()
 	//カメラのポインタを取得
 	Camera* cam = Game::GetInstance()->GetCamera();
 
-	//// オブジェクトを作成
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<GolfBall>(cam));
-	//m_MySceneObjects.emplace_back(Game::GetInstance()->AddObject<Ground>());
-
     // まず開始会話の台本を作る
     BuildStartPages();
 
