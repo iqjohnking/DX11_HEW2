@@ -99,6 +99,14 @@ void Stage1::Update()
 	MessageUpdate();
 	GameUpdate();
     UpdateEnemySpawn();
+    // 終了会話が終わったらリザルトへ
+    if (m_Flow == Flow::EndTalk)
+    {
+        if (!m_Message->IsPlaying())
+        {
+            Game::GetInstance()->ChangeScene(RESULT);
+        }
+    }
 }
 
 //会話パートのUpdate
@@ -128,11 +136,11 @@ void Stage1::MessageUpdate()
         break;
 
     case Flow::EndTalk:
-        // 終了会話が終わったらリザルトへ
-        if (!m_Message->IsPlaying())
-        {
-            Game::GetInstance()->ChangeScene(RESULT);
-        }
+        //// 終了会話が終わったらリザルトへ
+        //if (!m_Message->IsPlaying())
+        //{
+        //    Game::GetInstance()->ChangeScene(RESULT);
+        //}
         break;
     }
 }

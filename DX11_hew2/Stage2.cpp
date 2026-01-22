@@ -47,6 +47,14 @@ void Stage2::Update()
 {
     MessageUpdate();
     GameUpdate();
+    // 終了会話が終わったらリザルトへ
+    if (m_Flow == Flow::EndTalk)
+    {
+        if (!m_Message->IsPlaying())
+        {
+            Game::GetInstance()->ChangeScene(RESULT);
+        }
+    }
 }
 
 void Stage2::MessageUpdate()
@@ -75,11 +83,11 @@ void Stage2::MessageUpdate()
         break;
 
     case Flow::EndTalk:
-        // 終了会話が終わったらリザルトへ
-        if (!m_Message->IsPlaying())
-        {
-            Game::GetInstance()->ChangeScene(RESULT);
-        }
+        //// 終了会話が終わったらリザルトへ
+        //if (!m_Message->IsPlaying())
+        //{
+        //    Game::GetInstance()->ChangeScene(RESULT);
+        //}
         break;
     }
 }
