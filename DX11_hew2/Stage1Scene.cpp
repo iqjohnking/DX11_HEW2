@@ -63,7 +63,7 @@ void Stage1Scene::Update()
 
 	case Flow::Gameplay:
 		// 仮：Enterでステージ終了扱い→終了会話へ
-		if (Input::GetKeyTrigger(VK_RETURN))
+		if (Input::GetKeyTrigger(VK_SPACE))
 		{
 			BuildEndPages();
 			m_Message->SetPages(m_Pages);
