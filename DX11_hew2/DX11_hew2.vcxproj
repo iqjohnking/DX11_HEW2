@@ -199,6 +199,7 @@
     <ClInclude Include="EnemyMayu.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Enemy1.h" />
+    <ClInclude Include="EnemyType.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IndexBuffer.h" />

@@ -73,6 +73,9 @@ void Stage1::Init()
 	phase4Flag = false;
 	phase5Flag = false;
 	phase6Flag = false;
+	
+	StagekillCount = 0;     //倒した敵の数をリセット
+	StageEnemyCount = 11;   //ステージの敵の総数を設定
 }
 
 void Stage1::Uninit()
@@ -142,21 +145,7 @@ void Stage1::GameUpdate()
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
 
-	if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 1; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[i]->SetPosition({ 0.0f, 350.0f, 0.0f });
-						
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase1Flag = true;
-	}
+	
 
 	if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
 	{
@@ -379,6 +368,7 @@ void Stage1::GameUpdate()
 					Vector3 centroid = (A + B + C) / 3.0f;
 					enemy->StartMayuing(centroid);
 					++eliminatedCount;
+                    StagekillCount++;
 				}
 			}
 
@@ -450,6 +440,11 @@ void Stage1::GameUpdate()
 		return;
 		*/
 	}
+
+    //ステージクリアと失敗のチェック
+    StageClearCheck();
+    StageFailedCheck();
+
 }
 
 
@@ -919,18 +914,39 @@ void Stage1::BuildEndPages()
 }
 
 //実行すると敵がスポーン
-void Stage1::EnemySpawn()
+void Stage1::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
 {
-	
+    if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
+    {
+        switch (enemyType)
+        {
+        case NORMAL:
+            for (int i = 0; i < 1; ++i)
+            {
+                Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
+                Enemy1List[i]->SetTarget(m_Miko);
+                Enemy1List[i]->SetField(m_Field);
+                Enemy1List[i]->SetPosition({ pos });
+
+                m_MySceneObjects.emplace_back(Enemy1List[i]);
+            }
+            phase1Flag = true;
+            break;
+        }        
+    }
 }
 
 void Stage1::StageClearCheck()
 {
-	//クリア条件を達成しているかどうか
-	//達成していたらm_Flowを変える	
+	//敵を全て倒したかどうか
+    if(StagekillCount >= StageEnemyCount)
+    {        
+        m_Flow = Flow::EndTalk;
+	}
 }
 
 void Stage1::StageFailedCheck()
 {
 	//ステージ失敗かどうか
+	//巫女のHPが0になったら失敗にする
 }
