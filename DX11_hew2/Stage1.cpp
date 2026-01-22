@@ -98,6 +98,7 @@ void Stage1::Update()
 {
 	MessageUpdate();
 	GameUpdate();
+    UpdateEnemySpawn();
 }
 
 //会話パートのUpdate
