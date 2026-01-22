@@ -800,43 +800,60 @@ void Stage1::BuildEndPages()
 {
     m_Pages.clear();
 
-    // Page0: 終了（右=巫女が話す）
+    // Page0
+    // 右=巫女,左=女郎蜘蛛
     {
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";        // name_miko.png
+        p.nameId = "kumo";        // name_miko.png
         p.textId = "stage1_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
         p.voiceId = "";
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::Left;
 
-        // ★Page0必須：左右の初期表情
+        // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-
-        // 話者（右）表情
-        p.speakerFaceId = "normal";
+        p.speakerFaceId = "";
 
         m_Pages.push_back(p);
+        //感覚が戻ってきた……悪くない
     }
 
-    // Page1: 左=女郎蜘蛛
+    // Page1
     {
         MessagePage p;
 
-        // ★必須：このページの表示（名前＋本文）
-        p.nameId = "kumo";
+        p.nameId = "miko";
         p.textId = "stage1_end";
         p.textIndex = 1;          // 001
 
         p.voiceId = "";
-        p.focus = FocusSide::Left;
-
-        p.speakerFaceId = "angry";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
 
         m_Pages.push_back(p);
+    }
+    {
+        MessagePage p;
+
+        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "kumo";        // name_miko.png
+        p.textId = "stage1_end";  // text_stage1_end_***
+        p.textIndex = 0;          // 000
+
+        p.voiceId = "";
+        p.focus = FocusSide::Left;
+
+        // Page0必須：左右の初期表情
+        p.leftFaceId = "normal";
+        p.rightFaceId = "normal";
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //感覚が戻ってきた……悪くない
     }
 }
 

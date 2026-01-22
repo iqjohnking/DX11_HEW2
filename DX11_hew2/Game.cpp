@@ -127,7 +127,6 @@ void Game::Uninit()
 
 	// インスタンス削除
 	delete m_Instance;
-
 }
 
 Game* Game::GetInstance()
@@ -143,6 +142,7 @@ void Game::ChangeScene(SceneName sceneName)
 		delete m_Instance->m_Scene;
 		m_Instance->m_Scene = nullptr;
 	}
+	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
 	switch (sceneName) {
 	case TITLE:
