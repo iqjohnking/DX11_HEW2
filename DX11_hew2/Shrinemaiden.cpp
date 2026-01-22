@@ -85,15 +85,21 @@ void Shrinemaiden::Init()
 
 void Shrinemaiden::Update()
 {
+	// Update collider position
+	m_Collider.center = GetPosition();
+	// Move
 	move();
 
-	m_Texture2D.Update();
+	// Update animation
 	if (m_velocity < 1.0f)
 		m_Texture2D.PlayAnim("yowa");
 	else
 		m_Texture2D.PlayAnim("idle");
 
+	// Update collider position
 	m_Collider.center = GetPosition();
+	// Update texture
+	m_Texture2D.Update();
 }
 
 void Shrinemaiden::Draw(Camera* cam)
@@ -117,6 +123,10 @@ void Shrinemaiden::move()
 {
 	const Vector3 now_pos = GetPosition();
 	const auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
+	//const float enemyBuffer = 30.0f;
+
+	// ‘Þ”ð‚Ì˜A‘±”­¶‚ð–h‚®ƒN[ƒ‹ƒ_ƒEƒ“‚ðŒ¸‚ç‚·
+	if (m_RetreatCooldown > 0) m_RetreatCooldown--;
 
 	if (m_IsStuck)
 	{
@@ -200,7 +210,7 @@ void Shrinemaiden::move()
 					const float dirDistSq = dirE.x * dirE.x + dirE.y * dirE.y;
 					const float dirLimitSq = m_serchDistance * m_serchDistance;
 
-					if (((c1 >= 0.0f && c2 >= 0.0f) || (c1 <= 0.0f && c2 <= 0.0f)) 
+					if (((c1 >= 0.0f && c2 >= 0.0f) || (c1 <= 0.0f && c2 <= 0.0f))
 						&& dirDistSq <= dirLimitSq)
 					{
 						unsafe = true;
@@ -227,7 +237,7 @@ void Shrinemaiden::move()
 
 					const auto& seg = w->GetSegment();
 
-					// äo‹Nêy‹——£‘¾‰““I SilkWall •sl—¶
+					// SilkWall ‚Ì’†“_‚ªîŒ`“à‚É‚ ‚é‚©H
 					Vector3 mid = (seg.start + seg.end) * 0.5f;
 					Vector3 d = mid - a;
 					d.z = 0.0f;
@@ -252,9 +262,9 @@ void Shrinemaiden::move()
 					if (dirToCenter.LengthSquared() > 1e-4f)
 						dirToCenter.Normalize();
 
-					// ”@‰Ê•ûŒü‘¾Ú‹ßãŽŸŽ¸”s•ûŒüCA”rœ
+					// Ž¸”s•ûŒü‚Æ‹ß‚¢‚©H
 					const float dot = dirToCenter.Dot(m_LastFailedDir);
-					if (dot > 0.85f) // –ñ 30 “x?
+					if (dot > 0.85f) // –ñ 30 “xˆÈ“à // DOT‚Íˆê‚É‹ß‚¢‚Ù‚ÇŠp“x‚ª¬‚³‚¢
 					{
 						unsafe = true;
 					}
@@ -282,7 +292,16 @@ void Shrinemaiden::move()
 		}
 		else
 		{
-			// Ž‹ˆ×u”‡ŒÂˆÊ’u–{gA•sDv
+			//‘Þ”ð’¼Œã‚È‚Ç‚Å˜A‘±Ž¸”s‚µ‚Ä‚¢‚éŽž‚ÍAÄ‘Þ”ð‚¹‚¸stuck‚Öi—’µ–hŽ~j
+			if (m_RetreatCooldown > 0)
+			{
+				SetVelocity(0.0f);
+				m_IsStuck = true;
+				m_StuckTimer = 0;
+				m_EscapeState = EscapeState::SearchEscapePoint;
+				return;
+			}
+			// ‘Þ˜H’TõŽ¸”s
 			OnEscapeRouteFailed(now_pos);
 			return;
 		}
@@ -413,6 +432,22 @@ void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 					return false;
 			}
 
+			const auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
+			const float enemyBuffer = 30.0f; // ’²®—pi‘å‚«‚¢‚Ù‚Ç“G‚©‚ç—£‚ê‚éj
+
+			for (auto* e : enemies)
+			{
+				if (!e || !e->GetIsAlive()) continue;
+
+				Vector3 d = e->GetPosition() - candidatePos;
+				d.z = 0.0f; // XY•½–Ê
+
+				float minDist = (m_Radius + e->GetRadius() + enemyBuffer);
+				if (d.LengthSquared() < (minDist * minDist))
+					return false;
+
+			}
+
 			return true;
 		};
 
@@ -435,6 +470,10 @@ void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 			SetPosition(finalPos);
 			SetVelocity(0.0f);
 			m_EscapeState = EscapeState::SearchEscapePoint;
+
+			// ‘Þ”ð’¼Œã‚Í‚µ‚Î‚ç‚­Ä‘Þ”ð‚µ‚È‚¢iSearchŽ¸”s¨‘Þ”ð¨‘Þ”ðc‚Ì˜A½‚ðŽ~‚ß‚éj
+			m_RetreatCooldown = 20; // 20ƒtƒŒ[ƒ€i–ñ0.33•bj D‚Ý‚É’²®
+
 			return;
 		}
 	}

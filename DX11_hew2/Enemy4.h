@@ -13,8 +13,17 @@ protected:
 
 	//フレームカウント
 	int chargeTimer = 0;
-	uint64_t chargeTiming = 2; //1秒間チャージ
-	
+	int chargeTiming = 2; //1秒間チャージ
+	bool isCharging = false;
+
+	// チャージターゲット
+	DirectX::SimpleMath::Vector3 chargeTarget = DirectX::SimpleMath::Vector3::Zero;
+	DirectX::SimpleMath::Vector3 chargeStart = DirectX::SimpleMath::Vector3::Zero;
+
+	const float kArriveRadius = 25.0f;  // ?半径25なら、到達判定は 1.0f だと小さすぎる事が多い
+	const float kKnockbackDist = 30.0f;  // まず大きめで確認（効いたら好みに下げる）
+	const float kHitCooldown = 10.0f;  // 連続判定防止（フレーム）
+
 	//ランダム
 	float rand = 0.0f;
 

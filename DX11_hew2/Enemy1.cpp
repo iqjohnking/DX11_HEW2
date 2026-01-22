@@ -45,20 +45,18 @@ void Enemy1::Update()
 {
 	// IsActive ‚ª true ‚Ì‚Æ‚«‚¾‚¯“®ì 
 	// IsActive = false ‚Ìê‡‚Í‚¢‚È‚¢‚¯‚Ç
-	m_Collider.radius = m_Radius;
 
 	if (isActive)
 	{
 		move(); //enum‚Í‚±‚ê’†‚É“ü‚Á‚Ä‚é‚±‚Æ‚É’ˆÓ
-
 		m_Collider.center = GetPosition();
+		m_Collider.radius = GetRadius();
+		m_Texture2D.Update();
 	}
-	m_Texture2D.Update();
 }
 
 void Enemy1::Draw(Camera* cam)
 {
-
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
 	m_Texture2D.SetPosition(GetPosition());
 	m_Texture2D.Draw(cam);
@@ -85,8 +83,6 @@ void Enemy1::move()
 			state = EnemyState::ALIVE;
 			m_Texture2D.PlayAnim("idle");
 		}
-		mayuingTimer;
-
 		break;
 	}
 	case EnemyState::ALIVE:

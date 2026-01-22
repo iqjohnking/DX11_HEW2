@@ -10,8 +10,8 @@ using namespace DirectX::SimpleMath;
 void Enemy4::Init()
 {
 	SetMinSpeed(0.0f);
-	SetTargetSpeed(2.5f);   // 
-	SetMaxSpeed(10.0f);      // 
+	SetTargetSpeed(6.0f);   // 
+	SetMaxSpeed(10.0f);     // 使わない
 	SetAcceleration(0.25f); // 1フレームあたりの加速度（大きすぎると一瞬でMAX）
 	SetVelocity(0.0f);      // 初速ゼロ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
@@ -21,7 +21,7 @@ void Enemy4::Init()
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/enemy.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -35,6 +35,7 @@ void Enemy4::Init()
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("atk", 4, 7, 10);
 	m_Texture2D.AddAnimClip("spawn", 8, 11, 10);
+	m_Texture2D.AddAnimClip("dying", 8, 8, 20);
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -43,24 +44,18 @@ void Enemy4::Update()
 {
 	// IsActive が true のときだけ動作 
 	// IsActive = false の場合はいないけど
-	m_Collider.radius = m_Radius;
-
 
 	if (isActive)
 	{
-		chargeTimer++;
-
-		//rand = get_rand_range(2.0f, 4.0f); //2.0~4.0の乱数生成
-
 		move();
-
 		m_Collider.center = GetPosition();
+		m_Collider.radius = GetRadius();
+		m_Texture2D.Update();
 	}
 }
 
 void Enemy4::Draw(Camera* cam)
 {
-
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
 	m_Texture2D.SetPosition(GetPosition());
 	m_Texture2D.Draw(cam);
@@ -87,128 +82,171 @@ void Enemy4::move()
 			state = EnemyState::ALIVE;
 			m_Texture2D.PlayAnim("idle");
 		}
-		//mayuingTimer;
 		break;
 	}
 	case EnemyState::ALIVE:
 	{
-		if (stunTimer <= 0) {
-			if (chargeTimer > chargeTiming * 60)	//乱数に60フレームをかけて、2.0~4.0秒ごとに方向を更新
-			{
-				chargeTiming = get_rand_range(2, 4); //2.0~4.0の乱数生成
-				// 1) 巫女へ向かう基本方向
-				m_direction = miko_pos - now_pos;
-				float len = m_direction.Length();
-				if (len <= 0.0001f) return;
-				m_direction /= len;
+		bool hitThisFrame = false;
 
-				chargeTimer = 0;
-			}
+		// move() 内で使うので、まず同期（Update() で後から更新してても、判定はここで行う）
+		m_Collider.center = now_pos;
+		m_Collider.radius = GetRadius();
 
-			// 速度調整
-			if (m_velocity < m_TargetSpeed) {
-				m_velocity += m_acceleration;
-				if (m_velocity > m_TargetSpeed) {
-					m_velocity = m_TargetSpeed;
-				}
-			}
-			else if (m_velocity > m_TargetSpeed) {
-				m_velocity -= m_acceleration;
-				if (m_velocity < m_TargetSpeed) {
-					m_velocity = m_TargetSpeed;
-				}
-			}
-			// 速度低下中なら減速
-			if (isSpdDown) {
-				m_velocity *= 0.9f;
-			}
-
-
-			// 2) 敵同士の分離ステアリングを加算
-			{
-				// 他の敵一覧を取得
-				auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
-				Vector3 separation = Vector3::Zero;
-
-				// 分離影響半径（重なり検出 + マージン）
-				float selfR = m_Collider.radius;
-				float margin = 6.0f; // 少し余裕（必要に応じ調整）
-				for (auto* eb : enemies) {
-					if (!eb || eb == this) continue;
-					if (!eb->GetIsAlive()) continue;
-
-					Vector3 otherPos = eb->GetPosition();
-					float otherR = eb->GetRadius(); // 他の敵半径。共通なら eb から取得する実装に変更可
-					float sumR = selfR + otherR + margin;
-
-					Vector3 toSelf = now_pos - otherPos;
-					float d2 = toSelf.LengthSquared();
-					if (d2 <= 1e-8f) {
-						// 同座標近傍はランダム微小押し出し
-						separation += Vector3(0.01f, 0.0f, 0.0f);
-						continue;
-					}
-					float d = sqrtf(d2);
-					if (d < sumR) {
-						// 重なり/過接近。距離に反比例で押し出す
-						Vector3 push = toSelf / d; // 正規化
-						float strength = (sumR - d) / sumR; // 0..1
-						separation += push * strength;
-					}
-				}
-
-				// 分離をブレンド（重みを調整）
-				if (separation.LengthSquared() > 1e-6f) {
-					separation.Normalize();
-					float separationWeight = 0.8f; // 分離優先度（0..1で調整）
-					Vector3 desired = m_direction * (1.0f - separationWeight) + separation * separationWeight;
-					if (desired.LengthSquared() > 1e-8f) {
-						desired.Normalize();
-						SetDirection(desired);
-						m_direction = desired;
-					}
-				}
-			}
-		}
-		else {
-			// スタン中は減速
-			stunTimer -= 1;
-			if (stunTimer < 0) stunTimer = 0;
-			if (m_velocity < 0) m_velocity = 0;
-		}
-
-		// 3) フィールド外に出ないようにする
-		Vector3 vel = GetDirectionXVelocity();
-		bool isRunintoWall = m_Field->ResolveBorder(now_pos, vel, m_Collider.radius);
-		if (isRunintoWall) {
-			m_direction = vel;
-			if (m_direction.LengthSquared() > 1e-8f) m_direction.Normalize();
-			stunTimer = 60.f;
-		}
-
-		// 4) 絹の壁との衝突判定
-		vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-		for (auto w : silkWalls)
+		//---- スタン（クールダウン）減算 ----
+		if (stunTimer > 0.0f)
 		{
-			Vector3 contactPoint;
-			if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
+			stunTimer -= 1.0f;
+			if (stunTimer < 0.0f) stunTimer = 0.0f;
+		}
+
+		//------------------------------------------------------------------------------
+		// WAIT(2~4秒) → CHARGE開始（方向は開始時に一回だけ決める：追跡しない）
+		//------------------------------------------------------------------------------
+		if (!isCharging)
+		{
+			// WAIT中は完全停止
+			m_velocity = 0.0f;
+
+			// 待機タイマーは回す（衝刺開始だけ cooldown 明けにする）
+			chargeTimer++;
+
+			if (chargeTimer > chargeTiming * 60 && stunTimer <= 0.0f)
 			{
-				// 衝突したらバックさせてスタン
-				m_velocity = 0.5f;
-				stunTimer = 1.f; // スタンタイマーをセット
-				//Vector3 now_pos = GetPosition();
-				Vector3 knockbackDir = now_pos - contactPoint;
-				m_direction = knockbackDir;
-				//SetPosition(GetPosition() + knockbackDir * 2.0f); // 少し後退
-				break;
+				isCharging = true;
+				chargeTimer = 0;
+
+				// 次回の待機時間
+				chargeTiming = (float)get_rand_range(2, 4);
+
+				chargeTarget = miko_pos;
+				chargeTarget.z = 0.0f;
+				chargeStart = now_pos;
+				chargeStart.z = 0.0f;
+				m_direction = chargeTarget - chargeStart;
+				m_direction.z = 0.0f;
+
+				float len = m_direction.Length();
+				if (len <= 0.0001f)
+				{
+					isCharging = false; // 方向が取れないならやめる
+				}
+				else
+				{
+					m_direction /= len; // 正規化
+				}
 			}
 		}
-		// 5) 新しい位置
-		target_pos = now_pos + (m_direction * m_velocity);
-		SetPosition(target_pos);
+
+		//------------------------------------------------------------------------------
+		// 絹の壁との衝突判定：当たったら「少し反発」→「待機へ戻す」
+		//------------------------------------------------------------------------------
+		{
+			vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+			for (auto* w : silkWalls)
+			{
+				if (!w) continue;
+
+				Vector3 contactPoint;
+				if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
+				{
+					Vector3 knockbackDir = now_pos - contactPoint;
+					knockbackDir.z = 0.0f; // XY平面
+
+					if (knockbackDir.LengthSquared() > 1e-8f)
+						knockbackDir.Normalize();
+					else
+						knockbackDir = Vector3(1.0f, 0.0f, 0.0f);
+
+					// 固定距離だけ押し戻す
+					SetPosition(now_pos + knockbackDir * kKnockbackDist);
+
+					// 待機へ戻す
+					isCharging = false;
+					chargeTimer = 0;
+					chargeTiming = (float)get_rand_range(2, 4);
+
+					m_velocity = 0.0f;
+					stunTimer = kHitCooldown; // 連続ヒット防止
+
+					hitThisFrame = true;
+					break;
+				}
+			}
+		}
+
+		if (hitThisFrame)
+			break;
+
+		//------------------------------------------------------------------------------
+		// CHARGE中のみ速度調整＆移動
+		//------------------------------------------------------------------------------
+		if (isCharging)
+		{
+			// 速度調整
+			if (m_velocity < m_TargetSpeed)
+			{
+				m_velocity += m_acceleration;
+				if (m_velocity > m_TargetSpeed) m_velocity = m_TargetSpeed;
+			}
+			else if (m_velocity > m_TargetSpeed)
+			{
+				m_velocity -= m_acceleration;
+				if (m_velocity < m_TargetSpeed) m_velocity = m_TargetSpeed;
+			}
+
+			if (isSpdDown) m_velocity *= 0.9f;
+
+			// 1フレームの移動量（XY）
+			Vector3 step = m_direction * m_velocity;
+			step.z = 0.0f;
+
+			//------------------------------------------------------------------------------
+			// フィールド外に出ないようにする
+			// ★重要：ResolveBorder が返した修正後 step を使って「場内へ押し戻す」★
+			//------------------------------------------------------------------------------
+			bool isRunintoWall = m_Field->ResolveBorder(now_pos, step, m_Collider.radius);
+			if (isRunintoWall)
+			{
+				// まず場内側へ押し戻す（これが無いと永遠に?界判定され続ける）
+				SetPosition(now_pos + step);
+
+				// 待機へ戻す
+				if (stunTimer <= 0.0f) // 毎フレームリセットしない
+				{
+					isCharging = false;
+					chargeTimer = 0;
+					chargeTiming = (float)get_rand_range(2, 4);
+
+					m_velocity = 0.0f;
+					stunTimer = kHitCooldown;
+				}
+
+				break; // このフレームはここで終了
+			}
+
+			// 通常移動
+			target_pos = now_pos + step;
+			SetPosition(target_pos);
+
+			//------------------------------------------------------------------------------
+			// 到達判定（XY：z を落とす）
+			//------------------------------------------------------------------------------
+			Vector3 toTarget = chargeTarget - target_pos;
+			toTarget.z = 0.0f;
+
+			if (toTarget.LengthSquared() <= (kArriveRadius * kArriveRadius))
+			{
+				isCharging = false;
+				chargeTimer = 0;
+				chargeTiming = (float)get_rand_range(2, 4);
+
+				m_velocity = 0.0f;
+			}
+		}
 
 		break;
 	}
+
 	case EnemyState::ISMAYUING:
 	{
 		mayuingTimer++; // 0 -> kMayuFrames
@@ -226,7 +264,7 @@ void Enemy4::move()
 			state = EnemyState::DEAD;
 		}
 		break;
-	}	
+	}
 	case EnemyState::DYING:
 	{
 

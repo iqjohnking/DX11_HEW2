@@ -32,7 +32,8 @@ protected:
 	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
 
 	DirectX::SimpleMath::Vector3 m_wallSlideDir = DirectX::SimpleMath::Vector3::Zero;
-	float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー
+	//float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー//使わない
+	int m_RetreatCooldown = 0;
 
 	Field* m_Field = nullptr;
 	bool hitBorder = false;
