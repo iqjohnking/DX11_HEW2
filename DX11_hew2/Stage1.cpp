@@ -93,7 +93,8 @@ void Stage1::Uninit()
 
 void Stage1::Update()
 {
-    //会話とゲームでUpdateを分けたので、今のところなし
+	MessageUpdate();
+	GameUpdate();
 }
 
 //会話パートのUpdate
@@ -840,18 +841,18 @@ void Stage1::BuildEndPages()
 }
 
 //実行すると敵がスポーン
-void StageBase::EnemySpawn()
+void Stage1::EnemySpawn()
 {
 	
 }
 
-void StageBase::StageClearCheck()
+void Stage1::StageClearCheck()
 {
 	//クリア条件を達成しているかどうか
 	//達成していたらm_Flowを変える	
 }
 
-void StageBase::StageFailedCheck()
+void Stage1::StageFailedCheck()
 {
 	//ステージ失敗かどうか
 }
