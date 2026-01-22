@@ -37,7 +37,7 @@ void MessageManager::Update()
 	if (!m_Playing) return;
 
 	// ‰¼FSpace‚ÅŸ‚Ö
-	if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+	if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_E))
 	{
 		Advance();
 	}
