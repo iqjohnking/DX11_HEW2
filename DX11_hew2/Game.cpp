@@ -191,6 +191,7 @@ void Game::DeleteAllObjects()
 	}
 	m_Instance->m_Objects.clear();
 	m_Instance->m_Objects.shrink_to_fit();
+	m_SpawnQueue.clear();
 }
 
 void Game::FlushSpawnQueue()
