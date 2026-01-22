@@ -1,7 +1,7 @@
-#include "Stage2.h"
+#include "Stage3.h"
 #include "Game.h"
 
-void Stage2::Init()
+void Stage3::Init()
 {
     // まず開始会話の台本を作る
     BuildStartPages();
@@ -27,7 +27,7 @@ void Stage2::Init()
     m_Flow = Flow::StartTalk;
 }
 
-void Stage2::Uninit()
+void Stage3::Uninit()
 {
     if (m_Message)
     {
@@ -43,10 +43,11 @@ void Stage2::Uninit()
     m_MySceneObjects.clear();
 }
 
-void Stage2::Update()
+void Stage3::Update()
 {
     MessageUpdate();
     GameUpdate();
+    UpdateEnemySpawn();
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -57,7 +58,7 @@ void Stage2::Update()
     }
 }
 
-void Stage2::MessageUpdate()
+void Stage3::MessageUpdate()
 {
     if (!m_Message) return;
 
@@ -83,35 +84,41 @@ void Stage2::MessageUpdate()
         break;
 
     case Flow::EndTalk:
-        //// 終了会話が終わったらリザルトへ
-        //if (!m_Message->IsPlaying())
-        //{
-        //    Game::GetInstance()->ChangeScene(RESULT);
-        //}
         break;
     }
 }
 
-void Stage2::GameUpdate()
+void Stage3::GameUpdate()
 {
     if (m_Flow != Flow::Gameplay) return;
 
-    //60フレーム経過するごとに1秒プラス
-    elapsedFrames++;
-    elapsedSeconds = elapsedFrames / 60;
+    //m_MySceneObjects中の空間オブジェクトを削除する（erase）
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o || o->ToBeDeleted())
+        {
+            it = m_MySceneObjects.erase(it); // イテレータを更新
+        }
+        else
+        {
+            ++it; // 次へ
+        }
+    }
 }
 
-void Stage2::BuildStartPages()
+void Stage3::BuildStartPages()
 {
     m_Pages.clear();
+
     // Page0:
-    // 右=巫女,左=女郎蜘蛛
+   // 右=巫女,左=女郎蜘蛛
     {
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
         p.nameId = "miko";//表示名(テキスト)
-        p.textId = "stage2_start";
+        p.textId = "stage3_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
         p.voiceId = "";
@@ -125,14 +132,14 @@ void Stage2::BuildStartPages()
         //表情を変更しないときは何も書かないように
 
         m_Pages.push_back(p);
-        //まだこんなに…！？
+        //…そうだ！
     }
     // Page1
     {
         MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage2_start";
+        p.nameId = "miko";
+        p.textId = "stage3_start";
         p.textIndex = 1;
 
         p.voiceId = "";
@@ -140,11 +147,26 @@ void Stage2::BuildStartPages()
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
-        //精々囮として役に立つことだな、小娘！
+        //この辺りの妖怪たちを倒したら村のほうに向かいます
+    }
+    // Page2
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage3_start";
+        p.textIndex = 2;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //…好きにしろ
     }
 }
 
-void Stage2::BuildEndPages()
+void Stage3::BuildEndPages()
 {
     m_Pages.clear();
 
@@ -154,8 +176,8 @@ void Stage2::BuildEndPages()
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";        // name_miko.png
-        p.textId = "stage2_end";  // text_stage1_end_***
+        p.nameId = "kumo";        // name_miko.png
+        p.textId = "stage3_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
         p.voiceId = "";
@@ -167,14 +189,14 @@ void Stage2::BuildEndPages()
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
-        //はぁ…はぁ…まだいるの…？
+        //…終わったぞ、さっさとしろ
     }
     // Page1
     {
         MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage2_end";
+        p.nameId = "miko";
+        p.textId = "stage3_end";
         p.textIndex = 1;
 
         p.voiceId = "";
@@ -182,14 +204,14 @@ void Stage2::BuildEndPages()
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
-        //この程度で疲れるな、まだ２割も倒していない
+        //今から向かう村には、古くから伝わる神託書が中があるんです
     }
-    // Page3
+    // Page2
     {
         MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage2_end";
+        p.nameId = "miko";
+        p.textId = "stage3_end";
         p.textIndex = 2;
 
         p.voiceId = "";
@@ -197,22 +219,21 @@ void Stage2::BuildEndPages()
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
-        //この程度で疲れるな、まだ２割も倒していない
+        //一度きりの、万が一の時にのみ使うことを許された神託書が
     }
 }
 
-
-void Stage2::UpdateEnemySpawn()
+void Stage3::UpdateEnemySpawn()
 {
 
 }
 
-void Stage2::StageClearCheck()
+void Stage3::StageClearCheck()
 {
 
 }
 
-void Stage2::StageFailedCheck()
+void Stage3::StageFailedCheck()
 {
 
 }

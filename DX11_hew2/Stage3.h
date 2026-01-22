@@ -1,8 +1,7 @@
 #pragma once
 #include "StageBase.h"
-#include<iostream>
 
-class Stage2 : public StageBase
+class Stage3 : public StageBase
 {
 private:
 	//敵の出現を管理するためのフラグ
@@ -14,8 +13,8 @@ private:
 	bool phase6Flag = false;
 
 public:
-	Stage2() {};
-	~Stage2() {};
+	Stage3() {};
+	~Stage3() {};
 
 	void Init() override; // 初期化
 	void Uninit() override; // 終了処理

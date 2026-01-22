@@ -98,6 +98,15 @@ void Stage1::Update()
 {
 	MessageUpdate();
 	GameUpdate();
+    UpdateEnemySpawn();
+    // 終了会話が終わったらリザルトへ
+    if (m_Flow == Flow::EndTalk)
+    {
+        if (!m_Message->IsPlaying())
+        {
+            Game::GetInstance()->ChangeScene(RESULT);
+        }
+    }
 }
 
 //会話パートのUpdate
@@ -117,7 +126,7 @@ void Stage1::MessageUpdate()
 
     case Flow::Gameplay:
         // 仮：Enterでステージ終了扱い→終了会話へ
-        if (Input::GetKeyTrigger(VK_RETURN))
+        if (Input::GetKeyTrigger(VK_SPACE))
         {
             BuildEndPages();
             m_Message->SetPages(m_Pages);
@@ -127,11 +136,11 @@ void Stage1::MessageUpdate()
         break;
 
     case Flow::EndTalk:
-        // 終了会話が終わったらリザルトへ
-        if (!m_Message->IsPlaying())
-        {
-            Game::GetInstance()->ChangeScene(RESULT);
-        }
+        //// 終了会話が終わったらリザルトへ
+        //if (!m_Message->IsPlaying())
+        //{
+        //    Game::GetInstance()->ChangeScene(RESULT);
+        //}
         break;
     }
 }
@@ -141,125 +150,23 @@ void Stage1::GameUpdate()
 {
     if(m_Flow != Flow::Gameplay) return;
 
+    //m_MySceneObjects中の空間オブジェクトを削除する（erase）
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o || o->ToBeDeleted())
+        {
+            it = m_MySceneObjects.erase(it); // イテレータを更新
+        }
+        else
+        {
+            ++it; // 次へ
+        }
+    }
+
 	//60フレーム経過するごとに1秒プラス
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
-
-	
-
-	if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 1; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[i]->SetPosition({ 400.0f, 50.0f, 0.0f });
-
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase2Flag = true;
-	}
-
-	if (elapsedSeconds == 18 && phase3Flag == false)	//18秒経過かつフェーズ3が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 2; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-            if (i == 0)
-            {
-                Enemy1List[i]->SetPosition({ 200.0f, 300.0f, 0.0f });
-            }
-            else if(i == 1)
-            {
-                Enemy1List[i]->SetPosition({ 350.0f, 200.0f, 0.0f });
-            }
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase3Flag = true;
-	}
-
-	if (elapsedSeconds == 25 && phase4Flag == false)	//25秒経過かつフェーズ4が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 2; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-            if(i == 0)
-            {
-                Enemy1List[i]->SetPosition({ 150.0f, -400.f, 0.0f });
-            }
-            else if(i == 1)
-            {
-                Enemy1List[i]->SetPosition({ -150.0f, -400.f, 0.0f });
-			}			
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase4Flag = true;
-	}
-
-	if (elapsedSeconds == 32 && phase5Flag == false)	//32秒経過かつフェーズ5が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 2; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-            if(i == 0)
-            {
-                Enemy1List[i]->SetPosition({ 450.0f, -150.0f, 0.0f });
-            }
-            else if (i == 1)
-            {
-                Enemy1List[i]->SetPosition({ 300.0f, -350.0f, 0.0f });
-            }			
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase5Flag = true;
-	}
-
-	if (elapsedSeconds == 39 && phase6Flag == false)	//39秒経過かつフェーズ6が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 2; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-            if(i == 0)
-            {
-                Enemy1List[i]->SetPosition({ 450.0f, -130.0f, 0.0f });
-            }
-            else if(i == 1)
-            {
-                Enemy1List[i]->SetPosition({ 30.0f, -420.0f, 0.0f });
-			}			
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-
-		for (int i = 0; i < 1; ++i)
-		{
-			Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
-			Enemy2List[i]->SetTarget(m_Miko);
-			Enemy2List[i]->SetField(m_Field);
-			Enemy2List[i]->SetPosition({ 300.0f, -350.0f, 0.0f });
-
-			m_MySceneObjects.emplace_back(Enemy2List[i]);
-		}
-		phase6Flag = true;
-	}
 	
     //-----------------------------------------------------------------------------
 	// 操作／INPUT
@@ -446,7 +353,6 @@ void Stage1::GameUpdate()
     StageFailedCheck();
 
 }
-
 
 //会話パート
 void Stage1::BuildStartPages()
@@ -914,25 +820,47 @@ void Stage1::BuildEndPages()
 }
 
 //実行すると敵がスポーン
-void Stage1::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
+void Stage1::UpdateEnemySpawn()
 {
-    if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
+    if (elapsedSeconds == 5 && phase1Flag == false)	    //5秒経過かつフェーズ1が未実行なら
     {
-        switch (enemyType)
-        {
-        case NORMAL:
-            for (int i = 0; i < 1; ++i)
-            {
-                Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-                Enemy1List[i]->SetTarget(m_Miko);
-                Enemy1List[i]->SetField(m_Field);
-                Enemy1List[i]->SetPosition({ pos });
+		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
+        phase1Flag = true;
+    }
 
-                m_MySceneObjects.emplace_back(Enemy1List[i]);
-            }
-            phase1Flag = true;
-            break;
-        }        
+    if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
+    {
+        EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
+        phase2Flag = true;
+    }
+
+    if (elapsedSeconds == 18 && phase3Flag == false)	//18秒経過かつフェーズ3が未実行なら
+    {
+        EnemySpawn(NORMAL, Vector3(200.0f, 300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, 200.0f, 0.0f));
+        phase3Flag = true;
+    }
+
+    if (elapsedSeconds == 25 && phase4Flag == false)	//25秒経過かつフェーズ4が未実行なら
+    {
+        EnemySpawn(NORMAL, Vector3(70.0f, -400.f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-70.0f, -400.f, 0.0f));
+        phase4Flag = true;
+    }
+
+    if (elapsedSeconds == 32 && phase5Flag == false)	//32秒経過かつフェーズ5が未実行なら
+    {
+		EnemySpawn(NORMAL, Vector3(420.0f, -150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(350.0f, -300.0f, 0.0f));
+        phase5Flag = true;
+    }
+
+    if (elapsedSeconds == 39 && phase6Flag == false)	//39秒経過かつフェーズ6が未実行なら
+    {
+        EnemySpawn(NORMAL, Vector3(450.0f, -100.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(50.0f, -420.0f, 0.0f));
+        EnemySpawn(CUTTER, Vector3(300.0f, -350.0f, 0.0f));
+        phase6Flag = true;
     }
 }
 
