@@ -7,10 +7,12 @@
 #include "Stage1Scene.h"
 #include "ResultScene.h"
 #include "Stage1.h"
+#include "Stage2.h"
 
 enum SceneName {
 	TITLE,
 	STAGE1,
+	STAGE2,
 	RESULT
 };
 

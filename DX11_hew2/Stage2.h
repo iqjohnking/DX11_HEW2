@@ -1,5 +1,6 @@
 #pragma once
 #include "StageBase.h"
+#include<iostream>
 
 class Stage2 : public StageBase
 {
@@ -13,8 +14,8 @@ private:
 	bool phase6Flag = false;
 
 public:
-	Stage2() {};
-	~Stage2() {};
+	Stage2() { std::cout << "[Stage2] ctor " << this << std::endl; };
+	~Stage2() { std::cout << "[Stage2] dtor " << this << std::endl; };
 
 	void Init() override; // ‰Šú‰»
 	void Uninit() override; // I—¹ˆ—

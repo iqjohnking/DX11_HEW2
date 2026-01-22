@@ -115,6 +115,24 @@ void TitleScene::Update()
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
 
+	//-----------------------------------------------------------------------------
+	// silkWall と　mayu の当たり判定
+	//-----------------------------------------------------------------------------
+
+	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
+	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+	{
+		Object* o = *it; // オブジェクト取得
+		if (!o || o->ToBeDeleted())
+		{
+			it = m_MySceneObjects.erase(it); // イテレータを更新
+		}
+		else
+		{
+			++it; // 次へ
+		}
+	}
+
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
 		silkWall* w = nullptr;
@@ -297,23 +315,7 @@ void TitleScene::Update()
 	}
 
 
-	//-----------------------------------------------------------------------------
-	// silkWall と　mayu の当たり判定
-	//-----------------------------------------------------------------------------
-
-	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
-	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
-	{
-		Object* o = *it; // オブジェクト取得
-		if (!o || o->ToBeDeleted())
-		{
-			it = m_MySceneObjects.erase(it); // イテレータを更新
-		}
-		else
-		{
-			++it; // 次へ
-		}
-	}
+	
 
 	//-----------------------------------------------------------------------------
 	// エンターキーを押してステージ1へ

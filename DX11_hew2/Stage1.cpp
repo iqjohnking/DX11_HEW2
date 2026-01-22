@@ -141,6 +141,20 @@ void Stage1::GameUpdate()
 {
     if(m_Flow != Flow::Gameplay) return;
 
+    //m_MySceneObjects中の空間オブジェクトを削除する（erase）
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o || o->ToBeDeleted())
+        {
+            it = m_MySceneObjects.erase(it); // イテレータを更新
+        }
+        else
+        {
+            ++it; // 次へ
+        }
+    }
+
 	//60フレーム経過するごとに1秒プラス
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;

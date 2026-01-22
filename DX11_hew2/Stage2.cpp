@@ -49,7 +49,6 @@ void Stage2::Update()
     GameUpdate();
 }
 
-
 void Stage2::MessageUpdate()
 {
     if (!m_Message) return;
@@ -125,7 +124,7 @@ void Stage2::BuildStartPages()
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage1_start";
+        p.textId = "stage2_start";
         p.textIndex = 1;
 
         p.voiceId = "";
@@ -167,7 +166,7 @@ void Stage2::BuildEndPages()
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage1_end";
+        p.textId = "stage2_end";
         p.textIndex = 1;
 
         p.voiceId = "";
@@ -182,8 +181,8 @@ void Stage2::BuildEndPages()
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage1_end";
-        p.textIndex = 3;
+        p.textId = "stage2_end";
+        p.textIndex = 2;
 
         p.voiceId = "";
         p.focus = FocusSide::Right;
@@ -191,21 +190,6 @@ void Stage2::BuildEndPages()
 
         m_Pages.push_back(p);
         //この程度で疲れるな、まだ２割も倒していない
-    }
-    // Page4
-    {
-        MessagePage p;
-
-        p.nameId = "miko";
-        p.textId = "stage1_end";
-        p.textIndex = 4;
-
-        p.voiceId = "";
-        p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
-
-        m_Pages.push_back(p);
-        //そ…そんなぁ…
     }
 }
 
