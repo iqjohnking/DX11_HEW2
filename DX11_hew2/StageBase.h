@@ -13,6 +13,7 @@
 #include "Shrinemaiden.h"
 #include "EnemyBase.h"	
 #include "Enemy1.h"	
+#include "Enemy2.h"
 #include "Enemy4.h"
 #include "EnemyMayu.h"
 
@@ -20,23 +21,21 @@
 #include "MessageManager.h"
 #include "MessagePage.h"
 
-//#include "Enemy2.h"	
 //#include "Enemy3.h"
 
 // 会話の進行状態
-//StageBaseに移動予定
 enum class Flow { StartTalk, Gameplay, EndTalk };
 
 // Stage_Baseクラス
 class StageBase : public Scene
 {
-protected:
+private:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
 	std::vector<MessagePage> m_Pages;
 	
-	Flow m_Flow;
+	Flow m_Flow = Flow::StartTalk;
 
 	Field* m_Field = nullptr;      // フィールド（境界判定用）
 
@@ -58,6 +57,10 @@ protected:
 	//ランダム
 	float rand = 0.0f;
 
+protected:
+	void BuildStartPages();
+	void BuildEndPages();
+
 public:
 	StageBase();  // コンストラクタ
 	~StageBase(); // デストラクタ
@@ -66,11 +69,7 @@ public:
 	virtual void Uninit() = 0; // 終了処理
 	virtual void Update() = 0; // 更新
 
-	//会話パート
-	virtual void BuildStartPages() = 0;
-	virtual void BuildEndPages() = 0;
-
-	void EnemyrandomSpawn();
+	void EnemySpawn();
 	void StageClearCheck();
 	void StageFailedCheck();
 
