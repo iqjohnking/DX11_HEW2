@@ -73,6 +73,9 @@ void Stage1::Init()
 	phase4Flag = false;
 	phase5Flag = false;
 	phase6Flag = false;
+	
+	StagekillCount = 0;     //倒した敵の数をリセット
+	StageEnemyCount = 11;   //ステージの敵の総数を設定
 }
 
 void Stage1::Uninit()
@@ -93,7 +96,8 @@ void Stage1::Uninit()
 
 void Stage1::Update()
 {
-    //会話とゲームでUpdateを分けたので、今のところなし
+	MessageUpdate();
+	GameUpdate();
 }
 
 //会話パートのUpdate
@@ -141,21 +145,7 @@ void Stage1::GameUpdate()
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
 
-	if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
-	{
-		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
-
-		for (int i = 0; i < 1; ++i)
-		{
-			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-			Enemy1List[i]->SetTarget(m_Miko);
-			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[i]->SetPosition({ 0.0f, 350.0f, 0.0f });
-						
-			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
-		phase1Flag = true;
-	}
+	
 
 	if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
 	{
@@ -182,9 +172,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 200.0f, 300.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 350.0f, 200.0f, 0.0f });
-
+            if (i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 200.0f, 300.0f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 350.0f, 200.0f, 0.0f });
+            }
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase3Flag = true;
@@ -199,9 +194,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 50.0f, -400.f, 0.0f });
-			Enemy1List[1]->SetPosition({ -50.0f, -400.f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 150.0f, -400.f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ -150.0f, -400.f, 0.0f });
+			}			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase4Flag = true;
@@ -216,9 +216,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 450.0f, -150.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 300.0f, -350.0f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 450.0f, -150.0f, 0.0f });
+            }
+            else if (i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 300.0f, -350.0f, 0.0f });
+            }			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase5Flag = true;
@@ -233,9 +238,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 450.0f, -130.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 30.0f, -420.0f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 450.0f, -130.0f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 30.0f, -420.0f, 0.0f });
+			}			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 
@@ -358,6 +368,7 @@ void Stage1::GameUpdate()
 					Vector3 centroid = (A + B + C) / 3.0f;
 					enemy->StartMayuing(centroid);
 					++eliminatedCount;
+                    StagekillCount++;
 				}
 			}
 
@@ -429,6 +440,11 @@ void Stage1::GameUpdate()
 		return;
 		*/
 	}
+
+    //ステージクリアと失敗のチェック
+    StageClearCheck();
+    StageFailedCheck();
+
 }
 
 
@@ -799,59 +815,138 @@ void Stage1::BuildEndPages()
 {
     m_Pages.clear();
 
-    // Page0: 終了（右=巫女が話す）
+    // Page0
+    // 右=巫女,左=女郎蜘蛛
     {
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";        // name_miko.png
+        p.nameId = "kumo";        // name_miko.png
         p.textId = "stage1_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
         p.voiceId = "";
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::Left;
 
-        // ★Page0必須：左右の初期表情
+        // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-
-        // 話者（右）表情
-        p.speakerFaceId = "normal";
+        p.speakerFaceId = "";
 
         m_Pages.push_back(p);
+        //感覚が戻ってきた……悪くない
     }
-
-    // Page1: 左=女郎蜘蛛
+    // Page1
     {
         MessagePage p;
 
-        // ★必須：このページの表示（名前＋本文）
+        p.nameId = "miko";
+        p.textId = "stage1_end";
+        p.textIndex = 1;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //言い忘れてましたけど、貴方は私から20メートル以上離れられないので
+    }
+    // Page2
+    {
+        MessagePage p;
+
         p.nameId = "kumo";
         p.textId = "stage1_end";
-        p.textIndex = 1;          // 001
+        p.textIndex = 2;
 
         p.voiceId = "";
         p.focus = FocusSide::Left;
-
-        p.speakerFaceId = "angry";
+        p.speakerFaceId = "";
 
         m_Pages.push_back(p);
+        //…随分面倒な制約の多い召喚術だな？近代の術師は相当弱いらしい…
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage1_end";
+        p.textIndex = 3;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //…それくらい色々しないと、人間に神様を呼び出すなんてことできませんから
+    }
+    // Page4
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage1_end";
+        p.textIndex = 4;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //それで呼び出されたのが私とは…貴様も不運なものだな？
+    }
+    // Page5
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage1_end";
+        p.textIndex = 5;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //…私一人の命で千年前からの脅威を消し去れるなら安いものですよ…！
     }
 }
 
 //実行すると敵がスポーン
-void StageBase::EnemySpawn()
+void Stage1::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
 {
-	
+    if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
+    {
+        switch (enemyType)
+        {
+        case NORMAL:
+            for (int i = 0; i < 1; ++i)
+            {
+                Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
+                Enemy1List[i]->SetTarget(m_Miko);
+                Enemy1List[i]->SetField(m_Field);
+                Enemy1List[i]->SetPosition({ pos });
+
+                m_MySceneObjects.emplace_back(Enemy1List[i]);
+            }
+            phase1Flag = true;
+            break;
+        }        
+    }
 }
 
-void StageBase::StageClearCheck()
+void Stage1::StageClearCheck()
 {
-	//クリア条件を達成しているかどうか
-	//達成していたらm_Flowを変える	
+	//敵を全て倒したかどうか
+    if(StagekillCount >= StageEnemyCount)
+    {        
+        m_Flow = Flow::EndTalk;
+	}
 }
 
-void StageBase::StageFailedCheck()
+void Stage1::StageFailedCheck()
 {
 	//ステージ失敗かどうか
+	//巫女のHPが0になったら失敗にする
 }

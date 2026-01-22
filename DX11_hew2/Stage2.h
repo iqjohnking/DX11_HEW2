@@ -1,7 +1,7 @@
 #pragma once
 #include "StageBase.h"
 
-class Stage1 : public StageBase
+class Stage2 : public StageBase
 {
 private:
 	//敵の出現を管理するためのフラグ
@@ -13,21 +13,21 @@ private:
 	bool phase6Flag = false;
 
 public:
-	Stage1() {};
-	~Stage1() {};
+	Stage2() {};
+	~Stage2() {};
 
 	void Init() override; // 初期化
 	void Uninit() override; // 終了処理
 	void Update() override; // 更新
 
-	void MessageUpdate() override;	//会話パート更新
-	void GameUpdate() override;		//ゲームパート更新
+	void MessageUpdate();	//会話パート更新
+	void GameUpdate();		//ゲームパート更新
 
 	//会話パート
 	void BuildStartPages() override;
 	void BuildEndPages() override;
 
-	void EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos) override;		//引数でスポーンする敵の種類と座標を指定できるようにしたい
+	void EnemySpawn() override;		//引数でスポーンする敵の種類と座標を指定できるようにしたい
 	void StageClearCheck() override;
 	void StageFailedCheck() override;
 };

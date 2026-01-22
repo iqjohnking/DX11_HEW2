@@ -31,11 +31,11 @@ void MessageText::Update()
 {
     //í≤êÆóp
     //ïsóvÇ»ÇÁçÌèú
-    m_NameSprite.SetPosition(m_NamePos);
-    m_NameSprite.SetScale(m_NameSize);
+    //m_NameSprite.SetPosition(m_NamePos);
+    //m_NameSprite.SetScale(m_NameSize);
 
-    m_TextSprite.SetPosition(m_TextPos);
-    m_TextSprite.SetScale(m_TextSize);
+    //m_TextSprite.SetPosition(m_TextPos);
+    //m_TextSprite.SetScale(m_TextSize);
 
     m_NameSprite.Update();
     m_TextSprite.Update();

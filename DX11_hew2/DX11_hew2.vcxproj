@@ -167,6 +167,7 @@
     <ClCompile Include="Stage1Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="StageBase.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="EnemyMayu.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Enemy1.h" />
+    <ClInclude Include="EnemyType.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IndexBuffer.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="Stage1Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Stage2.h" />
     <ClInclude Include="StageBase.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />
