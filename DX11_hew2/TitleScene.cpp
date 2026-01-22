@@ -56,56 +56,56 @@ void TitleScene::Init()
 	m_Miko->SetField(m_Field);
 	
 	////敵1
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-		Enemy1List[i]->SetTarget(m_Miko);
-		Enemy1List[i]->SetField(m_Field);
-		if (i < 5) {
-
-			Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius()+5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy1List[i]);
-	}
-	
-	
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
-		Enemy2List[i]->SetTarget(m_Miko);
-		Enemy2List[i]->SetField(m_Field);
-		if (i < 5) {
-
-			Enemy2List[i]->SetPosition({ -400.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy2List[i]->SetPosition({ 400.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy2List[i]);
-	}
-
-
-	////敵4
 	//for (int i = 0; i < 10; ++i)
 	//{
-	//	Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
-	//	Enemy4List[i]->SetTarget(m_Miko);
-	//	Enemy4List[i]->SetField(m_Field);
+	//	Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
+	//	Enemy1List[i]->SetTarget(m_Miko);
+	//	Enemy1List[i]->SetField(m_Field);
 	//	if (i < 5) {
 	//
-	//		Enemy4List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+	//		Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
 	//	}
 	//	else {
-	//		Enemy4List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-	//		Enemy4List[i]->SetRadius(Enemy4List[i]->GetRadius() + 5.f);
+	//		Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+	//		Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius()+5.f);
 	//	}
-	//	m_MySceneObjects.emplace_back(Enemy4List[i]);
+	//	m_MySceneObjects.emplace_back(Enemy1List[i]);
 	//}
+	
+	
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
+	//	Enemy2List[i]->SetTarget(m_Miko);
+	//	Enemy2List[i]->SetField(m_Field);
+	//	if (i < 5) {
+	//
+	//		Enemy2List[i]->SetPosition({ -400.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+	//	}
+	//	else {
+	//		Enemy2List[i]->SetPosition({ 400.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+	//		Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
+	//	}
+	//	m_MySceneObjects.emplace_back(Enemy2List[i]);
+	//}
+
+
+	//敵4
+	for (int i = 0; i < 10; ++i)
+	{
+		Enemy4List[i] = Game::GetInstance()->AddObject<Enemy4>();
+		Enemy4List[i]->SetTarget(m_Miko);
+		Enemy4List[i]->SetField(m_Field);
+		if (i < 5) {
+	
+			Enemy4List[i]->SetPosition({ -300.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+		}
+		else {
+			Enemy4List[i]->SetPosition({ 300.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+			Enemy4List[i]->SetRadius(Enemy4List[i]->GetRadius() + 5.f);
+		}
+		m_MySceneObjects.emplace_back(Enemy4List[i]);
+	}
 }
 
 // 更新
@@ -114,6 +114,32 @@ void TitleScene::Update()
 	//-----------------------------------------------------------------------------
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// 重要：三角形判定で触る前に、死んだオブジェクトを先に掃除する
+	//-----------------------------------------------------------------------------
+
+	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
+	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+	{
+		Object* o = *it; // オブジェクト取得
+		if (!o)
+		{
+			it = m_MySceneObjects.erase(it);
+			continue;
+		}
+
+		if (o->ToBeDeleted())
+		{
+			Game::GetInstance()->DeleteObject(o);   // ★実体も破棄依頼
+			it = m_MySceneObjects.erase(it);        // ★リストからも除去
+			continue;
+		}
+
+		++it;
+	}
+	
 
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
@@ -297,23 +323,6 @@ void TitleScene::Update()
 	}
 
 
-	//-----------------------------------------------------------------------------
-	// silkWall と　mayu の当たり判定
-	//-----------------------------------------------------------------------------
-
-	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
-	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
-	{
-		Object* o = *it; // オブジェクト取得
-		if (!o || o->ToBeDeleted())
-		{
-			it = m_MySceneObjects.erase(it); // イテレータを更新
-		}
-		else
-		{
-			++it; // 次へ
-		}
-	}
 
 	//-----------------------------------------------------------------------------
 	// エンターキーを押してステージ1へ
