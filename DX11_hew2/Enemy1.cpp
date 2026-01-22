@@ -36,6 +36,7 @@ void Enemy1::Init()
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("atk", 4, 7, 10);
 	m_Texture2D.AddAnimClip("spawn", 8, 11, 10);
+	m_Texture2D.AddAnimClip("dying", 8, 8, 20);
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -192,6 +193,11 @@ void Enemy1::move()
 			}
 		}
 
+		if (m_Hitpoint <= 0) {
+			// –š‚É‚È‚éˆ—‚Ö
+			state = EnemyState::DYING;
+		}
+
 		// 5) V‚µ‚¢ˆÊ’u
 		target_pos = now_pos + (m_direction * m_velocity);
 		SetPosition(target_pos);
@@ -200,8 +206,6 @@ void Enemy1::move()
 	}
 	case EnemyState::ISMAYUING:
 	{
-		
-
 		mayuingTimer++; // 0 -> kMayuFrames
 
 		float t = (float)mayuingTimer / (float)kMayuFrames;

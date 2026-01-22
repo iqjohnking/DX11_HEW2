@@ -128,14 +128,14 @@ void playerHand::Move()
     {
         float x = stick.x;
         float y = stick.y;
-
+    
         // ほぼ 0 ベクトルのときは、最低限の方向を与える
         if ((x * x + y * y) < 1e-6f)
         {
             x = (m_Side == HandSide::Left) ? -1.0f : 1.0f;
             // y はそのまま（下方向が潰れないように）
         }
-
+    
         candidateAngle = atan2f(y, x);
         hasCandidate = true;
     }
@@ -143,6 +143,7 @@ void playerHand::Move()
     else
     {
         float dAngle = 0.0f;
+
 
         if (m_Side == HandSide::Left)
         {
@@ -153,11 +154,25 @@ void playerHand::Move()
         }
         else
         {
-            if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I))
+            if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I) )
                 dAngle += m_AngleSpeed;
-            if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K))
+            if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K) )
                 dAngle -= m_AngleSpeed;
         }
+       // if (m_Side == HandSide::Left)
+       // {
+       //     if (Input::GetKeyPress(VK_W)|| stick.y >0.5f)
+       //         dAngle -= m_AngleSpeed;
+       //     if (Input::GetKeyPress(VK_S)|| stick.y <-0.5f)
+       //         dAngle += m_AngleSpeed;
+       // }
+       // else
+       // {
+       //     if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I)|| stick.y > 0.5f)
+       //         dAngle += m_AngleSpeed;
+       //     if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K)|| stick.y < -0.5f)
+       //         dAngle -= m_AngleSpeed;
+       // }
 
         if (dAngle != 0.0f)
         {
