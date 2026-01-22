@@ -20,6 +20,7 @@ void MessageManager::Uninit()
 
 	// Delete‚Í‚µ‚È‚¢
 	// ‚½‚¾‚µƒ|ƒCƒ“ƒ^‚Í«—ˆ‚ÌŽ–ŒÌ–hŽ~‚ÅØ‚Á‚Ä‚¨‚­
+	m_Background = nullptr;
 	m_UI = nullptr;
 	m_Text = nullptr;
 	m_LeftChar = nullptr;
@@ -52,11 +53,21 @@ void MessageManager::SetFramePath(const std::string& path)
 	}
 }
 
+void MessageManager::SetBackgroundPath(const std::string& path)
+{
+	m_BackgroundPath = path;
+
+	// Šù‚É”wŒi•”•i‚ª‚ ‚é‚È‚ç‘¦”½‰f
+	if (m_Background && !m_BackgroundPath.empty())
+	{
+		m_Background->SetFrame(m_BackgroundPath);
+	}
+}
+
 void MessageManager::Play()
 {
 	// •”•i‚ª–³‚¢‚È‚çì‚é
 	CreatePartsIfNeeded();
-
 	if (m_Pages.empty()) return;
 	const MessagePage& p0 = m_Pages[0];
 	if (p0.leftFaceId.empty() || p0.rightFaceId.empty())
@@ -66,7 +77,7 @@ void MessageManager::Play()
 		CleanupParts();
 		return;
 	}
-	if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar) return;
+	if (!m_UI || !m_Text || !m_LeftChar || !m_RightChar || !m_Background) return;
 
 	if (m_LeftCharId.empty() || m_RightCharId.empty()) return;
 
@@ -80,6 +91,7 @@ void MessageManager::Play()
 	m_Playing = true;
 	m_Index = 0;
 
+	m_Background->Show(true);
 	m_UI->Show(true);
 	m_Text->Show(true);
 	m_LeftChar->Show(true);
@@ -203,7 +215,7 @@ void MessageManager::StopCurrentVoice()
 void MessageManager::CreatePartsIfNeeded()
 {
 	// ‚·‚Å‚É‘µ‚Á‚Ä‚¢‚é‚È‚ç‰½‚à‚µ‚È‚¢
-	if (m_UI && m_Text && m_LeftChar && m_RightChar)
+	if (m_Background && m_UI && m_Text && m_LeftChar && m_RightChar)
 		return;
 
 	Game* g = Game::GetInstance();
@@ -211,8 +223,13 @@ void MessageManager::CreatePartsIfNeeded()
 
 	bool created = false;
 
-	if (!m_UI)
+	if (!m_Background)
 	{
+		m_Background = g->AddObject<MessageUI>();
+		created = true;
+	}
+	if (!m_UI)
+	{	
 		m_UI = g->AddObject<MessageUI>();
 		created = true;
 	}
@@ -241,6 +258,7 @@ void MessageManager::CreatePartsIfNeeded()
 void MessageManager::SetupParts()
 {
 	// •`‰æ‡(•K—v‚È‚ç’²®)
+	m_Background->SetDrawOrder(800);
 	m_LeftChar->SetDrawOrder(900);
 	m_RightChar->SetDrawOrder(900);
 	m_UI->SetDrawOrder(1000);
@@ -251,6 +269,7 @@ void MessageManager::SetupParts()
 	m_RightChar->SetSide(TalkSide::Right);
 
 	// ‚¢‚Á‚½‚ñ”ñ•\Ž¦iPlay‚Å•\Ž¦j
+	m_Background->Show(false);
 	m_UI->Show(false);
 	m_Text->Show(false);
 	m_LeftChar->Show(false);
@@ -284,6 +303,7 @@ void MessageManager::SetParticipants(const std::string& leftCharId, const std::s
 
 void MessageManager::CleanupParts()
 {
+	if(m_Background) m_Background->Show(false);
 	if (m_UI) m_UI->Show(false);
 	if (m_Text) m_Text->Show(false);
 	if (m_LeftChar) m_LeftChar->Show(false);

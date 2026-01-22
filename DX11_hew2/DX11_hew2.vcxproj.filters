@@ -186,10 +186,10 @@
     <ClCompile Include="Enemy2.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1.cpp">
+    <ClCompile Include="StageBase.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="StageBase.cpp">
+    <ClCompile Include="Stage1.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>

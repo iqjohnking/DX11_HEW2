@@ -72,6 +72,24 @@ void TitleScene::Init()
 		m_MySceneObjects.emplace_back(Enemy1List[i]);
 	}
 	
+	
+	for (int i = 0; i < 10; ++i)
+	{
+		Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
+		Enemy2List[i]->SetTarget(m_Miko);
+		Enemy2List[i]->SetField(m_Field);
+		if (i < 5) {
+
+			Enemy2List[i]->SetPosition({ -400.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+		}
+		else {
+			Enemy2List[i]->SetPosition({ 400.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+			Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
+		}
+		m_MySceneObjects.emplace_back(Enemy2List[i]);
+	}
+
+
 	////敵4
 	//for (int i = 0; i < 10; ++i)
 	//{
@@ -99,6 +117,31 @@ void TitleScene::Update()
 
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
+		silkWall* w = nullptr;
+
+		// 1. まず、非アクティブ（消えている）スロットを探す
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!m_SilkWalls[i]->IsActive())
+			{
+				w = m_SilkWalls[i];
+				break;
+			}
+		}
+
+		// 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+		if (w == nullptr)
+		{
+			w = m_SilkWalls[m_NextSilkIndex];
+			m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+		}
+
+		// 3. 発射実行
+		if (w && m_HandL && m_HandR)
+		{
+			w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+		}
+		/*
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
 		{
@@ -113,11 +156,41 @@ void TitleScene::Update()
 				m_NextSilkIndex = 0;
 			}
 		}
+		*/
 	}
 
 	// 
 	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
 	{
+		silkWall* w = nullptr;
+
+		// 1. まず、非アクティブ（消えている）スロットを探す
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!m_SilkWalls[i]->IsActive())
+			{
+				w = m_SilkWalls[i];
+				break;
+			}
+		}
+
+		// 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+		if (w == nullptr)
+		{
+			w = m_SilkWalls[m_NextSilkIndex];
+			m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+		}
+
+		// 3. 発射実行
+		if (w && m_HandL && m_HandR)
+		{
+			Vector3 startPos = m_HandR->GetPosition();  // 右手
+			Vector3 targetPos = m_HandL->GetPosition(); // 左手
+
+			w->Fire(startPos, targetPos);
+		}
+
+		/*
 		silkWall* w = m_SilkWalls[m_NextSilkIndex];
 		if (w && m_HandL && m_HandR)
 		{
@@ -131,6 +204,7 @@ void TitleScene::Update()
 				m_NextSilkIndex = 0;
 			}
 		}
+		*/
 	}
 
 	//if (Input::GetKeyTrigger('R'))   // 
@@ -168,7 +242,7 @@ void TitleScene::Update()
 
 	// 3 本とも準備完了しているか？
 	const bool allReady = std::all_of(std::begin(walls), std::end(walls),
-		[](const silkWall* w) { return w && !w->IsGrowing(); });
+		[](const silkWall* w) { return w && w->IsActive() && !w->IsGrowing(); });
 
 
 	// nullptr チェックのみ（就緒判定は行わない）

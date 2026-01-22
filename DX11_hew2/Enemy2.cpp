@@ -154,23 +154,35 @@ void Enemy2::move()
 					}
 				}
 
-				if (m_cutTimer > 0.0f)
+
+				if (m_targetWall != nullptr)
 				{
-					m_cutTimer -= 1.0f / 60.0f;
-					m_Texture2D.PlayAnim("atk");
-
-					if (m_cutTimer <= 0.0f)
+					// 追加：ターゲットの糸が既に非アクティブ（他の敵に消された)なら、切断を中止
+					if (!m_targetWall->GetIsActive())
 					{
-						if (m_targetWall)
-						{
+						m_targetWall = nullptr;
+						m_cutTimer = 0.0f;
+						m_Texture2D.PlayAnim("idle");
+						return; 
+					}
 
-							m_targetWall->SetIsActive(false);//糸を消す
+					if (m_cutTimer > 0.0f)
+					{
+						m_cutTimer -= 1.0f / 60.0f;
+						m_Texture2D.PlayAnim("atk");
+
+						if (m_cutTimer <= 0.0f)
+						{
+							m_targetWall->Uninit();
+							m_targetWall->SetIsActive(false);
+							m_cutTimer = 0.0f;
 							m_Texture2D.PlayAnim("idle");
 							m_targetWall = nullptr;
 						}
+						return;
 					}
-					return;
 				}
+				
 			}
 		}
 		else {
@@ -211,6 +223,8 @@ void Enemy2::move()
 				m_direction = knockbackDir;
 				//SetPosition(GetPosition() + knockbackDir * 2.0f); // 少し後退
 				*/
+
+
 				break;
 			}
 		}

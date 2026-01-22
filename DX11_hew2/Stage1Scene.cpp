@@ -177,8 +177,8 @@ void Stage1Scene::BuildEndPages()
         p.focus = FocusSide::Right;
 
         // ★Page0必須：左右の初期表情
-        p.leftFaceId = "normal";
-        p.rightFaceId = "normal";
+        p.leftFaceId = "kumo_normal";
+        p.rightFaceId = "miko_normal";
 
         // 話者（右）表情
         p.speakerFaceId = "normal";
