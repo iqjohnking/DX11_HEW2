@@ -12,7 +12,8 @@ protected:
 	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
 
 	//フレームカウント
-	int frameCount = 0;
+	int chargeTimer = 0;
+	uint64_t chargeTiming = 2; //1秒間チャージ
 	
 	//ランダム
 	float rand = 0.0f;
@@ -31,15 +32,18 @@ public:
 	}
 
 	//min_valは2.0、max_valは4.0で使用
-	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val) {
-		// 乱数生成器
-		static std::mt19937_64 mt64(0);
+	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val)
+	{
+		// min_val が max_val より大きい場合は入れ替え
+		if (min_val > max_val) std::swap(min_val, max_val);
 
-		// [min_val, max_val] の一様分布整数 (double) の分布生成器
-		std::uniform_real_distribution<double> get_rand_uni_real(min_val, max_val);
+		// 乱数生成エンジン（初期化は一度だけ）
+		static std::mt19937_64 mt64{ 0 };
 
-		// 乱数を生成
-		return get_rand_uni_real(mt64);
+		// [min_val, max_val] の範囲で整数の一様分布を生成
+		std::uniform_int_distribution<uint64_t> dist(min_val, max_val);
+
+		return dist(mt64);
 	}
 
 };

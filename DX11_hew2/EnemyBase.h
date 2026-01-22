@@ -16,6 +16,7 @@ protected:
 	EnemyState state = EnemyState::SPAWNING;
 	int spawnTimer = 0; //出現アニメーション用タイマー
 	int mayuingTimer = 0; //繭になる用タイマー
+	static constexpr int kMayuFrames = 15;
 
 	// hp = 12
 	// 毒壁の攻撃力は12、6、4、（１回、２回、３回ダメージが受けたら死ぬ）
