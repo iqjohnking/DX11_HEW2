@@ -35,7 +35,7 @@ protected:
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
 	std::vector<MessagePage> m_Pages;
 	
-	Flow m_Flow;
+	Flow m_Flow = Flow::StartTalk;
 
 	Field* m_Field = nullptr;      // フィールド（境界判定用）
 
@@ -77,14 +77,17 @@ public:
 	virtual void StageClearCheck() = 0;
 	virtual void StageFailedCheck() = 0;
 
-	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val) {
-		// 乱数生成器
-		static std::mt19937_64 mt64(0);
+	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val)
+	{
+		// 確実に min_val <= max_val にする
+		if (min_val > max_val) std::swap(min_val, max_val);
 
-		// [min_val, max_val] の一様分布整数 (double) の分布生成器
-		std::uniform_real_distribution<double> get_rand_uni_real(min_val, max_val);
+		// 乱数生成エンジン（初期化は一度だけ）
+		static std::mt19937_64 mt64{ 0 };
 
-		// 乱数を生成
-		return get_rand_uni_real(mt64);
+		// 一様分布生成器
+		std::uniform_int_distribution<uint64_t> dist(min_val, max_val);
+
+		return dist(mt64);
 	}
 };

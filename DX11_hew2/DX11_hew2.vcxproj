@@ -149,8 +149,6 @@
     <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GolfBall.cpp" />
-    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageManager.cpp" />
@@ -202,8 +200,6 @@
     <ClInclude Include="Enemy1.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GolfBall.h" />
-    <ClInclude Include="Ground.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="DeBugLine2D.h" />

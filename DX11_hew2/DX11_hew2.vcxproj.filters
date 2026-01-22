@@ -93,12 +93,6 @@
     <ClCompile Include="utility.cpp">
       <Filter>ソース ファイル\lib</Filter>
     </ClCompile>
-    <ClCompile Include="GolfBall.cpp">
-      <Filter>ソース ファイル\obj</Filter>
-    </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>ソース ファイル\obj</Filter>
-    </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
@@ -232,12 +226,6 @@
     </ClInclude>
     <ClInclude Include="utility.h">
       <Filter>ヘッダー ファイル\lib</Filter>
-    </ClInclude>
-    <ClInclude Include="GolfBall.h">
-      <Filter>ヘッダー ファイル\obj</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>ヘッダー ファイル\render</Filter>
