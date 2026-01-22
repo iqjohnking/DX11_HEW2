@@ -13,6 +13,7 @@
 #include "Shrinemaiden.h"
 #include "EnemyBase.h"	
 #include "Enemy1.h"	
+#include "Enemy2.h"
 #include "Enemy4.h"
 #include "EnemyMayu.h"
 
@@ -20,11 +21,9 @@
 #include "MessageManager.h"
 #include "MessagePage.h"
 
-//#include "Enemy2.h"	
 //#include "Enemy3.h"
 
 // 会話の進行状態
-//StageBaseに移動予定
 enum class Flow { StartTalk, Gameplay, EndTalk };
 
 // Stage_Baseクラス
@@ -70,7 +69,7 @@ public:
 	virtual void Uninit() = 0; // 終了処理
 	virtual void Update() = 0; // 更新
 
-	void EnemyrandomSpawn();
+	void EnemySpawn();
 	void StageClearCheck();
 	void StageFailedCheck();
 
