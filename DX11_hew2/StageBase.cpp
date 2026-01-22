@@ -24,9 +24,6 @@
 //    //カメラのポインタを取得
 //    Camera* cam = Game::GetInstance()->GetCamera();
 //
-//	//クリアに必要な倒した数を設定
-//	Clearkill = 10;
-//
 //    // まず開始会話の台本を作る
 //    BuildStartPages();
 //
@@ -359,7 +356,7 @@
 //}
 //
 ////実行すると確率で敵がスポーン
-//void StageBase::EnemyrandomSpawn()
+//void StageBase::EnemySpawn()
 //{
 //	//rand = get_rand_range(2.0f, 4.0f); //後で数値を変更
 //	/*

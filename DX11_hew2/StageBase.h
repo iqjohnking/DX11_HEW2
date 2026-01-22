@@ -29,18 +29,19 @@ enum class Flow { StartTalk, Gameplay, EndTalk };
 // Stage_Baseクラス
 class StageBase : public Scene
 {
-private:
+protected:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
 	std::vector<MessagePage> m_Pages;
 	
-	Flow m_Flow = Flow::StartTalk;
+	Flow m_Flow;
 
 	Field* m_Field = nullptr;      // フィールド（境界判定用）
 
 	silkWall* m_SilkWalls[3]{};   // 糸の壁 最大3本
 	Enemy1* Enemy1List[60]{};  // テスト用に60体
+	Enemy2* Enemy2List[10]{};  // テスト用に10体
 	Enemy4* Enemy4List[10]{};  // テスト用に10体
 	playerHand* m_HandL = nullptr; // 左手
 	playerHand* m_HandR = nullptr; // 右手
@@ -49,18 +50,18 @@ private:
 	Shrinemaiden* m_Miko = nullptr;     // 巫女
 
 	int killCount = 0;	//倒した敵の数
-	int Clearkill;		//クリアに必要な倒した数
+
+	//経過したフレーム数
+	int elapsedFrames = 0;
+	//経過した秒数
+	int elapsedSeconds = 0;
 
 	//敵がスポーンするかどうかのフラグ
 	bool EnemySpawnFlag = false;
 
 	//ランダム
 	float rand = 0.0f;
-
-protected:
-	void BuildStartPages();
-	void BuildEndPages();
-
+	
 public:
 	StageBase();  // コンストラクタ
 	~StageBase(); // デストラクタ
@@ -69,9 +70,12 @@ public:
 	virtual void Uninit() = 0; // 終了処理
 	virtual void Update() = 0; // 更新
 
-	void EnemySpawn();
-	void StageClearCheck();
-	void StageFailedCheck();
+	virtual void BuildStartPages() = 0;
+	virtual void BuildEndPages() = 0;
+
+	virtual void EnemySpawn() = 0;
+	virtual void StageClearCheck() = 0;
+	virtual void StageFailedCheck() = 0;
 
 	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val) {
 		// 乱数生成器
