@@ -30,13 +30,13 @@ enum class Flow { StartTalk, Gameplay, EndTalk };
 // Stage_Baseクラス
 class StageBase : public Scene
 {
-private:
+protected:
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
 	std::vector<MessagePage> m_Pages;
 	
-	Flow m_Flow = Flow::StartTalk;
+	Flow m_Flow;
 
 	Field* m_Field = nullptr;      // フィールド（境界判定用）
 
@@ -58,10 +58,6 @@ private:
 	//ランダム
 	float rand = 0.0f;
 
-protected:
-	void BuildStartPages();
-	void BuildEndPages();
-
 public:
 	StageBase();  // コンストラクタ
 	~StageBase(); // デストラクタ
@@ -69,6 +65,10 @@ public:
 	virtual void Init() = 0; // 初期化
 	virtual void Uninit() = 0; // 終了処理
 	virtual void Update() = 0; // 更新
+
+	//会話パート
+	virtual void BuildStartPages() = 0;
+	virtual void BuildEndPages() = 0;
 
 	void EnemyrandomSpawn();
 	void StageClearCheck();

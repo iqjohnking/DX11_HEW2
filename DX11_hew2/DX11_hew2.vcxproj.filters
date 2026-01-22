@@ -58,6 +58,12 @@
     <Filter Include="ヘッダー ファイル\Message">
       <UniqueIdentifier>{2f36c4c5-b955-45d4-ab6d-229a337756da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{8d03db5b-fee8-428e-af38-f7bccdb10c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{8af5e1c1-cad2-4b3a-9c44-20cc9f313062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -177,14 +183,14 @@
     <ClCompile Include="Enemy4.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="StageBase.cpp">
-      <Filter>ソース ファイル\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy2.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="Stage1.cpp">
-      <Filter>ソース ファイル\scenes</Filter>
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBase.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,14 +344,14 @@
     <ClInclude Include="Enemy4.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="StageBase.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy2.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="Stage1.h">
-      <Filter>ヘッダー ファイル\scenes</Filter>
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBase.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
