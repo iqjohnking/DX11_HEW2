@@ -210,7 +210,7 @@ void Stage2::BuildEndPages()
 }
 
 
-void Stage2::EnemySpawn()
+void Stage2::UpdateEnemySpawn()
 {
 
 }

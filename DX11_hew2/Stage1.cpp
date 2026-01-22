@@ -145,13 +145,11 @@ void Stage1::GameUpdate()
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
 
-	
-
-	if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
+	if (elapsedSeconds == 5 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
 	{
 		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
 
-		for (int i = 0; i < 1; ++i)
+		/*for (int i = 0; i < 1; ++i)
 		{
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
@@ -159,15 +157,16 @@ void Stage1::GameUpdate()
 			Enemy1List[i]->SetPosition({ 400.0f, 50.0f, 0.0f });
 
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
+		}*/
+        EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
 		phase2Flag = true;
 	}
 
-	if (elapsedSeconds == 18 && phase3Flag == false)	//18秒経過かつフェーズ3が未実行なら
+	if (elapsedSeconds == 8 && phase3Flag == false)	//18秒経過かつフェーズ3が未実行なら
 	{
 		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
 
-		for (int i = 0; i < 2; ++i)
+		/*for (int i = 0; i < 2; ++i)
 		{
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
@@ -181,7 +180,9 @@ void Stage1::GameUpdate()
                 Enemy1List[i]->SetPosition({ 350.0f, 200.0f, 0.0f });
             }
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
+		}*/
+        EnemySpawn(NORMAL,Vector3(200.0f, 300.0f, 0.0f));
+        EnemySpawn(NORMAL,Vector3(350.0f, 200.0f, 0.0f));
 		phase3Flag = true;
 	}
 
@@ -189,7 +190,7 @@ void Stage1::GameUpdate()
 	{
 		//EnemySpawn();	//関数で敵をスポーンさせるようにしたい
 
-		for (int i = 0; i < 2; ++i)
+		/*for (int i = 0; i < 2; ++i)
 		{
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
@@ -203,7 +204,9 @@ void Stage1::GameUpdate()
                 Enemy1List[i]->SetPosition({ -150.0f, -400.f, 0.0f });
 			}			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
-		}
+		}*/
+        EnemySpawn(NORMAL, Vector3(150.0f, -400.f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-150.0f, -400.f, 0.0f));
 		phase4Flag = true;
 	}
 
@@ -446,7 +449,6 @@ void Stage1::GameUpdate()
     StageFailedCheck();
 
 }
-
 
 //会話パート
 void Stage1::BuildStartPages()
@@ -914,11 +916,11 @@ void Stage1::BuildEndPages()
 }
 
 //実行すると敵がスポーン
-void Stage1::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
+void Stage1::UpdateEnemySpawn()
 {
     if (elapsedSeconds == 5 && phase1Flag == false)	//5秒経過かつフェーズ1が未実行なら
     {
-        switch (enemyType)
+        /*switch (enemyType)
         {
         case NORMAL:
             for (int i = 0; i < 1; ++i)
@@ -932,7 +934,8 @@ void Stage1::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
             }
             phase1Flag = true;
             break;
-        }        
+        }      */  
+
     }
 }
 

@@ -78,8 +78,8 @@ public:
 	virtual void BuildStartPages() = 0;
 	virtual void BuildEndPages() = 0;
 
-
-	virtual void EnemySpawn(EnemyType enemyType,DirectX::SimpleMath::Vector3 pos);
+	virtual void UpdateEnemySpawn() = 0;
+	void EnemySpawn(EnemyType enemyType,DirectX::SimpleMath::Vector3 pos);
 	virtual void StageClearCheck() = 0;
 	virtual void StageFailedCheck() = 0;
 
