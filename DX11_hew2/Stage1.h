@@ -27,8 +27,8 @@ public:
 	void BuildStartPages() override;
 	void BuildEndPages() override;
 
-	void EnemySpawn() override;		//引数でスポーンする敵の種類と座標を指定できるようにしたい
-	void StageClearCheck() override;
-	void StageFailedCheck() override;
+	void EnemySpawn() override {};		//引数でスポーンする敵の種類と座標を指定できるようにしたい
+	void StageClearCheck() override {};
+	void StageFailedCheck() override {};
 };
 
