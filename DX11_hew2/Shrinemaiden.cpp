@@ -4,6 +4,9 @@
 #include "Game.h"
 #include "silkWall.h"
 
+#include <algorithm> // std::clamp
+#include <cmath>     // sqrtf, fabsf
+
 using namespace std;
 using namespace DirectX::SimpleMath;
 
@@ -35,11 +38,10 @@ static bool IsSegmentInTriangleFanXY(
 	Vector3 d0 = s0 - a; d0.z = 0.0f;
 	Vector3 d1 = s1 - a; d1.z = 0.0f;
 
-	// ★追加：線分の中点もチェック（端点が外でも、横切りを拾える）
+	// 線分の中点もチェック（端点が外でも横切りを拾う）
 	Vector3 mid = (s0 + s1) * 0.5f;
 	Vector3 dm = mid - a; dm.z = 0.0f;
 
-	// 端点 or 中点が扇形に入るなら unsafe
 	auto InWedgeOneWay = [&](const Vector3& d) -> bool
 		{
 			float c1 = Cross2DXY(dirB, d);
@@ -85,20 +87,15 @@ void Shrinemaiden::Init()
 
 void Shrinemaiden::Update()
 {
-	// Update collider position
-	m_Collider.center = GetPosition();
-	// Move
 	move();
 
-	// Update animation
-	if (m_velocity < 1.0f)
-		m_Texture2D.PlayAnim("yowa");
-	else
-		m_Texture2D.PlayAnim("idle");
-
-	// Update collider position
+	// collider 同期
 	m_Collider.center = GetPosition();
-	// Update texture
+
+	// アニメ
+	if (m_velocity < 1.0f) m_Texture2D.PlayAnim("yowa");
+	else                   m_Texture2D.PlayAnim("idle");
+
 	m_Texture2D.Update();
 }
 
@@ -114,7 +111,6 @@ void Shrinemaiden::Uninit()
 	m_Texture2D.Uninit();
 }
 
-
 //==================================================
 // Move
 //==================================================
@@ -122,44 +118,43 @@ void Shrinemaiden::Uninit()
 void Shrinemaiden::move()
 {
 	const Vector3 now_pos = GetPosition();
-	const auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
-	//const float enemyBuffer = 30.0f;
+	m_Collider.center = now_pos; // ここで必ず同期（move内で判定するため）
 
-	// 退避の連続発生を防ぐクールダウンを減らす
+	auto* game = Game::GetInstance();
+	const auto enemies = game->GetObjects<EnemyBase>();
+	const auto silkWalls = game->GetObjects<silkWall>();
+
+	// クールダウン減算
 	if (m_RetreatCooldown > 0) m_RetreatCooldown--;
 
+	//-----------------------------
+	// stuck: 少し待って側にずらす
+	//-----------------------------
 	if (m_IsStuck)
 	{
-		// 30フレイムことろ待機
-		if (m_StuckTimer < 30)   // 約 0.5 秒（60fps）
+		if (m_StuckTimer < 30)
 		{
 			m_StuckTimer++;
 			SetVelocity(0.0f);
 			return;
 		}
 
-		// 側に移動し試して
 		Vector3 side(-m_LastFailedDir.y, m_LastFailedDir.x, 0.0f);
-		if (side.LengthSquared() > 1e-4f)
-			side.Normalize();
+		if (side.LengthSquared() > 1e-4f) side.Normalize();
 
-		const float nudge = m_Radius * 0.3f; // 小さいすぎる
-		Vector3 tryPos = GetPosition() + side * nudge;
+		const float nudge = m_Radius * 0.3f;
+		Vector3 tryPos = now_pos + side * nudge;
 
-		// フィールド境界チェック
 		if (m_Field)
 		{
-			Vector3 dummyVel = tryPos - GetPosition();
-			Vector3 dummyPos = GetPosition();
-			bool hit = m_Field->ResolveBorder(dummyPos, dummyVel, m_Radius);
-
-			if (!hit)
+			Vector3 dummyPos = now_pos;
+			Vector3 dummyVel = tryPos - now_pos;
+			if (!m_Field->ResolveBorder(dummyPos, dummyVel, m_Radius))
 			{
 				SetPosition(dummyPos + dummyVel);
 			}
 		}
 
-		// リセット
 		m_IsStuck = false;
 		m_StuckTimer = 0;
 		m_EscapeState = EscapeState::SearchEscapePoint;
@@ -177,104 +172,96 @@ void Shrinemaiden::move()
 		float bestArea = 0.0f;
 		bool foundSafe = false;
 
+		// --- 判定を小さく分割（構造を簡単にする）
+		auto UnsafeByEnemies = [&](const Vector3& a, const Vector3& b, const Vector3& c) -> bool
+			{
+				Vector3 dirB = b - a; dirB.z = 0.0f;
+				Vector3 dirC = c - a; dirC.z = 0.0f;
+				const float dirLimitSq = m_serchDistance * m_serchDistance;
+
+				for (auto* e : enemies)
+				{
+					if (!e || !e->GetIsAlive()) continue;
+
+					Vector3 dirE = e->GetPosition() - a;
+					dirE.z = 0.0f;
+
+					// 扇形内 + 距離
+					const float c1 = Cross2DXY(dirB, dirE);
+					const float c2 = Cross2DXY(dirE, dirC);
+					const float dirDistSq = dirE.x * dirE.x + dirE.y * dirE.y;
+
+					if (((c1 >= 0.0f && c2 >= 0.0f) || (c1 <= 0.0f && c2 <= 0.0f)) &&
+						dirDistSq <= dirLimitSq)
+					{
+						return true;
+					}
+
+					// 円 vs 三角形（buffer付き）
+					if (DoesCircleIntersectTriangleXY(
+						e->GetPosition(),
+						e->GetRadius() + 50.0f,
+						a, b, c))
+					{
+						return true;
+					}
+				}
+				return false;
+			};
+
+		auto UnsafeBySilk = [&](const Vector3& a, const Vector3& b, const Vector3& c) -> bool
+			{
+				const float silkLimitSq = (m_serchDistance * 0.8f) * (m_serchDistance * 0.8f);
+
+				for (auto* w : silkWalls)
+				{
+					if (!w || !w->IsActive()) continue;
+
+					const auto& seg = w->GetSegment();
+
+					Vector3 mid = (seg.start + seg.end) * 0.5f;
+					Vector3 d = mid - a;
+					d.z = 0.0f;
+
+					if (d.LengthSquared() > silkLimitSq) continue;
+
+					if (IsSegmentInTriangleFanXY(a, b, c, seg.start, seg.end))
+						return true;
+				}
+				return false;
+			};
+
+		auto UnsafeByFailedDir = [&](const Vector3& a, const Vector3& b, const Vector3& c) -> bool
+			{
+				if (m_LastFailedDir.LengthSquared() <= 0.0f) return false;
+
+				Vector3 dirToCenter = ((a + b + c) / 3.0f) - a;
+				dirToCenter.z = 0.0f;
+
+				if (dirToCenter.LengthSquared() > 1e-4f) dirToCenter.Normalize();
+				else return false;
+
+				const float dot = dirToCenter.Dot(m_LastFailedDir);
+				return (dot > 0.85f);
+			};
+
 		if (m_Field)
 		{
 			const auto& edges = m_Field->GetEdges();
-
 			for (const auto& ed : edges)
 			{
 				const Vector3 a = now_pos;
 				const Vector3 b = ed.p0;
 				const Vector3 c = ed.p1;
 
-				float area = Area2D(a, b, c);
-				if (area <= 1e-4f)
-					continue;
+				const float area = Area2D(a, b, c);
+				if (area <= 1e-4f) continue;
 
-				Vector3 dirB = b - a; dirB.z = 0.0f;
-				Vector3 dirC = c - a; dirC.z = 0.0f;
+				if (UnsafeByEnemies(a, b, c)) continue;
+				if (UnsafeBySilk(a, b, c))    continue;
+				if (UnsafeByFailedDir(a, b, c)) continue;
 
-				bool unsafe = false;
-
-				for (auto* e : enemies)
-				{
-					if (!e || !e->GetIsAlive())
-						continue;
-
-					Vector3 dirE = e->GetPosition() - a;
-					dirE.z = 0.0f;
-
-					// 方向ベクトル同士の角度チェック
-					float c1 = Cross2DXY(dirB, dirE);
-					float c2 = Cross2DXY(dirE, dirC);
-					const float dirDistSq = dirE.x * dirE.x + dirE.y * dirE.y;
-					const float dirLimitSq = m_serchDistance * m_serchDistance;
-
-					if (((c1 >= 0.0f && c2 >= 0.0f) || (c1 <= 0.0f && c2 <= 0.0f))
-						&& dirDistSq <= dirLimitSq)
-					{
-						unsafe = true;
-						break;
-					}
-
-
-					// 三角形扇形内に敵がいるか？
-					// 円 vs 三角形
-					if (DoesCircleIntersectTriangleXY(
-						e->GetPosition(),
-						e->GetRadius() + 50.0f, // BUFFER
-						a, b, c))
-					{
-						unsafe = true;
-						break;
-					}
-				}
-
-				const auto silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-				for (auto* w : silkWalls)
-				{
-					if (!w->IsActive()) continue;
-
-					const auto& seg = w->GetSegment();
-
-					// SilkWall の中点が扇形内にあるか？
-					Vector3 mid = (seg.start + seg.end) * 0.5f;
-					Vector3 d = mid - a;
-					d.z = 0.0f;
-
-					const float silkLimitSq = (m_serchDistance * 0.8f) * (m_serchDistance * 0.8f);
-
-					if (d.LengthSquared() > silkLimitSq)
-						continue;
-
-					if (IsSegmentInTriangleFanXY(a, b, c, seg.start, seg.end))
-					{
-						unsafe = true;
-						break;
-					}
-				}
-
-				if (m_LastFailedDir.LengthSquared() > 0.0f)
-				{
-					Vector3 dirToCenter = ((a + b + c) / 3.0f) - a;
-					dirToCenter.z = 0.0f;
-
-					if (dirToCenter.LengthSquared() > 1e-4f)
-						dirToCenter.Normalize();
-
-					// 失敗方向と近いか？
-					const float dot = dirToCenter.Dot(m_LastFailedDir);
-					if (dot > 0.85f) // 約 30 度以内 // DOTは一に近いほど角度が小さい
-					{
-						unsafe = true;
-					}
-				}
-
-				if (unsafe)
-					continue;
-
-				if (m_DrawDebugTris)
-					m_DebugTris.push_back({ a, b, c });
+				if (m_DrawDebugTris) m_DebugTris.push_back({ a, b, c });
 
 				if (area > bestArea)
 				{
@@ -292,7 +279,7 @@ void Shrinemaiden::move()
 		}
 		else
 		{
-			//退避直後などで連続失敗している時は、再退避せずstuckへ（乱跳防止）
+			// 退避直後の連続失敗は stuck に回す（乱跳防止）
 			if (m_RetreatCooldown > 0)
 			{
 				SetVelocity(0.0f);
@@ -301,7 +288,7 @@ void Shrinemaiden::move()
 				m_EscapeState = EscapeState::SearchEscapePoint;
 				return;
 			}
-			// 退路探索失敗
+
 			OnEscapeRouteFailed(now_pos);
 			return;
 		}
@@ -313,6 +300,8 @@ void Shrinemaiden::move()
 	if (m_EscapeState == EscapeState::MoveToEscapePoint)
 	{
 		Vector3 toTarget = m_EscapeTarget - now_pos;
+		toTarget.z = 0.0f;
+
 		if (toTarget.LengthSquared() <= m_EscapeArriveDist * m_EscapeArriveDist)
 		{
 			SetVelocity(0.0f);
@@ -324,26 +313,63 @@ void Shrinemaiden::move()
 		SetDirection(toTarget);
 
 		float v = m_velocity + m_acceleration;
-		if (v > m_TargetSpeed)
-			v = m_TargetSpeed;
-
+		if (v > m_TargetSpeed) v = m_TargetSpeed;
 		SetVelocity(v);
 	}
 
 	//==================================================
-	// C) 壁判定（滑りなし）
+	// C) Field
 	//==================================================
 	Vector3 vel = m_direction * m_velocity;
+	vel.z = 0.0f;
 
 	if (m_Field)
 	{
 		Vector3 dummyPos = now_pos;
 		Vector3 dummyVel = vel;
-
 		bool hitBorder = m_Field->ResolveBorder(dummyPos, dummyVel, m_Radius);
+
+		Vector3 resolvedPos;
+		if ((dummyPos - now_pos).LengthSquared() > 1e-6f)
+			resolvedPos = dummyPos;          // B: pos 已被修正
+		else
+			resolvedPos = dummyPos + dummyVel; // A: 用修正後 vel 前進
+
+		resolvedPos.z = 0.0f;
+
 		if (hitBorder)
 		{
-			OnEscapeRouteFailed(now_pos);
+			// [FIX-1] 先套用 ResolveBorder 的修正結果（至少推回場?/沿牆滑動）
+			SetPosition(resolvedPos);
+			SetVelocity(0.0f);
+
+			// [FIX-2] 如果修正後仍幾乎沒動（vel 被夾成 0），做一次「往場?」的小推開
+			// ?的場地大概率以原點為中心，所以用 (0,0) - now_pos 當作往?方向
+			if ((resolvedPos - now_pos).LengthSquared() < 1e-6f)
+			{
+				Vector3 inDir = Vector3::Zero - now_pos;
+				inDir.z = 0.0f;
+
+				if (inDir.LengthSquared() > 1e-6f)
+				{
+					inDir.Normalize();
+
+					Vector3 p2 = now_pos;
+					Vector3 v2 = inDir * (m_Radius * 0.8f); // 推回場?的距離，可調 0.5~1.5 倍半徑
+					m_Field->ResolveBorder(p2, v2, m_Radius);
+
+					Vector3 resolvedPos2;
+					if ((p2 - now_pos).LengthSquared() > 1e-6f) resolvedPos2 = p2;
+					else resolvedPos2 = p2 + v2;
+
+					resolvedPos2.z = 0.0f;
+					SetPosition(resolvedPos2);
+				}
+			}
+
+			// 退回搜尋，避免連續退避亂跳
+			m_EscapeState = EscapeState::SearchEscapePoint;
+			m_RetreatCooldown = 20;
 			return;
 		}
 	}
@@ -351,9 +377,10 @@ void Shrinemaiden::move()
 	//==================================================
 	// D) SilkWall（壁と同一扱い）
 	//==================================================
-	const auto silkWalls = Game::GetInstance()->GetObjects<silkWall>();
 	for (auto* w : silkWalls)
 	{
+		if (!w || !w->IsActive()) continue;
+
 		Vector3 contactPoint;
 		if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
 		{
@@ -368,13 +395,15 @@ void Shrinemaiden::move()
 	SetPosition(now_pos + vel);
 }
 
-
 //==================================================
 // 共通：逃走失敗処理（壁・Silk 共通）
 //==================================================
-
 void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 {
+	auto* game = Game::GetInstance();
+	const auto silkWalls = game->GetObjects<silkWall>();
+	const auto enemies = game->GetObjects<EnemyBase>();
+
 	// 1) 失敗方向記録
 	Vector3 failDir = m_direction;
 	failDir.z = 0.0f;
@@ -389,9 +418,9 @@ void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 	Vector3 side(-f.y, f.x, 0.0f);
 	if (side.LengthSquared() > 1e-4f) side.Normalize();
 
-	const float dist = m_Radius * 2.5f;
+	// 退避距離
+	const float dist = m_Radius * 0.5f;
 
-	// 斜め方向は Normalize() してから使う（Normalized() は無い）
 	Vector3 diag1 = side - f; diag1.z = 0.0f;
 	if (diag1.LengthSquared() > 1e-4f) diag1.Normalize();
 
@@ -407,21 +436,12 @@ void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 		now_pos + (diag2)*dist,
 	};
 
-	auto IsFree = [&](const Vector3& candidatePos) -> bool
+	// はこの関数の外で clamp した finalPos を使うので、
+	// ここでは silk / enemy のみチェックする
+	auto IsFreeNoField = [&](const Vector3& candidatePos) -> bool
 		{
-			// Field
-			if (m_Field)
-			{
-				Vector3 p = now_pos;
-				Vector3 v = candidatePos - now_pos;
-				const bool hit = m_Field->ResolveBorder(p, v, m_Radius);
-				if (hit) return false;
-			}
-
-			// SilkWall（Sphere 型を使わず、m_Collider と同型で判定）
-			const auto silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-
-			auto testCol = m_Collider;     // ← m_Collider と同じ型になる
+			// SilkWall
+			auto testCol = m_Collider;
 			testCol.center = candidatePos;
 
 			for (auto* w : silkWalls)
@@ -432,53 +452,49 @@ void Shrinemaiden::OnEscapeRouteFailed(const Vector3& now_pos)
 					return false;
 			}
 
-			const auto enemies = Game::GetInstance()->GetObjects<EnemyBase>();
-			const float enemyBuffer = 30.0f; // 調整用（大きいほど敵から離れる）
-
+			// Enemy
+			const float enemyBuffer = 30.0f;
 			for (auto* e : enemies)
 			{
 				if (!e || !e->GetIsAlive()) continue;
 
 				Vector3 d = e->GetPosition() - candidatePos;
-				d.z = 0.0f; // XY平面
-
-				float minDist = (m_Radius + e->GetRadius() + enemyBuffer);
+				d.z = 0.0f;
+				const float minDist = (m_Radius + e->GetRadius() + enemyBuffer);
 				if (d.LengthSquared() < (minDist * minDist))
 					return false;
-
 			}
 
 			return true;
 		};
 
-	// 3) 退避を試す（成功したらそこへ移動して再探索）
+	// 3) 退避を試す（成功したらそこへ移動）
 	for (auto& pCand : candidates)
 	{
 		Vector3 finalPos = pCand;
 
+		// [FIX] hit==true でも continue しない
+		// ResolveBorder の結果（clamp後）を finalPos として使う
 		if (m_Field)
 		{
 			Vector3 p = now_pos;
 			Vector3 v = pCand - now_pos;
-			const bool hit = m_Field->ResolveBorder(p, v, m_Radius);
-			if (hit) continue;
+			m_Field->ResolveBorder(p, v, m_Radius); // ★戻り値は無視
 			finalPos = p + v;
 		}
 
-		if (IsFree(finalPos))
+		if (IsFreeNoField(finalPos))
 		{
 			SetPosition(finalPos);
 			SetVelocity(0.0f);
 			m_EscapeState = EscapeState::SearchEscapePoint;
 
-			// 退避直後はしばらく再退避しない（Search失敗→退避→退避…の連鎖を止める）
-			m_RetreatCooldown = 20; // 20フレーム（約0.33秒） 好みに調整
-
+			m_RetreatCooldown = 20;
 			return;
 		}
 	}
 
-	// 4) 退路が無い：stuck モードへ
+	// 4) 退路が無い：stuck
 	SetVelocity(0.0f);
 	m_EscapeState = EscapeState::SearchEscapePoint;
 	m_IsStuck = true;
@@ -538,20 +554,23 @@ float Shrinemaiden::DistPointToSegmentSqXY(
 	const Vector3& b)
 {
 	Vector3 ab = b - a;
-	float abLenSq = ab.x * ab.x + ab.y * ab.y;
+	ab.z = 0.0f;
+	const float abLenSq = ab.x * ab.x + ab.y * ab.y;
 
 	if (abLenSq <= 1e-6f)
 	{
-		Vector3 d = p - a;
+		Vector3 d = p - a; d.z = 0.0f;
 		return d.x * d.x + d.y * d.y;
 	}
 
-	Vector3 ap = p - a;
+	Vector3 ap = p - a; ap.z = 0.0f;
 	float t = (ap.x * ab.x + ap.y * ab.y) / abLenSq;
 	t = std::clamp(t, 0.0f, 1.0f);
 
 	Vector3 closest = a + ab * t;
-	Vector3 d = p - closest;
+	closest.z = 0.0f;
+
+	Vector3 d = p - closest; d.z = 0.0f;
 	return d.x * d.x + d.y * d.y;
 }
 
@@ -562,7 +581,7 @@ bool Shrinemaiden::DoesCircleIntersectTriangleXY(
 	const Vector3& b,
 	const Vector3& c)
 {
-	float r2 = radius * radius;
+	const float r2 = radius * radius;
 
 	if (IsPointInTriangleXY(center, a, b, c))
 		return true;
