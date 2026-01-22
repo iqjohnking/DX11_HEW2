@@ -821,39 +821,80 @@ void Stage1::BuildEndPages()
         m_Pages.push_back(p);
         //感覚が戻ってきた……悪くない
     }
-
     // Page1
     {
         MessagePage p;
 
         p.nameId = "miko";
         p.textId = "stage1_end";
-        p.textIndex = 1;          // 001
+        p.textIndex = 1;
 
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
+        //言い忘れてましたけど、貴方は私から20メートル以上離れられないので
     }
+    // Page2
     {
         MessagePage p;
 
-        // ★必須：このページの表示（名前＋本文）
-        p.nameId = "kumo";        // name_miko.png
-        p.textId = "stage1_end";  // text_stage1_end_***
-        p.textIndex = 0;          // 000
+        p.nameId = "kumo";
+        p.textId = "stage1_end";
+        p.textIndex = 2;
 
         p.voiceId = "";
         p.focus = FocusSide::Left;
-
-        // Page0必須：左右の初期表情
-        p.leftFaceId = "normal";
-        p.rightFaceId = "normal";
         p.speakerFaceId = "";
 
         m_Pages.push_back(p);
-        //感覚が戻ってきた……悪くない
+        //…随分面倒な制約の多い召喚術だな？近代の術師は相当弱いらしい…
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage1_end";
+        p.textIndex = 3;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //…それくらい色々しないと、人間に神様を呼び出すなんてことできませんから
+    }
+    // Page4
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage1_end";
+        p.textIndex = 4;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //それで呼び出されたのが私とは…貴様も不運なものだな？
+    }
+    // Page5
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage1_end";
+        p.textIndex = 5;
+
+        p.voiceId = "";
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        m_Pages.push_back(p);
+        //…私一人の命で千年前からの脅威を消し去れるなら安いものですよ…！
     }
 }
 
