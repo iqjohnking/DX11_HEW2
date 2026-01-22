@@ -70,6 +70,9 @@ public:
 	virtual void Uninit() = 0; // 終了処理
 	virtual void Update() = 0; // 更新
 
+	virtual void MessageUpdate() = 0;	//会話パート更新
+	virtual void GameUpdate() = 0;		//ゲームパート更新
+
 	virtual void BuildStartPages() = 0;
 	virtual void BuildEndPages() = 0;
 
