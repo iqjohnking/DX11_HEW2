@@ -341,6 +341,9 @@
     <ClInclude Include="StageBase.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyType.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

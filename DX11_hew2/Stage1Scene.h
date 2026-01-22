@@ -9,7 +9,7 @@
 //
 // 会話の進行状態
 enum class Flow { StartTalk, Gameplay, EndTalk };
-//// Stage1Scenクラス
+//// Stage1Sceneクラス
 class Stage1Scene : public Scene
 {
 private:

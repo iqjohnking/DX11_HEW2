@@ -11,11 +11,12 @@
 #include "playerHand.h"
 #include "Field.h"
 #include "Shrinemaiden.h"
-#include "EnemyBase.h"	
+#include "EnemyBase.h"
 #include "Enemy1.h"	
 #include "Enemy2.h"
 #include "Enemy4.h"
 #include "EnemyMayu.h"
+#include "EnemyType.h"
 
 #include <vector>
 #include "MessageManager.h"
@@ -23,7 +24,7 @@
 
 //#include "Enemy3.h"
 
-// Stage_Baseクラス
+// StageBaseクラス
 class StageBase : public Scene
 {
 protected:
@@ -49,7 +50,8 @@ protected:
 
 	Shrinemaiden* m_Miko = nullptr;     // 巫女
 
-	int killCount = 0;	//倒した敵の数
+	int StagekillCount = 0;	//倒した敵の数
+	int StageEnemyCount = 0; //ステージの敵の総数
 
 	//経過したフレーム数
 	int elapsedFrames = 0;
@@ -73,7 +75,8 @@ public:
 	virtual void BuildStartPages() = 0;
 	virtual void BuildEndPages() = 0;
 
-	virtual void EnemySpawn() = 0;
+
+	virtual void EnemySpawn(EnemyType enemyType,DirectX::SimpleMath::Vector3 pos);
 	virtual void StageClearCheck() = 0;
 	virtual void StageFailedCheck() = 0;
 
