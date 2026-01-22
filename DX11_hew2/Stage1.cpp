@@ -183,9 +183,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 200.0f, 300.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 350.0f, 200.0f, 0.0f });
-
+            if (i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 200.0f, 300.0f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 350.0f, 200.0f, 0.0f });
+            }
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase3Flag = true;
@@ -200,9 +205,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 50.0f, -400.f, 0.0f });
-			Enemy1List[1]->SetPosition({ -50.0f, -400.f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 150.0f, -400.f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ -150.0f, -400.f, 0.0f });
+			}			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase4Flag = true;
@@ -217,9 +227,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 450.0f, -150.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 300.0f, -350.0f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 450.0f, -150.0f, 0.0f });
+            }
+            else if (i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 300.0f, -350.0f, 0.0f });
+            }			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 		phase5Flag = true;
@@ -234,9 +249,14 @@ void Stage1::GameUpdate()
 			Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
 			Enemy1List[i]->SetTarget(m_Miko);
 			Enemy1List[i]->SetField(m_Field);
-			Enemy1List[0]->SetPosition({ 450.0f, -130.0f, 0.0f });
-			Enemy1List[1]->SetPosition({ 30.0f, -420.0f, 0.0f });
-
+            if(i == 0)
+            {
+                Enemy1List[i]->SetPosition({ 450.0f, -130.0f, 0.0f });
+            }
+            else if(i == 1)
+            {
+                Enemy1List[i]->SetPosition({ 30.0f, -420.0f, 0.0f });
+			}			
 			m_MySceneObjects.emplace_back(Enemy1List[i]);
 		}
 
