@@ -6,6 +6,7 @@
 #include "TitleScene.h"
 #include "Stage1Scene.h"
 #include "ResultScene.h"
+#include "Stage1.h"
 
 enum SceneName {
 	TITLE,

@@ -149,7 +149,8 @@ void Game::ChangeScene(SceneName sceneName)
 		m_Instance->m_Scene = new TitleScene();
 		break;
 	case STAGE1:
-		m_Instance->m_Scene = new Stage1Scene();
+		//m_Instance->m_Scene = new Stage1Scene();
+		m_Instance->m_Scene = new Stage1();
 		break;
 	case RESULT:
 		m_Instance->m_Scene = new ResultScene();

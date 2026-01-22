@@ -13,6 +13,7 @@
 class MessageManager : public Object
 {
 private:
+    MessageUI* m_Background = nullptr;
     MessageUI* m_UI = nullptr;
     MessageText* m_Text = nullptr;
     TalkCharacter* m_LeftChar = nullptr;
@@ -28,8 +29,11 @@ private:
     // 台本
     std::vector<MessagePage> m_Pages;
 
-    // 枠画像パス
+    // UIパス
     std::string m_FramePath; 
+
+    // 背景パス
+    std::string m_BackgroundPath;
 
 private:
     // 進行状態
@@ -68,7 +72,11 @@ public:
     void SetPages(const std::vector<MessagePage>& pages) { m_Pages = pages; }
     void ClearPages() { m_Pages.clear(); }
 
+    //エッセージUI設定
     void SetFramePath(const std::string& path);
+
+    // メッセージ背景設定
+    void SetBackgroundPath(const std::string& path);
 
     // 左右参加者を固定（Play前に呼ぶ）
     void SetParticipants(const std::string& leftCharId, const std::string& rightCharId);

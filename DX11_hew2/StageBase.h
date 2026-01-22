@@ -23,13 +23,13 @@
 
 //#include "Enemy3.h"
 
-// 会話の進行状態
-enum class Flow { StartTalk, Gameplay, EndTalk };
-
 // Stage_Baseクラス
 class StageBase : public Scene
 {
 protected:
+	// 会話の進行状態
+	enum class Flow { StartTalk, Gameplay, EndTalk };
+
 	std::vector<Object*> m_MySceneObjects; // このシーンのオブジェクト
 
 	MessageManager* m_Message = nullptr;  // AddObjectで生成したものを保持
@@ -63,8 +63,8 @@ protected:
 	float rand = 0.0f;
 	
 public:
-	StageBase();  // コンストラクタ
-	~StageBase(); // デストラクタ
+	StageBase() {};  // コンストラクタ
+	~StageBase() {}; // デストラクタ
 
 	virtual void Init() = 0; // 初期化
 	virtual void Uninit() = 0; // 終了処理

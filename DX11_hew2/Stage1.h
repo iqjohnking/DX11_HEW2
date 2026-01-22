@@ -13,6 +13,9 @@ private:
 	bool phase6Flag = false;
 
 public:
+	Stage1() {};
+	~Stage1() {};
+
 	void Init() override; // ‰Šú‰»
 	void Uninit() override; // I—¹ˆ—
 	void Update() override; // XV
