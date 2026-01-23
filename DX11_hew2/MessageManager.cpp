@@ -205,11 +205,34 @@ void MessageManager::BeginPage(int index)
 		m_LeftChar->SetFocus(false);
 		m_RightChar->SetFocus(false);
 	}
+
+	// ボイス再生
+	// このページがボイス無しなら今鳴ってるものを止めて終了
+	if (p.voiceLabel == SOUND_LABEL_MAX)
+	{
+		StopCurrentVoice();
+		return;
+	}
+
+	// 同じボイスなら再生し直さない
+	if (m_CurrentVoice == p.voiceLabel)
+		return;
+
+	// 別ボイスなら前を止めてから鳴らす
+	StopCurrentVoice();
+	Game::GetSound()->Play(p.voiceLabel);
+	m_CurrentVoice = p.voiceLabel;
 }
 
 void MessageManager::StopCurrentVoice()
 {
-	// m_Sound.StopVoice();
+	if (m_CurrentVoice == SOUND_LABEL_MAX)
+		return;
+
+	// 再生中のボイスを停止
+	Game::GetSound()->Stop(m_CurrentVoice);
+
+	m_CurrentVoice = SOUND_LABEL_MAX;
 }
 
 void MessageManager::CreatePartsIfNeeded()

@@ -3,6 +3,7 @@
 #include "Input.h"
 
 Game* Game::m_Instance;
+Sound Game::m_Sound;
 
 // コンストラクタ
 Game::Game()
@@ -30,11 +31,14 @@ void Game::Init()
 	// カメラ初期化
 	m_Instance->m_Camera.Init();
 
+	// サウンド初期化
+	m_Sound.Init();
+
 	// 初期シーンを設定（必須）
 	m_Instance->ChangeScene(TITLE);
 
 	//会話シーンテスト用
-	m_Instance->ChangeScene(STAGE3);
+	//m_Instance->ChangeScene(STAGE1);
 
 }
 
@@ -122,6 +126,9 @@ void Game::Uninit()
 	Input::Release();
 	// 描画終了処理
 	Renderer::Uninit();
+
+	//サウンド終了処理
+	m_Sound.Uninit();
 
 	//m_Instance->m_DebugDrawer.Uninit();
 

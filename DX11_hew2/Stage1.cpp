@@ -379,6 +379,9 @@ void Stage1::BuildStartPages()
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
 
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_000;
+
         m_Pages.push_back(p);
         //…助けて貰って、ありがとうございます
     }
@@ -394,6 +397,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_001;
 
         m_Pages.push_back(p);
         //……あなたは…何なんですか…？
@@ -411,6 +416,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_002;
+
         m_Pages.push_back(p);
         //お前たちのいう女郎蜘蛛…とでも言えば分かるか？
     }
@@ -425,6 +432,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_003;
 
         m_Pages.push_back(p);
         //…！
@@ -442,6 +451,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_004;
+
         m_Pages.push_back(p);
         //…なんで…私が呼び出したのは神様のはずじゃ…！
     }
@@ -456,6 +467,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
+
+        //ボイスなし
 
         m_Pages.push_back(p);
         //（結界陣を見る女郎蜘蛛）
@@ -472,6 +485,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_006;
+
         m_Pages.push_back(p);
         //(推し量るに…私が呼び出されたのは助けを呼ぼうと召喚術を行って邪魔されてこいつらの邪気が混じった結果か)
     }
@@ -486,6 +501,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_007;
 
         m_Pages.push_back(p);
         //……私を利用しようと召喚した代償は払ってもらうぞ？小娘…
@@ -502,6 +519,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_008;
+
         m_Pages.push_back(p);
         //……へへ
     }
@@ -516,6 +535,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_009;
 
         m_Pages.push_back(p);
         //舐めてるのか？
@@ -532,6 +553,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
+		//ボイスなし
+
         m_Pages.push_back(p);
         //（遠くを見渡す女郎蜘蛛）
     }
@@ -546,6 +569,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_011;
 
         m_Pages.push_back(p);
         //(…結界から逃げたのがちらほらといるようだな…)
@@ -562,6 +587,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_012;
+
         m_Pages.push_back(p);
         //…そうだ…
     }
@@ -576,6 +603,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_013;
 
         m_Pages.push_back(p);
         //な…何ですか…
@@ -592,6 +621,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_014;
+
         m_Pages.push_back(p);
         //お前を死なせさえしなければいいのだったか？
     }
@@ -606,6 +637,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_015;
 
         m_Pages.push_back(p);
         //えっ？そ、そうですけど…
@@ -622,6 +655,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_016;
+
         m_Pages.push_back(p);
         //囮になれ
     }
@@ -636,6 +671,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_017;
 
         m_Pages.push_back(p);
         //で、でも私…
@@ -652,6 +689,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
+		//ボイスなし
+
         m_Pages.push_back(p);
         //（巫女の首に軽く糸を巻き付けて圧をかける）
     }
@@ -666,6 +705,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_019;
 
         m_Pages.push_back(p);
         //…お前を「死なせさえしなければ」いいのだったか？
@@ -682,6 +723,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_020;
+
         m_Pages.push_back(p);
         //うっ…や…やります…！
     }
@@ -697,6 +740,8 @@ void Stage1::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_021;
+
         m_Pages.push_back(p);
         //さて…復讐の第一歩だ…
     }
@@ -711,6 +756,8 @@ void Stage1::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_022;
 
         m_Pages.push_back(p);
         //全員滅ぼしてやる…！

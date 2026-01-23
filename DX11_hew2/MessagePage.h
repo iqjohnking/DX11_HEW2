@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "sound.h"
 
 
 // どちらを話者として強調するか
@@ -30,4 +31,7 @@ struct MessagePage
     // Page0用（左右の初期表情）
     std::string leftFaceId;
     std::string rightFaceId;
+
+    // このページで鳴らすボイス(無効値は SOUND_LABEL_MAX)
+    SOUND_LABEL voiceLabel = SOUND_LABEL_MAX;
 };
