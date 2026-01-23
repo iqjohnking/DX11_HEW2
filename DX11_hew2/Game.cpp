@@ -31,6 +31,9 @@ void Game::Init()
 	// カメラ初期化
 	m_Instance->m_Camera.Init();
 
+	//サウンド初期化
+	m_Instance->m_Sound.Init();
+
 	// 初期シーンを設定（必須）
 	m_Instance->ChangeScene(TITLE);
 
@@ -123,6 +126,9 @@ void Game::Uninit()
 	Input::Release();
 	// 描画終了処理
 	Renderer::Uninit();
+
+	//サウンド終了処理
+	m_Sound.Uninit();
 
 	//m_Instance->m_DebugDrawer.Uninit();
 
