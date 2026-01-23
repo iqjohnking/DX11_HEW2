@@ -174,65 +174,89 @@ void Stage1::GameUpdate()
 
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
-		silkWall* w = m_SilkWalls[m_NextSilkIndex];
-		if (w && m_HandL && m_HandR)
-		{
-			Vector3 startPos = m_HandL->GetPosition();  // 左手
-			Vector3 targetPos = m_HandR->GetPosition(); // 右手
-			w->Fire(startPos, targetPos);
+        silkWall* w = nullptr;
 
-			// 用掉一條絲 → 往下一個 index
-			++m_NextSilkIndex;
-			if (m_NextSilkIndex >= 3)
-			{
-				m_NextSilkIndex = 0;
-			}
-		}
+        // 1. まず、非アクティブ（消えている）スロットを探す
+        for (int i = 0; i < 3; ++i)
+        {
+            if (!m_SilkWalls[i]->IsActive())
+            {
+                w = m_SilkWalls[i];
+                break;
+            }
+        }
+
+        // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+        if (w == nullptr)
+        {
+            w = m_SilkWalls[m_NextSilkIndex];
+            m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+        }
+
+        // 3. 発射実行
+        if (w && m_HandL && m_HandR)
+        {
+            w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+        }
 	}
 
 	// 
 	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
 	{
-		silkWall* w = m_SilkWalls[m_NextSilkIndex];
-		if (w && m_HandL && m_HandR)
-		{
-			Vector3 startPos = m_HandR->GetPosition();  // 右手
-			Vector3 targetPos = m_HandL->GetPosition(); // 左手
-			w->Fire(startPos, targetPos);
+        silkWall* w = nullptr;
 
-			++m_NextSilkIndex;
-			if (m_NextSilkIndex >= 3)
-			{
-				m_NextSilkIndex = 0;
-			}
-		}
+        // 1. まず、非アクティブ（消えている）スロットを探す
+        for (int i = 0; i < 3; ++i)
+        {
+            if (!m_SilkWalls[i]->IsActive())
+            {
+                w = m_SilkWalls[i];
+                break;
+            }
+        }
+
+        // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+        if (w == nullptr)
+        {
+            w = m_SilkWalls[m_NextSilkIndex];
+            m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+        }
+
+        // 3. 発射実行
+        if (w && m_HandL && m_HandR)
+        {
+            Vector3 startPos = m_HandR->GetPosition();  // 右手
+            Vector3 targetPos = m_HandL->GetPosition(); // 左手
+
+            w->Fire(startPos, targetPos);
+        }
 	}
 
-	if (Input::GetKeyTrigger('R'))   // 
-	{
-		std::vector<Object*> removeList;
+	//if (Input::GetKeyTrigger('R'))   // 
+	//{
+	//	std::vector<Object*> removeList;
 
-		//Enemyを探す
-		for (auto* obj : m_MySceneObjects)
-		{
-			if (dynamic_cast<EnemyBase*>(obj))
-			{
-				removeList.push_back(obj);
-			}
-		}
+	//	//Enemyを探す
+	//	for (auto* obj : m_MySceneObjects)
+	//	{
+	//		if (dynamic_cast<EnemyBase*>(obj))
+	//		{
+	//			removeList.push_back(obj);
+	//		}
+	//	}
 
-		//　見つけたEnemy1を削除する
-		for (auto* obj : removeList)
-		{
-			Game::GetInstance()->DeleteObject(obj);
+	//	//　見つけたEnemy1を削除する
+	//	for (auto* obj : removeList)
+	//	{
+	//		Game::GetInstance()->DeleteObject(obj);
 
-			auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-			if (it != m_MySceneObjects.end())
-			{
-				m_MySceneObjects.erase(it);
-			}
-		}
-	}
+	//		auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+	//		if (it != m_MySceneObjects.end())
+	//		{
+	//			m_MySceneObjects.erase(it);
+	//		}
+	//	}
+	//}
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -252,68 +276,69 @@ void Stage1::GameUpdate()
 		[](const silkWall* w) { return w && !w->IsGrowing(); });
 
 
-	// nullptr チェックのみ（就緒判定は行わない）
-	if (allReady)
-	{
-		// 3 本の silkWall から三角形生成を試行
-		// false の場合は三角形が構成できなかった（平行／交差なし／面積ゼロなど）
-		if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
-		{
-			int eliminatedCount = 0;
-			//std::vector<Object*> toRemove; // 倒す予定リスト
+    if (allReady)
+    {
+        // 3 本の silkWall から三角形生成を試行
+        if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
+        {
+            int eliminatedCount = 0;
+            bool mikoMayuCount = false;
 
-			// 敵を調べて、三角形内にいるやつを倒す予定リストに格納する
-			for (auto* obj : m_MySceneObjects)
-			{
-				auto* enemy = dynamic_cast<EnemyBase*>(obj);
-				if (!enemy) continue;
+            // 敵を調べる
+            for (auto* obj : m_MySceneObjects)
+            {
+                if (!obj) continue;
+                if (obj->ToBeDeleted()) continue;
 
-				const auto pos = enemy->GetPosition();
-				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
-				{
-					//toRemove.push_back(obj);
-					Vector3 centroid = (A + B + C) / 3.0f;
-					enemy->StartMayuing(centroid);
-					++eliminatedCount;
-                    StagekillCount++;
-				}
-			}
+                auto* enemy = dynamic_cast<EnemyBase*>(obj);
+                if (!enemy) continue;
 
-			// Mayu を生成する
-			if (eliminatedCount > 0)
-			{
-				// 半径の設計例：基準 25 + 1体ごとに +5
-				const float baseRadius = 25.0f;
-				const float perKill = 5.0f;
-				const float mayuRadius = baseRadius + perKill * static_cast<float>(eliminatedCount);
+                const auto pos = enemy->GetPosition();
+                if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
+                {
+                    Vector3 centroid = (A + B + C) / 3.0f;
+                    enemy->StartMayuing(centroid);
+                    ++eliminatedCount;
+                }
+            }
 
-				auto* mayu = Game::GetInstance()->AddObject<EnemyMayu>();
-				// 生成位置は三角形の重心に配置（必要なら別ロジックに変更）
-				Vector3 centroid = (A + B + C) / 3.0f;
-				mayu->SetPosition(centroid);
-				mayu->SetRadius(mayuRadius); // 半径設定（後述の連動対応が必要）
-				m_MySceneObjects.emplace_back(mayu);
-			}
+            // 巫女も調べる
+            if (m_Miko)
+            {
+                const auto mikoPos = m_Miko->GetPosition();
+                if (TriangleSilk::IsInsideTriangleXY(mikoPos, A, B, C))
+                {
+                    mikoMayuCount = true;
+                }
+            }
 
-			// 倒す予定の敵を削除する
-			//アニメーションの追加する必要あるか？
-			//for (auto* obj : toRemove)
-			//{
-			//	Game::GetInstance()->DeleteObject(obj);
-			//	auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-			//	if (it != m_MySceneObjects.end())
-			//	{
-			//		m_MySceneObjects.erase(it);
-			//	}
-			//}
+            // Mayu を生成する
+            if (eliminatedCount > 0)
+            {
+                const float baseRadius = 25.0f;
+                const float perKill = 5.0f;
+                const float mayuRadius = baseRadius + perKill * static_cast<float>(eliminatedCount);
 
-			for (int i = 0; i < 3; ++i)
-			{
-				m_SilkWalls[i]->reInit();
-			}
+                auto* mayu = Game::GetInstance()->AddObject<EnemyMayu>();
+                Vector3 centroid = (A + B + C) / 3.0f;
+                mayu->SetPosition(centroid);
+                mayu->SetRadius(mayuRadius);
+                m_MySceneObjects.emplace_back(mayu);
+            }
 
-		}
-	}
+            // 巫女が三角形に入ったときの処理
+            if (mikoMayuCount && m_Miko)
+            {
+                Vector3 centroid = (A + B + C) / 3.0f;
+                m_Miko->SetStartMayuing(centroid);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                m_SilkWalls[i]->reInit();
+            }
+        }
+    }
 
 
 	//-----------------------------------------------------------------------------
@@ -336,17 +361,9 @@ void Stage1::GameUpdate()
 		}
 	}
 
-	//-----------------------------------------------------------------------------
-	// エンターキーを押してステージ1へ
-	//-----------------------------------------------------------------------------
-	if (Input::GetKeyTrigger(VK_RETURN))	//クリア条件達成でm_Flowを変えるようにする
-	{
-		/*
-		Game::GetInstance()->ChangeScene(STAGE1);
-
-		return;
-		*/
-	}
+    if (m_Miko->GetDYINGTimer() <= 0) {
+		m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
+    }
 
     //ステージクリアと失敗のチェック
     StageClearCheck();
