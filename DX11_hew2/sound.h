@@ -33,12 +33,20 @@ typedef enum
 	SOUND_LABEL_VOICE_STAGE1_START_020,
 	SOUND_LABEL_VOICE_STAGE1_START_021,
 	SOUND_LABEL_VOICE_STAGE1_START_022,
+	//Stage1_End Voice
 	SOUND_LABEL_VOICE_STAGE1_END_000,
 	SOUND_LABEL_VOICE_STAGE1_END_001,
 	SOUND_LABEL_VOICE_STAGE1_END_002,
 	SOUND_LABEL_VOICE_STAGE1_END_003,
 	SOUND_LABEL_VOICE_STAGE1_END_004,
 	SOUND_LABEL_VOICE_STAGE1_END_005,
+	//Stage2_Start Voice
+	SOUND_LABEL_VOICE_STAGE2_START_000,
+	SOUND_LABEL_VOICE_STAGE2_START_001,
+	//Stage2_End Voice
+	SOUND_LABEL_VOICE_STAGE2_END_000,
+	SOUND_LABEL_VOICE_STAGE2_END_001,
+	SOUND_LABEL_VOICE_STAGE2_END_002,
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -85,7 +93,13 @@ private:
 		{"assets/sound/voice/Stage1/Stage1_End_002.wav", false,0.5f},
 		{"assets/sound/voice/Stage1/Stage1_End_003.wav", false,0.5f},
 		{"assets/sound/voice/Stage1/Stage1_End_004.wav", false,0.5f},
-		{"assets/sound/voice/Stage1/Stage1_End_005.wav", false,0.5f}
+		{"assets/sound/voice/Stage1/Stage1_End_005.wav", false,0.5f},
+		//Stage2
+		{ "assets/sound/voice/Stage2/Stage2_Start_000.wav", false,0.5f },
+		{"assets/sound/voice/Stage2/Stage2_Start_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage2/Stage2_End_000.wav", false,0.5f},
+		{"assets/sound/voice/Stage2/Stage2_End_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage2/Stage2_End_002.wav", false,0.5f},
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;

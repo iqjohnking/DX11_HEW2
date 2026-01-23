@@ -123,6 +123,9 @@ void Stage2::BuildStartPages()
         p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
+        
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_START_000;
 
         m_Pages.push_back(p);
         //まだこんなに…！？
@@ -138,6 +141,8 @@ void Stage2::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_START_001;
 
         m_Pages.push_back(p);
         //精々囮として役に立つことだな、小娘！
@@ -166,6 +171,9 @@ void Stage2::BuildEndPages()
         p.rightFaceId = "normal";
         p.speakerFaceId = "";
 
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_000;
+
         m_Pages.push_back(p);
         //はぁ…はぁ…まだいるの…？
     }
@@ -181,6 +189,8 @@ void Stage2::BuildEndPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_001;
+
         m_Pages.push_back(p);
         //この程度で疲れるな、まだ２割も倒していない
     }
@@ -195,6 +205,8 @@ void Stage2::BuildEndPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_002;
 
         m_Pages.push_back(p);
         //この程度で疲れるな、まだ２割も倒していない

@@ -41,11 +41,11 @@ void MessageManager::Update()
 {
 	if (!m_Playing) return;
 
-	// Ÿ‚Öi‚Ş
-	if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_E))
-	{
-		Advance();
-	}
+	//// Ÿ‚Öi‚Ş
+	//if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_E))
+	//{
+	//	Advance();
+	//}
 
 	// ‰Ÿ‚µ‚Ä‚éŠÔ true
 	const bool spaceDown = Input::GetKeyPress(VK_SPACE);
