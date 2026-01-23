@@ -131,6 +131,9 @@ void Stage3::BuildStartPages()
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
 
+         // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_START_000;
+
         m_Pages.push_back(p);
         //…そうだ！
     }
@@ -146,6 +149,9 @@ void Stage3::BuildStartPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_START_001;
+
         m_Pages.push_back(p);
         //この辺りの妖怪たちを倒したら村のほうに向かいます
     }
@@ -160,6 +166,9 @@ void Stage3::BuildStartPages()
         p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
+
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_START_002;
 
         m_Pages.push_back(p);
         //…好きにしろ
@@ -188,6 +197,9 @@ void Stage3::BuildEndPages()
         p.rightFaceId = "normal";
         p.speakerFaceId = "";
 
+        // このページのボイス
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_END_000;
+
         m_Pages.push_back(p);
         //…終わったぞ、さっさとしろ
     }
@@ -203,6 +215,8 @@ void Stage3::BuildEndPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_END_001;
+
         m_Pages.push_back(p);
         //今から向かう村には、古くから伝わる神託書が中があるんです
     }
@@ -217,6 +231,8 @@ void Stage3::BuildEndPages()
         p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
+        
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE3_END_002;
 
         m_Pages.push_back(p);
         //一度きりの、万が一の時にのみ使うことを許された神託書が
