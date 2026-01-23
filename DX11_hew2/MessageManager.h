@@ -23,8 +23,8 @@ private:
     std::string m_LeftCharId;
     std::string m_RightCharId;
 
-    // 音
-    Sound m_Sound;
+    // 現在再生中のボイス
+    SOUND_LABEL m_CurrentVoice = SOUND_LABEL_MAX;
 
     // 台本
     std::vector<MessagePage> m_Pages;

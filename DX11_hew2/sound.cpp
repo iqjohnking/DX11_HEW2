@@ -139,6 +139,9 @@ void Sound::Play(SOUND_LABEL label)
 	m_pXAudio2->CreateSourceVoice(&pSV, &(m_wfx[(int)label].Format));
 	pSV->SubmitSourceBuffer(&(m_buffer[(int)label]));	// ボイスキューに新しいオーディオバッファーを追加
 
+	// 音量設定
+	m_pSourceVoice[label]->SetVolume(m_param[label].volume);
+
 	// 再生
 	pSV->Start(0);
 

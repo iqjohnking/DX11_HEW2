@@ -29,6 +29,9 @@ private:
 	// カメラ
 	Camera  m_Camera;
 
+	//サウンド
+	static Sound m_Sound;
+
 	// デバッグ用衝突判定描画	
 
 	// テストオブジェクト
@@ -70,7 +73,9 @@ public:
 	//deleteキューを反映
 	void ApplyDeleteQueue();
 
-	//キュー用に変更したい
+	//サウンドを取得
+	static Sound* GetSound() { return &m_Sound; }
+
 	template <typename T, typename... Args>
 	T* AddObject(Args&&... args)
 	{

@@ -5,10 +5,34 @@
 // サウンドファイル
 typedef enum
 {
-	SOUND_LABEL_BGM000 = 0,		// サンプルBGM
+	//SOUND_LABEL_BGM000 = 0,		// サンプルBGM
 	//SOUND_LABEL_BGM001,		// サンプルBGM
 	//SOUND_LABEL_SE000,		// サンプルSE
 	//SOUND_LABEL_SE001,		// サンプルSE
+	//Stage1_Start Voice
+	SOUND_LABEL_VOICE_STAGE1_START_000,
+	SOUND_LABEL_VOICE_STAGE1_START_001,
+	SOUND_LABEL_VOICE_STAGE1_START_002,
+	SOUND_LABEL_VOICE_STAGE1_START_003,
+	SOUND_LABEL_VOICE_STAGE1_START_004,
+	//SOUND_LABEL_VOICE_STAGE1_START_005,
+	SOUND_LABEL_VOICE_STAGE1_START_006,
+	SOUND_LABEL_VOICE_STAGE1_START_007,
+	SOUND_LABEL_VOICE_STAGE1_START_008,
+	SOUND_LABEL_VOICE_STAGE1_START_009,
+	//SOUND_LABEL_VOICE_STAGE1_START_010,
+	SOUND_LABEL_VOICE_STAGE1_START_011,
+	SOUND_LABEL_VOICE_STAGE1_START_012,
+	SOUND_LABEL_VOICE_STAGE1_START_013,
+	SOUND_LABEL_VOICE_STAGE1_START_014,
+	SOUND_LABEL_VOICE_STAGE1_START_015,
+	SOUND_LABEL_VOICE_STAGE1_START_016,
+	SOUND_LABEL_VOICE_STAGE1_START_017,
+	//SOUND_LABEL_VOICE_STAGE1_START_018,
+	SOUND_LABEL_VOICE_STAGE1_START_019,
+	SOUND_LABEL_VOICE_STAGE1_START_020,
+	SOUND_LABEL_VOICE_STAGE1_START_021,
+	SOUND_LABEL_VOICE_STAGE1_START_022,
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -20,15 +44,36 @@ private:
 	{
 		LPCSTR filename;	// 音声ファイルまでのパスを設定
 		bool bLoop;			// trueでループ。通常BGMはture、SEはfalse。
+		float volume; //音量
 	} PARAM;
 
 	PARAM m_param[SOUND_LABEL_MAX] =
 	{
-		{"asset/BGM/sample000.wav", true},	// サンプルBGM（ループさせるのでtrue設定）
+		//{"asset/BGM/sample000.wav", true},	// サンプルBGM（ループさせるのでtrue設定）
 //		{"asset/BGM/○○○.wav", true},	// サンプルBGM
 //		{"asset/SE/○○○.wav", false},  		// サンプルSE（ループしないのでfalse設定）
 //		{"asset/SE/○○○.wav", false},		// サンプルSE
-
+		//Stage1
+		{"assets/sound/voice/Stage1/Stage1_Start_000.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_002.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_003.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_004.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_006.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_007.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_008.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_009.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_011.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_012.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_013.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_014.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_015.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_016.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_017.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_019.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_020.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_021.wav", false,0.5f},
+		{"assets/sound/voice/Stage1/Stage1_Start_022.wav", false,0.5f},
 
 
 	};
