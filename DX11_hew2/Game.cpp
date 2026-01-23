@@ -177,6 +177,45 @@ void Game::ChangeScene(SceneName sceneName)
 	}
 }
 
+void Game::ChangeOldScene()
+{
+	// 読み込み済みシーンの削除
+	if (m_Instance->m_Scene != nullptr) {
+		m_Instance->m_Scene->Uninit();
+		delete m_Instance->m_Scene;
+		m_Instance->m_Scene = nullptr;
+	}
+	m_Instance->ApplyDeleteQueue();
+	m_Instance->DeleteAllObjects();
+	switch (m_OldScene) {
+	case TITLE:
+		m_Instance->m_Scene = new TitleScene();
+		break;
+	case STAGE1:
+		m_Instance->m_Scene = new Stage1();
+		break;
+	case STAGE2:
+		m_Instance->m_Scene = new Stage2();
+		break;
+	case STAGE3:
+		m_Instance->m_Scene = new Stage3();
+		break;
+	case RESULT:
+		m_Instance->m_Scene = new ResultScene();
+		break;
+	default:
+		break;
+	}
+	if (m_Instance->m_Scene)
+	{
+		m_Instance->m_Scene->Init();
+		// シーン初期化でAddObjectされたものを全て反映＆Initする
+		m_Instance->FlushSpawnQueue();
+	}
+	//現在のシーンを更新
+	m_CurrentScene = m_OldScene;
+}
+
 void Game::DeleteObject(Object* ptr)
 {
 	m_Instance->m_DeleteQueue.push_back(ptr);
