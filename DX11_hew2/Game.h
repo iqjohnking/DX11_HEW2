@@ -26,6 +26,9 @@ private:
 	static Game* m_Instance;
 	Scene* m_Scene;
 
+	SceneName m_OldScene;
+	SceneName m_CurrentScene;	
+
 	// カメラ
 	Camera  m_Camera;
 
@@ -63,6 +66,7 @@ public:
 	Camera* GetCamera() { return &m_Camera; }
 
 	void ChangeScene(SceneName sceneName); // シーン変更
+	void ChangeOldScene();	//前のシーンに戻る
 
 	void DeleteObject(Object* ptr); // オブジェクト削除
 	void DeleteAllObjects(); // オブジェクト全削除

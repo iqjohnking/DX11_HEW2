@@ -41,10 +41,16 @@ void ResultScene::Init()
 // 更新
 void ResultScene::Update()
 {
-	// エンターキーを押してタイトルへ
-	if (Input::GetKeyTrigger(VK_RETURN))
+	// スペースキーを押してタイトルへ
+	if (Input::GetKeyTrigger(VK_SPACE))
 	{
 		Game::GetInstance()->ChangeScene(TITLE);
+	}
+
+	//Rキーを押して前のシーンをリトライ
+	if (Input::GetKeyTrigger(VK_R))
+	{
+		Game::GetInstance()->ChangeOldScene();
 	}
 }
 
