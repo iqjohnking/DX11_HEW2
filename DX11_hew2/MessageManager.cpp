@@ -16,6 +16,11 @@ void MessageManager::Uninit()
 	m_Playing = false;
 	m_Index = 0;
 
+	m_AButtonHoldFrames = 0;
+	m_AButtonWasDown = false;
+	m_AButtonPendingAdvance = false;
+	m_HoldSkipFired = false;
+
 	CleanupParts();
 
 	// Deleteはしない
@@ -36,11 +41,60 @@ void MessageManager::Update()
 {
 	if (!m_Playing) return;
 
-	// 仮：Spaceで次へ
+	// 次へ進む
 	if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_E))
 	{
 		Advance();
 	}
+
+	// 押してる間 true
+	const bool spaceDown = Input::GetKeyPress(VK_SPACE);
+	const bool AButtonDown = Input::GetButtonPress(XINPUT_A);
+
+	// 60fps前提で2秒
+	const int kHoldFramesToSkipAll = 2 * 60;
+
+	if (spaceDown || AButtonDown)
+	{
+		// 押し始めた瞬間
+		if (!m_AButtonWasDown)
+		{
+			m_AButtonHoldFrames = 0;
+			m_AButtonPendingAdvance = true; // 短押しなら離した瞬間にAdvanceする
+			m_HoldSkipFired = false;
+		}
+
+		m_AButtonHoldFrames++;
+
+		// 3秒到達で会話を全部スキップ
+		if (!m_HoldSkipFired && m_AButtonHoldFrames >= kHoldFramesToSkipAll)
+		{
+			m_HoldSkipFired = true;
+			m_AButtonPendingAdvance = false; // Stopしたので短押しAdvanceはキャンセル
+			Stop();
+			// Stopでm_Playing=falseになるので、このフレームで終わり
+			m_AButtonWasDown = true;
+			return;
+		}
+	}
+	else
+	{
+		// 離した瞬間、2秒未満なら1回だけ次へ
+		if (m_AButtonWasDown)
+		{
+			if (!m_HoldSkipFired && m_AButtonPendingAdvance)
+			{
+				Advance();
+			}
+		}
+
+		// リセット
+		m_AButtonHoldFrames = 0;
+		m_AButtonPendingAdvance = false;
+		m_HoldSkipFired = false;
+	}
+
+	m_AButtonWasDown = spaceDown;
 }
 
 void MessageManager::SetFramePath(const std::string& path)

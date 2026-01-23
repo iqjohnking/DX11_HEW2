@@ -40,6 +40,12 @@ private:
     bool m_Playing = false;
     int  m_Index = 0;
 
+    // スキップ用
+    float m_AButtonHoldFrames = 0;        // 押し続けたフレーム数
+    bool m_AButtonWasDown = false;       // 前フレームでS押されていたか
+    bool m_AButtonPendingAdvance = false;// 短押し時に離した瞬間Advanceするため
+    bool m_HoldSkipFired = false;      // 3秒到達でStopを1回だけ呼ぶ
+
     // 1ページ分を各部品に反映（心臓部）
     void BeginPage(int index);
 
