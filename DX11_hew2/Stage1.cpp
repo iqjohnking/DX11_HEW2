@@ -787,7 +787,7 @@ void Stage1::BuildEndPages()
         p.speakerFaceId = "";
 
         // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_000;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_000;
 
         m_Pages.push_back(p);
         //感覚が戻ってきた……悪くない
@@ -804,7 +804,7 @@ void Stage1::BuildEndPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_001;
 
         m_Pages.push_back(p);
         //言い忘れてましたけど、貴方は私から20メートル以上離れられないので
@@ -821,7 +821,7 @@ void Stage1::BuildEndPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-       // p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_002;
+       p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_002;
 
         m_Pages.push_back(p);
         //…随分面倒な制約の多い召喚術だな？近代の術師は相当弱いらしい…
@@ -838,7 +838,7 @@ void Stage1::BuildEndPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_003;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_003;
 
         m_Pages.push_back(p);
         //…それくらい色々しないと、人間に神様を呼び出すなんてことできませんから
@@ -855,7 +855,7 @@ void Stage1::BuildEndPages()
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_004;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_004;
 
         m_Pages.push_back(p);
         //それで呼び出されたのが私とは…貴様も不運なものだな？
@@ -872,7 +872,7 @@ void Stage1::BuildEndPages()
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_005;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_END_005;
 
         m_Pages.push_back(p);
         //…私一人の命で千年前からの脅威を消し去れるなら安いものですよ…！
