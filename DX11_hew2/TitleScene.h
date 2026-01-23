@@ -32,6 +32,7 @@ private:
 	silkWall*   m_SilkWalls[3]{};   // 糸の壁 最大3本
 	Enemy1*     Enemy1List[60]{};  // テスト用に60体
 	Enemy2*		Enemy2List[10]{};  // テスト用に10体
+	//Enemy3*		Enemy3List[10]{};  // テスト用に10体
 	Enemy4*		Enemy4List[10]{};  // テスト用に10体
 	playerHand* m_HandL = nullptr; // 左手
 	playerHand* m_HandR = nullptr; // 右手

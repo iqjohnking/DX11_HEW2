@@ -79,22 +79,83 @@ void Shrinemaiden::Init()
 
 	SetDrawOrder(6);
 
-	m_Texture2D.SetSpriteSheet(2, 2);
-	m_Texture2D.AddAnimClip("idle", 0, 1, 10);
-	m_Texture2D.AddAnimClip("yowa", 2, 3, 10);
+	m_Texture2D.SetSpriteSheet(4, 4);
+	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
+	m_Texture2D.AddAnimClip("getH", 4, 7, 10);
+	m_Texture2D.AddAnimClip("mayu", 8, 11, 10);
+	m_Texture2D.AddAnimClip("test", 12, 15, 10);
 	m_Texture2D.PlayAnim("idle");
 }
 
 void Shrinemaiden::Update()
 {
-	move();
+
+	switch (m_MoveState)
+	{
+		case mikoState::SPAWNING:
+		{
+
+			// 出現アニメーション終了で生存状態へ
+			// ゲーム開始直後に即移動し始めるのを防ぐため、ここでは何もしない
+			--m_SPAWNINGTimer;
+			if (m_SPAWNINGTimer <= 0)
+			{
+				m_MoveState = mikoState::ALIVE;
+			}
+			break;
+		}
+		case mikoState::ALIVE:
+		{
+			move();
+			break;
+		}
+		case mikoState::ISMAYUING:
+		{
+			// 繭になっている演出
+			//m_Texture2D.PlayAnim("getH");
+
+			--m_MAYUINGTimer;
+			int mayuingTimer = kMayuFrames - m_MAYUINGTimer;
+			float t = (float)(mayuingTimer) / (float)kMayuFrames;
+			if (t > 1.0f) t = 1.0f;
+			Vector3 pos = m_StartMayuPos + (m_TargetMayuPos - m_StartMayuPos) * t;
+			SetPosition(pos);
+
+			// 繭になっていた演出
+			if (mayuingTimer >= kMayuFrames)
+			{
+				// 必要がないかも？
+				// stageシーンで m_MAYUINGTimer の値を検知して、result シーン へ遷移するようにしている
+				--m_DYINGTimer;
+				m_Texture2D.PlayAnim("mayu");
+				if (m_DYINGTimer <= 0)
+				{
+					m_MoveState = mikoState::DEAD;
+				}
+			}
+
+			break;
+
+		}
+		case mikoState::DYING:
+		{
+			// 消滅アニメーション再生中は移動しない
+			break;
+		}
+		case mikoState::DEAD:
+		{
+			Game::GetInstance()->DeleteObject(this);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
 
 	// collider 同期
 	m_Collider.center = GetPosition();
 
-	// アニメ
-	if (m_velocity < 1.0f) m_Texture2D.PlayAnim("yowa");
-	else                   m_Texture2D.PlayAnim("idle");
 
 	m_Texture2D.Update();
 }
@@ -527,6 +588,12 @@ void Shrinemaiden::DrawDebugTriangles(Camera* cam)
 		line.SetLine(t.b, t.c); line.Draw(cam);
 		line.SetLine(t.c, t.a); line.Draw(cam);
 	}
+
+
+	// アニメ
+	//if (m_velocity < 1.0f) m_Texture2D.PlayAnim("test");
+	//else                   m_Texture2D.PlayAnim("idle");
+
 }
 
 //==================================================

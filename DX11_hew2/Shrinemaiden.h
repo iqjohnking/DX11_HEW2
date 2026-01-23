@@ -15,12 +15,22 @@ class Field; // 前方宣言
 class Shrinemaiden :public Character
 {
 protected:
-	enum state {
-		SPAWNING,	//出現中(アニメーション)
-		ALIVE,		//生存
-		DYING,		//消滅中(アニメーション)使わないかも、繭になるから
-		DEAD		//消滅	(アニメーション)使わないかも、繭になるから
+	// 巫女状態
+	enum mikoState {
+		SPAWNING,	//0出現中(アニメーション)
+		ALIVE,		//1生存
+		ISMAYUING,	//2繭になっている最中
+		DYING,		//3消滅中(ダメージ受けるもこれ)(アニメーション)
+		DEAD		//4消滅	(アニメーション)使わないかも、繭になるから
+	};	
+	// 退路探索・移動状態
+	enum class EscapeState
+	{
+		SearchEscapePoint,
+		MoveToEscapePoint,
 	};
+	mikoState m_MoveState = mikoState::SPAWNING;
+	EscapeState m_EscapeState = EscapeState::SearchEscapePoint;
 
 	Texture2D m_Texture2D;
 
@@ -28,24 +38,25 @@ protected:
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 
 	float m_serchDistance = 100.0f; //敵を探す距離
-	float m_deceleration  = 0.2f;	//範囲内に敵がいなくなったら減速する速度
-	float m_stop_speed    = 0.001f;	//この速度以下になると停止する
+	//float m_deceleration  = 0.2f;	//範囲内に敵がいなくなったら減速する速度 // 今使わない
+	//float m_stop_speed    = 0.001f;	//この速度以下になると停止する // 今使わない
 
 	DirectX::SimpleMath::Vector3 m_wallSlideDir = DirectX::SimpleMath::Vector3::Zero;
-	//float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー//使わない
-	int m_RetreatCooldown = 0;
+	//float m_wallSlideTimer = 0.0f; //ターゲットを見失ったときのタイマー // 今使わない
+	int m_RetreatCooldown = 0; // 退路再探索クールタイム
+	int m_SPAWNINGTimer = 15; // 出現アニメーション時間
+	DirectX::SimpleMath::Vector3 m_StartMayuPos = DirectX::SimpleMath::Vector3::Zero; // 起
+	DirectX::SimpleMath::Vector3 m_TargetMayuPos = DirectX::SimpleMath::Vector3::Zero; // 迄
+
+	float kMayuFrames = 15.0f; // 繭になるまでのフレーム数
+	int m_MAYUINGTimer = 15; // 繭になる時間
+
+	int m_DYINGTimer = 180; // 消滅アニメーション時間
 
 	Field* m_Field = nullptr;
 	bool hitBorder = false;
 
-	// 退路探索・移動状態
-	enum class EscapeState
-	{
-		SearchEscapePoint,
-		MoveToEscapePoint,
-	};
 
-	EscapeState m_EscapeState = EscapeState::SearchEscapePoint;
 
 	// 逃走目標地点
 	DirectX::SimpleMath::Vector3 m_EscapeTarget = DirectX::SimpleMath::Vector3::Zero;
@@ -94,6 +105,17 @@ public:
 	void SetHitBorder(bool hit) { hitBorder = hit; };
 	void SetSerchDistance (float dist) { m_serchDistance = dist;};	
 	void OnEscapeRouteFailed(const Vector3& now_pos);
+
+
+	void SetStartMayuing(const DirectX::SimpleMath::Vector3& mayuPos)
+	{
+		m_Texture2D.PlayAnim("getH");
+		m_StartMayuPos = GetPosition();
+		m_TargetMayuPos = mayuPos;
+		m_MoveState = mikoState::ISMAYUING;
+	}
+
+	int GetDYINGTimer() const { return m_DYINGTimer; }
 
 };
 
