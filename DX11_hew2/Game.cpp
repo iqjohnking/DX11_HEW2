@@ -3,6 +3,7 @@
 #include "Input.h"
 
 Game* Game::m_Instance;
+Sound Game::m_Sound;
 
 // コンストラクタ
 Game::Game()
