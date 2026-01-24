@@ -106,11 +106,11 @@ void Stage7::BuildStartPages()
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";//表示名(テキスト)
-        p.textId = "stage4_start";
+        p.nameId = "none";//表示名(テキスト)
+        p.textId = "stage7_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::None;
 
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
@@ -120,26 +120,490 @@ void Stage7::BuildStartPages()
         //表情を変更しないときは何も書かないように
 
         // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_000;
+        //ボイスなし
 
         m_Pages.push_back(p);
-        //やっぱり……何回来ても良いなぁ……
+        //（祠に向かいながら）
     }
     // Page1
     {
         MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage4_start";
+        p.nameId = "miko";
+        p.textId = "stage7_start";
         p.textIndex = 1;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_001;
+
+        m_Pages.push_back(p);
+        //…どうしてそんなに人や神様が嫌いなんですか？
+    }
+    // Page2
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 2;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_002;
+
+        m_Pages.push_back(p);
+        //…というか、なんで行き先まで知って…
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 3;
 
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_003;
 
         m_Pages.push_back(p);
-        //…くだらない、さっさと要件を済ませろ
+        //…それを貴様に喋って何になると？
+    }
+    // Page4
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 4;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_004;
+
+        m_Pages.push_back(p);
+        //知りたいんです。なんで貴方が、そんなに恐れられてるのか。
+    }
+    // Page5
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 5;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_005;
+
+        m_Pages.push_back(p);
+        //…心底悪い人だとは…思えないので
+    }
+    // Page6
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 6;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //………
+    }
+    // Page7
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 7;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_007;
+
+        m_Pages.push_back(p);
+        //…妖怪も嫌いだ
+    }
+    // Page8
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 8;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_008;
+
+        m_Pages.push_back(p);
+        //…え？
+    }
+    // Page9
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 9;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_009;
+
+        m_Pages.push_back(p);
+        //私はそもそも妖怪だ。妖怪の中でも、特に力を持って生まれた。故に早くして皆を統率していた。
+    }
+    // Page10
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 10;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_010;
+
+        m_Pages.push_back(p);
+        //奴等の見た目は、当然封印された時から変わっていない。
+    }
+    // Page11
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 11;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_011;
+
+        m_Pages.push_back(p);
+        //妖怪達は異形だと、力を持った危険な種族だと言われ、差別を受け端へ端へと追いやられた
+    }
+    // Page12
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 12;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_012;
+
+        m_Pages.push_back(p);
+        //私とて、人間とは共存したかった。だが、このまま受け入れてしまえば我々の居場所はない
+    }
+    // Page13
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 13;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+		//ボイスなし
+
+        m_Pages.push_back(p);
+        //…
+    }
+    // Page14
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 14;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_014;
+
+        m_Pages.push_back(p);
+        //故に我々は戦った。どちら側にも死者を出さずに、押し返せていた。
+    }
+    // Page15
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 15;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_015;
+
+        m_Pages.push_back(p);
+        //このまま行けば、共存の未来が手に入る。理想は手に届く場所にあった。
+    }
+    // Page16
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 16;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_016;
+
+        m_Pages.push_back(p);
+        //…だが…
+    }
+    // Page17
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 17;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_017;
+
+        m_Pages.push_back(p);
+        //お前たちの祀る神とやらが、それを許しはしなかった。
+    }
+    // Page18
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 18;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_018;
+
+        m_Pages.push_back(p);
+        //…奴は人間の味方だった。奴の放った光は、我々を攻撃した。
+    }
+    // Page19
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 19;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_019;
+
+        m_Pages.push_back(p);
+        //そこから全てが覆った。こちら側は防戦一方、笑われながら嬲り殺される奴も沢山いた。
+    }
+    // Page20
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 20;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_020;
+
+        m_Pages.push_back(p);
+        //抵抗した者は皆私以外殺された。残った者は人間側に寝返り…私を差し出した。
+    }
+    // Page21
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 21;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_021;
+
+        m_Pages.push_back(p);
+        //神は人間に一冊の本を渡し、その本を使い私を封印した。
+    }
+    // Page22
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 22;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_022;
+
+        m_Pages.push_back(p);
+        //それが…800年に一度だけ使えると言われる、貴様の持つ「大封印の書」だ。
+    }
+    // Page23
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 23;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_023;
+
+        m_Pages.push_back(p);
+        //…！
+    }
+    // Page24
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 24;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_024;
+
+        m_Pages.push_back(p);
+        //人間に蔑まれ、神にも仲間を殺され、妖怪達にも裏切られ…私は…この世の全てが心底嫌いだ
+    }
+    // Page25
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 25;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_025;
+
+        m_Pages.push_back(p);
+        //…そんなこと…なんでもっと早く言わなーー
+    }
+    // Page26
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 26;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_026;
+
+        m_Pages.push_back(p);
+        //「分かってあげられたのに」…などとぬかすつもりか？
+    }
+    // Page27
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 27;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_027;
+
+        m_Pages.push_back(p);
+        //…だって…だってそんなひどい話…
+    }
+    // Page28
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_start";
+        p.textIndex = 28;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_028;
+
+        m_Pages.push_back(p);
+        //人間に付いた妖怪たちも結局皆祠に…なんで…どうして…？
+    }
+    // Page29
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 29;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_029;
+
+        m_Pages.push_back(p);
+        //…やはり甘いな、貴様は
+    }
+    // Page30
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_start";
+        p.textIndex = 30;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_030;
+
+        m_Pages.push_back(p);
+        //…(皆がお前のような人間なら、私もこうはならなかったのだろうか)
     }
 }
 
@@ -154,7 +618,7 @@ void Stage7::BuildEndPages()
 
         // ★必須：このページの表示（名前＋本文）
         p.nameId = "miko";        // name_miko.png
-        p.textId = "stage4_end";  // text_stage1_end_***
+        p.textId = "stage7_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
         p.focus = FocusSide::Right;
@@ -165,26 +629,58 @@ void Stage7::BuildEndPages()
         p.speakerFaceId = "";
 
         // このページのボイス
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_000;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_END_000;
 
         m_Pages.push_back(p);
-        //そんなにお腹が空いてるなら、お団子でも五平餅でも食べればいいじゃないですか
+        //…もう、誰とも仲良くするつもりはないんですか？
     }
     // Page1
     {
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage4_end";
+        p.textId = "stage7_end";
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_END_001;
 
         m_Pages.push_back(p);
-        //…理性を保つのに、生の血肉が必要でな
+        //…助けてやった村の人間は礼の一つも言わなかったようだが？
+    }
+    // Page2
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage7_end";
+        p.textIndex = 2;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_END_002;
+
+        m_Pages.push_back(p);
+        //…くだらん話を喋り過ぎたな、さっさと行こう
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage7_end";
+        p.textIndex = 3;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //…
     }
 }
 
