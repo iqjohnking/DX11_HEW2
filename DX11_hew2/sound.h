@@ -73,6 +73,16 @@ typedef enum
 	SOUND_LABEL_VOICE_STAGE4_END_000,
 	SOUND_LABEL_VOICE_STAGE4_END_001,
 	SOUND_LABEL_VOICE_STAGE4_END_002,
+	//Stage5_Start Voice
+	SOUND_LABEL_VOICE_STAGE5_START_000,
+	SOUND_LABEL_VOICE_STAGE5_START_001,
+	SOUND_LABEL_VOICE_STAGE5_START_002,
+	//Stage5_End Voice
+	SOUND_LABEL_VOICE_STAGE5_END_000,
+	SOUND_LABEL_VOICE_STAGE5_END_001,
+	SOUND_LABEL_VOICE_STAGE5_END_002,
+	SOUND_LABEL_VOICE_STAGE5_END_003,
+	SOUND_LABEL_VOICE_STAGE5_END_004,
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -149,6 +159,15 @@ private:
 		{"assets/sound/voice/Stage4/Stage4_End_000.wav", false,0.5f},
 		{"assets/sound/voice/Stage4/Stage4_End_001.wav", false,0.5f},
 		{"assets/sound/voice/Stage4/Stage4_End_002.wav", false,0.5f},
+		//Stage5
+		{ "assets/sound/voice/Stage5/Stage5_Start_000.wav", false,0.5f },
+		{"assets/sound/voice/Stage5/Stage5_Start_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_Start_002.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_End_000.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_End_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_End_002.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_End_003.wav", false,0.5f},
+		{"assets/sound/voice/Stage5/Stage5_End_004.wav", false,0.5f},
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;

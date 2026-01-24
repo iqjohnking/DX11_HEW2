@@ -163,13 +163,20 @@
     <ClCompile Include="Shrinemaiden.cpp" />
     <ClCompile Include="slikWall.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="Stage0.cpp" />
     <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage10.cpp" />
     <ClCompile Include="Stage1Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="Stage4.cpp" />
+    <ClCompile Include="Stage5.cpp" />
+    <ClCompile Include="Stage6.cpp" />
+    <ClCompile Include="Stage7.cpp" />
+    <ClCompile Include="Stage8.cpp" />
+    <ClCompile Include="Stage9.cpp" />
     <ClCompile Include="StageBase.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -224,13 +231,20 @@
     <ClInclude Include="Shrinemaiden.h" />
     <ClInclude Include="silkWall.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="Stage0.h" />
     <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage10.h" />
     <ClInclude Include="Stage1Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />
     <ClInclude Include="Stage4.h" />
+    <ClInclude Include="Stage5.h" />
+    <ClInclude Include="Stage6.h" />
+    <ClInclude Include="Stage7.h" />
+    <ClInclude Include="Stage8.h" />
+    <ClInclude Include="Stage9.h" />
     <ClInclude Include="StageBase.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />

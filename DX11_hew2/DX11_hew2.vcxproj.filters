@@ -195,6 +195,27 @@
     <ClCompile Include="Stage4.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Stage5.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage0.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage6.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage7.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage8.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage9.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage10.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -360,6 +381,27 @@
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage4.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage5.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage0.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage6.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage7.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage8.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage9.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage10.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>

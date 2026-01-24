@@ -10,13 +10,26 @@
 #include "Stage2.h"
 #include "Stage3.h"
 #include "Stage4.h"
+#include "Stage5.h"
+#include "Stage6.h"
+#include "Stage7.h"
+#include "Stage8.h"
+#include "Stage9.h"
+#include "Stage10.h"
 
 enum SceneName {
 	TITLE,
+	STAGE0,
 	STAGE1,
 	STAGE2,
 	STAGE3,
 	STAGE4,
+	STAGE5,
+	STAGE6,
+	STAGE7,
+	STAGE8,
+	STAGE9,
+	STAGE10,
 	RESULT
 };
 
