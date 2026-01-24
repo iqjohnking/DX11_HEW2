@@ -106,12 +106,11 @@ void Stage6::BuildStartPages()
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";//表示名(テキスト)
-        p.textId = "stage4_start";
+        p.nameId = "Bookstore";//表示名(テキスト)
+        p.textId = "stage6_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
-        p.voiceId = "";
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::None;
 
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
@@ -121,27 +120,106 @@ void Stage6::BuildStartPages()
         //表情を変更しないときは何も書かないように
 
         // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_000;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_000;
 
         m_Pages.push_back(p);
-        //やっぱり……何回来ても良いなぁ……
+        //や、やめろ！！来るな！
     }
     // Page1
     {
         MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage4_start";
+        p.nameId = "none";
+        p.textId = "stage6_start";
         p.textIndex = 1;
 
-        p.voiceId = "";
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //（古書館長が襲い掛かられる直前に間一髪助け出す巫女）
+    }
+    // Page2
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage6_start";
+        p.textIndex = 2;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_002;
+
+        m_Pages.push_back(p);
+        //大丈夫ですか！？
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage6_start";
+        p.textIndex = 3;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_003;
+
+        m_Pages.push_back(p);
+        //…っ！？
+    }
+    // Page4
+    {
+        MessagePage p;
+
+        p.nameId = "none";
+        p.textId = "stage6_start";
+        p.textIndex = 4;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+		//ボイスなし
+
+        m_Pages.push_back(p);
+        //（助け出した隙を突かれて妖怪の軍勢に襲い掛かられそうな巫女、それを一網打尽にする女郎蜘蛛）
+    }
+    // Page5
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage6_start";
+        p.textIndex = 5;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_005;
+
+        m_Pages.push_back(p);
+        //…ありがーー
+    }
+    // Page6
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage6_start";
+        p.textIndex = 6;
+
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_006;
 
         m_Pages.push_back(p);
-        //…くだらない、さっさと要件を済ませろ
+        //黙れ。私と貴様は運命共同体だろうが、さっさと神託書とやらを探してこい
     }
 }
 
@@ -155,11 +233,10 @@ void Stage6::BuildEndPages()
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "Bookstore";        // name_miko.png
-        p.textId = "stage5_end";  // text_stage1_end_***
+        p.nameId = "miko";        // name_miko.png
+        p.textId = "stage6_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
 
         // Page0必須：左右の初期表情
@@ -168,112 +245,282 @@ void Stage6::BuildEndPages()
         p.speakerFaceId = "";
 
         // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_000;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_000;
 
         m_Pages.push_back(p);
-        //や、やめろ！！来るな！
+        //…あった……！
     }
     // Page1
     {
         MessagePage p;
 
-        p.nameId = "none";
-        p.textId = "stage5_end";
+        p.nameId = "kumo";
+        p.textId = "stage6_end";
         p.textIndex = 1;
 
-        p.voiceId = "";
-        p.focus = FocusSide::None;
+        p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_001;
 
         m_Pages.push_back(p);
-        //（古書館長が襲い掛かられる直前に間一髪助け出す巫女）
+        //のろのろと…もっと早く見つけられんものか？
     }
     // Page2
     {
         MessagePage p;
 
         p.nameId = "miko";
-        p.textId = "stage5_end";
+        p.textId = "stage6_end";
         p.textIndex = 2;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_002;
 
         m_Pages.push_back(p);
-        //大丈夫ですか！？
+        //…いちいち嫌味言わないでくださいよ…
     }
     // Page3
     {
         MessagePage p;
 
         p.nameId = "miko";
-        p.textId = "stage5_end";
+        p.textId = "stage6_end";
         p.textIndex = 3;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_003;
 
         m_Pages.push_back(p);
-        //…っ！？
+        //…この「大封印の書」…これさえあれば…
     }
     // Page4
     {
         MessagePage p;
 
-        p.nameId = "none";
-        p.textId = "stage5_end";
+        p.nameId = "villager";
+        p.textId = "stage6_end";
         p.textIndex = 4;
 
-        p.voiceId = "";
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_004;
 
         m_Pages.push_back(p);
-        //助け出した隙を突かれて妖怪の軍勢に襲い掛かられそうな巫女、それを一網打尽にする女郎蜘蛛）
+        //ありがとうございます！なんとお礼を言ったらよいか…！
     }
     // Page5
     {
         MessagePage p;
 
         p.nameId = "miko";
-        p.textId = "stage5_end";
+        p.textId = "stage6_end";
         p.textIndex = 5;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_005;
 
         m_Pages.push_back(p);
-        //…ありがーー
+        //妖怪たちはあの人が…
     }
     // Page6
     {
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage5_end";
+        p.textId = "stage6_end";
         p.textIndex = 6;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+        //ボイスなし
 
         m_Pages.push_back(p);
-        //（黙れ。私と貴様は運命共同体だろうが、さっさと神託書とやらを探してこい
+        //…
+    }
+    // Page7
+    {
+        MessagePage p;
+
+        p.nameId = "villager";
+        p.textId = "stage6_end";
+        p.textIndex = 7;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_007;
+
+        m_Pages.push_back(p);
+        //…あの見た目、妖怪…まさか…
+    }
+    // Page8
+    {
+        MessagePage p;
+
+        p.nameId = "villager";
+        p.textId = "stage6_end";
+        p.textIndex = 8;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_008;
+
+        m_Pages.push_back(p);
+        //本で見た事あるぞ…女郎蜘蛛じゃ…
+    }
+    // Page9
+    {
+        MessagePage p;
+
+        p.nameId = "villager";
+        p.textId = "stage6_end";
+        p.textIndex = 9;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_009;
+
+        m_Pages.push_back(p);
+        //女郎蜘蛛…？私たちを助けたって…そんな訳…
+    }
+    // Page10
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage6_end";
+        p.textIndex = 10;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_010;
+
+        m_Pages.push_back(p);
+        //あ…あの！本当なーー
+    }
+    // Page11
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage6_end";
+        p.textIndex = 11;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_011;
+
+        m_Pages.push_back(p);
+        //…消えろ。
+    }
+    // Page12
+    {
+        MessagePage p;
+
+        p.nameId = "villager";
+        p.textId = "stage6_end";
+        p.textIndex = 12;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_012;
+
+        m_Pages.push_back(p);
+        //え？
+    }
+    // Page13
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage6_end";
+        p.textIndex = 13;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_013;
+
+        m_Pages.push_back(p);
+        //死にたくなければ全員消えろと言ってるんだ…！
+    }
+    // Page14
+    {
+        MessagePage p;
+
+        p.nameId = "none";
+        p.textId = "stage6_end";
+        p.textIndex = 14;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+		//ボイスなし
+
+        m_Pages.push_back(p);
+        //（慌てて逃げ出す一同）
+    }
+    // Page15
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage6_end";
+        p.textIndex = 15;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_015;
+
+        m_Pages.push_back(p);
+        //「ちょ…ちょっと…」
+    }
+    // Page16
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage6_end";
+        p.textIndex = 16;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_016;
+
+        m_Pages.push_back(p);
+        //…村の者に手は出さん、さっさと壊した祠の場所へ向かえ…
+    }
+    // Page17
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage6_end";
+        p.textIndex = 17;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_017;
+
+        m_Pages.push_back(p);
+        //ここにいるだけでも心底不愉快だ
     }
 }
 

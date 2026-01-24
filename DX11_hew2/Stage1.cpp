@@ -386,7 +386,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
 
         // ★Page0必須：左右の初期表情
@@ -411,7 +410,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 1;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -429,7 +427,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 2;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -446,7 +443,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 3;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -464,7 +460,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 4;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -481,7 +476,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 5;
 
-        p.voiceId = "";
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
@@ -498,7 +492,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 6;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -515,7 +508,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 7;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -532,7 +524,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 8;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -549,7 +540,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 9;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -566,7 +556,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 10;
 
-        p.voiceId = "";
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
@@ -583,7 +572,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 11;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -600,7 +588,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 12;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -617,7 +604,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 13;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -634,7 +620,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 14;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -651,7 +636,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 15;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -668,7 +652,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 16;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -685,7 +668,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 17;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -702,7 +684,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 18;
 
-        p.voiceId = "";
         p.focus = FocusSide::None;
         p.speakerFaceId = "";
 
@@ -719,7 +700,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 19;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -736,7 +716,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 20;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -753,7 +732,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 21;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -770,7 +748,6 @@ void Stage1::BuildStartPages()
         p.textId = "stage1_start";
         p.textIndex = 22;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -795,7 +772,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
 
         // Page0必須：左右の初期表情
@@ -817,7 +793,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";
         p.textIndex = 1;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -834,7 +809,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";
         p.textIndex = 2;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -851,7 +825,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";
         p.textIndex = 3;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
@@ -868,7 +841,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";
         p.textIndex = 4;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -885,7 +857,6 @@ void Stage1::BuildEndPages()
         p.textId = "stage1_end";
         p.textIndex = 5;
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 

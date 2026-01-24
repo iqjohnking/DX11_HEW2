@@ -110,7 +110,6 @@ void Stage1Scene::BuildStartPages()
 		p.textId = "stage1_start";  // text_stage1_start_***
 		p.textIndex = 0;            // 000
 
-		p.voiceId = "";
 		p.focus = FocusSide::Left;
 
 		// ★Page0必須：左右の初期表情
@@ -132,7 +131,6 @@ void Stage1Scene::BuildStartPages()
 		p.textId = "stage1_start";
 		p.textIndex = 1;            // 001
 
-		p.voiceId = "";
 		p.focus = FocusSide::Right;
 
 		// 話者（右）だけ表情変更
@@ -150,7 +148,6 @@ void Stage1Scene::BuildStartPages()
 		p.textId = "stage1_start";
 		p.textIndex = 2;            // 002
 
-		p.voiceId = "";
 		p.focus = FocusSide::Left;
 
 		p.speakerFaceId = "surprised";
@@ -171,7 +168,6 @@ void Stage1Scene::BuildEndPages()
 		p.textId = "stage1_end";  // text_stage1_end_***
 		p.textIndex = 0;          // 000
 
-		p.voiceId = "";
 		p.focus = FocusSide::Right;
 
 		// ★Page0必須：左右の初期表情
@@ -193,7 +189,6 @@ void Stage1Scene::BuildEndPages()
 		p.textId = "stage1_end";
 		p.textIndex = 1;          // 001
 
-		p.voiceId = "";
 		p.focus = FocusSide::Left;
 
 		p.speakerFaceId = "angry";

@@ -110,7 +110,6 @@ void Stage7::BuildStartPages()
         p.textId = "stage4_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
 
         // ★Page0必須：左右の初期表情
@@ -134,7 +133,6 @@ void Stage7::BuildStartPages()
         p.textId = "stage4_start";
         p.textIndex = 1;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
@@ -159,7 +157,6 @@ void Stage7::BuildEndPages()
         p.textId = "stage4_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
-        p.voiceId = "";
         p.focus = FocusSide::Right;
 
         // Page0必須：左右の初期表情
@@ -181,7 +178,6 @@ void Stage7::BuildEndPages()
         p.textId = "stage4_end";
         p.textIndex = 1;
 
-        p.voiceId = "";
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
