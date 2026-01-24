@@ -169,6 +169,7 @@
     </ClCompile>
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />
+    <ClCompile Include="Stage4.cpp" />
     <ClCompile Include="StageBase.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -229,6 +230,7 @@
     </ClInclude>
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />
+    <ClInclude Include="Stage4.h" />
     <ClInclude Include="StageBase.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stb_image.h" />

@@ -112,7 +112,7 @@ void Stage3::BuildStartPages()
     m_Pages.clear();
 
     // Page0:
-   // 右=巫女,左=女郎蜘蛛
+    // 右=巫女,左=女郎蜘蛛
     {
         MessagePage p;
 

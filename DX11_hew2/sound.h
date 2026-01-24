@@ -51,10 +51,28 @@ typedef enum
 	SOUND_LABEL_VOICE_STAGE3_START_000,
 	SOUND_LABEL_VOICE_STAGE3_START_001,
 	SOUND_LABEL_VOICE_STAGE3_START_002,
-	//Stage2_End Voice
+	//Stage3_End Voice
 	SOUND_LABEL_VOICE_STAGE3_END_000,
 	SOUND_LABEL_VOICE_STAGE3_END_001,
 	SOUND_LABEL_VOICE_STAGE3_END_002,
+	//Stage4_Start Voice
+	SOUND_LABEL_VOICE_STAGE4_START_000,
+	SOUND_LABEL_VOICE_STAGE4_START_001,
+	//SOUND_LABEL_VOICE_STAGE4_START_002,
+	SOUND_LABEL_VOICE_STAGE4_START_003,
+	SOUND_LABEL_VOICE_STAGE4_START_004,
+	SOUND_LABEL_VOICE_STAGE4_START_005,
+	SOUND_LABEL_VOICE_STAGE4_START_006,
+	SOUND_LABEL_VOICE_STAGE4_START_007,
+	SOUND_LABEL_VOICE_STAGE4_START_008,
+	SOUND_LABEL_VOICE_STAGE4_START_009,
+	SOUND_LABEL_VOICE_STAGE4_START_011,
+	SOUND_LABEL_VOICE_STAGE4_START_012,
+	SOUND_LABEL_VOICE_STAGE4_START_013,
+	//Stage4_End Voice
+	SOUND_LABEL_VOICE_STAGE4_END_000,
+	SOUND_LABEL_VOICE_STAGE4_END_001,
+	SOUND_LABEL_VOICE_STAGE4_END_002,
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -115,6 +133,22 @@ private:
 		{"assets/sound/voice/Stage3/Stage3_End_000.wav", false,0.5f},
 		{"assets/sound/voice/Stage3/Stage3_End_001.wav", false,0.5f},
 		{"assets/sound/voice/Stage3/Stage3_End_002.wav", false,0.5f},
+		//Stage4
+		{ "assets/sound/voice/Stage4/Stage4_Start_000.wav", false,0.5f },
+		{"assets/sound/voice/Stage4/Stage4_Start_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_003.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_004.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_005.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_006.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_007.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_008.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_009.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_011.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_012.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_Start_013.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_End_000.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_End_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage4/Stage4_End_002.wav", false,0.5f},
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;

@@ -83,11 +83,6 @@ void Stage2::MessageUpdate()
         break;
 
     case Flow::EndTalk:
-        //// 終了会話が終わったらリザルトへ
-        //if (!m_Message->IsPlaying())
-        //{
-        //    Game::GetInstance()->ChangeScene(RESULT);
-        //}
         break;
     }
 }
