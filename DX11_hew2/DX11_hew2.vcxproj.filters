@@ -216,6 +216,7 @@
     </ClCompile>
     <ClCompile Include="Stage10.cpp">
       <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
     <ClCompile Include="StartScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
@@ -411,7 +412,7 @@
     </ClInclude>
     <ClInclude Include="Stage10.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
-
+    </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
