@@ -53,6 +53,8 @@ protected:
 
 	int m_DYINGTimer = 180; // 消滅アニメーション時間
 
+	int m_MutekiTimer = 0; // 無敵時間
+
 	Field* m_Field = nullptr;
 	bool hitBorder = false;
 

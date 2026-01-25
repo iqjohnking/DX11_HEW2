@@ -154,14 +154,20 @@ void Stage1::GameUpdate()
     for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
     {
         Object* o = *it; // オブジェクト取得
-        if (!o || o->ToBeDeleted())
+        if (!o)
         {
-            it = m_MySceneObjects.erase(it); // イテレータを更新
+            it = m_MySceneObjects.erase(it);
+            continue;
         }
-        else
+
+        if (o->ToBeDeleted())
         {
-            ++it; // 次へ
+            Game::GetInstance()->DeleteObject(o);   // ★実体も破棄依頼
+            it = m_MySceneObjects.erase(it);        // ★リストからも除去
+            continue;
         }
+
+        ++it;
     }
 
 	//60フレーム経過するごとに1秒プラス
