@@ -20,8 +20,8 @@ public:
 	void Uninit() override; // 終了処理
 	void Update() override; // 更新
 
-	void MessageUpdate();	//会話パート更新
-	void GameUpdate();		//ゲームパート更新
+	void MessageUpdate() override;	//会話パート更新
+	void GameUpdate() override;		//ゲームパート更新
 
 	//会話パート
 	void BuildStartPages() override;
