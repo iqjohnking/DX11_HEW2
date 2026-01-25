@@ -147,6 +147,23 @@ typedef enum
 	SOUND_LABEL_VOICE_STAGE7_END_001,
 	SOUND_LABEL_VOICE_STAGE7_END_002,
 	//SOUND_LABEL_VOICE_STAGE7_END_003,
+	//Stage8_Start Voice
+	SOUND_LABEL_VOICE_STAGE8_START_000,
+	SOUND_LABEL_VOICE_STAGE8_START_001,
+	SOUND_LABEL_VOICE_STAGE8_START_002,
+	SOUND_LABEL_VOICE_STAGE8_START_003,
+	//Stage8_End Voice
+	//SOUND_LABEL_VOICE_STAGE8_END_000,
+	SOUND_LABEL_VOICE_STAGE8_END_001,
+	SOUND_LABEL_VOICE_STAGE8_END_002,
+	SOUND_LABEL_VOICE_STAGE8_END_003,
+	SOUND_LABEL_VOICE_STAGE8_END_004,
+	SOUND_LABEL_VOICE_STAGE8_END_005,
+	SOUND_LABEL_VOICE_STAGE8_END_006,
+	SOUND_LABEL_VOICE_STAGE8_END_007,
+	SOUND_LABEL_VOICE_STAGE8_END_008,
+	SOUND_LABEL_VOICE_STAGE8_END_009,
+	SOUND_LABEL_VOICE_STAGE8_END_010,
 
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
@@ -286,6 +303,21 @@ private:
 		{"assets/sound/voice/Stage7/Stage7_End_000.wav", false,0.5f},
 		{"assets/sound/voice/Stage7/Stage7_End_001.wav", false,0.5f},
 		{ "assets/sound/voice/Stage7/Stage7_End_002.wav", false,0.5f },
+		//Stage8
+		{ "assets/sound/voice/Stage8/Stage8_Start_000.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_Start_001.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_Start_002.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_Start_003.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_001.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_002.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_003.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_004.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_005.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_006.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_007.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_008.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_009.wav", false,0.5f },
+		{ "assets/sound/voice/Stage8/Stage8_End_010.wav", false,0.5f },
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;
