@@ -1,6 +1,9 @@
 #pragma once
 #include "EnemyBase.h"
 #include "Texture2D.h"
+#include "EnemyMayu.h"
+
+
 
 class Enemy3 : public EnemyBase
 {
@@ -10,6 +13,13 @@ protected:
 
 	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
 	//static constexpr int kMayuFrames = 15; enemyBaseに移動済み
+
+	EnemyMayu* m_TargetMayu = nullptr;
+	int m_MayuDestroyTimer = 0;
+	static constexpr int kMayuDestroyFrames = 180;
+
+
+
 
 public:
 	void Init() override;

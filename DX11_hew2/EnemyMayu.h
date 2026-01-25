@@ -19,6 +19,7 @@ protected:
 	Collision::Sphere m_Collider; // 当たり判定の為の情報
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい
 	bool isExploding = false;
+	bool isDestroing = false;
 
 	int spawnTimer = 0; //出現アニメーション用タイマー
 	static constexpr int kspawnTime = 15; //出現アニメーション用タイマー
@@ -33,4 +34,8 @@ public:
 
 	float GetRadius() const { return m_Radius; }
 	void SetRadius(float radius) { m_Radius = radius; }
+
+	int GetState() const { return static_cast<int>(state); }
+
+	void SetIsExploding(bool val) { isExploding = val; }
 };

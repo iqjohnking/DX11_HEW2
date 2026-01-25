@@ -47,94 +47,98 @@ void EnemyMayu::Update()
 	m_Texture2D.Update();
 
 	switch (state) {
-	case MayuState::SPAWNING:
-	{
-		if (spawnTimer < kspawnTime)
+		case MayuState::SPAWNING:
 		{
-			m_Texture2D.PlayAnim("SPAWNING");
-
-			m_Collider.radius = 0; //出現中は当たり判定なし
-			spawnTimer++;
-			//kspawnTime is 30 
-		}
-		else {
-			state = MayuState::ALIVE;
-			m_Texture2D.PlayAnim("ALIVE");
-		}
-		break;
-	}
-	case MayuState::ALIVE:
-	{
-
-		// 1)絹の糸当たり判定
-		vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-		for (auto w : silkWalls)
-		{
-			if (Collision::CheckHit(w->GetSegment(), m_Collider))
+			if (spawnTimer < kspawnTime)
 			{
-				m_Texture2D.PlayAnim("yowa");
-				if (!isExploding)
+				m_Texture2D.PlayAnim("SPAWNING");
+
+				m_Collider.radius = 0; //出現中は当たり判定なし
+				spawnTimer++;
+				//kspawnTime is 30 
+			}
+			else {
+				state = MayuState::ALIVE;
+				m_Texture2D.PlayAnim("ALIVE");
+			}
+			break;
+		}
+		case MayuState::ALIVE:
+		{
+
+			// 1)絹の糸当たり判定
+			vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
+			for (auto w : silkWalls)
+			{
+				if (Collision::CheckHit(w->GetSegment(), m_Collider))
 				{
-					SetRadius(m_Radius * 2);
+					if (!isExploding)
+					{
+						SetRadius(m_Radius * 2); //当たり判定大きくする
+					}
+					isExploding = true;
 				}
-				isExploding = true;
 			}
+
+			// 3)当たり判定更新
+			m_Collider.center = GetPosition(); //当たり判定位置更新
+			m_Collider.radius = GetRadius(); //当たり判定半径更新
+
+			// 4)enemysとの衝突判定処理
+			if (isExploding) {
+				state = MayuState::ISEXPLODING;
+				m_Texture2D.PlayAnim("ISEXPLODING,");
+			}
+
+			if (isDestroing) {
+				state = MayuState::ISDESTROING;
+				m_Texture2D.PlayAnim("ISDESTROING,");
+			}
+
+
+
+			break;
 		}
-
-
-
-
-		// 3)当たり判定更新
-		m_Collider.center = GetPosition(); //当たり判定位置更新
-		m_Collider.radius = GetRadius(); //当たり判定半径更新
-
-
-		// 4)enemysとの衝突判定処理
-		if (isExploding) {
-			state = MayuState::ISEXPLODING;
-			m_Texture2D.PlayAnim("ISEXPLODING,");
-		}
-		break;
-	}
-	case MayuState::ISEXPLODING:
-	{
-
-		explodeTimer++;
-
-		auto enemys = Game::GetInstance()->GetObjects<EnemyBase>();
-		for (auto* e : enemys)
+		case MayuState::ISEXPLODING:
 		{
-			if (!e) continue;
 
-			// すでに減速中ならスキップ（衝突判定もしない）
-			if (e->GetIsSpdDown()) continue;
+			explodeTimer++;
 
-			if (Collision::CheckHit(e->GetCollider(), m_Collider))
+			auto enemys = Game::GetInstance()->GetObjects<EnemyBase>();
+			for (auto* e : enemys)
 			{
-				e->SetIsSpdDown(true);
+				if (!e) continue;
+
+				// すでに減速中ならスキップ（衝突判定もしない）
+				if (e->GetIsSpdDown()) continue;
+
+				if (Collision::CheckHit(e->GetCollider(), m_Collider))
+				{
+					e->SetIsSpdDown(true);
+				}
 			}
+
+			// 2)消滅判定
+			if (explodeTimer > 60) {
+				state = MayuState::DEAD;
+			}
+
+			break;
 		}
+		case MayuState::ISDESTROING:
+		{
+			explodeTimer++;
 
-		// 2)消滅判定
-		if (explodeTimer > 60) {
-			state = MayuState::DEAD;
+			if (explodeTimer > 60) {
+				state = MayuState::DEAD;
+			}
+			break;
 		}
-
-		break;
-	}
-	case MayuState::ISDESTROING:
-	{
-		break;
-	}
-	case MayuState::DEAD:
-	{
-
-		Game::GetInstance()->DeleteObject(this);
-		break;
-	}
-
-
-
+		case MayuState::DEAD:
+		{
+			Game::GetInstance()->DeleteObject(this);
+			break;
+		}
 	}
 }
 
