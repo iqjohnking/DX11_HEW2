@@ -192,7 +192,6 @@
     <ClCompile Include="Stage3.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
-
     <ClCompile Include="Stage4.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
@@ -222,7 +221,9 @@
     </ClCompile>
     <ClCompile Include="ModeSelectScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
-
+    </ClCompile>
+    <ClCompile Include="Enemy3.cpp">
+      <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,7 +389,6 @@
     <ClInclude Include="Stage3.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
-
     <ClInclude Include="Stage4.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
@@ -418,7 +418,9 @@
     </ClInclude>
     <ClInclude Include="ModeSelectScene.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
-
+    </ClInclude>
+    <ClInclude Include="Enemy3.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
