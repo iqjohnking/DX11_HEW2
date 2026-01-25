@@ -99,6 +99,7 @@ void Stage2::Update()
 {
     MessageUpdate();
     GameUpdate();
+    UpdateEnemySpawn();
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -505,8 +506,8 @@ void Stage2::UpdateEnemySpawn()
 
     if (elapsedSeconds == 22 && phase4Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(420.0f, -20.f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(400.0f, -200.f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(420.0f, -20.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(400.0f, -200.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(320.0f, -300.0f, 0.0f));
         phase4Flag = true;
     }
