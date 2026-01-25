@@ -34,11 +34,11 @@ void Game::Init()
 	//サウンド初期化
 	m_Instance->m_Sound.Init();
 
-	// 初期シーンを設定（必須）
+	// 初期シーンを設定
 	m_Instance->ChangeScene(START);
 
 	//会話シーンテスト用
-	m_Instance->ChangeScene(STAGE0);
+	//m_Instance->ChangeScene(STAGE0);
 }
 
 // 更新
@@ -48,6 +48,7 @@ void Game::Update()
 
 	//シーン更新
 	m_Instance->m_Scene->Update();
+	
 
 	// カメラ更新
 	m_Instance->m_Camera.Update();
@@ -156,6 +157,9 @@ void Game::ChangeScene(SceneName sceneName)
 		break;
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
+		break;
+	case MODE_SELECT:
+		m_Instance->m_Scene = new ModeSelectScene();
 		break;
 	case STAGE0:
 		m_Instance->m_Scene = new Stage0();

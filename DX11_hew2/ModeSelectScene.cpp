@@ -86,7 +86,7 @@ void ModeSelectScene::Update()
 			m_StoryBtn->SetScale(410.0f, 160.0f, 0.0f);
 			m_mode_in_L->SetScale(610.0f, 810.0f, 0.0f);
 			if (Input::GetMouseButtonTrigger(0)) {
-				Game::GetInstance()->ChangeScene(TITLE);
+				Game::GetInstance()->ChangeScene(STAGE0);
 				return;
 			}
 		}
