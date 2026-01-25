@@ -9,6 +9,27 @@ typedef enum
 	//SOUND_LABEL_BGM001,		// サンプルBGM
 	//SOUND_LABEL_SE000,		// サンプルSE
 	//SOUND_LABEL_SE001,		// サンプルSE
+	//Stage0_Start Voice
+	//SOUND_LABEL_VOICE_STAGE0_START_000,
+	SOUND_LABEL_VOICE_STAGE0_START_001,
+	//SOUND_LABEL_VOICE_STAGE0_START_002,
+	SOUND_LABEL_VOICE_STAGE0_START_003,
+	SOUND_LABEL_VOICE_STAGE0_START_004,
+	//SOUND_LABEL_VOICE_STAGE0_START_005,
+	//SOUND_LABEL_VOICE_STAGE0_START_006,
+	SOUND_LABEL_VOICE_STAGE0_START_007,
+	SOUND_LABEL_VOICE_STAGE0_START_008,
+	SOUND_LABEL_VOICE_STAGE0_START_009,
+	//SOUND_LABEL_VOICE_STAGE0_START_010,
+	SOUND_LABEL_VOICE_STAGE0_START_011,
+	SOUND_LABEL_VOICE_STAGE0_START_012,
+	SOUND_LABEL_VOICE_STAGE0_START_013,
+	SOUND_LABEL_VOICE_STAGE0_START_014,
+	SOUND_LABEL_VOICE_STAGE0_START_015,
+	SOUND_LABEL_VOICE_STAGE0_START_016,
+	SOUND_LABEL_VOICE_STAGE0_START_017,
+	SOUND_LABEL_VOICE_STAGE0_START_018,
+	SOUND_LABEL_VOICE_STAGE0_START_019,
 	//Stage1_Start Voice
 	SOUND_LABEL_VOICE_STAGE1_START_000,
 	SOUND_LABEL_VOICE_STAGE1_START_001,
@@ -226,6 +247,22 @@ private:
 //		{"asset/BGM/○○○.wav", true},	// サンプルBGM
 //		{"asset/SE/○○○.wav", false},  		// サンプルSE（ループしないのでfalse設定）
 //		{"asset/SE/○○○.wav", false},		// サンプルSE
+// 		//Stage0
+		{"assets/sound/voice/Stage0/Stage0_Start_001.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_003.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_004.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_007.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_008.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_009.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_011.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_012.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_013.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_014.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_015.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_016.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_017.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_018.wav", false,0.5f},
+		{"assets/sound/voice/Stage0/Stage0_Start_019.wav", false,0.5f},
 		//Stage1
 		{"assets/sound/voice/Stage1/Stage1_Start_000.wav", false,0.5f},
 		{"assets/sound/voice/Stage1/Stage1_Start_001.wav", false,0.5f},

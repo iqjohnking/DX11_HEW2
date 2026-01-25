@@ -38,7 +38,7 @@ void Game::Init()
 	m_Instance->ChangeScene(TITLE);
 
 	//会話シーンテスト用
-	//m_Instance->ChangeScene(STAGE0);
+	m_Instance->ChangeScene(STAGE0);
 }
 
 // 更新
@@ -153,6 +153,9 @@ void Game::ChangeScene(SceneName sceneName)
 	switch (sceneName) {
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
+		break;
+	case STAGE0:
+		m_Instance->m_Scene = new Stage0();
 		break;
 	case STAGE1:
 		m_Instance->m_Scene = new Stage1();

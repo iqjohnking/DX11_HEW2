@@ -106,11 +106,11 @@ void Stage0::BuildStartPages()
         MessagePage p;
 
         // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";//表示名(テキスト)
-        p.textId = "stage4_start";
+        p.nameId = "none";//表示名(テキスト)
+        p.textId = "stage0_start";
         p.textIndex = 0;//(stage1_start_000.png)
 
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::None;
 
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
@@ -120,72 +120,320 @@ void Stage0::BuildStartPages()
         //表情を変更しないときは何も書かないように
 
         // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_000;
+        //ボイスなし
 
         m_Pages.push_back(p);
-        //やっぱり……何回来ても良いなぁ……
+        //（暗転、目を開いたように景色が広がる）
     }
     // Page1
     {
         MessagePage p;
 
         p.nameId = "kumo";
-        p.textId = "stage4_start";
+        p.textId = "stage0_start";
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_001;
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_001;
 
         m_Pages.push_back(p);
-        //…くだらない、さっさと要件を済ませろ
+        //……(どこだ、ここは...)
+    }
+    // Page2
+    {
+        MessagePage p;
+
+        p.nameId = "none";
+        p.textId = "stage0_start";
+        p.textIndex = 2;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //（森・少し開けた場所）
+    }
+    // Page3
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage0_start";
+        p.textIndex = 3;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_003;
+
+        m_Pages.push_back(p);
+        //…神様…じゃ…ないですよね…
+    }
+    // Page4
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 4;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_004;
+
+        m_Pages.push_back(p);
+        //……巫女服…神の使いか…！
+    }
+    // Page5
+    {
+        MessagePage p;
+
+        p.nameId = "none";
+        p.textId = "stage0_start";
+        p.textIndex = 5;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //（妖怪出現、女郎蜘蛛に跪く妖怪たち）
+    }
+    // Page6
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage0_start";
+        p.textIndex = 6;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //…！
+    }
+    // Page7
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 7;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_007;
+
+        m_Pages.push_back(p);
+        //…ほう？祠に封印されていたのをこの女が破壊したことにより復活したと？
+    }
+    // Page8
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 8;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_008;
+
+        m_Pages.push_back(p);
+        //…私を封印した小賢しい神への復讐の時が来たらしい…！
+    }
+    // Page9
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 9;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_009;
+
+        m_Pages.push_back(p);
+        //だが…
+    }
+    // Page10
+    {
+        MessagePage p;
+
+        p.nameId = "none";
+        p.textId = "stage0_start";
+        p.textIndex = 10;
+
+        p.focus = FocusSide::None;
+        p.speakerFaceId = "";
+
+        //ボイスなし
+
+        m_Pages.push_back(p);
+        //（森を囲うほど大規模な結界が作られた直後、前にいた数体が一瞬で繭にされた後貫かれ爆散、怯えたり警戒する妖怪たち）
+    }
+    // Page11
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 11;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_011;
+
+        m_Pages.push_back(p);
+        //千年前にお前たちの裏切りで封印されたことを知らないと思ったか？
+    }
+    // Page12
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 12;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_012;
+
+        m_Pages.push_back(p);
+        //まずお前たちから殺す
+    }
+    // Page13
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 13;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_013;
+
+        m_Pages.push_back(p);
+        //(妖怪どもが巫女に向かっている…奴が持つ鈴の力か)
+    }
+    // Page14
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 14;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_014;
+
+        m_Pages.push_back(p);
+        //(…塵集めには丁度いい。全員まとめて消してやる…！)
+    }
+    // Page15
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage0_start";
+        p.textIndex = 15;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_015;
+
+        m_Pages.push_back(p);
+        //わっ…！危な…！
+    }
+    // Page16
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 16;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_016;
+
+        m_Pages.push_back(p);
+        //ほう？意外と素早いな？
+    }
+    // Page17
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage0_start";
+        p.textIndex = 17;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_017;
+
+        m_Pages.push_back(p);
+        //言っておきますけど、私を殺したらあなたも死にますよ！？
+    }
+    // Page18
+    {
+        MessagePage p;
+
+        p.nameId = "miko";
+        p.textId = "stage0_start";
+        p.textIndex = 18;
+
+        p.focus = FocusSide::Right;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_018;
+
+        m_Pages.push_back(p);
+        //そういう「召喚」だったんで！
+    }
+    // Page19
+    {
+        MessagePage p;
+
+        p.nameId = "kumo";
+        p.textId = "stage0_start";
+        p.textIndex = 19;
+
+        p.focus = FocusSide::Left;
+        p.speakerFaceId = "";
+
+        p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_019;
+
+        m_Pages.push_back(p);
+        //…チッ…
     }
 }
 
 void Stage0::BuildEndPages()
 {
     m_Pages.clear();
-
-    // Page0
-    // 右=巫女,左=女郎蜘蛛
-    {
-        MessagePage p;
-
-        // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";        // name_miko.png
-        p.textId = "stage4_end";  // text_stage1_end_***
-        p.textIndex = 0;          // 000
-
-        p.focus = FocusSide::Right;
-
-        // Page0必須：左右の初期表情
-        p.leftFaceId = "normal";
-        p.rightFaceId = "normal";
-        p.speakerFaceId = "";
-
-        // このページのボイス
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_000;
-
-        m_Pages.push_back(p);
-        //そんなにお腹が空いてるなら、お団子でも五平餅でも食べればいいじゃないですか
-    }
-    // Page1
-    {
-        MessagePage p;
-
-        p.nameId = "kumo";
-        p.textId = "stage4_end";
-        p.textIndex = 1;
-
-        p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
-
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
-
-        m_Pages.push_back(p);
-        //…理性を保つのに、生の血肉が必要でな
-    }
 }
 
 void Stage0::UpdateEnemySpawn()

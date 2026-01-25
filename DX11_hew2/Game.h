@@ -6,6 +6,7 @@
 #include "TitleScene.h"
 #include "Stage1Scene.h"
 #include "ResultScene.h"
+#include "Stage0.h"
 #include "Stage1.h"
 #include "Stage2.h"
 #include "Stage3.h"
