@@ -111,5 +111,9 @@ public:
 	}	
 	
 	static float ApplyDeadZone(short v, short deadZone);
+
+	// マウス入力
+	static DirectX::XMFLOAT2 GetMousePosition();    // マウスの座標取得
+	static bool GetMouseButtonTrigger(int button); // 0:左, 1:右, 2:中 クリック
 };
 

@@ -168,3 +168,35 @@ float Input::ApplyDeadZone(short v, short deadZone)
 	if (abs(v) < deadZone) return 0.0f;
 	return (float)v / 32767.0f;
 }
+
+DirectX::XMFLOAT2 Input::GetMousePosition()
+{
+	POINT p;
+	GetCursorPos(&p); // スクリーン上のマウス位置を取得
+
+	// ウィンドウ内の座標に変換
+	ScreenToClient(GetActiveWindow(), &p);
+
+	// 現在のウィンドウの幅と高さを取得（解像度変更に対応）
+	RECT rect;
+	GetClientRect(GetActiveWindow(), &rect);
+	float windowW = (float)(rect.right - rect.left);
+	float windowH = (float)(rect.bottom - rect.top);
+
+	// ゲーム内の座標系（中心 0,0 / 上がプラス）に変換
+	DirectX::XMFLOAT2 pos;
+	pos.x = (float)p.x - (windowW / 2.0f);
+	pos.y = -((float)p.y - (windowH / 2.0f));
+
+	return pos;
+}
+
+bool Input::GetMouseButtonTrigger(int button)
+{
+	int vk = (button == 0) ? VK_LBUTTON : VK_RBUTTON;
+
+	// GetAsyncKeyStateの最上位ビットが1なら現在押されている
+	// ※キー入力と同様にoldStateで比較するのが理想ですが、
+	// 手軽にクリックを判定するならこれで十分動作します
+	return (GetAsyncKeyState(vk) & 0x8000) != 0;
+}

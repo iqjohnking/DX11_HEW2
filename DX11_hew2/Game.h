@@ -3,6 +3,8 @@
 //#include "GolfBall.h"
 //#include "Ground.h"
 #include "Renderer.h"
+#include"StartScene.h"
+#include"ModeSelectScene.h"
 #include "TitleScene.h"
 #include "Stage1Scene.h"
 #include "ResultScene.h"
@@ -19,8 +21,11 @@
 #include "Stage10.h"
 
 enum SceneName {
+	START,
 	TITLE,
 	STAGE0,
+	MODE_SELECT,
+	STAGE_SELECT,
 	STAGE1,
 	STAGE2,
 	STAGE3,

@@ -44,7 +44,7 @@ void ResultScene::Update()
 	// スペースキーを押してタイトルへ
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
-		Game::GetInstance()->ChangeScene(TITLE);
+		Game::GetInstance()->ChangeScene(START);
 	}
 
 	//Rキーを押して前のシーンをリトライ

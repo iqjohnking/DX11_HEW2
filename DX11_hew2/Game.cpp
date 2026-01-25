@@ -35,7 +35,7 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// 初期シーンを設定（必須）
-	m_Instance->ChangeScene(TITLE);
+	m_Instance->ChangeScene(START);
 
 	//会話シーンテスト用
 	m_Instance->ChangeScene(STAGE0);
@@ -151,6 +151,9 @@ void Game::ChangeScene(SceneName sceneName)
 	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
 	switch (sceneName) {
+	case START:
+		m_Instance->m_Scene = new StartScene();
+		break;
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
 		break;
@@ -226,6 +229,9 @@ void Game::ChangeOldScene()
 		break;
 	case RESULT:
 		m_Instance->m_Scene = new ResultScene();
+		break;
+	case MODE_SELECT:
+		m_Instance->m_Scene = new ModeSelectScene();
 		break;
 	default:
 		break;
