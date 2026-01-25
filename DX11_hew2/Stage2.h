@@ -12,6 +12,9 @@ private:
 	bool phase4Flag = false;
 	bool phase5Flag = false;
 	bool phase6Flag = false;
+	bool phase7Flag = false;
+	bool phase8Flag = false;
+	bool phase9Flag = false;
 
 public:
 	Stage2() {};
@@ -21,8 +24,8 @@ public:
 	void Uninit() override; // 終了処理
 	void Update() override; // 更新
 
-	void MessageUpdate();	//会話パート更新
-	void GameUpdate();		//ゲームパート更新
+	void MessageUpdate() override;	//会話パート更新
+	void GameUpdate() override;		//ゲームパート更新
 
 	//会話パート
 	void BuildStartPages() override;
