@@ -25,6 +25,8 @@ void Stage0::Init()
     m_Message->Play();
 
     m_Flow = Flow::StartTalk;
+
+
 }
 
 void Stage0::Uninit()

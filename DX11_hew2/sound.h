@@ -9,6 +9,8 @@ typedef enum
 	//SOUND_LABEL_BGM001,		// サンプルBGM
 	//SOUND_LABEL_SE000,		// サンプルSE
 	//SOUND_LABEL_SE001,		// サンプルSE
+
+
 	//Stage0_Start Voice
 	//SOUND_LABEL_VOICE_STAGE0_START_000,
 	SOUND_LABEL_VOICE_STAGE0_START_001,
@@ -228,6 +230,15 @@ typedef enum
 	//SOUND_LABEL_VOICE_STAGE9_END_031,
 	SOUND_LABEL_VOICE_STAGE9_END_032,
 
+	//BGM
+	//会話パート
+	SOUND_LABEL_BGM_CONVERSATION_000,
+	SOUND_LABEL_BGM_CONVERSATION_001,
+
+	//Stage
+	SOUND_LABEL_BGM_STAGE_000,
+
+
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
 
@@ -426,6 +437,15 @@ private:
 		{ "assets/sound/voice/Stage9/Stage9_End_029.wav", false,0.5f },
 		{ "assets/sound/voice/Stage9/Stage9_End_030.wav", false,0.5f },
 		{ "assets/sound/voice/Stage9/Stage9_End_032.wav", false,0.5f },
+
+		//BGM
+		//会話パート
+		//BGMなのでtrue
+		{ "assets/sound/conversation/BGM001.wav", true,0.5f },
+		{ "assets/sound/conversation/BGM002.wav", true,0.5f },
+
+		//StageBGM
+		{ "assets/sound/stage/BGM003.wav", true,0.5f },
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;

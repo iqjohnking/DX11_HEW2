@@ -83,6 +83,8 @@ public:
 	virtual void StageClearCheck() = 0;
 	virtual void StageFailedCheck() = 0;
 
+	virtual void SoundUpdate() = 0;
+
 	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val)
 	{
 		// ämé¿Ç… min_val <= max_val Ç…Ç∑ÇÈ

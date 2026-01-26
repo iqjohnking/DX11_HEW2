@@ -76,6 +76,9 @@ void Stage1::Init()
 	
 	StagekillCount = 0;     //倒した敵の数をリセット
 	StageEnemyCount = 11;   //ステージの敵の総数を設定
+
+    //BGM開始
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
 
 void Stage1::Uninit()
@@ -86,6 +89,9 @@ void Stage1::Uninit()
     }
 
     m_Pages.clear();
+
+    //BGMを停止
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -99,6 +105,8 @@ void Stage1::Update()
 	MessageUpdate();
 	GameUpdate();
     UpdateEnemySpawn();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -378,6 +386,38 @@ void Stage1::GameUpdate()
 
 }
 
+//soundのUpdate
+void Stage1::SoundUpdate()
+{
+    if (m_Message->GetIndex() == 16)
+    {
+        //BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
+    }
+
+    if (m_Message->GetIndex() == 19)
+    {
+        //BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    }
+
+    if (m_Flow == Flow::Gameplay)
+    {
+        //会話パートBGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
+    }
+
+    if (m_Flow == Flow::EndTalk)
+    {
+        //StageBGMを停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
+        //会話パートBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    }
+}
+
 //会話パート
 void Stage1::BuildStartPages()
 {
@@ -451,7 +491,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 3;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_003;
 
@@ -516,7 +556,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 7;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_007;
 
@@ -532,7 +572,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 8;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_008;
 
@@ -580,7 +620,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 11;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_011;
 
@@ -612,7 +652,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_013;
 
@@ -644,7 +684,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 15;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_015;
 
@@ -676,7 +716,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 17;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_017;
 
@@ -708,7 +748,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 19;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_019;
 
@@ -724,7 +764,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 20;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_020;
 
@@ -740,7 +780,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 21;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_021;
 
@@ -756,7 +796,7 @@ void Stage1::BuildStartPages()
         p.textIndex = 22;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE1_START_022;
 
