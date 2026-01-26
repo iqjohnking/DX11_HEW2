@@ -54,6 +54,8 @@ void Stage5::Update()
 {
     MessageUpdate();
     GameUpdate();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {

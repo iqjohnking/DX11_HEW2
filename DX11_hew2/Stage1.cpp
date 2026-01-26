@@ -405,7 +405,7 @@ void Stage1::SoundUpdate()
     {
         m_Conversation_BGM_flg_2 = true;
         //BGMŠJŽn
-        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_001);
     }
 
     if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_3 == false)

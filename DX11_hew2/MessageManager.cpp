@@ -41,6 +41,8 @@ void MessageManager::Update()
 {
 	if (!m_Playing) return;
 
+	Input::Update();
+
 	//// éüÇ÷êiÇﬁ
 	//if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_E))
 	//{
@@ -55,6 +57,7 @@ void MessageManager::Update()
 	const int kHoldFramesToSkipAll = 2 * 60;
 
 	if (spaceDown || AButtonDown)
+	//if (AButtonDown)
 	{
 		// âüÇµénÇﬂÇΩèuä‘
 		if (!m_AButtonWasDown)
@@ -94,7 +97,9 @@ void MessageManager::Update()
 		m_HoldSkipFired = false;
 	}
 
-	m_AButtonWasDown = spaceDown;
+	m_AButtonWasDown = AButtonDown || spaceDown;
+	//m_AButtonWasDown = AButtonDown;
+	//m_AButtonWasDown = spaceDown;
 }
 
 void MessageManager::SetFramePath(const std::string& path)

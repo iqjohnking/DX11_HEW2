@@ -26,7 +26,9 @@ void Stage0::Init()
 
     m_Flow = Flow::StartTalk;
 
-
+	//SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
 }
 
 void Stage0::Uninit()
@@ -37,6 +39,8 @@ void Stage0::Uninit()
     }
 
     m_Pages.clear();
+
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_010);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -49,6 +53,8 @@ void Stage0::Update()
 {
     MessageUpdate();
     GameUpdate();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -96,6 +102,16 @@ void Stage0::GameUpdate()
     //60フレーム経過するごとに1秒プラス
     elapsedFrames++;
     elapsedSeconds = elapsedFrames / 60;
+}
+
+void Stage0::SoundUpdate()
+{
+    if (m_Message->GetIndex() == 13 && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        //BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_010);
+    }
 }
 
 void Stage0::BuildStartPages()
