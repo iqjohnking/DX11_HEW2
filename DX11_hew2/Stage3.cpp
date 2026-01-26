@@ -81,6 +81,9 @@ void Stage3::Init()
 
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 37;   //ステージの敵の総数を設定
+
+    //BGM開始
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
 
 void Stage3::Uninit()
