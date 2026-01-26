@@ -238,10 +238,12 @@ typedef enum
 	SOUND_LABEL_BGM_CONVERSATION_003,
 	SOUND_LABEL_BGM_CONVERSATION_004,
 	SOUND_LABEL_BGM_CONVERSATION_005,
+	SOUND_LABEL_BGM_CONVERSATION_006,
 
 	//Stage
 	SOUND_LABEL_BGM_STAGE_000,
 	SOUND_LABEL_BGM_STAGE_001,
+	SOUND_LABEL_BGM_STAGE_002,
 
 
 	SOUND_LABEL_MAX,
@@ -446,16 +448,18 @@ private:
 		//BGM
 		//会話パート
 		//BGMなのでtrue
-		{ "assets/sound/conversation/BGM001.wav", true,0.5f },
-		{ "assets/sound/conversation/BGM002.wav", true,0.5f },
-		{ "assets/sound/conversation/BGM004.wav", true,0.5f },
-		{ "assets/sound/conversation/BGM005.wav", true,0.5f },
-		{ "assets/sound/conversation/BGM007.wav", true,0.5f },
-		{ "assets/sound/conversation/BGM008.wav", true,0.5f },
+		{ "assets/sound/conversation/BGM001.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM002.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM004.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM005.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM007.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM008.wav", true,0.3f },
+		{ "assets/sound/conversation/BGM009.wav", true,0.3f },
 
 		//StageBGM
-		{ "assets/sound/stage/BGM003.wav", true,0.5f },
-		{ "assets/sound/stage/BGM006.wav", true,0.5f },
+		{ "assets/sound/stage/BGM003.wav", true,0.3f },
+		{ "assets/sound/stage/BGM006.wav", true,0.3f },
+		{ "assets/sound/stage/BGM010.wav", true,0.3f },
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;
