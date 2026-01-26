@@ -21,7 +21,7 @@ void Enemy2::Init()
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_2_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -203,35 +203,39 @@ void Enemy2::move()
 
 		// 4) 絹の壁との衝突判定
 		vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
-		for (auto w : silkWalls)
+
+		// 攻?判定用（?撞球を少し大きくする）
+		Collision::Sphere atkSphere = m_Collider;
+		static constexpr float kAttackRangeExtra = 12.0f; // 
+		atkSphere.radius = m_Collider.radius + kAttackRangeExtra;
+
+		for (auto* w : silkWalls)
 		{
-			if (w == nullptr || !w->GetIsActive()) continue;
+			if (!w || !w->GetIsActive()) continue;
 
 			Vector3 contactPoint;
-			if (Collision::CheckHit(w->GetSegment(), m_Collider, contactPoint))
+			if (Collision::CheckHit(w->GetSegment(), atkSphere, contactPoint))
 			{
 				m_targetWall = w;   // ターゲットをロック
 				m_cutTimer = 2.5f;  // タイマーセット
 				SetVelocity(0.0f);  // 即座に止まる
 
-				// 衝突したらバックさせてスタン
-				/*
-				m_velocity = 0.5f;
-				stunTimer = 1.f; // スタンタイマーをセット
-				//Vector3 now_pos = GetPosition();
-				Vector3 knockbackDir = now_pos - contactPoint;
-				m_direction = knockbackDir;
-				//SetPosition(GetPosition() + knockbackDir * 2.0f); // 少し後退
-				*/
-
+				int dmg = w->GetPoiseDmg();
+				m_Hitpoint -= dmg;
 
 				break;
 			}
 		}
 
+
 		// 5) 新しい位置
 		target_pos = now_pos + (m_direction * m_velocity);
 		SetPosition(target_pos);
+
+		if (m_Hitpoint <= 0) {
+			state = EnemyState::DYING;
+			break;
+		}
 
 		break;
 	}
@@ -254,6 +258,12 @@ void Enemy2::move()
 	}
 	case EnemyState::DYING:
 	{
+		dyingTimer++;
+		if (dyingTimer >= kMayuFrames)
+		{
+			dyingTimer = kMayuFrames;
+			state = EnemyState::DEAD;
+		}
 
 		break;
 	}

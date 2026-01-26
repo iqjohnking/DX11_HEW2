@@ -21,7 +21,7 @@ void Enemy4::Init()
 	//‰Šú‰»ˆ—
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_4_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // ‰ŠúˆÊ’u‚ÍŠO•”‚ÅÝ’è‚·‚é‘z’è
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -168,6 +168,10 @@ void Enemy4::move()
 					m_velocity = 0.0f;
 					stunTimer = kHitCooldown; // ˜A‘±ƒqƒbƒg–hŽ~
 
+
+					int dmg = w->GetPoiseDmg();
+					m_Hitpoint -= dmg;
+
 					hitThisFrame = true;
 					break;
 				}
@@ -244,6 +248,11 @@ void Enemy4::move()
 			}
 		}
 
+		if (m_Hitpoint <= 0)
+		{
+			state = EnemyState::DYING;
+		}
+
 		break;
 	}
 
@@ -267,6 +276,12 @@ void Enemy4::move()
 	}
 	case EnemyState::DYING:
 	{
+		dyingTimer++;
+		if (dyingTimer >= kMayuFrames)
+		{
+			dyingTimer = kMayuFrames;
+			state = EnemyState::DEAD;
+		}
 
 		break;
 	}

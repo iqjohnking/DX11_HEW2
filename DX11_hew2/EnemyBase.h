@@ -16,12 +16,13 @@ protected:
 	EnemyState state = EnemyState::SPAWNING;
 	int spawnTimer = 0; //出現アニメーション用タイマー
 	int mayuingTimer = 0; //繭になる用タイマー
+	int dyingTimer = 0; //消滅アニメーション用タイマー
 	static constexpr int kMayuFrames = 15;
 
-	// hp = 12
-	// 毒壁の攻撃力は12、6、4、（１回、２回、３回ダメージが受けたら死ぬ）
-	// 三角囲むの攻撃力は12
-	int m_Hitpoint = 3;
+	// hp = 6
+	// 毒壁の攻撃力は6、3、2、（１回、２回、３回ダメージが受けたら死ぬ）
+	// 三角囲むの攻撃力は6
+	int m_Hitpoint = 6;
 
 	Collision::Sphere m_Collider; // 当たり判定の為の情報
 	float m_Radius = 25.0f; // SetScale(50,50,0) なので半径 25 くらい

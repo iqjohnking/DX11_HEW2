@@ -75,6 +75,7 @@ void EnemyMayu::Update()
 					if (!isExploding)
 					{
 						SetRadius(m_Radius * 2); //“–‚½‚è”»’è‘å‚«‚­‚·‚é
+						w->AddPoiseLevel();
 					}
 					isExploding = true;
 				}

@@ -23,7 +23,7 @@ void Enemy3::Init()
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/enemy_1_ani.png");
+	m_Texture2D.SetTexture("assets/texture/enemy_3_ani.png");
 	//SetPosition(100.0f, 100.0f, 0.0f); // 初期位置は外部で設定する想定
 	m_Texture2D.SetRotation(m_Rotation);
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
@@ -88,6 +88,12 @@ void Enemy3::Update()
 	}
 	case EnemyState::DYING:
 	{
+		dyingTimer++;
+		if (dyingTimer >= kMayuFrames)
+		{
+			dyingTimer = kMayuFrames;
+			state = EnemyState::DEAD;
+		}
 
 		break;
 	}
@@ -302,16 +308,20 @@ void Enemy3::move()
 			stunTimer = 1.f;
 			Vector3 knockbackDir = now_pos - contactPoint;
 			m_direction = knockbackDir;
+
+			int dmg = w->GetPoiseDmg();
+			m_Hitpoint -= dmg;
+
 			break;
 		}
-	}
-
-	if (m_Hitpoint <= 0)
-	{
-		state = EnemyState::DYING;
 	}
 
 	// (5) 新しい位置
 	target_pos = now_pos + (m_direction * m_velocity);
 	SetPosition(target_pos);
+
+	if (m_Hitpoint <= 0)
+	{
+		state = EnemyState::DYING;
+	}
 }

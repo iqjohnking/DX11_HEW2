@@ -185,18 +185,23 @@ void Enemy1::move()
 				Vector3 knockbackDir = now_pos - contactPoint;
 				m_direction = knockbackDir;
 				//SetPosition(GetPosition() + knockbackDir * 2.0f); // ­‚µŒã‘Þ
+
+				int dmg = w->GetPoiseDmg();
+				m_Hitpoint -= dmg;
+			
+
 				break;
 			}
-		}
-
-		if (m_Hitpoint <= 0) {
-			// –š‚É‚È‚éˆ—‚Ö
-			state = EnemyState::DYING;
 		}
 
 		// 5) V‚µ‚¢ˆÊ’u
 		target_pos = now_pos + (m_direction * m_velocity);
 		SetPosition(target_pos);
+
+		if (m_Hitpoint <= 0) {
+			state = EnemyState::DYING;
+			break;
+		}
 
 		break;
 	}
@@ -220,6 +225,12 @@ void Enemy1::move()
 	}
 	case EnemyState::DYING:
 	{
+		dyingTimer++;
+		if (dyingTimer >= kMayuFrames)
+		{
+			dyingTimer = kMayuFrames;
+			state = EnemyState::DEAD;
+		}
 
 		break;
 	}

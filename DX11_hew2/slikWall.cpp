@@ -6,7 +6,7 @@ void silkWall::Init()
 {
 	m_Hitpoint = 3;
 	m_IsGrowing = false;
-	m_IsPoised = false;
+	m_PoiseLevel = 0;
 	m_ExpandSpeed = 50.0f;
 	//m_TargetLength = 0.0f; // fire()で設定されるので初期化不要
 
@@ -41,6 +41,12 @@ void silkWall::Update()
 		return;
 	}
 
+	if(m_PoiseTimer>0)
+		m_PoiseTimer--;
+	else
+		m_PoiseLevel = 0;
+
+
 	Vector3 ScaleNow = m_Scale;
 
 	// 目標位置までの長さを超えたら止める
@@ -66,6 +72,28 @@ void silkWall::Draw(Camera* cam)
 	m_Texture2D.SetPosition(GetPosition()); // 親クラスの位置を反映
 	m_Texture2D.SetScale(GetScale());	// 親クラスの大きさを反映
 	m_Texture2D.SetRotation(GetRotation()); // 親クラスの回転を反映
+
+	if(m_PoiseLevel==0)
+	{
+		// 白
+		m_Texture2D.SetMulColor(DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	else if (m_PoiseLevel == 1)
+	{
+		// 淺紫
+		m_Texture2D.SetMulColor(DirectX::SimpleMath::Color(0.85f, 0.70f, 1.00f, 1.0f));
+	}
+	else if (m_PoiseLevel == 2)
+	{
+		// 中紫
+		m_Texture2D.SetMulColor(DirectX::SimpleMath::Color(0.60f, 0.25f, 0.85f, 1.0f));
+	}
+	else if (m_PoiseLevel >= 3)
+	{
+		// 深紫
+		m_Texture2D.SetMulColor(DirectX::SimpleMath::Color(0.35f, 0.05f, 0.55f, 1.0f));
+	}
+
 	m_Texture2D.Draw(cam);
 }
 
@@ -121,8 +149,6 @@ void silkWall::reInit()
 
 //private:
 ////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
 void silkWall::UpdateCollider()
 {
 	// 非アクティブのときは「長さ 0 の線分」にしておく
@@ -161,19 +187,6 @@ void silkWall::UpdateCollider()
 	// 片側 extendLen ずつ延長したいので、両端で合計 2*extendLen 長くなる。
 	// ただし元の start から target を超えないようにクランプ。
 	float extra = extendLen;
-	//if (curLength + 2.0f * extendLen > maxLength)
-	//{
-	//	// 収まりきらない場合、両端の延長量を等しく縮める
-	//	float remain = maxLength - curLength;
-	//	if (remain <= 0.0f)
-	//	{
-	//		extra = 0.0f;
-	//	}
-	//	else
-	//	{
-	//		extra = remain * 0.5f;
-	//	}
-	//}
 
 	// 判定用の start/end を計算
 	// start を「後ろ側」に、end を「前側」に延ばす

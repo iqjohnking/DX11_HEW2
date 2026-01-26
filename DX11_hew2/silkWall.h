@@ -19,7 +19,8 @@ protected:
 
 	int m_Hitpoint   = 3;    // 体力
 	bool m_IsGrowing = false; // 伸び中フラグ
-	bool m_IsPoised  = false; // 毒状態フラグ
+	int m_PoiseLevel  = 0; // 毒状態フラグ
+	int m_PoiseTimer  = 0; // 毒状態フラグ
 
 	float m_ExpandSpeed = 50.0f; // 1フレームあたりの伸び量
 	float m_TargetLength   = 0.0f;  // 目標位置までの最大長さ
@@ -48,6 +49,16 @@ public:
 	void SetEndPos(const DirectX::SimpleMath::Vector3& pos) { m_EndPos = pos; }
 	DirectX::SimpleMath::Vector3 GetTargetPos() const { return m_EndPos; }
 
+
+	void AddPoiseLevel() {
+		static constexpr int kMaxPoiseLevel = 3; 
+		if (m_PoiseLevel <= kMaxPoiseLevel) m_PoiseLevel++;
+		m_PoiseTimer = 180;
+	}
+	int GetPoiseDmg() const { 
+		static constexpr int kDmg[] = { 0, 2, 3, 6 };
+		return kDmg[m_PoiseLevel];
+	}
 
 	bool IsGrowing() const { return m_IsGrowing; }
 };
