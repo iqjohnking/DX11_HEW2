@@ -53,6 +53,8 @@ protected:
 	int StagekillCount = 0;	//倒した敵の数
 	int StageEnemyCount = 0; //ステージの敵の総数
 
+	
+
 	//経過したフレーム数
 	int elapsedFrames = 0;
 	//経過した秒数
@@ -84,6 +86,8 @@ public:
 	virtual void StageFailedCheck() = 0;
 
 	virtual void SoundUpdate() = 0;
+
+	void AddStagekillCount() { ++StagekillCount ;};
 
 	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val)
 	{

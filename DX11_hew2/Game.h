@@ -86,6 +86,7 @@ public:
 
 	//Camera* GetCamera() { return &m_Instance->m_Camera; }
 	Camera* GetCamera() { return &m_Camera; }
+	Scene* GetScene() { return m_Instance->m_Scene; }
 
 	void ChangeScene(SceneName sceneName); // シーン変更
 	void ChangeOldScene();	//前のシーンに戻る

@@ -99,6 +99,10 @@ void Enemy3::Update()
 	}
 	case EnemyState::DEAD:
 	{
+		if (auto* stage = dynamic_cast<StageBase*>(Game::GetInstance()->GetScene()))
+		{
+			stage->AddStagekillCount();
+		}
 		Game::GetInstance()->DeleteObject(this);
 		break;
 	}
