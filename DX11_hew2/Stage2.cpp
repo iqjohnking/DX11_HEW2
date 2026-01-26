@@ -79,8 +79,8 @@ void Stage2::Init()
     StageEnemyCount = 30;   //ステージの敵の総数を設定
 
     //SoundFlg
-    Conversation_BGM_flg_1 = false;
-    Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
 
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
@@ -385,19 +385,19 @@ void Stage2::GameUpdate()
 
 void Stage2::SoundUpdate()
 {
-    if (m_Flow == Flow::Gameplay && Conversation_BGM_flg_1 == false)
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
     {
-        Conversation_BGM_flg_1 = true;
+        m_Conversation_BGM_flg_1 = true;
         //会話パートBGM停止
         Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
         Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
     }
 
-    if (m_Flow == Flow::EndTalk && Conversation_BGM_flg_2 == false)
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
     {
         //StageBGM停止
         Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
-        Conversation_BGM_flg_2 = true;
+        m_Conversation_BGM_flg_2 = true;
         Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
     }
 }

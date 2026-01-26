@@ -38,7 +38,7 @@ void Game::Init()
 	m_Instance->ChangeScene(START);
 
 	//会話シーンテスト用
-	//m_Instance->ChangeScene(STAGE3);
+	//m_Instance->ChangeScene(STAGE)5;
 }
 
 // 更新

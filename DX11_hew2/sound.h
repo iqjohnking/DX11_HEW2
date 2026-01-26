@@ -235,9 +235,11 @@ typedef enum
 	SOUND_LABEL_BGM_CONVERSATION_000,
 	SOUND_LABEL_BGM_CONVERSATION_001,
 	SOUND_LABEL_BGM_CONVERSATION_002,
+	SOUND_LABEL_BGM_CONVERSATION_003,
 
 	//Stage
 	SOUND_LABEL_BGM_STAGE_000,
+	SOUND_LABEL_BGM_STAGE_001,
 
 
 	SOUND_LABEL_MAX,
@@ -445,9 +447,11 @@ private:
 		{ "assets/sound/conversation/BGM001.wav", true,0.5f },
 		{ "assets/sound/conversation/BGM002.wav", true,0.5f },
 		{ "assets/sound/conversation/BGM004.wav", true,0.5f },
+		{ "assets/sound/conversation/BGM005.wav", true,0.5f },
 
 		//StageBGM
 		{ "assets/sound/stage/BGM003.wav", true,0.5f },
+		{ "assets/sound/stage/BGM006.wav", true,0.5f },
 	};
 
 	IXAudio2* m_pXAudio2 = NULL;

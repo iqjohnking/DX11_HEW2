@@ -19,8 +19,8 @@ private:
 	bool phase12Flag = false;
 	bool phase13Flag = false;
 
-	bool Conversation_BGM_flg_1 = false;
-	bool Conversation_BGM_flg_2 = false;
+	bool m_Conversation_BGM_flg_1 = false;
+	bool m_Conversation_BGM_flg_2 = false;
 
 public:
 	Stage3() {};
