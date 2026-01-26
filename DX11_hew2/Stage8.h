@@ -11,6 +11,13 @@ private:
 	bool phase4Flag = false;
 	bool phase5Flag = false;
 	bool phase6Flag = false;
+	bool phase7Flag = false;
+	bool phase8Flag = false;
+	bool phase9Flag = false;
+	bool phase10Flag = false;
+	bool phase11Flag = false;
+	bool phase12Flag = false;
+	bool phase13Flag = false;
 
 public:
 	Stage8() {};

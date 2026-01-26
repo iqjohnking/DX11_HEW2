@@ -4,6 +4,7 @@
 class Stage10 : public StageBase
 {
 private:
+	/*
 	//敵の出現を管理するためのフラグ
 	bool phase1Flag = false;
 	bool phase2Flag = false;
@@ -11,6 +12,10 @@ private:
 	bool phase4Flag = false;
 	bool phase5Flag = false;
 	bool phase6Flag = false;
+	*/
+
+	//30秒経過するごとに出現する敵の数を増やすための変数
+	int EnemySpawnplus = 0;
 
 public:
 	Stage10() {};

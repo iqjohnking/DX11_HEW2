@@ -8,9 +8,6 @@ private:
 	bool phase1Flag = false;
 	bool phase2Flag = false;
 	bool phase3Flag = false;
-	bool phase4Flag = false;
-	bool phase5Flag = false;
-	bool phase6Flag = false;
 
 public:
 	Stage0() {};

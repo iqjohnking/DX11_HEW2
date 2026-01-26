@@ -304,7 +304,6 @@ void Stage6::GameUpdate()
                     Vector3 centroid = (A + B + C) / 3.0f;
                     enemy->StartMayuing(centroid);
                     ++eliminatedCount;
-                    StagekillCount++;
                 }
             }
 
