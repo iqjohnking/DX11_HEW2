@@ -236,6 +236,8 @@ typedef enum
 	SOUND_LABEL_BGM_CONVERSATION_001,
 	SOUND_LABEL_BGM_CONVERSATION_002,
 	SOUND_LABEL_BGM_CONVERSATION_003,
+	SOUND_LABEL_BGM_CONVERSATION_004,
+	SOUND_LABEL_BGM_CONVERSATION_005,
 
 	//Stage
 	SOUND_LABEL_BGM_STAGE_000,
@@ -448,6 +450,8 @@ private:
 		{ "assets/sound/conversation/BGM002.wav", true,0.5f },
 		{ "assets/sound/conversation/BGM004.wav", true,0.5f },
 		{ "assets/sound/conversation/BGM005.wav", true,0.5f },
+		{ "assets/sound/conversation/BGM007.wav", true,0.5f },
+		{ "assets/sound/conversation/BGM008.wav", true,0.5f },
 
 		//StageBGM
 		{ "assets/sound/stage/BGM003.wav", true,0.5f },

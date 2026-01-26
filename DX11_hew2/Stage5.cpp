@@ -25,6 +25,11 @@ void Stage5::Init()
     m_Message->Play();
 
     m_Flow = Flow::StartTalk;
+
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
 }
 
 void Stage5::Uninit()
@@ -35,6 +40,8 @@ void Stage5::Uninit()
     }
 
     m_Pages.clear();
+
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_005);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -96,6 +103,34 @@ void Stage5::GameUpdate()
     elapsedSeconds = elapsedFrames / 60;
 }
 
+void Stage5::SoundUpdate()
+{
+    if (m_Message->GetIndex() == 1 && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        //会話BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_004);
+    }
+
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        //会話BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_004);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_001);
+    }
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_3 == false)
+    {
+        m_Conversation_BGM_flg_3 = true;
+        //StageBGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_005);
+    }
+}
+
 void Stage5::BuildStartPages()
 {
     m_Pages.clear();
@@ -121,7 +156,7 @@ void Stage5::BuildStartPages()
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE5_START_000;
 
         m_Pages.push_back(p);
-        //そんなにお腹が空いてるなら、お団子でも五平餅でも食べればいいじゃないですか
+        //…(村の人達はみんな逃げれてるみたい)
     }
     // Page1
     {
@@ -132,12 +167,12 @@ void Stage5::BuildStartPages()
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE5_START_001;
 
         m_Pages.push_back(p);
-        //…理性を保つのに、生の血肉が必要でな
+        //…そろそろ腹が減って限界だ小娘…！
     }
     // Page2
     {

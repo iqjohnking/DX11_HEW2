@@ -12,6 +12,11 @@ private:
 	bool phase5Flag = false;
 	bool phase6Flag = false;
 
+	//SoundFlg
+	bool m_Conversation_BGM_flg_1 = false;
+	bool m_Conversation_BGM_flg_2 = false;
+	bool m_Conversation_BGM_flg_3 = false;
+
 public:
 	Stage5() {};
 	~Stage5() {};
@@ -19,7 +24,7 @@ public:
 	void Init() override; // 初期化
 	void Uninit() override; // 終了処理
 	void Update() override; // 更新
-	void SoundUpdate()override {};//sound更新
+	void SoundUpdate()override;//sound更新
 
 	void MessageUpdate() override;	//会話パート更新
 	void GameUpdate() override;		//ゲームパート更新
