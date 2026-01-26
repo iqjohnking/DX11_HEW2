@@ -25,6 +25,13 @@ void Stage7::Init()
     m_Message->Play();
 
     m_Flow = Flow::StartTalk;
+
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+
+    //BGM開始
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_006);
 }
 
 void Stage7::Uninit()
@@ -35,6 +42,8 @@ void Stage7::Uninit()
     }
 
     m_Pages.clear();
+
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_006);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -47,6 +56,8 @@ void Stage7::Update()
 {
     MessageUpdate();
     GameUpdate();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -94,6 +105,27 @@ void Stage7::GameUpdate()
     //60フレーム経過するごとに1秒プラス
     elapsedFrames++;
     elapsedSeconds = elapsedFrames / 60;
+}
+
+void Stage7::SoundUpdate()
+{
+    if(m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        //会話BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_006);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_002);
+	}
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        //StageBGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
+        //会話BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_006);
+    }
 }
 
 void Stage7::BuildStartPages()
@@ -198,7 +230,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 5;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_005;
 
@@ -246,7 +278,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 8;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_008;
 
@@ -326,7 +358,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
 		//ボイスなし
 
@@ -486,7 +518,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 23;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_023;
 
@@ -502,7 +534,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 24;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_024;
 
@@ -518,7 +550,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 25;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_025;
 
@@ -534,7 +566,7 @@ void Stage7::BuildStartPages()
         p.textIndex = 26;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE7_START_026;
 
