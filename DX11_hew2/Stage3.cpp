@@ -81,6 +81,13 @@ void Stage3::Init()
 
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 37;   //ステージの敵の総数を設定
+
+    //SoundFlg
+    Conversation_BGM_flg_1 = false;
+    Conversation_BGM_flg_2 = false;
+
+    //BGM開始
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
 }
 
 void Stage3::Uninit()
@@ -91,6 +98,8 @@ void Stage3::Uninit()
     }
 
     m_Pages.clear();
+
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -104,6 +113,8 @@ void Stage3::Update()
     MessageUpdate();
     GameUpdate();
     UpdateEnemySpawn();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -375,6 +386,23 @@ void Stage3::GameUpdate()
     StageFailedCheck();
 }
 
+void Stage3::SoundUpdate()
+{
+    if (m_Flow == Flow::Gameplay && Conversation_BGM_flg_1 == false)
+    {
+        Conversation_BGM_flg_1 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
+    }
+
+    if (m_Flow == Flow::EndTalk && Conversation_BGM_flg_2 == false)
+    {
+        Conversation_BGM_flg_2 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    }
+}
+
 void Stage3::BuildStartPages()
 {
     m_Pages.clear();
@@ -412,7 +440,7 @@ void Stage3::BuildStartPages()
         p.textId = "stage3_start";
         p.textIndex = 1;
 
-        p.focus = FocusSide::Left;
+        p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
         // このページのボイス
