@@ -77,6 +77,11 @@ void Stage1::Init()
 	StagekillCount = 0;     //倒した敵の数をリセット
 	StageEnemyCount = 11;   //ステージの敵の総数を設定
 
+    Conversation_BGM_flg_1 = false;
+    Conversation_BGM_flg_2 = false;
+    Conversation_BGM_flg_3 = false;
+    Conversation_BGM_flg_4 = false;
+
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
@@ -389,28 +394,32 @@ void Stage1::GameUpdate()
 //soundのUpdate
 void Stage1::SoundUpdate()
 {
-    if (m_Message->GetIndex() == 16)
+    if (m_Message->GetIndex() == 16 && Conversation_BGM_flg_1 == false)
     {
+        Conversation_BGM_flg_1 = true;
         //BGM停止
         Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
     }
 
-    if (m_Message->GetIndex() == 19)
+    if (m_Message->GetIndex() == 19 && Conversation_BGM_flg_2 == false)
     {
+        Conversation_BGM_flg_2 = true;
         //BGM開始
         Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
     }
 
-    if (m_Flow == Flow::Gameplay)
+    if (m_Flow == Flow::Gameplay && Conversation_BGM_flg_3 == false)
     {
+        Conversation_BGM_flg_3 = true;
         //会話パートBGM停止
         Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
         //StageBGM開始
         Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
     }
 
-    if (m_Flow == Flow::EndTalk)
+    if (m_Flow == Flow::EndTalk && Conversation_BGM_flg_4 == false)
     {
+        Conversation_BGM_flg_4 = true;
         //StageBGMを停止
         Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
         //会話パートBGM開始

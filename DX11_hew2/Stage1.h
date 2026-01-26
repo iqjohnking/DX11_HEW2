@@ -12,6 +12,12 @@ private:
 	bool phase5Flag = false;
 	bool phase6Flag = false;
 
+	//SoundFlg
+	bool Conversation_BGM_flg_1 = false;
+	bool Conversation_BGM_flg_2 = false;
+	bool Conversation_BGM_flg_3 = false;
+	bool Conversation_BGM_flg_4 = false;
+
 public:
 	Stage1() {};
 	~Stage1() {};
