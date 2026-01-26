@@ -182,7 +182,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 4;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "angry";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_004;
 
@@ -214,7 +214,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 6;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         //É{ÉCÉXÇ»Çµ
 
@@ -230,7 +230,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 7;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_007;
 
@@ -246,7 +246,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 8;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_008;
 
@@ -262,7 +262,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 9;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_009;
 
@@ -294,7 +294,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 11;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_011;
 
@@ -310,7 +310,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 12;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "angry";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_012;
 
@@ -326,7 +326,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_013;
 
@@ -358,7 +358,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 15;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_015;
 
@@ -390,7 +390,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 17;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "angry";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_017;
 
@@ -422,7 +422,7 @@ void Stage0::BuildStartPages()
         p.textIndex = 19;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE0_START_019;
 
