@@ -25,6 +25,15 @@ void Stage6::Init()
     m_Message->Play();
 
     m_Flow = Flow::StartTalk;
+
+    //BGM開始
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
+
+
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
 }
 
 void Stage6::Uninit()
@@ -96,6 +105,27 @@ void Stage6::GameUpdate()
     elapsedSeconds = elapsedFrames / 60;
 }
 
+void Stage6::SoundUpdate()
+{
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        //会話BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_001);
+    }
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        //StageBGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+        //会話BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+    }
+}
+
 void Stage6::BuildStartPages()
 {
     m_Pages.clear();
@@ -150,7 +180,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_002;
 
@@ -198,7 +228,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 5;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_005;
 
@@ -242,7 +272,7 @@ void Stage6::BuildEndPages()
         // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         // このページのボイス
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_000;
@@ -275,7 +305,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_002;
 
@@ -403,7 +433,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 10;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_010;
 
@@ -419,7 +449,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 11;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_011;
 
@@ -451,7 +481,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "angry";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_013;
 
@@ -483,7 +513,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 15;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_015;
 
@@ -499,7 +529,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 16;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_016;
 
