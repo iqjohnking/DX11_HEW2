@@ -26,14 +26,62 @@ void Stage6::Init()
 
     m_Flow = Flow::StartTalk;
 
+    // 背景
+    auto* bg = Game::GetInstance()->AddObject<TitleBG>();
+    m_MySceneObjects.emplace_back(bg);
+    bg->Texture2D::SetPosition(0.0f, 0.0f, 2.0f); // Z順序を最後に
+
+    // FIELD
+    m_Field = Game::GetInstance()->AddObject<Field>();
+    m_MySceneObjects.emplace_back(m_Field);
+
+    // silkWall*3
+    for (int i = 0; i < 3; ++i)
+    {
+        m_SilkWalls[i] = Game::GetInstance()->AddObject<silkWall>();
+        m_MySceneObjects.emplace_back(m_SilkWalls[i]);
+    }
+
+    // 左手（W / S ）
+    m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+    m_MySceneObjects.emplace_back(m_HandL);
+
+    // 右手（↑ / ↓ ）
+    m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
+    m_MySceneObjects.emplace_back(m_HandR);
+
+    m_HandL->SetAnotherHand(m_HandR);
+    //m_HandL->SetField(m_Field);
+    m_HandR->SetAnotherHand(m_HandL);
+    //m_HandR->SetField(m_Field);
+
+    ////巫女
+    m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
+    m_MySceneObjects.emplace_back(m_Miko);
+    m_Miko->SetField(m_Field);
+
+    //経過したフレーム数と秒数を0にリセット
+    elapsedFrames = 0;
+    elapsedSeconds = 0;
+
+    //敵が出現するフェーズのフラグをリセット
+    phase1Flag = false;
+    phase2Flag = false;
+    phase3Flag = false;
+    phase4Flag = false;
+    phase5Flag = false;
+    phase6Flag = false;
+    phase7Flag = false;
+    phase8Flag = false;
+    phase9Flag = false;
+    phase10Flag = false;
+    phase11Flag = false;
+
+    StagekillCount = 0;     //倒した敵の数をリセット
+    StageEnemyCount = 42;   //ステージの敵の総数を設定
+
     //BGM開始
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
-
-
-    //SoundFlg
-    m_Conversation_BGM_flg_1 = false;
-    m_Conversation_BGM_flg_2 = false;
-    m_Conversation_BGM_flg_3 = false;
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
 
 void Stage6::Uninit()
@@ -56,6 +104,7 @@ void Stage6::Update()
 {
     MessageUpdate();
     GameUpdate();
+    UpdateEnemySpawn();
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -100,30 +149,231 @@ void Stage6::GameUpdate()
 {
     if (m_Flow != Flow::Gameplay) return;
 
+    //m_MySceneObjects中の空間オブジェクトを削除する（erase）
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o)
+        {
+            it = m_MySceneObjects.erase(it);
+            continue;
+        }
+
+        if (o->ToBeDeleted())
+        {
+            Game::GetInstance()->DeleteObject(o);   // ★実体も破棄依頼
+            it = m_MySceneObjects.erase(it);        // ★リストからも除去
+            continue;
+        }
+
+        ++it;
+    }
+
     //60フレーム経過するごとに1秒プラス
     elapsedFrames++;
     elapsedSeconds = elapsedFrames / 60;
-}
 
-void Stage6::SoundUpdate()
-{
-    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    //-----------------------------------------------------------------------------
+    // 操作／INPUT
+    //-----------------------------------------------------------------------------
+
+    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
     {
-        m_Conversation_BGM_flg_1 = true;
-        //会話BGM停止
-        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
-        //StageBGM開始
-        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_001);
+        silkWall* w = nullptr;
+
+        // 1. まず、非アクティブ（消えている）スロットを探す
+        for (int i = 0; i < 3; ++i)
+        {
+            if (!m_SilkWalls[i]->IsActive())
+            {
+                w = m_SilkWalls[i];
+                break;
+            }
+        }
+
+        // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+        if (w == nullptr)
+        {
+            w = m_SilkWalls[m_NextSilkIndex];
+            m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+        }
+
+        // 3. 発射実行
+        if (w && m_HandL && m_HandR)
+        {
+            w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+        }
     }
 
-    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    // 
+    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
     {
-        m_Conversation_BGM_flg_2 = true;
-        //StageBGM停止
-        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
-        //会話BGM停止
-        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+        silkWall* w = nullptr;
+
+        // 1. まず、非アクティブ（消えている）スロットを探す
+        for (int i = 0; i < 3; ++i)
+        {
+            if (!m_SilkWalls[i]->IsActive())
+            {
+                w = m_SilkWalls[i];
+                break;
+            }
+        }
+
+        // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+        if (w == nullptr)
+        {
+            w = m_SilkWalls[m_NextSilkIndex];
+            m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+        }
+
+        // 3. 発射実行
+        if (w && m_HandL && m_HandR)
+        {
+            Vector3 startPos = m_HandR->GetPosition();  // 右手
+            Vector3 targetPos = m_HandL->GetPosition(); // 左手
+
+            w->Fire(startPos, targetPos);
+        }
     }
+
+    //if (Input::GetKeyTrigger('R'))   // 
+    //{
+    //	std::vector<Object*> removeList;
+
+    //	//Enemyを探す
+    //	for (auto* obj : m_MySceneObjects)
+    //	{
+    //		if (dynamic_cast<EnemyBase*>(obj))
+    //		{
+    //			removeList.push_back(obj);
+    //		}
+    //	}
+
+    //	//　見つけたEnemy1を削除する
+    //	for (auto* obj : removeList)
+    //	{
+    //		Game::GetInstance()->DeleteObject(obj);
+
+    //		auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
+    //		if (it != m_MySceneObjects.end())
+    //		{
+    //			m_MySceneObjects.erase(it);
+    //		}
+    //	}
+    //}
+
+    for (int i = 0; i < 3; ++i)
+    {
+        silkWall* wall = m_SilkWalls[i];
+        if (!wall) continue;              // 防禦性チェック
+    }
+
+    //-----------------------------------------------------------------------------
+    // silkWallの三角形判定
+    //-----------------------------------------------------------------------------
+    Vector3 A, B, C; // 三角形頂点
+
+    silkWall* walls[3] = { m_SilkWalls[0], m_SilkWalls[1], m_SilkWalls[2] };
+
+    // 3 本とも準備完了しているか？
+    const bool allReady = std::all_of(std::begin(walls), std::end(walls),
+        [](const silkWall* w) { return w && !w->IsGrowing(); });
+
+
+    if (allReady)
+    {
+        // 3 本の silkWall から三角形生成を試行
+        if (TriangleSilk::TryMakeTriangleFromWallsXY(walls[0], walls[1], walls[2], A, B, C))
+        {
+            int eliminatedCount = 0;
+            bool mikoMayuCount = false;
+
+            // 敵を調べる
+            for (auto* obj : m_MySceneObjects)
+            {
+                if (!obj) continue;
+                if (obj->ToBeDeleted()) continue;
+
+                auto* enemy = dynamic_cast<EnemyBase*>(obj);
+                if (!enemy) continue;
+
+                const auto pos = enemy->GetPosition();
+                if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
+                {
+                    Vector3 centroid = (A + B + C) / 3.0f;
+                    enemy->StartMayuing(centroid);
+                    ++eliminatedCount;
+                }
+            }
+
+            // 巫女も調べる
+            if (m_Miko)
+            {
+                const auto mikoPos = m_Miko->GetPosition();
+                if (TriangleSilk::IsInsideTriangleXY(mikoPos, A, B, C))
+                {
+                    mikoMayuCount = true;
+                }
+            }
+
+            // Mayu を生成する
+            if (eliminatedCount > 0)
+            {
+                const float baseRadius = 25.0f;
+                const float perKill = 5.0f;
+                const float mayuRadius = baseRadius + perKill * static_cast<float>(eliminatedCount);
+
+                auto* mayu = Game::GetInstance()->AddObject<EnemyMayu>();
+                Vector3 centroid = (A + B + C) / 3.0f;
+                mayu->SetPosition(centroid);
+                mayu->SetRadius(mayuRadius);
+                m_MySceneObjects.emplace_back(mayu);
+            }
+
+            // 巫女が三角形に入ったときの処理
+            if (mikoMayuCount && m_Miko)
+            {
+                Vector3 centroid = (A + B + C) / 3.0f;
+                m_Miko->SetStartMayuing(centroid);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                m_SilkWalls[i]->reInit();
+            }
+        }
+    }
+
+
+    //-----------------------------------------------------------------------------
+    // silkWall と　mayu の当たり判定
+    //-----------------------------------------------------------------------------
+
+    //MAYUのなかにいるから、こちはなにもしない
+
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o || o->ToBeDeleted())
+        {
+            Game::GetInstance()->DeleteObject(o); // オブジェクト削除
+            it = m_MySceneObjects.erase(it); // イテレータを更新
+        }
+        else
+        {
+            ++it; // 次へ
+        }
+    }
+
+    if (m_Miko->GetDYINGTimer() <= 0) {
+        m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
+    }
+
+    //ステージクリアと失敗のチェック
+    StageClearCheck();
+    StageFailedCheck();
+
 }
 
 void Stage6::BuildStartPages()
@@ -180,7 +430,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "surprised";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_002;
 
@@ -228,7 +478,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 5;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "smile";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_005;
 
@@ -272,7 +522,7 @@ void Stage6::BuildEndPages()
         // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-        p.speakerFaceId = "surprised";
+        p.speakerFaceId = "";
 
         // このページのボイス
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_000;
@@ -305,7 +555,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "normal";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_002;
 
@@ -433,7 +683,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 10;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "surprised";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_010;
 
@@ -449,7 +699,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 11;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "glare";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_011;
 
@@ -481,7 +731,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "angry";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_013;
 
@@ -513,7 +763,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 15;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "sad";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_015;
 
@@ -529,7 +779,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 16;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "normal";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_016;
 
@@ -556,15 +806,115 @@ void Stage6::BuildEndPages()
 
 void Stage6::UpdateEnemySpawn()
 {
+    if (elapsedSeconds == 5 && phase1Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(400.0f, 200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(200.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-200.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-400.0f, 200.0f, 0.0f));
+        phase1Flag = true;
+    }
 
+    if (elapsedSeconds == 10 && phase2Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(-200.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-250.0f, 350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-350.0f, 200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-400.0f, 100.0f, 0.0f));
+        phase2Flag = true;
+    }
+
+    if (elapsedSeconds == 14 && phase3Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(400.0f, 150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(350.0f, 300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, 400.0f, 0.0f));
+        phase3Flag = true;
+    }
+
+    if (elapsedSeconds == 19 && phase4Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(-200.0f, 350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-200.0f, -350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-300.0f, 300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-300.0f, -300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-400.0f, 250.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-400.0f, -250.0f, 0.0f));
+        phase4Flag = true;
+    }
+
+    if (elapsedSeconds == 25 && phase5Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(100.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(0.0f, 420.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-100.0f, 400.0f, 0.0f));
+        phase5Flag = true;
+    }
+
+    if (elapsedSeconds == 30 && phase6Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(450.0f, 0.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(400.0f, 150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(400.0f, -150.0f, 0.0f));
+        phase6Flag = true;
+    }
+
+    if (elapsedSeconds == 34 && phase7Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(100.0f, -400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(0.0f, -420.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-100.0f, -400.0f, 0.0f));
+        phase7Flag = true;
+    }
+
+    if (elapsedSeconds == 38 && phase8Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(-400.0f, 100.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-400.0f, 0.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-450.0f, -100.0f, 0.0f));
+        phase8Flag = true;
+    }
+
+    if (elapsedSeconds == 42 && phase9Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(150.0f, 400.0f, 0.0f));
+        EnemySpawn(MAYU, Vector3(0.0f, 430.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-150.0f, 400.0f, 0.0f));
+        phase9Flag = true;
+    }
+
+    if (elapsedSeconds == 45 && phase10Flag == false)
+    {
+        EnemySpawn(NORMAL, Vector3(420.0f, 0.0f, 0.0f));
+        EnemySpawn(MAYU, Vector3(360.0f, 150.0f, 0.0f));
+        EnemySpawn(MAYU, Vector3(360.0f, -150.0f, 0.0f));
+        phase10Flag = true;
+    }
+
+    if (elapsedSeconds == 50 && phase11Flag == false)
+    {
+        EnemySpawn(MAYU, Vector3(450.0f, 0.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, 350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(150.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(0.0f, 450.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-150.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-300.0f, 350.0f, 0.0f));
+        EnemySpawn(MAYU, Vector3(-450.0f, 0.0f, 0.0f));
+        phase11Flag = true;
+    }
 }
 
 void Stage6::StageClearCheck()
 {
-
+    //敵を全て倒したかどうか
+    if (StagekillCount >= StageEnemyCount)
+    {
+        m_Flow = Flow::EndTalk;
+    }
 }
 
 void Stage6::StageFailedCheck()
 {
-
+    //ステージ失敗かどうか
+    //巫女のHPが0になったら失敗にする
 }

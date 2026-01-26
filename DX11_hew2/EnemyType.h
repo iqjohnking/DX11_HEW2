@@ -3,5 +3,6 @@
 enum EnemyType {
 	NORMAL,
 	CUTTER,
+	MAYU,
 	TACKLE
 };

@@ -78,12 +78,8 @@ void Stage2::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 30;   //ステージの敵の総数を設定
 
-    //SoundFlg
-    m_Conversation_BGM_flg_1 = false;
-    m_Conversation_BGM_flg_2 = false;
-
     //BGM開始
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
 
 void Stage2::Uninit()
@@ -94,8 +90,6 @@ void Stage2::Uninit()
     }
 
     m_Pages.clear();
-
-    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -109,8 +103,6 @@ void Stage2::Update()
     MessageUpdate();
     GameUpdate();
     UpdateEnemySpawn();
-    SoundUpdate();
-
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -310,7 +302,6 @@ void Stage2::GameUpdate()
                     Vector3 centroid = (A + B + C) / 3.0f;
                     enemy->StartMayuing(centroid);
                     ++eliminatedCount;
-                    //StagekillCount++;
                 }
             }
 
@@ -383,25 +374,6 @@ void Stage2::GameUpdate()
 
 }
 
-void Stage2::SoundUpdate()
-{
-    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
-    {
-        m_Conversation_BGM_flg_1 = true;
-        //会話パートBGM停止
-        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
-        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
-    }
-
-    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
-    {
-        //StageBGM停止
-        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
-        m_Conversation_BGM_flg_2 = true;
-        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
-    }
-}
-
 void Stage2::BuildStartPages()
 {
     m_Pages.clear();
@@ -420,7 +392,7 @@ void Stage2::BuildStartPages()
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
         p.rightFaceId = "normal";//巫女初期表情
-        p.speakerFaceId = "surprised";//フォーカスしている話者のみ表情を変更
+        p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
         
@@ -439,7 +411,7 @@ void Stage2::BuildStartPages()
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "smile";
+        p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_START_001;
 
@@ -462,12 +434,12 @@ void Stage2::BuildEndPages()
         p.textId = "stage2_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::Left;
 
         // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-        p.speakerFaceId = "sad";
+        p.speakerFaceId = "";
 
         // このページのボイス
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_000;
@@ -483,7 +455,7 @@ void Stage2::BuildEndPages()
         p.textId = "stage2_end";
         p.textIndex = 1;
 
-        p.focus = FocusSide::Left;
+        p.focus = FocusSide::Right;
         p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_001;
