@@ -29,7 +29,6 @@ void Stage8::Init()
     //SoundFlg
     m_Conversation_BGM_flg_1 = false;
     m_Conversation_BGM_flg_2 = false;
-    m_Conversation_BGM_flg_3 = false;
 
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
 }

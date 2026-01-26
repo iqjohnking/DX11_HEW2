@@ -15,7 +15,6 @@ private:
 	//SoundFlg
 	bool m_Conversation_BGM_flg_1 = false;
 	bool m_Conversation_BGM_flg_2 = false;
-	bool m_Conversation_BGM_flg_3 = false;
 
 public:
 	Stage8() {};
