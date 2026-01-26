@@ -25,6 +25,13 @@ void Stage8::Init()
     m_Message->Play();
 
     m_Flow = Flow::StartTalk;
+
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
+
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
 }
 
 void Stage8::Uninit()
@@ -35,6 +42,8 @@ void Stage8::Uninit()
     }
 
     m_Pages.clear();
+
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_007);
 
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
@@ -47,6 +56,8 @@ void Stage8::Update()
 {
     MessageUpdate();
     GameUpdate();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -96,6 +107,27 @@ void Stage8::GameUpdate()
     elapsedSeconds = elapsedFrames / 60;
 }
 
+void Stage8::SoundUpdate()
+{
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        //会話BGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_007);
+        //StageBGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_002);
+    }
+
+    if(m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        //StageBGM停止
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
+        //会話BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
+	}
+}
+
 void Stage8::BuildStartPages()
 {
     m_Pages.clear();
@@ -115,7 +147,7 @@ void Stage8::BuildStartPages()
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
         p.rightFaceId = "normal";//巫女初期表情
-        p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
+        p.speakerFaceId = "surprised";//フォーカスしている話者のみ表情を変更
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
 
@@ -134,7 +166,7 @@ void Stage8::BuildStartPages()
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE8_START_001;
 
@@ -166,7 +198,7 @@ void Stage8::BuildStartPages()
         p.textIndex = 3;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE8_START_003;
 
@@ -259,7 +291,7 @@ void Stage8::BuildEndPages()
         p.textIndex = 4;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE8_END_004;
 
@@ -291,7 +323,7 @@ void Stage8::BuildEndPages()
         p.textIndex = 6;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE8_END_006;
 
