@@ -47,24 +47,31 @@ void StartScene::Init()
 
 void StartScene::Update()
 {
-   
+    bool isSelected = false;
     if (IsMouseOver(m_PressEnterwakuImg))
     {
+        isSelected = true;
+    }
+
+    if (isSelected)
+    {
         m_PressEnterwakuImg->SetScale(510.0f, 210.0f, 0.0f);
-        m_PressEnterImg->SetScale(210.0f, 110.0f, 0.0f); // ホバーで少し大きく
-        if (Input::GetMouseButtonTrigger(0))
-        {
-            Game::GetInstance()->ChangeScene(MODE_SELECT);
-            return; // シーン遷移後は即終了
-        }
+        m_PressEnterImg->SetScale(210.0f, 110.0f, 0.0f);
     }
     else
     {
-        m_PressEnterwakuImg->SetScale(500.0f, 200.0f, 0.0f); // 通常サイズ
-        m_PressEnterImg->SetScale(200.0f, 100.0f, 0.0f); // 通常サイズ
+        m_PressEnterwakuImg->SetScale(500.0f, 200.0f, 0.0f);
+        m_PressEnterImg->SetScale(200.0f, 100.0f, 0.0f);
     }
 
-    
+    if (Input::GetMouseButtonTrigger(0) && isSelected || // マウスでボタンの上をクリック
+        Input::GetButtonTrigger(XINPUT_A) ||            // コントローラーAボタン
+        Input::GetKeyTrigger(VK_RETURN))                // キーボードEnterキー
+    {
+        Game::GetInstance()->ChangeScene(MODE_SELECT);
+        return; // シーン遷移後は即終了
+    }
+   
 }
 
 void StartScene::Uninit()

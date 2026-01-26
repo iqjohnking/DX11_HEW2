@@ -37,8 +37,14 @@ void Game::Init()
 	// 初期シーンを設定
 	m_Instance->ChangeScene(START);
 
+	//m_Instance->ChangeScene(STAGE_SELECT);
+	
 	//会話シーンテスト用
+
 	//m_Instance->ChangeScene(STAGE9);
+
+	//m_Instance->ChangeScene(STAGE0);
+
 }
 
 // 更新
@@ -161,6 +167,9 @@ void Game::ChangeScene(SceneName sceneName)
 	case MODE_SELECT:
 		m_Instance->m_Scene = new ModeSelectScene();
 		break;
+	case STAGE_SELECT:
+		m_Instance->m_Scene = new StageSelectScene();
+		break;
 	case STAGE0:
 		m_Instance->m_Scene = new Stage0();
 		break;
@@ -222,6 +231,12 @@ void Game::ChangeOldScene()
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
 		break;
+	case MODE_SELECT:
+		m_Instance->m_Scene = new ModeSelectScene();
+		break;
+	case STAGE_SELECT:
+		m_Instance->m_Scene = new StageSelectScene();
+		break;
 	case STAGE1:
 		m_Instance->m_Scene = new Stage1();
 		break;
@@ -233,9 +248,6 @@ void Game::ChangeOldScene()
 		break;
 	case RESULT:
 		m_Instance->m_Scene = new ResultScene();
-		break;
-	case MODE_SELECT:
-		m_Instance->m_Scene = new ModeSelectScene();
 		break;
 	default:
 		break;

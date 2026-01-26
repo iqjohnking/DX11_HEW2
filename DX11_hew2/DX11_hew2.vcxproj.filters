@@ -225,6 +225,9 @@
     <ClCompile Include="Enemy3.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
+    <ClCompile Include="StageSelectScene.cpp">
+      <Filter>ソース ファイル\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Enemy3.h">
       <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelectScene.h">
+      <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

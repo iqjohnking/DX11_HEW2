@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include"StartScene.h"
 #include"ModeSelectScene.h"
+#include"StageSelectScene.h"
 #include "TitleScene.h"
 #include "Stage1Scene.h"
 #include "ResultScene.h"

@@ -10,13 +10,13 @@ class ModeSelectScene : public Scene
 private:
 	std::vector<Object*> m_MySceneObjects; // オブジェクト管理用
 
-	// --- 状態管理 ---
-	bool m_IsWaitingInput = true;   // 最初は Press Enter 待ち
-	int  m_SelectedIndex = 0;       // 0:ストーリー, 1:エンドレス
+	int m_SelectIndex = 0; // 0:ストーリー, 1:エンドレス
 
 	// --- 表示オブジェクト ---
 	Texture2D* m_mode_in_L = nullptr;
 	Texture2D* m_mode_in_R = nullptr;
+	Texture2D* m_mode_out_L = nullptr;
+	Texture2D* m_mode_out_R = nullptr;
 	Texture2D* m_modesentaku = nullptr;
 	Texture2D* m_modesentakugamen = nullptr;
 	Texture2D* m_modesentakugamen_waku = nullptr;

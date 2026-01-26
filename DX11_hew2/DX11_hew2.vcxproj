@@ -153,6 +153,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModeSelectScene.cpp" />
+    <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="MessageManager.cpp" />
     <ClCompile Include="MessagePage.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="DeBugLine2D.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="ModeSelectScene.h" />
+    <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

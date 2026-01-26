@@ -196,7 +196,5 @@ bool Input::GetMouseButtonTrigger(int button)
 	int vk = (button == 0) ? VK_LBUTTON : VK_RBUTTON;
 
 	// GetAsyncKeyStateの最上位ビットが1なら現在押されている
-	// ※キー入力と同様にoldStateで比較するのが理想ですが、
-	// 手軽にクリックを判定するならこれで十分動作します
 	return (GetAsyncKeyState(vk) & 0x8000) != 0;
 }
