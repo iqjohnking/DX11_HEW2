@@ -17,6 +17,8 @@ private:
 	//30•bŒo‰ß‚·‚é‚²‚Æ‚ÉoŒ»‚·‚é“G‚Ì”‚ğ‘‚â‚·‚½‚ß‚Ì•Ï”
 	int EnemySpawnplus = 0;
 
+	bool EnemySpawnFlag = false;
+
 public:
 	Stage10() {};
 	~Stage10() {};
