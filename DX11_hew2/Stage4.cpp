@@ -374,6 +374,9 @@ void Stage4::GameUpdate()
     }
 
     if (m_Miko->GetDYINGTimer() <= 0) {
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
         m_Flow = Flow::EndTalk;     //ˆê’UI—¹‰ï˜b‚É”ò‚Î‚·
     }
 
@@ -798,6 +801,9 @@ void Stage4::StageClearCheck()
     //“G‚ð‘S‚Ä“|‚µ‚½‚©‚Ç‚¤‚©
     if (StagekillCount >= StageEnemyCount)
     {
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
         m_Flow = Flow::EndTalk;
     }
 }
@@ -806,4 +812,10 @@ void Stage4::StageFailedCheck()
 {
     //ƒXƒe[ƒWŽ¸”s‚©‚Ç‚¤‚©
     //›Þ—‚ÌHP‚ª0‚É‚È‚Á‚½‚çŽ¸”s‚É‚·‚é
+    /*
+    BuildEndPages();
+    m_Message->SetPages(m_Pages);
+    m_Message->Play();
+    m_Flow = Flow::EndTalk;
+    */
 }

@@ -32,6 +32,20 @@ void StageBase::EnemySpawn(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos
             break;
         }
         break;
+
+    case MAYU:
+        for (int i = 0; i < 10; ++i)
+        {
+            if (Enemy3List[i] != nullptr)
+                continue;
+            Enemy3List[i] = Game::GetInstance()->AddObject<Enemy3>();
+            Enemy3List[i]->SetTarget(m_Miko);
+            Enemy3List[i]->SetField(m_Field);
+            Enemy3List[i]->SetPosition(pos);
+            m_MySceneObjects.emplace_back(Enemy3List[i]);
+            break;
+        }
+        break;
         
     case TACKLE:
         for (int i = 0; i < 10; ++i)
