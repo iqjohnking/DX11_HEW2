@@ -51,6 +51,7 @@ private:
 
 	// 左右反転フラグ
 	bool m_FlipX = false;
+	bool m_FlipY = false;
 
 	// ---------------------------------------------------------------------
 	// アニメーション関連（Sprite Sheet）
@@ -112,6 +113,7 @@ public:
 	//繰り返し設定
 	void SetRepeatTexture(m_RepeatTexture state) { repeatState = state; }
 	void SetFlipX(bool flip) { m_FlipX = flip; }
+	void SetFlipY(bool flip) { m_FlipY = flip; }
 	bool IsFlipX() const { return m_FlipX; }
 
 

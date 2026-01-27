@@ -51,6 +51,7 @@ void playerHand::Init()
         pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_Radius;
         pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_Radius;
         pos.z = 0.0f;
+        m_Texture2D.SetFlipY(true);
         SetPosition(pos);
     }
     else
@@ -60,7 +61,7 @@ void playerHand::Init()
 
     // ‰æ‘œ‚Ì‰Šú‰»
     m_Texture2D.Texture2D::Init();
-    m_Texture2D.SetTexture("assets/texture/hand.png");
+    m_Texture2D.SetTexture("assets/texture/spiderhand.png");
     m_Texture2D.SetPosition(m_Position);
     m_Texture2D.SetRotation(m_Rotation);
     m_Texture2D.SetScale(100.0f, 50.0f, 0.0f);
