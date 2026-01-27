@@ -26,6 +26,11 @@ void Stage5::Init()
 
     m_Flow = Flow::StartTalk;
 
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
+
     // 背景
     auto* bg = Game::GetInstance()->AddObject<TitleBG>();
     m_MySceneObjects.emplace_back(bg);
@@ -95,6 +100,8 @@ void Stage5::Uninit()
 
     m_Pages.clear();
 
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_005);
+
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
         Game::GetInstance()->DeleteObject(o);
@@ -107,6 +114,7 @@ void Stage5::Update()
     MessageUpdate();
     GameUpdate();
     UpdateEnemySpawn();
+    SoundUpdate();
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -378,6 +386,29 @@ void Stage5::GameUpdate()
 
 }
 
+void Stage5::SoundUpdate()
+{
+    if (m_Message->GetIndex() == 1 && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_004);
+    }
+
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_004);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_001);
+    }
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_3 == false)
+    {
+        m_Conversation_BGM_flg_3 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_005);
+    }
+}
+
 void Stage5::BuildStartPages()
 {
     m_Pages.clear();
@@ -414,7 +445,7 @@ void Stage5::BuildStartPages()
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE5_START_001;
 

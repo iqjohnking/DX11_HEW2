@@ -26,6 +26,13 @@ void Stage6::Init()
 
     m_Flow = Flow::StartTalk;
 
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
+
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
+
     // 背景
     auto* bg = Game::GetInstance()->AddObject<TitleBG>();
     m_MySceneObjects.emplace_back(bg);
@@ -81,7 +88,7 @@ void Stage6::Init()
     StageEnemyCount = 42;   //ステージの敵の総数を設定
 
     //BGM開始
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
 }
 
 void Stage6::Uninit()
@@ -105,6 +112,7 @@ void Stage6::Update()
     MessageUpdate();
     GameUpdate();
     UpdateEnemySpawn();
+    SoundUpdate();
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -376,6 +384,23 @@ void Stage6::GameUpdate()
 
 }
 
+void Stage6::SoundUpdate()
+{
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_001);
+    }
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    {
+        m_Conversation_BGM_flg_2 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+    }
+}
+
 void Stage6::BuildStartPages()
 {
     m_Pages.clear();
@@ -430,7 +455,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_002;
 
@@ -478,7 +503,7 @@ void Stage6::BuildStartPages()
         p.textIndex = 5;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_START_005;
 
@@ -522,7 +547,7 @@ void Stage6::BuildEndPages()
         // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         // このページのボイス
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_000;
@@ -555,7 +580,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 2;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_002;
 
@@ -683,7 +708,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 10;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "surprised";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_010;
 
@@ -699,7 +724,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 11;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "glare";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_011;
 
@@ -731,7 +756,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 13;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "angry";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_013;
 
@@ -763,7 +788,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 15;
 
         p.focus = FocusSide::Right;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_015;
 
@@ -779,7 +804,7 @@ void Stage6::BuildEndPages()
         p.textIndex = 16;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "normal";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE6_END_016;
 
