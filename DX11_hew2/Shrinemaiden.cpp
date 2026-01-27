@@ -113,12 +113,15 @@ void Shrinemaiden::Update()
 		if (m_MutekiTimer > 0)
 		{
 			--m_MutekiTimer;
-			if (m_MutekiTimer <= 0)
+			if (m_MutekiTimer <= 60)
 			{
-				m_MutekiTimer = 0;
 				m_IgnoreEnemyInSearch = false;
-				// 無敵終了後のアニメ（必要なら）
-				 m_Texture2D.PlayAnim("idle");
+			}
+
+			// 無敵終了
+			if (m_MutekiTimer == 0)
+			{
+				m_Texture2D.PlayAnim("idle"); // ★無敵じゃない時は idle に戻す
 			}
 		}
 
@@ -152,7 +155,12 @@ void Shrinemaiden::Update()
 	}
 	case mikoState::DYING:
 	{
-		// 何もしない（消滅アニメ中など）
+		--m_DYINGTimer;
+		m_Texture2D.PlayAnim("getH");
+		if (m_DYINGTimer <= 0)
+		{
+			m_MoveState = mikoState::DEAD;
+		}
 		break;
 	}
 	case mikoState::DEAD:
@@ -240,7 +248,7 @@ bool Shrinemaiden::SearchEscapeTarget(
 	auto UnsafeByEnemies = [&](const Vector3& a, const Vector3& b, const Vector3& c) -> bool
 		{
 			// ★無敵中：探索では敵を考慮しない
-			if (IsMuteki() || m_IgnoreEnemyInSearch)
+			if (m_IgnoreEnemyInSearch)
 				return false;
 
 			Vector3 dirB = b - a; dirB.z = 0.0f;
@@ -451,7 +459,7 @@ void Shrinemaiden::move()
 			const float r = (m_Radius + e->GetRadius());
 			if (d.LengthSquared() <= r * r)
 			{
-				m_MutekiTimer = 60;            // ここを調整
+				m_MutekiTimer = 180;            // ここを調整
 				m_IgnoreEnemyInSearch = true;  // 既にHにあるので使う
 				m_Texture2D.PlayAnim("getH");  // 受けた演出
 				break;
