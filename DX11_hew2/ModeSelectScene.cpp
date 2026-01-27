@@ -98,23 +98,50 @@ void ModeSelectScene::Update()
 	bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
 	lastMousePos = currentMousePos;
 
-	if (mouseMoved)
-	{
-		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
-		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
-	}
+	//クリアしたか
+	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
 
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 	if (stick.x < -0.5f) { m_SelectIndex = 0; } // 左
 	if (stick.x > 0.5f) { m_SelectIndex = 1; } // 右
 
+	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_R)));
+	
+	if (mouseMoved)
+	{
+		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
+
+		if (isAllCleared && m_mode_in_R && IsMouseOver(m_mode_in_R)) 
+		{
+			m_SelectIndex = 1;
+		}
+	}
+
 	if (Input::GetButtonTrigger(XINPUT_LEFT)) { m_SelectIndex = 0; }
-	if (Input::GetButtonTrigger(XINPUT_RIGHT)) { m_SelectIndex = 1; }
+
+	if (isAllCleared)
+	{
+		if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f) 
+		{
+			m_SelectIndex = 1;
+		}
+	}
+	//if (Input::GetButtonTrigger(XINPUT_RIGHT)) { m_SelectIndex = 1; }
 
 	// キーボード入力 
 	if (Input::GetKeyTrigger(VK_LEFT)) { m_SelectIndex = 0; }
+	
+	/*
+	if (isAllCleared)
+	{
+		if (Input::GetKeyTrigger(VK_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
+		{
+			m_SelectIndex = 1;
+		}
+	}
 	if (Input::GetKeyTrigger(VK_RIGHT)) { m_SelectIndex = 1; }
-
+	*/
 	
 
 	if (m_StoryBtn && m_EndlessBtn)
@@ -143,7 +170,7 @@ void ModeSelectScene::Update()
 		}
 	}
 
-	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_R)));
+	
 
 	// --- 決定処理 (Aボタン or 左クリック or Enterキー) ---
 	if (Input::GetButtonTrigger(XINPUT_A) ||
@@ -155,7 +182,7 @@ void ModeSelectScene::Update()
 		{
 			Game::GetInstance()->ChangeScene(STAGE_SELECT);
 		}
-		else
+		else if(isAllCleared)
 		{
 			Game::GetInstance()->ChangeScene(STAGE10);
 		}
@@ -171,6 +198,24 @@ void ModeSelectScene::Update()
 			Game::GetInstance()->ChangeScene(START);
 		}
 		return;
+	}
+
+	
+
+	if (isAllCleared)
+	{
+		// エンドレス解放
+		m_mode_in_R->SetBrightness(1.0f); // 明るく
+		m_mode_out_R->SetBrightness(1.0f);
+		m_EndlessBtn->SetBrightness(1.0f);
+
+	}
+	else
+	{
+		// まだ制限中
+		m_mode_in_R->SetBrightness(0.3f); // 暗い
+		m_mode_out_R->SetBrightness(0.3f);
+		m_EndlessBtn->SetBrightness(0.3);
 	}
 
 }

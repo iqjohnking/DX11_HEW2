@@ -1233,6 +1233,9 @@ void Stage9::StageClearCheck()
 	{
 		m_Flow = Flow::EndTalk;
 	}
+
+	Game::GetInstance()->SetMaxClearedStage(9);
+
 }
 
 void Stage9::StageFailedCheck()

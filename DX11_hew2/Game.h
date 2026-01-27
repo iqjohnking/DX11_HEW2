@@ -73,6 +73,8 @@ private:
 	// オブジェクト更新中フラグ
 	bool m_IsUpdatingObjects = false;
 
+	int m_MaxClearedStage = 0; // どこまでクリアしたかを保存
+
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ
@@ -191,4 +193,15 @@ public:
 		}
 		return result;
 	}
+
+	void SetMaxClearedStage(int stageNum)
+	{
+		// 今の記録より大きい数字（先のステージ）なら更新
+		if (stageNum > m_MaxClearedStage)
+		{
+			m_MaxClearedStage = stageNum;
+		}
+	}
+	int GetMaxClearedStage() { return m_MaxClearedStage; }
+
 };

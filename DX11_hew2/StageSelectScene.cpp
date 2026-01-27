@@ -99,6 +99,7 @@ void StageSelectScene::Update()
 		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
 		if (m_mode_in_M && IsMouseOver(m_mode_in_M)) m_SelectIndex = 1;
 		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) m_SelectIndex = 2;
+
 	}
 	
 	/*
