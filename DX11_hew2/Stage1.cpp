@@ -981,7 +981,9 @@ void Stage1::StageFailedCheck()
 	//ƒXƒe[ƒWŽ¸”s‚©‚Ç‚¤‚©
 	//›Þ—‚ÌHP‚ª0‚É‚È‚Á‚½‚çŽ¸”s‚É‚·‚é
     //‰¼‚Ì‘JˆÚ
+    /*
     BuildEndPages();
     m_Message->SetPages(m_Pages);
     m_Message->Play();
+    */
 }
