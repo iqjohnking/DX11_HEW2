@@ -3,28 +3,30 @@
 
 void Stage10::Init()
 {
-    // まず開始会話の台本を作る
-    BuildStartPages();
+    //// まず開始会話の台本を作る
+    //BuildStartPages();
 
-    // 司令塔をObjectとして追加
-    m_Message = Game::GetInstance()->AddObject<MessageManager>();
-    m_MySceneObjects.emplace_back(m_Message);
+    //// 司令塔をObjectとして追加
+    //m_Message = Game::GetInstance()->AddObject<MessageManager>();
+    //m_MySceneObjects.emplace_back(m_Message);
 
-    // 会話参加者の指定（キャラID）
-    m_Message->SetParticipants("kumo", "miko");
+    //// 会話参加者の指定（キャラID）
+    //m_Message->SetParticipants("kumo", "miko");
 
-    // 会話素材の指定
-    m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
+    //// 会話素材の指定
+    //m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
-    m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
+    //m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
 
-    // 台本セット
-    m_Message->SetPages(m_Pages);
+    //// 台本セット
+    //m_Message->SetPages(m_Pages);
 
-    // 開始時
-    m_Message->Play();
+    //// 開始時
+    //m_Message->Play();
 
-    m_Flow = Flow::StartTalk;
+    //m_Flow = Flow::StartTalk;
+
+    m_Flow = Flow::Gameplay;
 
     // 背景
     auto* bg = Game::GetInstance()->AddObject<TitleBG>();
@@ -383,92 +385,92 @@ void Stage10::BuildStartPages()
 {
     m_Pages.clear();
 
-    // Page0:
-    // 右=巫女,左=女郎蜘蛛
-    {
-        MessagePage p;
+    //// Page0:
+    //// 右=巫女,左=女郎蜘蛛
+    //{
+    //    MessagePage p;
 
-        // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";//表示名(テキスト)
-        p.textId = "stage4_start";
-        p.textIndex = 0;//(stage1_start_000.png)
+    //    // ★必須：このページの表示（名前＋本文）
+    //    p.nameId = "miko";//表示名(テキスト)
+    //    p.textId = "stage4_start";
+    //    p.textIndex = 0;//(stage1_start_000.png)
 
-        p.focus = FocusSide::Right;
+    //    p.focus = FocusSide::Right;
 
-        // ★Page0必須：左右の初期表情
-        p.leftFaceId = "normal";//蜘蛛初期表情
-        p.rightFaceId = "normal";//巫女初期表情
-        p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
-        //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
-        //表情を変更しないときは何も書かないように
+    //    // ★Page0必須：左右の初期表情
+    //    p.leftFaceId = "normal";//蜘蛛初期表情
+    //    p.rightFaceId = "normal";//巫女初期表情
+    //    p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
+    //    //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
+    //    //表情を変更しないときは何も書かないように
 
-        // このページのボイス
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_000;
+    //    // このページのボイス
+    //    //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_000;
 
-        m_Pages.push_back(p);
-        //やっぱり……何回来ても良いなぁ……
-    }
-    // Page1
-    {
-        MessagePage p;
+    //    m_Pages.push_back(p);
+    //    //やっぱり……何回来ても良いなぁ……
+    //}
+    //// Page1
+    //{
+    //    MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage4_start";
-        p.textIndex = 1;
+    //    p.nameId = "kumo";
+    //    p.textId = "stage4_start";
+    //    p.textIndex = 1;
 
-        p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+    //    p.focus = FocusSide::Left;
+    //    p.speakerFaceId = "";
 
-        //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_001;
+    //    //p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_START_001;
 
-        m_Pages.push_back(p);
-        //…くだらない、さっさと要件を済ませろ
-    }
+    //    m_Pages.push_back(p);
+    //    //…くだらない、さっさと要件を済ませろ
+    //}
 }
 
 void Stage10::BuildEndPages()
 {
-    m_Pages.clear();
+    //m_Pages.clear();
 
-    // Page0
-    // 右=巫女,左=女郎蜘蛛
-    {
-        MessagePage p;
+    //// Page0
+    //// 右=巫女,左=女郎蜘蛛
+    //{
+    //    MessagePage p;
 
-        // ★必須：このページの表示（名前＋本文）
-        p.nameId = "miko";        // name_miko.png
-        p.textId = "stage4_end";  // text_stage1_end_***
-        p.textIndex = 0;          // 000
+    //    // ★必須：このページの表示（名前＋本文）
+    //    p.nameId = "miko";        // name_miko.png
+    //    p.textId = "stage4_end";  // text_stage1_end_***
+    //    p.textIndex = 0;          // 000
 
-        p.focus = FocusSide::Right;
+    //    p.focus = FocusSide::Right;
 
-        // Page0必須：左右の初期表情
-        p.leftFaceId = "normal";
-        p.rightFaceId = "normal";
-        p.speakerFaceId = "";
+    //    // Page0必須：左右の初期表情
+    //    p.leftFaceId = "normal";
+    //    p.rightFaceId = "normal";
+    //    p.speakerFaceId = "";
 
-        // このページのボイス
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_000;
+    //    // このページのボイス
+    //    p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_000;
 
-        m_Pages.push_back(p);
-        //そんなにお腹が空いてるなら、お団子でも五平餅でも食べればいいじゃないですか
-    }
-    // Page1
-    {
-        MessagePage p;
+    //    m_Pages.push_back(p);
+    //    //そんなにお腹が空いてるなら、お団子でも五平餅でも食べればいいじゃないですか
+    //}
+    //// Page1
+    //{
+    //    MessagePage p;
 
-        p.nameId = "kumo";
-        p.textId = "stage4_end";
-        p.textIndex = 1;
+    //    p.nameId = "kumo";
+    //    p.textId = "stage4_end";
+    //    p.textIndex = 1;
 
-        p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+    //    p.focus = FocusSide::Left;
+    //    p.speakerFaceId = "";
 
-        p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
+    //    p.voiceLabel = SOUND_LABEL_VOICE_STAGE4_END_001;
 
-        m_Pages.push_back(p);
-        //…理性を保つのに、生の血肉が必要でな
-    }
+    //    m_Pages.push_back(p);
+    //    //…理性を保つのに、生の血肉が必要でな
+    //}
 }
 
 void Stage10::UpdateEnemySpawn()
