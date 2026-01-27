@@ -377,6 +377,9 @@ void Stage3::GameUpdate()
     }
 
     if (m_Miko->GetDYINGTimer() <= 0) {
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
         m_Flow = Flow::EndTalk;     //àÍíUèIóπâÔòbÇ…îÚÇŒÇ∑
     }
 
@@ -548,8 +551,8 @@ void Stage3::UpdateEnemySpawn()
     {
         EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(-150.0f, 350.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-275.0f, 300.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-400.0f, 150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-250.0f, 300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-370.0f, 150.0f, 0.0f));
         phase3Flag = true;
     }
 
@@ -563,7 +566,7 @@ void Stage3::UpdateEnemySpawn()
 
     if (elapsedSeconds == 25 && phase5Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(380.0f, -100.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(370.0f, -100.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(300.0f, -250.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(150.0f, -350.0f, 0.0f));
         phase5Flag = true;
@@ -572,20 +575,20 @@ void Stage3::UpdateEnemySpawn()
     if (elapsedSeconds == 27 && phase6Flag == false)
     {
         //EnemySpawn(NORMAL, Vector3(-20.0f, 400.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-300.0f, 360.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-250.0f, 350.0f, 0.0f));
         //EnemySpawn(NORMAL, Vector3(-400.0f, 200.0f, 0.0f));
         phase6Flag = true;
     }
 
     if (elapsedSeconds == 33 && phase7Flag == false)
     {
-        EnemySpawn(CUTTER, Vector3(300.0f, -250.0f, 0.0f));
+        EnemySpawn(CUTTER, Vector3(280.0f, -220.0f, 0.0f));
         phase7Flag = true;
     }
 
     if (elapsedSeconds == 36 && phase8Flag == false)
     {
-        EnemySpawn(CUTTER, Vector3(250.0f, 350.0f, 0.0f));
+        EnemySpawn(CUTTER, Vector3(220.0f, 320.0f, 0.0f));
         //EnemySpawn(NORMAL, Vector3(-150.0f, -350.0f, 0.0f));
         //EnemySpawn(NORMAL, Vector3(-350.0f, -150.0f, 0.0f));
         phase8Flag = true;
@@ -594,40 +597,40 @@ void Stage3::UpdateEnemySpawn()
     if (elapsedSeconds == 40 && phase9Flag == false)
     {
         //EnemySpawn(NORMAL, Vector3(300.0f, -200.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(200.0f, -350.0f, 0.0f));
-        EnemySpawn(CUTTER, Vector3(0.0f, -400.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-200.0f, -350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(200.0f, -300.0f, 0.0f));
+        EnemySpawn(CUTTER, Vector3(0.0f, -360.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-200.0f, -300.0f, 0.0f));
         //EnemySpawn(NORMAL, Vector3(-300.0f, -200.0f, 0.0f));
         phase9Flag = true;
     }
 
     if (elapsedSeconds == 43 && phase10Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(30.0f, 400.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-30.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(30.0f, 380.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-30.0f, 380.0f, 0.0f));
         phase10Flag = true;
     }
 
     if (elapsedSeconds == 46 && phase11Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(400.0f, -200.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(350.0f, -300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(350.0f, -200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, -250.0f, 0.0f));
         phase11Flag = true;
     }
 
     if (elapsedSeconds == 49 && phase12Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(-350.0f, -250.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-400.0f, -150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-300.0f, -230.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-350.0f, -150.0f, 0.0f));
         phase12Flag = true;
     }
 
     if (elapsedSeconds == 55 && phase13Flag == false)
     {
         //EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(370.0f, 200.0f, 0.0f));
-        EnemySpawn(CUTTER, Vector3(0.0f, 400.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-370.0f, 200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(370.0f, 150.0f, 0.0f));
+        EnemySpawn(CUTTER, Vector3(0.0f, 370.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-370.0f, 150.0f, 0.0f));
         //EnemySpawn(NORMAL, Vector3(-400.0f, 50.0f, 0.0f));
         phase13Flag = true;
     }

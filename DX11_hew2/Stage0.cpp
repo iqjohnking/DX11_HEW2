@@ -366,6 +366,9 @@ void Stage0::GameUpdate()
     }
 
     if (m_Miko->GetDYINGTimer() <= 0) {
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
         m_Flow = Flow::EndTalk;     //ˆê’UI—¹‰ï˜b‚É”ò‚Î‚·
     }
 

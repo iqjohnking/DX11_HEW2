@@ -381,7 +381,10 @@ void Stage1::GameUpdate()
 	}
 
     if (m_Miko->GetDYINGTimer() <= 0) {
-		m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
+        m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
     }
 
     //ステージクリアと失敗のチェック
