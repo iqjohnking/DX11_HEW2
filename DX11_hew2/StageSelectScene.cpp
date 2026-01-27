@@ -88,6 +88,20 @@ void StageSelectScene::Init()
 
 void StageSelectScene::Update()
 {
+	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
+	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
+
+	bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
+	lastMousePos = currentMousePos;
+
+	if (mouseMoved)
+	{
+		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
+		if (m_mode_in_M && IsMouseOver(m_mode_in_M)) m_SelectIndex = 1;
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) m_SelectIndex = 2;
+	}
+	
+	/*
 	if (m_mode_in_L && IsMouseOver(m_mode_in_L))
 	{
 		m_SelectIndex = 0;
@@ -100,6 +114,7 @@ void StageSelectScene::Update()
 	{
 		m_SelectIndex = 2;
 	}
+	*/
 
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
@@ -131,7 +146,7 @@ void StageSelectScene::Update()
 	{
 		if (m_SelectIndex == 0) 
 		{
-			if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
+			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
 			m_mode_in_L->SetScale(430.0f, 430.0f, 0.0f); // 選択中
 		}
 		else
@@ -145,7 +160,7 @@ void StageSelectScene::Update()
 	{
 		if (m_SelectIndex == 1)
 		{
-			if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 1;
+			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 1;
 			m_mode_in_M->SetScale(430.0f, 430.0f, 0.0f);
 		}
 		else
@@ -159,7 +174,7 @@ void StageSelectScene::Update()
 	{
 		if (m_SelectIndex == 2)
 		{
-			if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 2;
+			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 2;
 			m_mode_in_R->SetScale(430.0f, 430.0f, 0.0f);
 		}
 		else
@@ -167,9 +182,11 @@ void StageSelectScene::Update()
 			m_mode_in_R->SetScale(400.0f, 400.0f, 0.0f);
 		}
 	}
+	
+	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
 
 	// --- 決定処理（Aボタン） ---
-	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetMouseButtonTrigger(0))
+	if (Input::GetButtonTrigger(XINPUT_A) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
 	{
 		if (m_Chapter == 1) 
 		{
@@ -195,6 +212,17 @@ void StageSelectScene::Update()
 		return;
 	}
 	
+	//一個戻る
+	if (Input::GetButtonTrigger(XINPUT_B) ||
+		Input::GetKeyTrigger(VK_SHIFT))
+	{
+		if (m_SelectIndex == 0)
+		{
+			Game::GetInstance()->ChangeScene(MODE_SELECT);
+		}
+		return;
+	}
+
 
 	// --- Lボタン(LB)でチャプター切り替え ---
 	if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| Input::GetKeyTrigger(VK_RIGHT))
@@ -212,7 +240,7 @@ void StageSelectScene::Update()
 		}
 		else if (m_Chapter == 2)
 		{
-			m_daiissyou->SetTexture("assets/texture/hand.png");
+			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
 
 			m_mode_in_L->SetTexture("assets/texture/miko.png");
 			m_mode_in_M->SetTexture("assets/texture/miko.png");
@@ -220,7 +248,7 @@ void StageSelectScene::Update()
 		}
 		else if (m_Chapter == 3)
 		{
-			m_daiissyou->SetTexture("assets/texture/titlerogo.png");
+			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
 
 			m_mode_in_L->SetTexture("assets/texture/ground.png");
 			m_mode_in_M->SetTexture("assets/texture/ground.png");
@@ -242,7 +270,7 @@ void StageSelectScene::Update()
 		}
 		else if (m_Chapter == 2)
 		{
-			m_daiissyou->SetTexture("assets/texture/hand.png");
+			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
 
 			m_mode_in_L->SetTexture("assets/texture/miko.png");
 			m_mode_in_M->SetTexture("assets/texture/miko.png");
@@ -250,7 +278,7 @@ void StageSelectScene::Update()
 		}
 		else if (m_Chapter == 3)
 		{
-			m_daiissyou->SetTexture("assets/texture/titlerogo.png");
+			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
 
 			m_mode_in_L->SetTexture("assets/texture/ground.png");
 			m_mode_in_M->SetTexture("assets/texture/ground.png");

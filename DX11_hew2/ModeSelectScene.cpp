@@ -91,18 +91,31 @@ void ModeSelectScene::Init()
 
 void ModeSelectScene::Update()
 {
+	//マウス入力
+	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
+	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
+
+	bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
+	lastMousePos = currentMousePos;
+
+	if (mouseMoved)
+	{
+		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
+	}
+
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 	if (stick.x < -0.5f) { m_SelectIndex = 0; } // 左
 	if (stick.x > 0.5f) { m_SelectIndex = 1; } // 右
+
+	if (Input::GetButtonTrigger(XINPUT_LEFT)) { m_SelectIndex = 0; }
+	if (Input::GetButtonTrigger(XINPUT_RIGHT)) { m_SelectIndex = 1; }
 
 	// キーボード入力 
 	if (Input::GetKeyTrigger(VK_LEFT)) { m_SelectIndex = 0; }
 	if (Input::GetKeyTrigger(VK_RIGHT)) { m_SelectIndex = 1; }
 
-	// マウス入力 
-	if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
-	if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
-
+	
 
 	if (m_StoryBtn && m_EndlessBtn)
 	{
@@ -130,10 +143,13 @@ void ModeSelectScene::Update()
 		}
 	}
 
+	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_R)));
+
 	// --- 決定処理 (Aボタン or 左クリック or Enterキー) ---
 	if (Input::GetButtonTrigger(XINPUT_A) ||
-		Input::GetMouseButtonTrigger(0) ||
-		Input::GetKeyTrigger(VK_RETURN))
+		Input::GetKeyTrigger(VK_RETURN) ||
+		isMouseClickOnButton)
+		
 	{
 		if (m_SelectIndex == 0)
 		{
@@ -141,96 +157,22 @@ void ModeSelectScene::Update()
 		}
 		else
 		{
-			Game::GetInstance()->ChangeScene(TITLE);
+			Game::GetInstance()->ChangeScene(STAGE10);
 		}
 		return;
 	}
-	/*
-	// --- ストーリーボタンの処理 ---
-	if (m_mode_in_L) // 存在を確認
+
+	//一個戻る
+	if (Input::GetButtonTrigger(XINPUT_B) ||
+		Input::GetKeyTrigger(VK_SHIFT))
 	{
-		if (IsMouseOver(m_mode_in_L))
+		if (m_SelectIndex == 0)
 		{
-			m_StoryBtn->SetScale(410.0f, 160.0f, 0.0f);
-			m_mode_in_L->SetScale(610.0f, 810.0f, 0.0f);
-			m_mode_out_L->SetScale(710.0f, 920.0f, 0.0f);
-			if (Input::GetMouseButtonTrigger(0)) 
-			{
-				Game::GetInstance()->ChangeScene(STAGE_SELECT);
-				return;
-			}
+			Game::GetInstance()->ChangeScene(START);
 		}
-		else
-		{
-			m_StoryBtn->SetScale(400.0f, 150.0f, 0.0f);
-			m_mode_in_L->SetScale(600.0f, 800.0f, 0.0f); // 2. 存在が保証されているので安全
-		}
+		return;
 	}
 
-	// --- エンドレスボタンの処理 ---
-	if (m_mode_in_R) // 存在を確認
-	{
-		if (IsMouseOver(m_mode_in_R))
-		{
-			m_EndlessBtn->SetScale(410.0f, 160.0f, 0.0f);
-			m_mode_in_R->SetScale(610.0f, 810.0f, 0.0f);
-			m_mode_out_R->SetScale(710.0f, 920.0f, 0.0f);
-			if (Input::GetMouseButtonTrigger(0)) 
-			{
-				Game::GetInstance()->ChangeScene(TITLE);
-				return;
-			}
-		}
-		else
-		{
-			m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f);
-			m_mode_in_R->SetScale(600.0f, 800.0f, 0.0f);
-		}
-	}
-
-	// ---  スティック入力で選択を切り替える ---
-	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick(); 
-
-	if (stick.x < -0.5f) { m_SelectIndex = 0; } // 左に倒したらストーリー
-	if (stick.x > 0.5f) { m_SelectIndex = 1; } // 右に倒したらエンドレス
-
-	// --- 選択状態に合わせてボタンの見た目（スケール）を変える ---
-	if (m_StoryBtn && m_EndlessBtn)
-	{
-		if (m_SelectIndex == 0) 
-		{
-			m_StoryBtn->SetScale(440.0f, 165.0f, 0.0f);   // 選択中
-			m_mode_in_L->SetScale(610.0f, 810.0f, 0.0f);
-			m_mode_out_L->SetScale(710.0f, 920.0f, 0.0f);
-			
-			m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f); // 非選択
-			m_mode_in_R->SetScale(600.0f, 800.0f, 0.0f);
-			m_mode_out_R->SetScale(700.0f, 900.0f, 0.0f);
-		}
-		else 
-		{
-			m_StoryBtn->SetScale(400.0f, 150.0f, 0.0f);   //非選択
-			m_mode_in_L->SetScale(600.0f, 800.0f, 0.0f);
-			m_mode_out_L->SetScale(700.0f, 900.0f, 0.0f);
-
-			m_EndlessBtn->SetScale(440.0f, 165.0f, 0.0f); // 選択中
-			m_mode_in_R->SetScale(610.0f, 810.0f, 0.0f);
-			m_mode_out_R->SetScale(710.0f, 920.0f, 0.0f);
-		}
-	}
-
-	// ---  Aボタンで決定 ---
-	if (Input::GetButtonTrigger(XINPUT_A)) 
-	{
-		if (m_SelectIndex == 0) {
-			Game::GetInstance()->ChangeScene(STAGE_SELECT); // ストーリーへ
-		}
-		else 
-		{
-			Game::GetInstance()->ChangeScene(TITLE);//エンドレスへ
-		}
-	}
-	*/
 }
 
 void ModeSelectScene::Uninit()
