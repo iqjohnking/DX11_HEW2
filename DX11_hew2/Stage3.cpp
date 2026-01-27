@@ -84,7 +84,8 @@ void Stage3::Init()
     phase13Flag = false;
 
     StagekillCount = 0;     //倒した敵の数をリセット
-    StageEnemyCount = 37;   //ステージの敵の総数を設定   
+    //StageEnemyCount = 37;   //ステージの敵の総数を設定
+    StageEnemyCount = 29;
 
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
@@ -570,9 +571,9 @@ void Stage3::UpdateEnemySpawn()
 
     if (elapsedSeconds == 27 && phase6Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(-20.0f, 400.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-20.0f, 400.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(-300.0f, 360.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-400.0f, 200.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-400.0f, 200.0f, 0.0f));
         phase6Flag = true;
     }
 
@@ -585,18 +586,18 @@ void Stage3::UpdateEnemySpawn()
     if (elapsedSeconds == 36 && phase8Flag == false)
     {
         EnemySpawn(CUTTER, Vector3(250.0f, 350.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-150.0f, -350.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-350.0f, -150.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-150.0f, -350.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-350.0f, -150.0f, 0.0f));
         phase8Flag = true;
     }
 
     if (elapsedSeconds == 40 && phase9Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(300.0f, -200.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(300.0f, -200.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(200.0f, -350.0f, 0.0f));
         EnemySpawn(CUTTER, Vector3(0.0f, -400.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(-200.0f, -350.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-300.0f, -200.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-300.0f, -200.0f, 0.0f));
         phase9Flag = true;
     }
 
@@ -623,11 +624,11 @@ void Stage3::UpdateEnemySpawn()
 
     if (elapsedSeconds == 55 && phase13Flag == false)
     {
-        EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(370.0f, 200.0f, 0.0f));
         EnemySpawn(CUTTER, Vector3(0.0f, 400.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(-370.0f, 200.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-400.0f, 50.0f, 0.0f));
+        //EnemySpawn(NORMAL, Vector3(-400.0f, 50.0f, 0.0f));
         phase13Flag = true;
     }
 }
@@ -649,7 +650,9 @@ void Stage3::StageFailedCheck()
     //ステージ失敗かどうか
     //巫女のHPが0になったら失敗にする
     // 仮の遷移
+    /*
     BuildEndPages();
     m_Message->SetPages(m_Pages);
     m_Message->Play();
+    */
 }
