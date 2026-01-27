@@ -450,6 +450,7 @@ void Shrinemaiden::move()
 
 	//==================================================
 	// ★敵と重なったら無敵開始（探索では敵を無視できるようにする）
+	// m_Hitpoint--
 	//==================================================
 	if (!IsMuteki())
 	{
@@ -466,6 +467,7 @@ void Shrinemaiden::move()
 				m_MutekiTimer = 180;            // ここを調整
 				m_IgnoreEnemyInSearch = true;  // 既にHにあるので使う
 				m_Texture2D.PlayAnim("getH");  // 受けた演出
+				--m_Hitpoint;
 				break;
 			}
 		}
