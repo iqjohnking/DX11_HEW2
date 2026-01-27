@@ -26,6 +26,12 @@ void Stage2::Init()
 
     m_Flow = Flow::StartTalk;
 
+    //SoundFlg
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+
+    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
+
     // 背景
     auto* bg = Game::GetInstance()->AddObject<TitleBG>();
     m_MySceneObjects.emplace_back(bg);
@@ -91,6 +97,8 @@ void Stage2::Uninit()
 
     m_Pages.clear();
 
+    Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
+
     // このシーンのオブジェクトを削除する
     for (auto& o : m_MySceneObjects) {
         Game::GetInstance()->DeleteObject(o);
@@ -103,6 +111,8 @@ void Stage2::Update()
     MessageUpdate();
     GameUpdate();
     UpdateEnemySpawn();
+    SoundUpdate();
+
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -374,6 +384,23 @@ void Stage2::GameUpdate()
 
 }
 
+void Stage2::SoundUpdate()
+{
+    if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        m_Conversation_BGM_flg_1 = true;
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
+        Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
+    }
+
+    if (m_Flow == Flow::EndTalk && m_Conversation_BGM_flg_2 == false)
+    {
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
+        m_Conversation_BGM_flg_2 = true;
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
+    }
+}
+
 void Stage2::BuildStartPages()
 {
     m_Pages.clear();
@@ -392,7 +419,7 @@ void Stage2::BuildStartPages()
         // ★Page0必須：左右の初期表情
         p.leftFaceId = "normal";//蜘蛛初期表情
         p.rightFaceId = "normal";//巫女初期表情
-        p.speakerFaceId = "";//フォーカスしている話者のみ表情を変更
+        p.speakerFaceId = "surprised";//フォーカスしている話者のみ表情を変更
         //今ここに前と同じ表情を入れると立ち絵が表示されなくなるバグがあります
         //表情を変更しないときは何も書かないように
         
@@ -411,7 +438,7 @@ void Stage2::BuildStartPages()
         p.textIndex = 1;
 
         p.focus = FocusSide::Left;
-        p.speakerFaceId = "";
+        p.speakerFaceId = "smile";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_START_001;
 
@@ -434,12 +461,12 @@ void Stage2::BuildEndPages()
         p.textId = "stage2_end";  // text_stage1_end_***
         p.textIndex = 0;          // 000
 
-        p.focus = FocusSide::Left;
+        p.focus = FocusSide::Right;
 
         // Page0必須：左右の初期表情
         p.leftFaceId = "normal";
         p.rightFaceId = "normal";
-        p.speakerFaceId = "";
+        p.speakerFaceId = "sad";
 
         // このページのボイス
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_000;
@@ -455,7 +482,7 @@ void Stage2::BuildEndPages()
         p.textId = "stage2_end";
         p.textIndex = 1;
 
-        p.focus = FocusSide::Right;
+        p.focus = FocusSide::Left;
         p.speakerFaceId = "";
 
         p.voiceLabel = SOUND_LABEL_VOICE_STAGE2_END_001;

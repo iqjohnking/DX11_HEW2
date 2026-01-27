@@ -17,6 +17,11 @@ private:
 	bool phase10Flag = false;
 	bool phase11Flag = false;
 
+	//SoundFlg
+	bool m_Conversation_BGM_flg_1 = false;
+	bool m_Conversation_BGM_flg_2 = false;
+	bool m_Conversation_BGM_flg_3 = false;
+
 public:
 	Stage6() {};
 	~Stage6() {};
@@ -27,7 +32,7 @@ public:
 
 	void MessageUpdate() override;	//会話パート更新
 	void GameUpdate() override;		//ゲームパート更新
-	void SoundUpdate() override {};	//sound更新
+	void SoundUpdate() override;	//sound更新
 
 	//会話パート
 	void BuildStartPages() override;
