@@ -124,6 +124,10 @@ void Shrinemaiden::Update()
 				m_Texture2D.PlayAnim("idle"); // š–³“G‚¶‚á‚È‚¢‚Í idle ‚É–ß‚·
 			}
 		}
+		if (m_Hitpoint <= 0)
+		{
+			m_MoveState = mikoState::DYING;
+		}
 
 		move();
 		break;
