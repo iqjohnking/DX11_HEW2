@@ -924,42 +924,42 @@ void Stage1::UpdateEnemySpawn()
 {
     if (elapsedSeconds == 5 && phase1Flag == false)	    //5秒経過かつフェーズ1が未実行なら
     {
-		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, 300.0f, 0.0f));
         phase1Flag = true;
     }
 
     if (elapsedSeconds == 12 && phase2Flag == false)	//12秒経過かつフェーズ2が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(400.0f, 50.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, 50.0f, 0.0f));
         phase2Flag = true;
     }
 
     if (elapsedSeconds == 18 && phase3Flag == false)	//18秒経過かつフェーズ3が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(200.0f, 300.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(300.0f, 200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(250.0f, 200.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(150.0f, 300.0f, 0.0f));
         phase3Flag = true;
     }
 
     if (elapsedSeconds == 25 && phase4Flag == false)	//25秒経過かつフェーズ4が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(70.0f, -400.f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(-70.0f, -400.f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(50.0f, -350.f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-50.0f, -350.f, 0.0f));
         phase4Flag = true;
     }
 
     if (elapsedSeconds == 32 && phase5Flag == false)	//32秒経過かつフェーズ5が未実行なら
     {
-		EnemySpawn(NORMAL, Vector3(420.0f, -150.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(350.0f, -300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(400.0f, -150.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, -300.0f, 0.0f));
         phase5Flag = true;
     }
 
     if (elapsedSeconds == 39 && phase6Flag == false)	//39秒経過かつフェーズ6が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(450.0f, -100.0f, 0.0f));
-        EnemySpawn(NORMAL, Vector3(50.0f, -420.0f, 0.0f));
-        EnemySpawn(CUTTER, Vector3(300.0f, -350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(400.0f, -50.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(300.0f, -300.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(50.0f, -400.0f, 0.0f));        
         phase6Flag = true;
     }
 }
@@ -969,6 +969,9 @@ void Stage1::StageClearCheck()
 	//敵を全て倒したかどうか
     if(StagekillCount >= StageEnemyCount)
     {        
+        BuildEndPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
         m_Flow = Flow::EndTalk;
 	}
 }
@@ -977,4 +980,8 @@ void Stage1::StageFailedCheck()
 {
 	//ステージ失敗かどうか
 	//巫女のHPが0になったら失敗にする
+    //仮の遷移
+    BuildEndPages();
+    m_Message->SetPages(m_Pages);
+    m_Message->Play();
 }

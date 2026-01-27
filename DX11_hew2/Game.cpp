@@ -40,7 +40,7 @@ void Game::Init()
 	//m_Instance->ChangeScene(STAGE_SELECT);
 	
 	//会話シーンテスト用
-	//m_Instance->ChangeScene(STAGE9);
+	//m_Instance->ChangeScene(STAGE1);
 
 }
 
