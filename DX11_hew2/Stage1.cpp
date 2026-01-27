@@ -974,6 +974,8 @@ void Stage1::StageClearCheck()
         m_Message->Play();
         m_Flow = Flow::EndTalk;
 	}
+
+    Game::GetInstance()->SetMaxClearedStage(1);
 }
 
 void Stage1::StageFailedCheck()
