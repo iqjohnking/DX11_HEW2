@@ -40,6 +40,12 @@ void silkWall::Update()
 	{
 		return;
 	}
+	if (hitStopTimer > 0)
+	{
+		hitStopTimer--;
+		return;
+	}
+
 
 	if(m_PoiseTimer>0)
 		m_PoiseTimer--;
