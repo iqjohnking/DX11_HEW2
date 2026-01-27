@@ -1232,9 +1232,10 @@ void Stage9::StageClearCheck()
 	if (StagekillCount >= StageEnemyCount)
 	{
 		m_Flow = Flow::EndTalk;
+		Game::GetInstance()->SetMaxClearedStage(9);
 	}
 
-	Game::GetInstance()->SetMaxClearedStage(9);
+	
 
 }
 
@@ -1242,4 +1243,5 @@ void Stage9::StageFailedCheck()
 {
 	//ƒXƒe[ƒWŽ¸”s‚©‚Ç‚¤‚©
 	//›Þ—‚ÌHP‚ª0‚É‚È‚Á‚½‚çŽ¸”s‚É‚·‚é
+	Game::GetInstance()->SetMaxClearedStage(0);
 }
