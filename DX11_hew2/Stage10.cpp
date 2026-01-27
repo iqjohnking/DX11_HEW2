@@ -76,6 +76,8 @@ void Stage10::Init()
     phase6Flag = false;
     */
 
+    EnemySpawnFlag = false;
+
     StagekillCount = 0;     //倒した敵の数をリセット
 	//StageEnemyCount = 11;   //ステージの敵の総数を設定（エンドレスなので不要）
 
@@ -173,7 +175,7 @@ void Stage10::GameUpdate()
     elapsedSeconds = elapsedFrames / 60;
 
 	//30秒経過するごとに出現する敵の数を増やす
-    EnemySpawnplus = elapsedSeconds / 30;
+    EnemySpawnplus = elapsedSeconds / 24;
 
     //-----------------------------------------------------------------------------
     // 操作／INPUT
@@ -475,37 +477,45 @@ void Stage10::BuildEndPages()
 
 void Stage10::UpdateEnemySpawn()
 {
-	if (elapsedSeconds % 10 == 0)   //10秒ごとにスポーン
+    static int lastSpawnSecond = -1;
+	if (elapsedSeconds != 0 && elapsedSeconds % 8 == 0 && elapsedSeconds != lastSpawnSecond)   //0秒以降かつ8秒ごとにスポーン
     {
-        if (elapsedSeconds <= 30)   //ステージ開始から30秒以内はNORMALのみ
+        EnemySpawnFlag = true;
+        lastSpawnSecond = elapsedSeconds;
+    }
+
+    if (EnemySpawnFlag == true)
+    {
+        if (elapsedSeconds <= 24)   //ステージ開始から24秒以内はNORMALのみ
         {
             int i = get_rand_range(1, 3);
-            i += EnemySpawnplus; //30秒ごとに出現する敵の数を増やす
+            i += EnemySpawnplus; //24秒ごとに出現する敵の数を増やす
             for (i; i > 0; i--) //敵を1~3体まで出現
             {
                 //ランダムな位置にEnemyをスポーンさせる
-                float x = static_cast<float>(get_rand_range(-300, 300));    //+-300以内にしないとステージ外にスポーンする可能性あり
-                float y = static_cast<float>(get_rand_range(-300, 300));
+                float x = get_rand_range(-300, 300);    //+-300以内にしないとステージ外にスポーンする可能性あり
+                float y = get_rand_range(-300, 300);
                 Vector3 spawnPos = Vector3(x, y, 0.0f);
                 EnemySpawn(NORMAL, spawnPos);
-			}            
+            }
+			EnemySpawnFlag = false; //スポーンフラグをリセット
         }
-        else //30秒以降
+        else //24秒以降
         {
             int i = get_rand_range(1, 3);
-			i += EnemySpawnplus; //30秒ごとに出現する敵の数を増やす
+            i += EnemySpawnplus; //24秒ごとに出現する敵の数を増やす
             for (i; i > 0; i--)
             {
                 //ランダムな位置にEnemyをスポーンさせる
-                float x = static_cast<float>(get_rand_range(-300, 300));    //+-300以内にしないとステージ外にスポーンする可能性あり
-                float y = static_cast<float>(get_rand_range(-300, 300));
+                float x = get_rand_range(-300, 300);    //+-300以内にしないとステージ外にスポーンする可能性あり
+                float y = get_rand_range(-300, 300);
                 Vector3 spawnPos = Vector3(x, y, 0.0f);
 
                 //ランダムで敵の種類を決定
                 int r = get_rand_range(0, 9);
 
-				//30秒ごとに敵の種類の出現確率を変化させる
-                switch(elapsedSeconds / 30)
+                //24秒ごとに敵の種類の出現確率を変化させる
+                switch (elapsedSeconds / 24)
                 {
                 case 1:
                     //最初はNORMALの確率高め
@@ -523,7 +533,7 @@ void Stage10::UpdateEnemySpawn()
                     else if (r == 9) EnemySpawn(TACKLE, spawnPos);
                     break;
 
-				case 3:
+                case 3:
                     //少しずつNORMAL以外の確率を上げる
                     if (r <= 5) EnemySpawn(NORMAL, spawnPos);
                     else if (r == 6) EnemySpawn(CUTTER, spawnPos);
@@ -531,7 +541,7 @@ void Stage10::UpdateEnemySpawn()
                     else if (r == 8 || r == 9) EnemySpawn(TACKLE, spawnPos);
                     break;
 
-				case 4:
+                case 4:
                     //少しずつNORMAL以外の確率を上げる
                     if (r <= 4) EnemySpawn(NORMAL, spawnPos);
                     else if (r == 5) EnemySpawn(CUTTER, spawnPos);
@@ -539,15 +549,16 @@ void Stage10::UpdateEnemySpawn()
                     else if (r == 8 || r == 9) EnemySpawn(TACKLE, spawnPos);
                     break;
 
-				default:
+                default:
                     //確率上昇ストップ、以降は同じ確率で出現
                     if (r <= 3) EnemySpawn(NORMAL, spawnPos);
                     else if (r == 4 || r == 5) EnemySpawn(CUTTER, spawnPos);
                     else if (r == 6 || r == 7) EnemySpawn(MAYU, spawnPos);
                     else if (r == 8 || r == 9) EnemySpawn(TACKLE, spawnPos);
                     break;
-                }				
+                }
             }
+            EnemySpawnFlag = false; //スポーンフラグをリセット
         }
     }
 }

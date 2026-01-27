@@ -18,6 +18,7 @@
 #include "Enemy4.h"
 #include "EnemyMayu.h"
 #include "EnemyType.h"
+#include <random>
 
 #include <vector>
 #include "MessageManager.h"
@@ -89,6 +90,7 @@ public:
 
 	void AddStagekillCount() { ++StagekillCount ;};
 
+	/*
 	uint64_t get_rand_range(uint64_t min_val, uint64_t max_val)
 	{
 		// ŠmÀ‚É min_val <= max_val ‚É‚·‚é
@@ -101,5 +103,13 @@ public:
 		std::uniform_int_distribution<uint64_t> dist(min_val, max_val);
 
 		return dist(mt64);
+	}
+	*/
+
+	int get_rand_range(int min, int max)
+	{
+		static std::mt19937 rng{ std::random_device{}() };
+		std::uniform_int_distribution<int> dist(min, max);
+		return dist(rng);
 	}
 };
