@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\obj">
-      <UniqueIdentifier>{992c08d4-c0dd-44d9-aa7c-ef4af91fdf2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\obj">
       <UniqueIdentifier>{5cb2d69b-8f00-46c0-964d-6cdc5a0f300a}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Stage">
       <UniqueIdentifier>{8af5e1c1-cad2-4b3a-9c44-20cc9f313062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\obj">
+      <UniqueIdentifier>{992c08d4-c0dd-44d9-aa7c-ef4af91fdf2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
