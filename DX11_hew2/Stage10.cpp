@@ -181,7 +181,18 @@ void Stage10::GameUpdate()
 	// ‘€ì^INPUT
 	//-----------------------------------------------------------------------------
 
-	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
+	float rt = Input::GetRightTrigger();
+	float lt = Input::GetLeftTrigger();
+	static bool prevLT = false;
+	static bool prevRT = false;
+	bool nowLT = (lt >= 0.5f);
+	bool nowRT = (rt >= 0.5f);
+	bool ltTriggerOnce = (nowLT && !prevLT);
+	bool rtTriggerOnce = (nowRT && !prevRT);
+	prevLT = nowLT;
+	prevRT = nowRT;
+
+	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   // 
 	{
 		silkWall* w = nullptr;
 
@@ -210,7 +221,7 @@ void Stage10::GameUpdate()
 	}
 
 	// 
-	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
+	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || rtTriggerOnce)
 	{
 		silkWall* w = nullptr;
 

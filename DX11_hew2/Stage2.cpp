@@ -189,8 +189,18 @@ void Stage2::GameUpdate()
     //-----------------------------------------------------------------------------
     // 操作／INPUT
     //-----------------------------------------------------------------------------
+    float rt = Input::GetRightTrigger();
+    float lt = Input::GetLeftTrigger();
+    static bool prevLT = false;
+    static bool prevRT = false;
+    bool nowLT = (lt >= 0.5f);
+    bool nowRT = (rt >= 0.5f);
+    bool ltTriggerOnce = (nowLT && !prevLT);
+    bool rtTriggerOnce = (nowRT && !prevRT);
+    prevLT = nowLT;
+    prevRT = nowRT;
 
-    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
+    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   
     {
         silkWall* w = nullptr;
 
@@ -219,7 +229,7 @@ void Stage2::GameUpdate()
     }
 
     // 
-    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
+    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || rtTriggerOnce)
     {
         silkWall* w = nullptr;
 
@@ -249,6 +259,65 @@ void Stage2::GameUpdate()
             w->Fire(startPos, targetPos);
         }
     }
+    //if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
+    //{
+    //    silkWall* w = nullptr;
+
+    //    // 1. まず、非アクティブ（消えている）スロットを探す
+    //    for (int i = 0; i < 3; ++i)
+    //    {
+    //        if (!m_SilkWalls[i]->IsActive())
+    //        {
+    //            w = m_SilkWalls[i];
+    //            break;
+    //        }
+    //    }
+
+    //    // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+    //    if (w == nullptr)
+    //    {
+    //        w = m_SilkWalls[m_NextSilkIndex];
+    //        m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+    //    }
+
+    //    // 3. 発射実行
+    //    if (w && m_HandL && m_HandR)
+    //    {
+    //        w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+    //    }
+    //}
+
+    //// 
+    //if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
+    //{
+    //    silkWall* w = nullptr;
+
+    //    // 1. まず、非アクティブ（消えている）スロットを探す
+    //    for (int i = 0; i < 3; ++i)
+    //    {
+    //        if (!m_SilkWalls[i]->IsActive())
+    //        {
+    //            w = m_SilkWalls[i];
+    //            break;
+    //        }
+    //    }
+
+    //    // 2. もし全部埋まっていたら、一番古いもの(m_NextSilkIndex)を上書きする
+    //    if (w == nullptr)
+    //    {
+    //        w = m_SilkWalls[m_NextSilkIndex];
+    //        m_NextSilkIndex = (m_NextSilkIndex + 1) % 3;
+    //    }
+
+    //    // 3. 発射実行
+    //    if (w && m_HandL && m_HandR)
+    //    {
+    //        Vector3 startPos = m_HandR->GetPosition();  // 右手
+    //        Vector3 targetPos = m_HandL->GetPosition(); // 左手
+
+    //        w->Fire(startPos, targetPos);
+    //    }
+    //}
 
     //if (Input::GetKeyTrigger('R'))   // 
     //{

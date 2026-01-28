@@ -58,13 +58,14 @@ protected:
 	Texture2D* GameOverImage[3] = {};
 
 	bool m_ClearFlg = false;//クリアできたかどうか
-	bool m_ClearImageFlg = false;//クリアできたかどうか
+	bool m_ClearImageFlg = false;//クリア画像用
 	bool m_ClearChangeImageFlg = false;//クリアできたかどうか
 	bool m_GameOverFlg = false;//失敗したかどうか
-	bool m_GameOverImageFlg = false;//失敗したかどうか
-	int m_ChangeClearCount = 0;//クリア演出用の時間
+	bool m_GameOverImageFlg = false;//失敗画像用
+	int m_ChangeClearCount = 60;//クリア演出用の時間
 	bool m_GameUpdateBlock = false;
 
+	//勝利、敗北時にセレクトへなどを選択するための変数
 	int m_SelectIndex = 0;
 
 	//経過したフレーム数
