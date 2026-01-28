@@ -72,6 +72,10 @@ protected:
 	bool  m_IsStuck = false;
 	DirectX::SimpleMath::Vector3 m_LastFailedDir = DirectX::SimpleMath::Vector3::Zero;
 
+	// flip
+
+	//bool isFlip = false;
+
 	//==================================================
 	// Timers / Animation control
 	//==================================================

@@ -8,7 +8,7 @@ void TitleBG::Init()
 	Texture2D::Init();
 	// テクスチャを指定
 	//SetTexture("assets/texture/background1.png");
-	SetTexture("assets/texture/Message/bg/bg_stage1.jpg");
+	SetTexture("assets/texture/Message/bg/bg_stage2.jpg");
 	// 位置を指定
 	SetPosition(0.0f, 0.0f, 0.0f);
 	// 角度を指定

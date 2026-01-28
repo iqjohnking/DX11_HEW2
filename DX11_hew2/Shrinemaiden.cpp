@@ -186,6 +186,9 @@ void Shrinemaiden::Update()
 void Shrinemaiden::Draw(Camera* cam)
 {
 	m_Texture2D.SetPosition(GetPosition());
+	m_Texture2D.SetScale(m_Radius * 2 +30.f , m_Radius * 2 + 30.f, 0.0f);
+
+
 	m_Texture2D.Draw(cam);
 	//DrawDebugTriangles(cam);
 }
@@ -493,6 +496,13 @@ void Shrinemaiden::move()
 	Vector3 vel;
 	if (!UpdateEscapeMove(now_pos, vel))
 		return;
+
+	if (vel.x > 0) {
+		m_Texture2D.SetFlipX(true);
+	}
+	else {
+		m_Texture2D.SetFlipX(false);
+	}
 
 	// C) field -> nextPos
 	Vector3 nextPos;

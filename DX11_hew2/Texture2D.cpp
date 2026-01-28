@@ -167,14 +167,16 @@ void Texture2D::Draw(Camera* cam)
 		// 幅を負にし、開始Uを1セル右へずらす
 		// 分割モード(m_false)ではセル単位の幅(1/m_SplitX)を使用
 		// 反転時の開始Uは「現在セルの右端」になるため +uw 前提で負化
-		u = u + uw;
+
+		
+		u = u + 1;
 		uw = -uw;
 	}
 
 	if (m_FlipY)
 	{
 		// 幅を負にし、開始Uを1セル右へずらす
-		// 分割モード(m_false)ではセル単位の幅(1/m_SplitX)を使用
+		// 分割モード(m_false)ではセル単位の高(1/m_SplitY)を使用
 		// 反転時の開始Uは「現在セルの右端」になるため +uw 前提で負化
 		v= v + vh;
 		vh = -vh;
