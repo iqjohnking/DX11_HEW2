@@ -10,7 +10,7 @@ void Hashira::Init()
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
 
-	m_Texture2D.SetTexture("assets/texture/mayuanime.png");
+	m_Texture2D.SetTexture("assets/texture/hashira.png");
 	//SetPosition(100.0f, 100.0f, 0.0f);	// 初期位置は外部で設定する想定
 	m_Texture2D.SetRotation(m_Rotation);	// 初期値0,0,0//外で変える
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0); //初期値25*2  , 25*2  ,0//外で変える
