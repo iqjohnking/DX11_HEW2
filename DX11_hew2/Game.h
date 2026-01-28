@@ -8,7 +8,7 @@
 #include"StageSelectScene.h"
 #include "TitleScene.h"
 #include "Stage1Scene.h"
-#include "ResultScene.h"
+#include "GameOverScene.h"
 #include "Stage0.h"
 #include "Stage1.h"
 #include "Stage2.h"
@@ -37,7 +37,7 @@ enum SceneName {
 	STAGE8,
 	STAGE9,
 	STAGE10,
-	RESULT
+	GAMEOVER
 };
 
 class Game

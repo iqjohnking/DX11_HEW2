@@ -82,6 +82,17 @@ void Stage1::Init()
 	m_Conversation_BGM_flg_3 = false;
 	m_Conversation_BGM_flg_4 = false;
 
+    ClearImage[3] = {};
+   GameOverImage[3] = {};
+
+    m_ClearFlg = false;
+    m_ClearImageFlg = false;
+    m_GameOverFlg = false;
+    m_GameOverImageFlg = false;
+    m_ChangeClearCount = 60;
+
+    m_SelectIndex = 0;
+
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
@@ -107,6 +118,116 @@ void Stage1::Uninit()
 
 void Stage1::Update()
 {
+    if (m_GameOverFlg == true)
+    {
+        if (m_GameOverImageFlg == false)
+        {
+            //敗北
+            GameOverImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[0]->SetTexture("assets/texture/lose000.png");
+            GameOverImage[0]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[0]->SetScale(1920.0f, 1080.0f, 0.0f);
+            GameOverImage[0]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[0]);
+            //もう一度遊ぶ
+            GameOverImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[1]->SetTexture("assets/texture/lose001.png");
+            GameOverImage[1]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[1]->SetScale(2048.0, 1152.0, 0.0f);
+            GameOverImage[1]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[1]);
+            //ステージセレクトへ
+            GameOverImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[2]->SetTexture("assets/texture/lose002.png");
+            GameOverImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+            GameOverImage[2]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[2]);
+
+            m_GameOverImageFlg = true;
+        }
+        //セレクトインデックス操作
+        DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+
+        // スティックの倒し始めを判定するための変数
+        static bool stickFree = true;
+
+        if (stickFree)
+        {
+            if (stick.x < -0.5f) // 左に倒した
+            {
+                m_SelectIndex = (m_SelectIndex + 2) % 2;
+                stickFree = false;
+            }
+            else if (stick.x > 0.5f)// 右に倒した 
+            {
+                m_SelectIndex = (m_SelectIndex + 1) % 2;
+                stickFree = false;
+            }
+        }
+        if (abs(stick.x) < 0.2f) stickFree = true; // スティックを離したら入力を受け付ける
+
+        if (m_SelectIndex == 0)
+        {
+            //もう一度
+            GameOverImage[1]->SetScale(2048.0, 1152.0, 0.0f);
+            GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+        }
+        else if (m_SelectIndex == 1)
+        {
+            //セレクトへ
+            GameOverImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
+            GameOverImage[2]->SetScale(2048.0, 1152.0, 0.0f);
+        }
+
+        if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+        {
+            if (m_SelectIndex == 0)
+            {
+                GameOverImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+                GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
+                GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+                //リプレイ関数
+                RePlay();
+            }
+            else if (m_SelectIndex == 1)
+            {
+                Game::GetInstance()->ChangeScene(STAGE_SELECT);
+                return;
+            }
+        }
+        return;
+    }
+
+    if (m_ClearFlg == true)
+    {
+        if (m_ClearImageFlg == false)
+        {
+           ClearImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+           ClearImage[0]->SetTexture("assets/texture/win.png");
+           ClearImage[0]->SetPosition(0.0f, 0.0f, 0.0f);
+           ClearImage[0]->SetScale(1920.0f, 1080.0f, 0.0f);
+           ClearImage[0]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(ClearImage[0]);
+            m_ClearImageFlg = true;
+        }
+        //if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+        if (Input::GetKeyTrigger(VK_SPACE))
+        {
+            ClearImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+            BuildEndPages();
+            m_Message->SetPages(m_Pages);
+            m_Message->Play();
+            m_Flow = Flow::EndTalk;
+            m_ClearFlg = false;
+        }
+    }
+
+    if (m_Flow == Flow::Gameplay && m_GameOverFlg == true || m_ClearFlg == true)
+    {
+        return;
+    }
+
 	MessageUpdate();
 	GameUpdate();
     UpdateEnemySpawn();
@@ -117,7 +238,8 @@ void Stage1::Update()
     {
         if (!m_Message->IsPlaying())
         {
-            Game::GetInstance()->ChangeScene(RESULT);
+            Game::GetInstance()->ChangeScene(STAGE2);
+            return;
         }
     }
 }
@@ -139,13 +261,13 @@ void Stage1::MessageUpdate()
 
     case Flow::Gameplay:
         // 仮：Enterでステージ終了扱い→終了会話へ
-        if (Input::GetKeyTrigger(VK_SPACE))
+        /*if (Input::GetKeyTrigger(VK_SPACE))
         {
             BuildEndPages();
             m_Message->SetPages(m_Pages);
             m_Message->Play();
             m_Flow = Flow::EndTalk;
-        }
+        }*/
         break;
 
     case Flow::EndTalk:
@@ -186,7 +308,7 @@ void Stage1::GameUpdate()
 	//60フレーム経過するごとに1秒プラス
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
-	
+
     //-----------------------------------------------------------------------------
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
@@ -379,13 +501,6 @@ void Stage1::GameUpdate()
 			++it; // 次へ
 		}
 	}
-
-    if (m_Miko->GetDYINGTimer() <= 0) {
-        BuildEndPages();
-        m_Message->SetPages(m_Pages);
-        m_Message->Play();
-        m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
-    }
 
     //ステージクリアと失敗のチェック
     StageClearCheck();
@@ -972,23 +1087,112 @@ void Stage1::StageClearCheck()
 	//敵を全て倒したかどうか
     if(StagekillCount >= StageEnemyCount)
     {        
-        BuildEndPages();
+        m_ChangeClearCount--;
+        /*BuildEndPages();
         m_Message->SetPages(m_Pages);
         m_Message->Play();
-        m_Flow = Flow::EndTalk;
+        m_Flow = Flow::EndTalk;*/
 	}
+    if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
+    {
+        m_ClearFlg = true;
+    }
 
     Game::GetInstance()->SetMaxClearedStage(1);
 }
 
 void Stage1::StageFailedCheck()
 {
-	//ステージ失敗かどうか
-	//巫女のHPが0になったら失敗にする
-    //仮の遷移
-    /*
-    BuildEndPages();
-    m_Message->SetPages(m_Pages);
-    m_Message->Play();
-    */
+    if (m_Miko->GetDYINGTimer() <= 0)
+    {
+        m_GameOverFlg = true;
+    }
+}
+
+void Stage1::RePlay()
+{
+    Game::GetInstance()->DeleteAllObjects();
+    for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
+    {
+        Object* o = *it; // オブジェクト取得
+        if (!o)
+        {
+            it = m_MySceneObjects.erase(it);
+            continue;
+        }
+
+        if (o->ToBeDeleted())
+        {
+            Game::GetInstance()->DeleteObject(o);   // ★実体も破棄依頼
+            it = m_MySceneObjects.erase(it);        // ★リストからも除去
+            continue;
+        }
+
+        ++it;
+    }
+
+
+
+
+    // 背景
+    auto* bg = Game::GetInstance()->AddObject<TitleBG>();
+    m_MySceneObjects.emplace_back(bg);
+    bg->Texture2D::SetPosition(0.0f, 0.0f, 2.0f); // Z順序を最後に
+
+    // FIELD
+    m_Field = Game::GetInstance()->AddObject<Field>();
+    m_MySceneObjects.emplace_back(m_Field);
+
+    // silkWall*3
+    for (int i = 0; i < 3; ++i)
+    {
+        m_SilkWalls[i] = Game::GetInstance()->AddObject<silkWall>();
+        m_MySceneObjects.emplace_back(m_SilkWalls[i]);
+    }
+
+    // 左手（W / S ）
+    m_HandL = Game::GetInstance()->AddObject<playerHand>(0);
+    m_MySceneObjects.emplace_back(m_HandL);
+
+    // 右手（↑ / ↓ ）
+    m_HandR = Game::GetInstance()->AddObject<playerHand>(1);
+    m_MySceneObjects.emplace_back(m_HandR);
+
+    m_HandL->SetAnotherHand(m_HandR);
+    //m_HandL->SetField(m_Field);
+    m_HandR->SetAnotherHand(m_HandL);
+    //m_HandR->SetField(m_Field);
+
+    ////巫女
+    m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
+    m_MySceneObjects.emplace_back(m_Miko);
+    m_Miko->SetField(m_Field);
+
+    //経過したフレーム数と秒数を0にリセット
+    elapsedFrames = 0;
+    elapsedSeconds = 0;
+
+    //敵が出現するフェーズのフラグをリセット
+    phase1Flag = false;
+    phase2Flag = false;
+    phase3Flag = false;
+    phase4Flag = false;
+    phase5Flag = false;
+    phase6Flag = false;
+
+    StagekillCount = 0;     //倒した敵の数をリセット
+    StageEnemyCount = 11;   //ステージの敵の総数を設定
+
+    m_Conversation_BGM_flg_1 = false;
+    m_Conversation_BGM_flg_2 = false;
+    m_Conversation_BGM_flg_3 = false;
+    m_Conversation_BGM_flg_4 = false;
+
+    m_ClearFlg = false;
+    m_ClearImageFlg = false;
+    m_GameOverFlg = false;
+    m_GameOverImageFlg = false;
+    m_ChangeClearCount = 60;
+
+    m_SelectIndex = 0;
 }

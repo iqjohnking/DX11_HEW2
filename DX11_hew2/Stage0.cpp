@@ -76,6 +76,12 @@ void Stage0::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 3;   //ステージの敵の総数を設定
 
+    m_ClearFlg = false;
+    m_GameOverFlg = false;
+    m_ChangeClearCount = 0;
+
+    m_SelectIndex = 0;
+
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
@@ -109,7 +115,7 @@ void Stage0::Update()
     {
         if (!m_Message->IsPlaying())
         {
-            Game::GetInstance()->ChangeScene(RESULT);
+            Game::GetInstance()->ChangeScene(GAMEOVER);
         }
     }
 }
@@ -366,10 +372,11 @@ void Stage0::GameUpdate()
     }
 
     if (m_Miko->GetDYINGTimer() <= 0) {
-        BuildEndPages();
-        m_Message->SetPages(m_Pages);
-        m_Message->Play();
-        m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
+        Game::GetInstance()->ChangeScene(GAMEOVER);
+        //BuildEndPages();
+        //m_Message->SetPages(m_Pages);
+        //m_Message->Play();
+        //m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
     }
 
     //ステージクリアと失敗のチェック

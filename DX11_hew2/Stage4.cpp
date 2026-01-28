@@ -83,7 +83,6 @@ void Stage4::Init()
 
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 34;   //ステージの敵の総数を設定
-
     //BGM開始
     Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 }
@@ -115,7 +114,7 @@ void Stage4::Update()
     {
         if (!m_Message->IsPlaying())
         {
-            Game::GetInstance()->ChangeScene(RESULT);
+            Game::GetInstance()->ChangeScene(GAMEOVER);
         }
     }
 }

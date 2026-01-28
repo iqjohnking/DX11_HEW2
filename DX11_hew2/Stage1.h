@@ -30,6 +30,8 @@ public:
 	void GameUpdate() override;		//ゲームパート更新
 	void SoundUpdate() override;	//sound更新
 
+	void RePlay();
+
 	//会話パート
 	void BuildStartPages() override;
 	void BuildEndPages() override;

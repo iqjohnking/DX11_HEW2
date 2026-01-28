@@ -92,6 +92,8 @@ void Shrinemaiden::Init()
 	// –³“GEŒŸõƒtƒ‰ƒO‰Šú‰»
 	m_MutekiTimer = 0;
 	m_IgnoreEnemyInSearch = false;
+
+	m_Hitpoint = 3;
 }
 
 void Shrinemaiden::Update()

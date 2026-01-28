@@ -54,7 +54,16 @@ protected:
 	int StagekillCount = 0;	//倒した敵の数
 	int StageEnemyCount = 0; //ステージの敵の総数
 
-	
+	Texture2D* ClearImage[3] = {};
+	Texture2D* GameOverImage[3] = {};
+
+	bool m_ClearFlg = false;//クリアできたかどうか
+	bool m_ClearImageFlg = false;//クリアできたかどうか
+	bool m_GameOverFlg = false;//失敗したかどうか
+	bool m_GameOverImageFlg = false;//失敗したかどうか
+	int m_ChangeClearCount = 0;//クリア演出用の時間
+
+	int m_SelectIndex = 0;
 
 	//経過したフレーム数
 	int elapsedFrames = 0;

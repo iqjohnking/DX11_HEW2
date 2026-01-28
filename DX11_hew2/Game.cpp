@@ -200,8 +200,8 @@ void Game::ChangeScene(SceneName sceneName)
 	case STAGE10:
 		m_Instance->m_Scene = new Stage10();
 		break;
-	case RESULT:
-		m_Instance->m_Scene = new ResultScene();
+	case GAMEOVER:
+		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:
 		break;
@@ -243,8 +243,8 @@ void Game::ChangeOldScene()
 	case STAGE3:
 		m_Instance->m_Scene = new Stage3();
 		break;
-	case RESULT:
-		m_Instance->m_Scene = new ResultScene();
+	case GAMEOVER:
+		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:
 		break;
