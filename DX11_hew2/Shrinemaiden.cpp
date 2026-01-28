@@ -187,7 +187,7 @@ void Shrinemaiden::Draw(Camera* cam)
 {
 	m_Texture2D.SetPosition(GetPosition());
 	m_Texture2D.Draw(cam);
-	DrawDebugTriangles(cam);
+	//DrawDebugTriangles(cam);
 }
 
 void Shrinemaiden::Uninit()

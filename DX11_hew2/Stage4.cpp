@@ -106,18 +106,18 @@ void Stage4::Uninit()
 
 void Stage4::Update()
 {
-    MessageUpdate();
-    GameUpdate();
-    UpdateEnemySpawn();
-    SoundUpdate();
-    // 終了会話が終わったらリザルトへ
-    if (m_Flow == Flow::EndTalk)
-    {
-        if (!m_Message->IsPlaying())
-        {
-            Game::GetInstance()->ChangeScene(GAMEOVER);
-        }
-    }
+	MessageUpdate();
+	GameUpdate();
+	UpdateEnemySpawn();
+	SoundUpdate();
+	// 終了会話が終わったらリザルトへ
+	if (m_Flow == Flow::EndTalk)
+	{
+		if (!m_Message->IsPlaying())
+		{
+			Game::GetInstance()->ChangeScene(GAMEOVER);
+		}
+	}
 }
 
 void Stage4::MessageUpdate()
