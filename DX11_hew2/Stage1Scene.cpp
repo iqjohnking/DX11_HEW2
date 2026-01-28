@@ -76,7 +76,7 @@ void Stage1Scene::Update()
 		// 終了会話が終わったらリザルトへ
 		if (!m_Message->IsPlaying())
 		{
-			Game::GetInstance()->ChangeScene(RESULT);
+			Game::GetInstance()->ChangeScene(GAMEOVER);
 		}
 		break;
 	}

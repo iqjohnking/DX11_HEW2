@@ -103,17 +103,17 @@ void Stage10::Uninit()
 
 void Stage10::Update()
 {
-	MessageUpdate();
-	GameUpdate();
-	UpdateEnemySpawn();
-	// 終了会話が終わったらリザルトへ
-	if (m_Flow == Flow::EndTalk)
-	{
-		if (!m_Message->IsPlaying())
-		{
-			Game::GetInstance()->ChangeScene(RESULT);
-		}
-	}
+    MessageUpdate();
+    GameUpdate();
+    UpdateEnemySpawn();
+    // 終了会話が終わったらリザルトへ
+    if (m_Flow == Flow::EndTalk)
+    {
+        if (!m_Message->IsPlaying())
+        {
+            Game::GetInstance()->ChangeScene(GAMEOVER);
+        }
+    }
 }
 
 void Stage10::MessageUpdate()

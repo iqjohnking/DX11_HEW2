@@ -93,7 +93,7 @@
     <ClCompile Include="utility.cpp">
       <Filter>ソース ファイル\lib</Filter>
     </ClCompile>
-    <ClCompile Include="ResultScene.cpp">
+    <ClCompile Include="GameOverScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
     <ClCompile Include="Stage1Scene.cpp">
@@ -281,7 +281,7 @@
     <ClInclude Include="MeshRenderer.h">
       <Filter>ヘッダー ファイル\render</Filter>
     </ClInclude>
-    <ClInclude Include="ResultScene.h">
+    <ClInclude Include="GameOverScene.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">

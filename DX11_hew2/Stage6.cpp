@@ -117,7 +117,7 @@ void Stage6::Update()
     {
         if (!m_Message->IsPlaying())
         {
-            Game::GetInstance()->ChangeScene(RESULT);
+            Game::GetInstance()->ChangeScene(GAMEOVER);
         }
     }
 }
