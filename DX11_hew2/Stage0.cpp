@@ -373,7 +373,7 @@ void Stage0::GameUpdate()
     }
 
     if (m_Miko->GetDYINGTimer() <= 0) {
-        Game::GetInstance()->ChangeScene(GAMEOVER);
+        Game::GetInstance()->ChangeScene(START);
         //BuildEndPages();
         //m_Message->SetPages(m_Pages);
         //m_Message->Play();

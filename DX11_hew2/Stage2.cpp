@@ -3,8 +3,9 @@
 
 void Stage2::Init()
 {
-    // まず開始会話の台本を作る
-    BuildStartPages();
+    const int kStageNo = 2;
+    // 次回開始モードを取得
+    StageStartMode startMode = Game::GetInstance()->ConsumeNextStageStartMode(kStageNo);
 
     // 司令塔をObjectとして追加
     m_Message = Game::GetInstance()->AddObject<MessageManager>();
@@ -15,22 +16,25 @@ void Stage2::Init()
 
     // 会話素材の指定
     m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
-
     m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
 
-    // 台本セット
-    m_Message->SetPages(m_Pages);
+    if (startMode == StageStartMode::StartTalk)
+    {
+        BuildStartPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
 
-    // 開始時
-    m_Message->Play();
-
-    m_Flow = Flow::StartTalk;
+        m_Flow = Flow::StartTalk;
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
+    }
+    else // Gameplay開始
+    {
+        m_Flow = Flow::Gameplay;
+    }
 
     //SoundFlg
     m_Conversation_BGM_flg_1 = false;
     m_Conversation_BGM_flg_2 = false;
-
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_002);
 
     // 背景
     auto* bg = Game::GetInstance()->AddObject<TitleBG>();
@@ -84,8 +88,17 @@ void Stage2::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 30;   //ステージの敵の総数を設定
 
-    //BGM開始
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    ClearImage[0, 1, 2] = { nullptr };
+    GameOverImage[0, 1, 2] = { nullptr };
+
+    m_ClearFlg = false;//クリアできたかどうか
+    m_ClearImageFlg = false;//クリアできたかどうか
+    m_ClearChangeImageFlg = false;//クリアできたかどうか
+    m_GameOverFlg = false;//失敗したかどうか
+    m_GameOverImageFlg = false;//失敗したかどうか
+    m_ChangeClearCount = 60;//クリア演出用の時間
+
+    m_SelectIndex = 0;
 }
 
 void Stage2::Uninit()
@@ -112,15 +125,7 @@ void Stage2::Update()
     GameUpdate();
     UpdateEnemySpawn();
     SoundUpdate();
-
-    // 終了会話が終わったらリザルトへ
-    if (m_Flow == Flow::EndTalk)
-    {
-        if (!m_Message->IsPlaying())
-        {
-            Game::GetInstance()->ChangeScene(GAMEOVER);
-        }
-    }
+    IssueUpdate();
 }
 
 void Stage2::MessageUpdate()
@@ -374,13 +379,6 @@ void Stage2::GameUpdate()
         }
     }
 
-    if (m_Miko->GetDYINGTimer() <= 0) {
-        BuildEndPages();
-        m_Message->SetPages(m_Pages);
-        m_Message->Play();
-        m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
-    }
-
     //ステージクリアと失敗のチェック
     StageClearCheck();
     StageFailedCheck();
@@ -595,10 +593,11 @@ void Stage2::StageClearCheck()
     //敵を全て倒したかどうか
     if (StagekillCount >= StageEnemyCount)
     {
-        BuildEndPages();
-        m_Message->SetPages(m_Pages);
-        m_Message->Play();
-        m_Flow = Flow::EndTalk;
+        m_ChangeClearCount--;
+    }
+    if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
+    {
+        m_ClearFlg = true;
     }
     
     Game::GetInstance()->SetMaxClearedStage(2);
@@ -606,12 +605,223 @@ void Stage2::StageClearCheck()
 
 void Stage2::StageFailedCheck()
 {
-    //ステージ失敗かどうか
-    //巫女のHPが0になったら失敗にする
-    //仮の遷移
-    /*
-    BuildEndPages();
-    m_Message->SetPages(m_Pages);
-    m_Message->Play();
-    */
+    if (m_Miko->GetDYINGTimer() <= 0)
+    {
+        m_GameOverFlg = true;
+    }
+}
+
+void Stage2::IssueUpdate()
+{
+    if (m_GameOverFlg == true)
+    {
+        // 初回だけ画像生成
+        if (m_GameOverImageFlg == false)
+        {
+            //敗北
+            GameOverImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[0]->SetTexture("assets/texture/lose000.png");
+            GameOverImage[0]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[0]->SetScale(1920.0f, 1080.0f, 0.0f);
+            GameOverImage[0]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[0]);
+
+            //もう一度遊ぶ
+            GameOverImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[1]->SetTexture("assets/texture/lose001.png");
+            GameOverImage[1]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+            GameOverImage[1]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[1]);
+
+            //ステージセレクトへ
+            GameOverImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+            GameOverImage[2]->SetTexture("assets/texture/lose002.png");
+            GameOverImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
+            GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+            GameOverImage[2]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(GameOverImage[2]);
+
+            m_SelectIndex = 0;
+            m_GameOverImageFlg = true;
+        }
+
+        // スティックで選択
+        {
+            DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+            static bool stickFree_GameOver = true;
+
+            if (stickFree_GameOver)
+            {
+                if (stick.x < -0.5f)
+                {
+                    m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+                    stickFree_GameOver = false;
+                }
+                else if (stick.x > 0.5f)
+                {
+                    m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+                    stickFree_GameOver = false;
+                }
+            }
+            if (fabsf(stick.x) < 0.2f) stickFree_GameOver = true;
+        }
+
+        // 見た目反映
+        //選択してる方を大きく、選択していないほうを小さく
+        if (m_SelectIndex == 0)
+        {
+            GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+            GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+        }
+        else
+        {
+            GameOverImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
+            GameOverImage[2]->SetScale(2048.0f, 1152.0f, 0.0f);
+        }
+
+        // 決定
+        if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+        {
+            //もう一度プレイ
+            if (m_SelectIndex == 0)
+            {
+                RePlay();
+                return;
+            }
+            else
+            {
+                //ステージセレクトへ
+                Game::GetInstance()->ChangeScene(STAGE_SELECT);
+                return;
+            }
+        }
+        return;
+    }
+
+    if (m_ClearFlg == true)
+    {
+        if (m_ClearImageFlg == false)
+        {
+            //勝利
+            ClearImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+            ClearImage[0]->SetTexture("assets/texture/win.png");
+            ClearImage[0]->SetPosition(0.0f, 0.0f, 0.0f);
+            ClearImage[0]->SetScale(1920.0f, 1080.0f, 0.0f);
+            ClearImage[0]->SetDrawOrder(10000);
+            m_MySceneObjects.emplace_back(ClearImage[0]);
+
+            m_ClearImageFlg = true;
+        }
+
+        if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+        {
+            ClearImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+
+            //終了会話スタート
+            BuildEndPages();
+            m_Message->SetPages(m_Pages);
+            m_Message->Play();
+            m_Flow = Flow::EndTalk;
+
+            m_ClearFlg = false; // クリア演出終了
+        }
+        return;
+    }
+    if (m_Flow == Flow::EndTalk)
+    {
+        if (!m_Message->IsPlaying())
+        {
+            // 初回だけ画像生成
+            if (m_ClearChangeImageFlg == false)
+            {
+                m_ClearChangeImageFlg = true;
+
+                //次のステージへ
+                ClearImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+                ClearImage[1]->SetTexture("assets/texture/win002.png");
+                ClearImage[1]->SetPosition(0.0f, 0.0f, 0.0f);
+                ClearImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+                ClearImage[1]->SetDrawOrder(10000);
+                m_MySceneObjects.emplace_back(ClearImage[1]);
+
+                //セレクトへ
+                ClearImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+                ClearImage[2]->SetTexture("assets/texture/lose002.png");
+                ClearImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
+                ClearImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+                ClearImage[2]->SetDrawOrder(10000);
+                m_MySceneObjects.emplace_back(ClearImage[2]);
+
+                m_SelectIndex = 0;
+            }
+
+            // スティックで選択
+            {
+                DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+                static bool stickFree_ClearResult = true;
+
+                if (stickFree_ClearResult)
+                {
+                    if (stick.x < -0.5f)
+                    {
+                        m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+                        stickFree_ClearResult = false;
+                    }
+                    else if (stick.x > 0.5f)
+                    {
+                        m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+                        stickFree_ClearResult = false;
+                    }
+                }
+                if (fabsf(stick.x) < 0.2f) stickFree_ClearResult = true;
+            }
+
+            // 見た目反映
+            if (m_SelectIndex == 0)
+            {
+                //次のステージへ
+                ClearImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+                ClearImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+            }
+            else
+            {
+                //セレクトへ
+                ClearImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
+                ClearImage[2]->SetScale(2048.0f, 1152.0f, 0.0f);
+            }
+
+            // 決定
+            if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+            {
+                if (m_SelectIndex == 0)
+                {
+                    //次のステージへ
+                    Game::GetInstance()->ChangeScene(STAGE2);
+                    return;
+                }
+                else
+                {
+                    //セレクトへ
+                    Game::GetInstance()->ChangeScene(STAGE_SELECT);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+void Stage2::RePlay()
+{
+    // 画面消す
+    GameOverImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+    GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
+    GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+
+    // 次回のStage2はGameplay開始にする
+    Game::GetInstance()->SetNextStageStartMode(2, StageStartMode::Gameplay);
+
+    // ステージを作り直す（安全）
+    Game::GetInstance()->ChangeScene(STAGE2);
+    return;
 }
