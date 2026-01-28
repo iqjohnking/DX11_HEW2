@@ -145,6 +145,7 @@ void TitleScene::Update()
 	// 重要：三角形判定で触る前に、死んだオブジェクトを先に掃除する
 	//-----------------------------------------------------------------------------
 
+
 	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
 	for (auto it = m_MySceneObjects.begin(); it != m_MySceneObjects.end(); )
 	{
@@ -166,7 +167,18 @@ void TitleScene::Update()
 	}
 
 
-	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
+	float rt = Input::GetRightTrigger();
+	float lt = Input::GetLeftTrigger();
+	static bool prevLT = false;
+	static bool prevRT = false;
+	bool nowLT = (lt >= 0.5f);
+	bool nowRT = (rt >= 0.5f);
+	bool ltTriggerOnce = (nowLT && !prevLT); 
+	bool rtTriggerOnce = (nowRT && !prevRT); 
+	prevLT = nowLT;
+	prevRT = nowRT;
+
+	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   // 
 	{
 		silkWall* w = nullptr;
 
@@ -195,7 +207,7 @@ void TitleScene::Update()
 	}
 
 	// 
-	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
+	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| rtTriggerOnce)
 	{
 		silkWall* w = nullptr;
 
@@ -224,22 +236,6 @@ void TitleScene::Update()
 
 			w->Fire(startPos, targetPos);
 		}
-
-		/*
-		silkWall* w = m_SilkWalls[m_NextSilkIndex];
-		if (w && m_HandL && m_HandR)
-		{
-			Vector3 startPos = m_HandR->GetPosition();  // 右手
-			Vector3 targetPos = m_HandL->GetPosition(); // 左手
-			w->Fire(startPos, targetPos);
-
-			++m_NextSilkIndex;
-			if (m_NextSilkIndex >= 3)
-			{
-				m_NextSilkIndex = 0;
-			}
-		}
-		*/
 	}
 
 	//if (Input::GetKeyTrigger('R'))   // 
