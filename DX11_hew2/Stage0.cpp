@@ -753,8 +753,8 @@ void Stage0::UIUpdate()
         //テキスト
         m_tutorialstagetext000 = Game::GetInstance()->AddObject<Texture2D>();
         m_tutorialstagetext000->SetTexture("assets/texture/ui/tutorialstagetext000.png");
-        m_tutorialstagetext000->SetPosition(0.0f, 0.0f, -1.0f);
-        m_tutorialstagetext000->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext000->SetPosition(700.0f, 400.0f, -1.0f);
+        m_tutorialstagetext000->SetScale(499.0f, 196.0f, 0.0f);
         m_tutorialstagetext000->SetDrawOrder(10000);
         m_MySceneObjects.emplace_back(m_tutorialstagetext000);
 
@@ -778,8 +778,8 @@ void Stage0::UIUpdate()
         //テキスト
         m_tutorialstagetext001 = Game::GetInstance()->AddObject<Texture2D>();
         m_tutorialstagetext001->SetTexture("assets/texture/ui/tutorialstagetext001.png");
-        m_tutorialstagetext001->SetPosition(0.0f, 0.0f, -1.0f);
-        m_tutorialstagetext001->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext001->SetPosition(700.0f, 400.0f, -1.0f);
+        m_tutorialstagetext001->SetScale(499.0f, 196.0f, 0.0f);
         m_tutorialstagetext001->SetDrawOrder(10000);
         m_MySceneObjects.emplace_back(m_tutorialstagetext001);
 
@@ -795,8 +795,8 @@ void Stage0::UIUpdate()
         //テキスト
         m_tutorialstagetext002 = Game::GetInstance()->AddObject<Texture2D>();
         m_tutorialstagetext002->SetTexture("assets/texture/ui/tutorialstagetext002.png");
-        m_tutorialstagetext002->SetPosition(0.0f, 0.0f, -1.0f);
-        m_tutorialstagetext002->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext002->SetPosition(700.0f, 400.0f, -1.0f);
+        m_tutorialstagetext002->SetScale(499.0f, 196.0f, 0.0f);
         m_tutorialstagetext002->SetDrawOrder(10000);
         m_MySceneObjects.emplace_back(m_tutorialstagetext002);
 
