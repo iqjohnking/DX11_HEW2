@@ -3,8 +3,9 @@
 
 void Stage5::Init()
 {
-    // まず開始会話の台本を作る
-    BuildStartPages();
+    const int kStageNo = 5;
+    // 次回開始モードを取得
+    StageStartMode startMode = Game::GetInstance()->ConsumeNextStageStartMode(kStageNo);
 
     // 司令塔をObjectとして追加
     m_Message = Game::GetInstance()->AddObject<MessageManager>();
@@ -17,14 +18,22 @@ void Stage5::Init()
     m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
     m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
+    
+    if (startMode == StageStartMode::StartTalk)
+    {
+        BuildStartPages();
+        m_Message->SetPages(m_Pages);
+        m_Message->Play();
 
-    // 台本セット
-    m_Message->SetPages(m_Pages);
+        m_Flow = Flow::StartTalk;
 
-    // 開始時
-    m_Message->Play();
-
-    m_Flow = Flow::StartTalk;
+        //BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+    }
+    else // Gameplay開始
+    {
+        m_Flow = Flow::Gameplay;
+    }
 
     //SoundFlg
     m_Conversation_BGM_flg_1 = false;
@@ -86,8 +95,20 @@ void Stage5::Init()
 
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 40;   //ステージの敵の総数を設定
-    //BGM開始
-    Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+
+    ClearImage[0, 1, 2] = { nullptr };
+    GameOverImage[0, 1, 2] = { nullptr };
+
+    m_ClearFlg = false;
+    m_ClearImageFlg = false;
+    m_ClearChangeImageFlg = false;
+    m_GameOverFlg = false;
+    m_GameOverImageFlg = false;
+    m_ChangeClearCount = 60;
+
+    m_SelectIndex = 0;
+
+    m_GameUpdateBlock = false;
 }
 
 void Stage5::Uninit()
@@ -98,6 +119,11 @@ void Stage5::Uninit()
     }
 
     m_Pages.clear();
+
+    if (m_Conversation_BGM_flg_3 == false)
+    {
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+    }
 
     Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_005);
 
@@ -139,14 +165,6 @@ void Stage5::MessageUpdate()
         break;
 
     case Flow::Gameplay:
-        // 仮：Enterでステージ終了扱い→終了会話へ
-        if (Input::GetKeyTrigger(VK_SPACE))
-        {
-            BuildEndPages();
-            m_Message->SetPages(m_Pages);
-            m_Message->Play();
-            m_Flow = Flow::EndTalk;
-        }
         break;
 
     case Flow::EndTalk:
