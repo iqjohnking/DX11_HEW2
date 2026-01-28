@@ -873,7 +873,7 @@ void Stage2::IssueUpdate()
                 if (m_SelectIndex == 0)
                 {
                     //次のステージへ
-                    Game::GetInstance()->ChangeScene(STAGE2);
+                    Game::GetInstance()->ChangeScene(STAGE3);
                     return;
                 }
                 else

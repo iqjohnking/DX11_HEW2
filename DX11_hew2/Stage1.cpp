@@ -20,13 +20,6 @@ void Stage1::Init()
 	m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 	m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
 
-
-	// 台本セット
-	m_Message->SetPages(m_Pages);
-
-	// 開始時
-	m_Message->Play();
-
 	if (startMode == StageStartMode::StartTalk)
 	{
 		BuildStartPages();
@@ -41,10 +34,6 @@ void Stage1::Init()
 	else // Gameplay開始
 	{
 		m_Flow = Flow::Gameplay;
-
-		// 会話は開始しない（Playしない）
-		// ここでステージBGMを鳴らしてもOK
-		// Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
 	}
 
 	// 背景
