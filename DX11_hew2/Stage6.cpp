@@ -184,9 +184,20 @@ void Stage6::GameUpdate()
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
 
-	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
-	{
-		silkWall* w = nullptr;
+    float rt = Input::GetRightTrigger();
+    float lt = Input::GetLeftTrigger();
+    static bool prevLT = false;
+    static bool prevRT = false;
+    bool nowLT = (lt >= 0.5f);
+    bool nowRT = (rt >= 0.5f);
+    bool ltTriggerOnce = (nowLT && !prevLT);
+    bool rtTriggerOnce = (nowRT && !prevRT);
+    prevLT = nowLT;
+    prevRT = nowRT;
+
+    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   // 
+    {
+        silkWall* w = nullptr;
 
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)
@@ -211,11 +222,10 @@ void Stage6::GameUpdate()
 			w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
 		}
 	}
-
-	// 
-	if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
-	{
-		silkWall* w = nullptr;
+    // 
+    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || rtTriggerOnce)
+    {
+        silkWall* w = nullptr;
 
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)

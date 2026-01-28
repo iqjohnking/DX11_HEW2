@@ -183,7 +183,18 @@ void Stage0::GameUpdate()
     // 操作／INPUT
     //-----------------------------------------------------------------------------
 
-    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
+    float rt = Input::GetRightTrigger();
+    float lt = Input::GetLeftTrigger();
+    static bool prevLT = false;
+    static bool prevRT = false;
+    bool nowLT = (lt >= 0.5f);
+    bool nowRT = (rt >= 0.5f);
+    bool ltTriggerOnce = (nowLT && !prevLT);
+    bool rtTriggerOnce = (nowRT && !prevRT);
+    prevLT = nowLT;
+    prevRT = nowRT;
+
+    if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   // 
     {
         silkWall* w = nullptr;
 
@@ -212,7 +223,7 @@ void Stage0::GameUpdate()
     }
 
     // 
-    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER))
+    if (Input::GetKeyTrigger('J') || Input::GetKeyTrigger(VK_LEFT) || Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || rtTriggerOnce)
     {
         silkWall* w = nullptr;
 
@@ -242,7 +253,6 @@ void Stage0::GameUpdate()
             w->Fire(startPos, targetPos);
         }
     }
-
     //if (Input::GetKeyTrigger('R'))   // 
     //{
     //	std::vector<Object*> removeList;
@@ -390,10 +400,18 @@ void Stage0::SoundUpdate()
 {
     if (m_Message->GetIndex() == 13 && m_Conversation_BGM_flg_1 == false)
     {
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
         m_Conversation_BGM_flg_1 = true;
         //BGM開始
         Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_010);
     }
+    if( m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+    {
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
+        m_Conversation_BGM_flg_1 = true;
+        //BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_010);
+	}
 }
 
 void Stage0::BuildStartPages()

@@ -84,7 +84,6 @@ private:
 	int m_MaxClearedStage = 0; // どこまでクリアしたかを保存
 
 	// ステージごとの次回開始モード
-	// index0は未使用にして stageNo=1..10 をそのまま使えるように
 	std::array<StageStartMode, 11> m_NextStageStartMode{};
 
 	//ゲームの勝敗判定中に、手や敵のUpdateをブロックする
