@@ -5,6 +5,7 @@ using namespace DirectX::SimpleMath;
 
 void MessageText::Init()
 {
+    m_Type = ObjectType::MESSAGE;
     m_NameSprite.Init();
     m_TextSprite.Init();
 

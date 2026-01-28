@@ -87,6 +87,9 @@ private:
 	// index0は未使用にして stageNo=1..10 をそのまま使えるように
 	std::array<StageStartMode, 11> m_NextStageStartMode{};
 
+	//ゲームの勝敗判定中に、手や敵のUpdateをブロックする
+	bool m_WorldStopped = false;
+
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ
@@ -120,6 +123,10 @@ public:
 	void FlushSpawnQueue();
 	//deleteキューを反映
 	void ApplyDeleteQueue();
+
+	// 勝敗確定でゲーム内の動きを止める
+	static void SetWorldStopped(bool v) {m_Instance->m_WorldStopped = v;}
+	//static bool IsWorldStopped() {return m_Instance->m_WorldStopped;}
 
 	//サウンドを取得
 	static Sound* GetSound() { return &m_Sound; }

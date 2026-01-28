@@ -10,6 +10,8 @@ Game::Game()
 {
 	m_Scene = nullptr;
 
+	m_WorldStopped = false;
+
 	// 全部 StartTalk で初期化（stageNo 1..10）
 	for (int i = 0; i <= 10; ++i)
 	{
@@ -41,7 +43,8 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// 初期シーンを設定
-	m_Instance->ChangeScene(START);
+	//m_Instance->ChangeScene(START);
+	m_Instance->ChangeScene(STAGE0);
 
 	//m_Instance->ChangeScene(STAGE_SELECT);
 	
@@ -84,6 +87,14 @@ void Game::Update()
 
 	//オブジェクト更新
 	for (auto& o : m_Instance->m_Objects) {
+		if (m_Instance->m_WorldStopped == true)
+		{
+			//勝敗判定中なら、背景とフィールド以外のUpdateを止める
+			if (o->GetType() != ObjectType::BACKGROUND &&
+				o->GetType() != ObjectType::FIELD &&
+				o->GetType() != ObjectType::MESSAGE)
+				continue;
+		}
 		o->Update();
 	}
 	//オブジェクト更新終了
@@ -177,6 +188,7 @@ void Game::ChangeScene(SceneName sceneName)
 	}
 	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
+	m_Instance->m_WorldStopped = false;
 	switch (sceneName) {
 	case START:
 		m_Instance->m_Scene = new StartScene();
@@ -247,6 +259,7 @@ void Game::ChangeOldScene()
 	}
 	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
+	m_Instance->m_WorldStopped = false;
 	switch (m_OldScene) {
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();

@@ -7,6 +7,8 @@ void MessageManager::Init()
 	m_Playing = false;
 	m_Index = 0;
 
+	m_Type = ObjectType::MESSAGE;
+
 	CreatePartsIfNeeded();
 }
 

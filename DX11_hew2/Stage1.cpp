@@ -112,6 +112,8 @@ void Stage1::Init()
 	m_ChangeClearCount = 60;
 
 	m_SelectIndex = 0;
+
+	m_GameUpdateBlock = false;
 }
 
 void Stage1::Uninit()
@@ -135,10 +137,13 @@ void Stage1::Uninit()
 
 void Stage1::Update()
 {
-	MessageUpdate();
+	if(m_GameUpdateBlock != true)
+	{
+		UpdateEnemySpawn();
+	}
 	GameUpdate();
-	UpdateEnemySpawn();
 	SoundUpdate();
+	MessageUpdate();
 	IssueUpdate();
 }
 
@@ -1010,6 +1015,8 @@ void Stage1::IssueUpdate()
 {
 	if (m_GameOverFlg == true)
 	{
+		m_GameUpdateBlock = true;
+		Game::GetInstance()->SetWorldStopped(true);
 		// 初回だけ画像生成
 		if (m_GameOverImageFlg == false)
 		{
@@ -1063,6 +1070,7 @@ void Stage1::IssueUpdate()
 		}
 
 		// 見た目反映
+		//選択してる方を大きく、選択していないほうを小さく
 		if (m_SelectIndex == 0)
 		{
 			GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
@@ -1077,6 +1085,7 @@ void Stage1::IssueUpdate()
 		// 決定
 		if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
 		{
+			//もう一度プレイ
 			if (m_SelectIndex == 0)
 			{
 				RePlay();
@@ -1084,6 +1093,7 @@ void Stage1::IssueUpdate()
 			}
 			else
 			{
+				//ステージセレクトへ
 				Game::GetInstance()->ChangeScene(STAGE_SELECT);
 				return;
 			}
@@ -1093,8 +1103,11 @@ void Stage1::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		m_GameUpdateBlock = true;
+		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)
 		{
+			//勝利
 			ClearImage[0] = Game::GetInstance()->AddObject<Texture2D>();
 			ClearImage[0]->SetTexture("assets/texture/win.png");
 			ClearImage[0]->SetPosition(0.0f, 0.0f, 0.0f);
@@ -1109,6 +1122,7 @@ void Stage1::IssueUpdate()
 		{
 			ClearImage[0]->SetScale(0.0f, 0.0f, 0.0f);
 
+			//終了会話スタート
 			BuildEndPages();
 			m_Message->SetPages(m_Pages);
 			m_Message->Play();
@@ -1170,11 +1184,13 @@ void Stage1::IssueUpdate()
 			// 見た目反映
 			if (m_SelectIndex == 0)
 			{
+				//次のステージへ
 				ClearImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
 				ClearImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
 			}
 			else
 			{
+				//セレクトへ
 				ClearImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
 				ClearImage[2]->SetScale(2048.0f, 1152.0f, 0.0f);
 			}
@@ -1184,11 +1200,13 @@ void Stage1::IssueUpdate()
 			{
 				if (m_SelectIndex == 0)
 				{
+					//次のステージへ
 					Game::GetInstance()->ChangeScene(STAGE2);
 					return;
 				}
 				else
 				{
+					//セレクトへ
 					Game::GetInstance()->ChangeScene(STAGE_SELECT);
 					return;
 				}
@@ -1199,15 +1217,15 @@ void Stage1::IssueUpdate()
 
 void Stage1::RePlay()
 {
-	// 画面消す（任意）
+	// 画面消す
 	GameOverImage[0]->SetScale(0.0f, 0.0f, 0.0f);
 	GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
 	GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
 
-	// 次回のStage1はGameplay開始にする（予約）
+	// 次回のStage1はGameplay開始にする
 	Game::GetInstance()->SetNextStageStartMode(1, StageStartMode::Gameplay);
 
-	// ★ステージを作り直す（安全）
+	// ステージを作り直す（安全）
 	Game::GetInstance()->ChangeScene(STAGE1);
 	return;
 }
