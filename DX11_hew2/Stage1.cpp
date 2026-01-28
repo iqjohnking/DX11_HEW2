@@ -139,11 +139,12 @@ void Stage1::Update()
 {
 	if(m_GameUpdateBlock != true)
 	{
+		GameUpdate();
 		UpdateEnemySpawn();
+		MessageUpdate();
 	}
-	GameUpdate();
+	
 	SoundUpdate();
-	MessageUpdate();
 	IssueUpdate();
 }
 

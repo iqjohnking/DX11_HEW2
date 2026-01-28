@@ -121,9 +121,12 @@ void Stage2::Uninit()
 
 void Stage2::Update()
 {
-    MessageUpdate();
-    GameUpdate();
-    UpdateEnemySpawn();
+    if (m_GameUpdateBlock != true)
+    {
+        MessageUpdate();
+        GameUpdate();
+        UpdateEnemySpawn();
+    }
     SoundUpdate();
     IssueUpdate();
 }
@@ -684,6 +687,8 @@ void Stage2::IssueUpdate()
 {
     if (m_GameOverFlg == true)
     {
+        m_GameUpdateBlock = true;
+        Game::GetInstance()->SetWorldStopped(true);
         // ‰‰ñ‚¾‚¯‰æ‘œ¶¬
         if (m_GameOverImageFlg == false)
         {
@@ -770,6 +775,8 @@ void Stage2::IssueUpdate()
 
     if (m_ClearFlg == true)
     {
+        m_GameUpdateBlock = true;
+        Game::GetInstance()->SetWorldStopped(true);
         if (m_ClearImageFlg == false)
         {
             //Ÿ—˜
