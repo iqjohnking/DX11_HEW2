@@ -17,6 +17,9 @@ protected:
 
 	DirectX::SimpleMath::Vector3 m_StartPos;
 	DirectX::SimpleMath::Vector3 m_EndPos;
+	
+	int uid = 0;
+	bool m_oldone = false;
 
 	int m_Hitpoint   = 3;    // ‘Ì—Í
 	bool m_IsGrowing = false; // L‚Ñ’†ƒtƒ‰ƒO
@@ -67,4 +70,10 @@ public:
 	}
 
 	bool IsGrowing() const { return m_IsGrowing; }
+
+	void SetUID(int id) { uid = id; }
+	int GetUID() const { return uid; }
+
+	void SetOldOne(bool old) { m_oldone = old; }
+
 };

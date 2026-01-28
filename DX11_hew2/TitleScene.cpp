@@ -189,7 +189,7 @@ void TitleScene::Update()
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)
 		{
-			if (!m_SilkWalls[i]->IsActive())
+			if ((m_SilkWalls[i]->IsActive()) == false)
 			{
 				w = m_SilkWalls[i];
 				break;
@@ -207,6 +207,7 @@ void TitleScene::Update()
 		if (w && m_HandL && m_HandR)
 		{
 			w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+			w->SetUID(m_SilkCount++);
 		}
 	}
 
@@ -218,7 +219,8 @@ void TitleScene::Update()
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)
 		{
-			if (!m_SilkWalls[i]->IsActive())
+			// 糸壁が非アクティブなら、そこを使う
+			if ((m_SilkWalls[i]->IsActive()) == false)
 			{
 				w = m_SilkWalls[i];
 				break;
@@ -239,7 +241,35 @@ void TitleScene::Update()
 			Vector3 targetPos = m_HandL->GetPosition(); // 左手
 
 			w->Fire(startPos, targetPos);
+			w->SetUID(m_SilkCount++);
 		}
+	}
+
+	int count = 0;
+	int minIndex = -1;
+	int minUID = 0;
+	for (int i = 0; i < 3; ++i)
+	{
+		auto* w = m_SilkWalls[i];
+		if (!w) continue;
+		//if (m_SilkWalls[i]->IsActive() == false) continue;
+		if (w->IsActive())
+		{
+			++count;
+		}
+		w->SetOldOne(false);   // 先全部清掉
+		int uid = w->GetUID();
+		if (minIndex == -1 || uid < minUID)
+		{
+			minUID = uid;
+			minIndex = i;
+		}
+	}
+	//  3 以上ときOldOneを設定 
+	if (count > 2 && minIndex != -1)
+	{
+		
+		m_SilkWalls[minIndex]->SetOldOne(true);
 	}
 
 	//if (Input::GetKeyTrigger('R'))   // 

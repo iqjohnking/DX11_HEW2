@@ -6,6 +6,8 @@ using namespace DirectX::SimpleMath;
 
 void silkWall::Init()
 {
+	isActive = false;
+	
 	m_Hitpoint = 3;
 	m_IsGrowing = false;
 	m_PoiseLevel = 0;
@@ -88,8 +90,19 @@ void silkWall::Update()
 void silkWall::Draw(Camera* cam)
 {
 	if (!isActive) return;
+	if (m_oldone) {
+		const float shake = 2.0f;
+		float offsetX = (rand() / (float)RAND_MAX * 2.0f - 1.0f) * shake;
+		float offsetY = (rand() / (float)RAND_MAX * 2.0f - 1.0f) * shake;
+		Vector3 pos = GetPosition();
+		pos.x += offsetX;
+		pos.y += offsetY;
 
-	m_Texture2D.SetPosition(GetPosition()); // 親クラスの位置を反映
+		m_Texture2D.SetPosition(pos);
+	}
+	else {
+		m_Texture2D.SetPosition(GetPosition()); // 親クラスの位置を反映
+	}
 	m_Texture2D.SetScale(GetScale());	// 親クラスの大きさを反映
 	m_Texture2D.SetRotation(GetRotation()); // 親クラスの回転を反映
 

@@ -43,6 +43,8 @@ private:
 	UI_redSilk*  m_UI_redSilk;    // UI—p‚ÌÔ‚¢…•\¦
 	int         m_NextSilkIndex = 0; // Ÿ‚Ég‚¤…
 
+	int m_SilkCount = 0;
+
 	Shrinemaiden* m_Miko = nullptr;     // ›Ş—
 
 public:
