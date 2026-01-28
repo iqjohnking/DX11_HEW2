@@ -15,6 +15,8 @@ private:
     Texture2D* m_PressEnterwakuImg = nullptr;
     Texture2D* m_PressEnterImg = nullptr;
 
+    float m_curWakuScale = 500.0f;
+
     bool IsMouseOver(Texture2D* obj);
 public:
     StartScene();

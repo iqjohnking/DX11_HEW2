@@ -23,6 +23,9 @@ private:
 	Texture2D* m_StoryBtn = nullptr;
 	Texture2D* m_EndlessBtn = nullptr;
 
+	float m_curStoryScale = 400.0f;
+	float m_curEndlessScale = 400.0f;
+
 	bool IsMouseOver(Texture2D* obj);
 public:
 	ModeSelectScene();

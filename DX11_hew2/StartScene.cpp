@@ -47,20 +47,21 @@ void StartScene::Init()
 
 void StartScene::Update()
 {
-    // --- 1. 入力の取得 ---
+    // --- 入力の取得 ---
     static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
     DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
 
     bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
     lastMousePos = currentMousePos;
 
-    static bool isSelected = false;
+    static bool isSelected = true;
     bool prevSelected = isSelected; // 前フレームの選択状態を保存
 
     DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
-    // --- 2. 選択状態の切り替え ---
+    // --- 選択状態の切り替え ---
     // 上入力でOFF（isSelected = false）
+    
     if (Input::GetButtonTrigger(XINPUT_UP) || Input::GetKeyTrigger(VK_UP) || stick.y > 0.5f)
     {
         isSelected = false;
@@ -71,33 +72,46 @@ void StartScene::Update()
     {
         isSelected = true;
     }
+    
 
-    // マウス移動時はマウスの位置を優先
+    // マウス
     if (mouseMoved)
     {
         isSelected = IsMouseOver(m_PressEnterwakuImg);
     }
 
-    // --- 3. 選択音が変わった瞬間にSE再生 ---
+  
     if (isSelected != prevSelected)
     {
-        // 選択肢が切り替わった時のSE (ラベルは適切なものに変更してください)
-        // Game::GetInstance()->GetSound()->Play(SOUND_LABEL_VOICE_STAGE0_START_001); 
+        // SE 
+      
     }
 
-    // --- 4. 見た目の反映 (スケール変更) ---
-    if (isSelected)
+    float targetStart;
+    if (isSelected == true) 
     {
-        m_PressEnterwakuImg->SetScale(510.0f, 210.0f, 0.0f);
-        m_PressEnterImg->SetScale(210.0f, 110.0f, 0.0f);
+        targetStart = 540.0f; // 選択中なら大きく
     }
-    else
+    else 
     {
-        m_PressEnterwakuImg->SetScale(500.0f, 200.0f, 0.0f);
-        m_PressEnterImg->SetScale(200.0f, 100.0f, 0.0f);
+        targetStart = 500.0f; // 選択してないなら普通
     }
 
-    // --- 5. 決定処理 ---
+    //滑らかに
+    const float speed = 0.5f;
+    m_curWakuScale += (targetStart - m_curWakuScale) * speed;
+
+    // サイズを反映
+    if (m_PressEnterwakuImg && m_PressEnterImg)
+    {
+        // 枠のサイズ
+        m_PressEnterwakuImg->SetScale(m_curWakuScale, m_curWakuScale * 0.42f, 0.0f); 
+
+        // 中の文字
+        m_PressEnterImg->SetScale(m_curWakuScale * 0.42f, m_curWakuScale * 0.22f, 0.0f);
+    }
+
+    // ---決定処理 ---
     bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && IsMouseOver(m_PressEnterwakuImg));
 
     if (isMouseClickOnButton ||
@@ -107,74 +121,14 @@ void StartScene::Update()
         // 選択されている（ボタンが大きくなっている）時だけ決定できる
         if (isSelected)
         {
-            // 決定SE再生 (ラベルは適切なものに変更してください)
-            // Game::GetInstance()->GetSound()->Play(SOUND_LABEL_VOICE_STAGE0_START_003); 
+            // SE
 
             Game::GetInstance()->ChangeScene(MODE_SELECT);
             return;
         }
     }
 
-    /*
-    static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
-    DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
-
-    bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
-    lastMousePos = currentMousePos;
-
-    static bool isSelected = false;
-    bool prevSelected = isSelected;  
-
-    DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
-
-    if (Input::GetButtonTrigger(XINPUT_UP) || Input::GetKeyTrigger(VK_UP) ||
-        Input::GetLeftAnalogStick().y > 0.5f) 
-    {
-        isSelected = false;
-    }
-
-    if (Input::GetButtonTrigger(XINPUT_DOWN) || Input::GetKeyTrigger(VK_DOWN) ||
-        Input::GetLeftAnalogStick().y < -0.5f)
-    {
-        isSelected = true;
-    }
-
-    if (mouseMoved)
-    {
-        isSelected = IsMouseOver(m_PressEnterwakuImg);
-    }
-
-    if (isSelected != prevSelected)
-    {
-        //SE
-    }
-
-    /*
-    bool isSelected = false;
-    if (IsMouseOver(m_PressEnterwakuImg))
-    {
-        isSelected = true;
-    }
-
-    if (isSelected)
-    {
-        m_PressEnterwakuImg->SetScale(510.0f, 210.0f, 0.0f);
-        m_PressEnterImg->SetScale(210.0f, 110.0f, 0.0f);
-    }
-    else
-    {
-        m_PressEnterwakuImg->SetScale(500.0f, 200.0f, 0.0f);
-        m_PressEnterImg->SetScale(200.0f, 100.0f, 0.0f);
-    }
-
-    if (Input::GetMouseButtonTrigger(0) && isSelected || // マウスでボタンの上をクリック
-        Input::GetButtonTrigger(XINPUT_A) ||            // コントローラーAボタン
-        Input::GetKeyTrigger(VK_RETURN))                // キーボードEnterキー
-    {
-        Game::GetInstance()->ChangeScene(MODE_SELECT);
-        return; // シーン遷移後は即終了
-    }
-    */
+   
    
 }
 

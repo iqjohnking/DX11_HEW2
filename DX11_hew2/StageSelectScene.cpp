@@ -142,48 +142,63 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_LEFT)) { m_SelectIndex = (m_SelectIndex + 2) % 3; }
 	if (Input::GetButtonTrigger(XINPUT_RIGHT)){ m_SelectIndex = (m_SelectIndex + 1) % 3; }
 	
-	// --- 左ボタン (Index: 0) ---
-	if (m_mode_in_L)
+	// --- 目標サイズ ---
+	float targetL;
+	float targetM;
+	float targetR;
+
+	if (m_SelectIndex == 0) 
 	{
-		if (m_SelectIndex == 0) 
-		{
-			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
-			m_mode_in_L->SetScale(430.0f, 430.0f, 0.0f); // 選択中
-		}
-		else
-		{
-			m_mode_in_L->SetScale(400.0f, 400.0f, 0.0f); // 非選択
-		}
+		targetL = 440.0f;// 選択中なら大きく
+	}
+	else 
+	{
+		targetL = 400.0f;// 選択してないなら普通
 	}
 
-	// --- 真ん中ボタン (Index: 1) ---
-	if (m_mode_in_M)
+	if (m_SelectIndex == 1) 
 	{
-		if (m_SelectIndex == 1)
-		{
-			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 1;
-			m_mode_in_M->SetScale(430.0f, 430.0f, 0.0f);
-		}
-		else
-		{
-			m_mode_in_M->SetScale(400.0f, 400.0f, 0.0f);
-		}
+		targetM = 440.0f;// 選択中なら大きく
+	}
+	else 
+	{
+		targetM = 400.0f;// 選択してないなら普通
 	}
 
-	// --- 右ボタン (Index: 2) ---
-	if (m_mode_in_R)
+	if (m_SelectIndex == 2) 
 	{
-		if (m_SelectIndex == 2)
-		{
-			//if (IsMouseOver(m_mode_in_L)) m_SelectIndex = 2;
-			m_mode_in_R->SetScale(430.0f, 430.0f, 0.0f);
-		}
-		else
-		{
-			m_mode_in_R->SetScale(400.0f, 400.0f, 0.0f);
-		}
+		targetR = 440.0f;// 選択中なら大きく
+	}
+	else 
+	{
+		targetR = 400.0f;// 選択してないなら普通
+	}
+
+	// 滑らかに 
+	const float speed = 0.5f;
+	m_curScaleL += (targetL - m_curScaleL) * speed;
+	m_curScaleM += (targetM - m_curScaleM) * speed;
+	m_curScaleR += (targetR - m_curScaleR) * speed;
+
+	// サイズを反映
+	// 左ボタン
+	if (m_mode_in_L) 
+	{
+		m_mode_in_L->SetScale(m_curScaleL, m_curScaleL, 0.0f);
 	}
 	
+	// 真ん中ボタン
+	if (m_mode_in_M) 
+	{
+		m_mode_in_M->SetScale(m_curScaleM, m_curScaleM, 0.0f);
+	}
+	
+	// 右ボタン
+	if (m_mode_in_R) 
+	{
+		m_mode_in_R->SetScale(m_curScaleR, m_curScaleR, 0.0f);
+	}
+
 	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
 
 	// --- 決定処理（Aボタン） ---

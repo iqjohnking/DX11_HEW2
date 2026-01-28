@@ -23,6 +23,10 @@ private:
 	Texture2D* m_mode_in_M = nullptr;
 	Texture2D* m_mode_in_R = nullptr;
 
+	float m_curScaleL = 400.0f;
+	float m_curScaleM = 400.0f;
+	float m_curScaleR = 400.0f;
+
 	bool IsMouseOver(Texture2D* obj);
 
 	int m_SelectIndex = 0; // 0?2	ƒ{ƒ^ƒ“‚Ì‘I‘ð
