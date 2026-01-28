@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Texture2D.h"
-#include "TitleBG.h"
+#include "SelectBG.h"
 
 // コンストラクタ
 StartScene::StartScene()
@@ -17,7 +17,7 @@ StartScene::~StartScene()
 void StartScene::Init()
 {
     // 背景の追加
-    auto* bg = Game::GetInstance()->AddObject<TitleBG>();
+    auto* bg = Game::GetInstance()->AddObject<SelectBG>();
     m_MySceneObjects.push_back(bg);
 
     m_Title = Game::GetInstance()->AddObject<Texture2D>();

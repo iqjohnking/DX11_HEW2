@@ -228,6 +228,9 @@
     <ClCompile Include="StageSelectScene.cpp">
       <Filter>ソース ファイル\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Select.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="StageSelectScene.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectBG.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

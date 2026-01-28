@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Texture2D.h"
-#include "TitleBG.h"
+#include "SelectBG.h"
 
 ModeSelectScene::ModeSelectScene() 
 {
@@ -17,7 +17,7 @@ ModeSelectScene::~ModeSelectScene()
 void ModeSelectScene::Init()
 {
 	// ”wŒi‚Ì¶¬
-	auto* bg = Game::GetInstance()->AddObject<TitleBG>();
+	auto* bg = Game::GetInstance()->AddObject<SelectBG>();
 	bg->SetPosition(0.0f, 0.0f, 0.5f);
 	m_MySceneObjects.emplace_back(bg);
 	
