@@ -37,7 +37,7 @@ void Stage0::Init()
 
     // FIELD
     m_Field = Game::GetInstance()->AddObject<Field>();
-    m_MySceneObjects.emplace_back(m_Field);
+    m_MySceneObjects.emplace_back(m_Field);    
 
     // silkWall*3
     for (int i = 0; i < 3; ++i)
@@ -103,7 +103,8 @@ void Stage0::Update()
     MessageUpdate();
     GameUpdate();
     SoundUpdate();
-    UpdateEnemySpawn();
+    UIUpdate();
+    UpdateEnemySpawn();    
     // 終了会話が終わったらリザルトへ
     if (m_Flow == Flow::EndTalk)
     {
@@ -728,23 +729,105 @@ void Stage0::BuildEndPages()
     m_Pages.clear();
 }
 
+void Stage0::UIUpdate()
+{
+    if (m_Flow != Flow::Gameplay) return;
+
+    if (phase1Flag == true && phase1UIFlag == false)
+    {
+        //チュートリアル用矢印
+        m_tutorialarrow_sankaku = Game::GetInstance()->AddObject<Texture2D>();
+        m_tutorialarrow_sankaku->SetTexture("assets/texture/ui/tutorialarrow001.png");
+        m_tutorialarrow_sankaku->SetPosition(0.0f, 50.0f, -1.0f);
+        m_tutorialarrow_sankaku->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialarrow_sankaku->SetDrawOrder(10000);
+        m_MySceneObjects.emplace_back(m_tutorialarrow_sankaku);
+
+        //テキスト
+        m_tutorialstagetext000 = Game::GetInstance()->AddObject<Texture2D>();
+        m_tutorialstagetext000->SetTexture("assets/texture/ui/tutorialstagetext000.png");
+        m_tutorialstagetext000->SetPosition(0.0f, 0.0f, -1.0f);
+        m_tutorialstagetext000->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext000->SetDrawOrder(10000);
+        m_MySceneObjects.emplace_back(m_tutorialstagetext000);
+
+        phase1UIFlag = true;
+    }
+
+    if (phase2Flag == true && phase2UIFlag == false)
+    {
+        //Scaleを0にして前のUIを非表示にする
+        m_tutorialarrow_sankaku->SetScale(0.0f, 0.0f, 0.0f);
+        m_tutorialstagetext000->SetScale(0.0f, 0.0f, 0.0f);
+
+        //チュートリアル用矢印
+        m_tutorialarrow = Game::GetInstance()->AddObject<Texture2D>();
+        m_tutorialarrow->SetTexture("assets/texture/ui/tutorialarrow000.png");
+        m_tutorialarrow->SetPosition(0.0f, 0.0f, -1.0f);
+        m_tutorialarrow->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialarrow->SetDrawOrder(10000);
+        m_MySceneObjects.emplace_back(m_tutorialarrow);
+
+        //テキスト
+        m_tutorialstagetext001 = Game::GetInstance()->AddObject<Texture2D>();
+        m_tutorialstagetext001->SetTexture("assets/texture/ui/tutorialstagetext001.png");
+        m_tutorialstagetext001->SetPosition(0.0f, 0.0f, -1.0f);
+        m_tutorialstagetext001->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext001->SetDrawOrder(10000);
+        m_MySceneObjects.emplace_back(m_tutorialstagetext001);
+
+        phase2UIFlag = true;
+    }
+
+    if (phase3Flag == true && phase3UIFlag == false)
+    {
+		//Scaleを0にして前のUIを非表示にする
+        m_tutorialarrow->SetScale(0.0f, 0.0f, 0.0f);
+        m_tutorialstagetext001->SetScale(0.0f, 0.0f, 0.0f);
+
+        //テキスト
+        m_tutorialstagetext002 = Game::GetInstance()->AddObject<Texture2D>();
+        m_tutorialstagetext002->SetTexture("assets/texture/ui/tutorialstagetext002.png");
+        m_tutorialstagetext002->SetPosition(0.0f, 0.0f, -1.0f);
+        m_tutorialstagetext002->SetScale(1920.0f, 1080.0f, 0.0f);
+        m_tutorialstagetext002->SetDrawOrder(10000);
+        m_MySceneObjects.emplace_back(m_tutorialstagetext002);
+
+        phase3UIFlag = true;
+    }
+
+	//最後の敵を倒したらテキストを非表示にする
+    if (StagekillCount == 3)
+    {
+        m_tutorialstagetext002->SetScale(0.0f, 0.0f, 0.0f);
+    }
+}
+
 void Stage0::UpdateEnemySpawn()
 {
     if (phase1Flag == false)	//フェーズ1が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(0.0f, 150.0f, 0.0f));
+		EnemySpawnSpeedzero(NORMAL, Vector3(0.0f, 150.0f, 0.0f));   //動かない敵をスポーンさせる
+        //巫女の速度も0に設定、チュートリアル用
+        m_Miko->SetMinSpeed(0.0f);
+        m_Miko->SetAcceleration(0.0f);
+		m_Miko->SetMaxSpeed(0.0f);
         phase1Flag = true;
     }
 
     if (StagekillCount == 1 && phase2Flag == false) //前のフェーズの敵を倒して、かつフェーズ2が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(-50.0f, 400.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(-30.0f, 350.0f, 0.0f));
         phase2Flag = true;
     }
 
     if (StagekillCount == 2 && phase3Flag == false)	//前のフェーズの敵を倒して、かつフェーズ3が未実行なら
     {
-        EnemySpawn(NORMAL, Vector3(0.0f, 350.0f, 0.0f));
+        EnemySpawn(NORMAL, Vector3(0.0f, 300.0f, 0.0f));
+        //巫女の速度を元に戻す
+        m_Miko->SetMinSpeed(0.0f);
+        m_Miko->SetAcceleration(0.2f);
+		m_Miko->SetMaxSpeed(10.0f);
         phase3Flag = true;
     }
 }
@@ -759,6 +842,7 @@ void Stage0::StageClearCheck()
 
    // Game::GetInstance()->SetMaxClearedStage(1);
 
+
 }
 
 void Stage0::StageFailedCheck()
@@ -766,4 +850,32 @@ void Stage0::StageFailedCheck()
     //ステージ失敗かどうか
     //巫女のHPが0になったら失敗にする
     //チュートリアルでは死んだら死んだウェーブから再開とのこと
+}
+
+//チュートリアルで速度0の敵をスポーンさせる関数
+void Stage0::EnemySpawnSpeedzero(EnemyType enemyType, DirectX::SimpleMath::Vector3 pos)
+{
+    switch (enemyType)
+    {
+    case NORMAL:
+        for (int i = 0; i < 60; i++)
+        {
+            if (Enemy1List[i] != nullptr)
+                continue;
+            Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
+            Enemy1List[i]->SetTarget(m_Miko);
+            Enemy1List[i]->SetField(m_Field);
+            Enemy1List[i]->SetPosition(pos);
+			Enemy1List[i]->SetMinSpeed(0.0f); //速度0に設定、チュートリアル用
+			Enemy1List[i]->SetAcceleration(0.0f); //加速度0に設定、チュートリアル用
+			Enemy1List[i]->SetMaxSpeed(0.0f); //速度0に設定、チュートリアル用
+            m_MySceneObjects.emplace_back(Enemy1List[i]);
+            break;
+    
+        }
+        break;
+
+    default:
+        break;
+    }
 }
