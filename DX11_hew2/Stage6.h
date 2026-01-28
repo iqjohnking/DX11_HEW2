@@ -15,7 +15,6 @@ private:
 	bool phase8Flag = false;
 	bool phase9Flag = false;
 	bool phase10Flag = false;
-	bool phase11Flag = false;
 
 	//SoundFlg
 	bool m_Conversation_BGM_flg_1 = false;

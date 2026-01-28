@@ -78,6 +78,11 @@ void silkWall::Update()
 
 	// Õ“Ë”»’è‚ğ–ˆƒtƒŒ[ƒ€Às‚µ‚Ä“–‚½‚Á‚Ä‚¢‚½‚ç¬’·‚ğ~‚ß‚é
 	HandleCollisionAndGrowth();
+
+
+	if (Input::GetKeyPress(VK_Q)|| Input::GetButtonPress(XINPUT_X))
+	reInit();
+
 }
 
 void silkWall::Draw(Camera* cam)

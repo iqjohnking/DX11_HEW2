@@ -8,7 +8,7 @@
 #include"StageSelectScene.h"
 #include "TitleScene.h"
 #include "Stage1Scene.h"
-#include "ResultScene.h"
+#include "GameOverScene.h"
 #include "Stage0.h"
 #include "Stage1.h"
 #include "Stage2.h"
@@ -20,6 +20,7 @@
 #include "Stage8.h"
 #include "Stage9.h"
 #include "Stage10.h"
+#include <array>
 
 enum SceneName {
 	START,
@@ -37,7 +38,14 @@ enum SceneName {
 	STAGE8,
 	STAGE9,
 	STAGE10,
-	RESULT
+	GAMEOVER
+};
+
+//再プレイ用
+enum class StageStartMode
+{
+	StartTalk,  // 会話から
+	Gameplay,   // 会話スキップでゲームから
 };
 
 class Game
@@ -75,6 +83,13 @@ private:
 
 	int m_MaxClearedStage = 0; // どこまでクリアしたかを保存
 
+	// ステージごとの次回開始モード
+	// index0は未使用にして stageNo=1..10 をそのまま使えるように
+	std::array<StageStartMode, 11> m_NextStageStartMode{};
+
+	//ゲームの勝敗判定中に、手や敵のUpdateをブロックする
+	bool m_WorldStopped = false;
+
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ
@@ -85,6 +100,13 @@ public:
 	static void Uninit(); // 終了処理
 
 	static Game* GetInstance();
+
+	//再プレイ用の関数
+	// 次回の開始モードをセット
+	void SetNextStageStartMode(int stageNo, StageStartMode mode);
+
+	// 次回の開始モードを取得
+	StageStartMode ConsumeNextStageStartMode(int stageNo);
 
 	//Camera* GetCamera() { return &m_Instance->m_Camera; }
 	Camera* GetCamera() { return &m_Camera; }
@@ -101,6 +123,10 @@ public:
 	void FlushSpawnQueue();
 	//deleteキューを反映
 	void ApplyDeleteQueue();
+
+	// 勝敗確定でゲーム内の動きを止める
+	static void SetWorldStopped(bool v) {m_Instance->m_WorldStopped = v;}
+	//static bool IsWorldStopped() {return m_Instance->m_WorldStopped;}
 
 	//サウンドを取得
 	static Sound* GetSound() { return &m_Sound; }

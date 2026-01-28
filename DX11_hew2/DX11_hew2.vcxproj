@@ -163,7 +163,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="playerHand.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shrinemaiden.cpp" />
@@ -237,7 +237,7 @@
     <ClInclude Include="ObjectType.h" />
     <ClInclude Include="playerHand.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shrinemaiden.h" />

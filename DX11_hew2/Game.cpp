@@ -9,6 +9,14 @@ Sound Game::m_Sound;
 Game::Game()
 {
 	m_Scene = nullptr;
+
+	m_WorldStopped = false;
+
+	// 全部 StartTalk で初期化（stageNo 1..10）
+	for (int i = 0; i <= 10; ++i)
+	{
+		m_NextStageStartMode[i] = StageStartMode::StartTalk;
+	}
 }
 
 // デストラクタ
@@ -35,7 +43,8 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// 初期シーンを設定
-	m_Instance->ChangeScene(START);
+	//m_Instance->ChangeScene(START);
+	m_Instance->ChangeScene(STAGE0);
 
 	//m_Instance->ChangeScene(STAGE_SELECT);
 	
@@ -43,6 +52,23 @@ void Game::Init()
 	//m_Instance->ChangeScene(STAGE10);
 
 }
+
+void Game::SetNextStageStartMode(int stageNo, StageStartMode mode)
+{
+	if (stageNo < 1 || stageNo > 10) return;
+	m_NextStageStartMode[stageNo] = mode;
+}
+
+StageStartMode Game::ConsumeNextStageStartMode(int stageNo)
+{
+	if (stageNo < 1 || stageNo > 10)
+		return StageStartMode::StartTalk;
+
+	StageStartMode mode = m_NextStageStartMode[stageNo];
+	m_NextStageStartMode[stageNo] = StageStartMode::StartTalk; // ★消費したら戻す
+	return mode;
+}
+
 
 // 更新
 void Game::Update()
@@ -61,6 +87,14 @@ void Game::Update()
 
 	//オブジェクト更新
 	for (auto& o : m_Instance->m_Objects) {
+		if (m_Instance->m_WorldStopped == true)
+		{
+			//勝敗判定中なら、背景とフィールド以外のUpdateを止める
+			if (o->GetType() != ObjectType::BACKGROUND &&
+				o->GetType() != ObjectType::FIELD &&
+				o->GetType() != ObjectType::MESSAGE)
+				continue;
+		}
 		o->Update();
 	}
 	//オブジェクト更新終了
@@ -154,6 +188,7 @@ void Game::ChangeScene(SceneName sceneName)
 	}
 	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
+	m_Instance->m_WorldStopped = false;
 	switch (sceneName) {
 	case START:
 		m_Instance->m_Scene = new StartScene();
@@ -200,8 +235,8 @@ void Game::ChangeScene(SceneName sceneName)
 	case STAGE10:
 		m_Instance->m_Scene = new Stage10();
 		break;
-	case RESULT:
-		m_Instance->m_Scene = new ResultScene();
+	case GAMEOVER:
+		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:
 		break;
@@ -224,6 +259,7 @@ void Game::ChangeOldScene()
 	}
 	m_Instance->ApplyDeleteQueue();
 	m_Instance->DeleteAllObjects();
+	m_Instance->m_WorldStopped = false;
 	switch (m_OldScene) {
 	case TITLE:
 		m_Instance->m_Scene = new TitleScene();
@@ -243,8 +279,8 @@ void Game::ChangeOldScene()
 	case STAGE3:
 		m_Instance->m_Scene = new Stage3();
 		break;
-	case RESULT:
-		m_Instance->m_Scene = new ResultScene();
+	case GAMEOVER:
+		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:
 		break;

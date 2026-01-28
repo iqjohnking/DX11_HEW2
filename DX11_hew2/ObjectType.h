@@ -10,4 +10,5 @@ enum class ObjectType {
 	ENEMY,
 	ENEMYBULLET,
 	MAYU,
+	MESSAGE
 };

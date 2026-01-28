@@ -33,7 +33,7 @@ void Field::Update()
 
 void Field::Draw(Camera* cam)
 {
-	DrawDebug(cam);
+	//DrawDebug(cam);
 
 	//m_Texture2D.Texture2D::SetPosition(Field::GetPosition()); // 親クラスの位置を反映
 	m_Texture2D.Texture2D::Draw(cam);
@@ -47,7 +47,7 @@ void Field::DrawDebug(Camera* cam)
 	{
 		line.Texture2D::Init();
 		line.Init();
-		line.SetTexture("assets/texture/ui_back.png"); // 準備好的 1x1 白貼圖
+		line.SetTexture("assets/texture/ui_back.png"); // 1x1 白
 		initialized = true;
 	}
 

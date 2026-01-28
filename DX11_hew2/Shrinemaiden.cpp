@@ -92,6 +92,8 @@ void Shrinemaiden::Init()
 	// –³“GEŒŸõƒtƒ‰ƒO‰Šú‰»
 	m_MutekiTimer = 0;
 	m_IgnoreEnemyInSearch = false;
+
+	m_Hitpoint = 3;
 }
 
 void Shrinemaiden::Update()
@@ -185,7 +187,7 @@ void Shrinemaiden::Draw(Camera* cam)
 {
 	m_Texture2D.SetPosition(GetPosition());
 	m_Texture2D.Draw(cam);
-	DrawDebugTriangles(cam);
+	//DrawDebugTriangles(cam);
 }
 
 void Shrinemaiden::Uninit()

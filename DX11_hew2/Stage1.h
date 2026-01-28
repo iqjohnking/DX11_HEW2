@@ -29,6 +29,8 @@ public:
 	void MessageUpdate() override;	//会話パート更新
 	void GameUpdate() override;		//ゲームパート更新
 	void SoundUpdate() override;	//sound更新
+	void IssueUpdate();				//勝敗判定に応じた処理を行う
+	void RePlay();
 
 	//会話パート
 	void BuildStartPages() override;

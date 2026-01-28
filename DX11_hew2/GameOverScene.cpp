@@ -1,22 +1,22 @@
-#include "ResultScene.h"
+#include "GameOverScene.h"
 #include "Game.h"
 #include "Input.h"
 #include "Texture2D.h"
 
 // コンストラクタ
-ResultScene::ResultScene()
+GameOverScene::GameOverScene()
 {
 	
 }
 
 // デストラクタ
-ResultScene::~ResultScene()
+GameOverScene::~GameOverScene()
 {
 	
 }
 
 // 初期化
-void ResultScene::Init()
+void GameOverScene::Init()
 {
 	// 背景画像オブジェクト生成
 	Texture2D* pt = Game::GetInstance()->AddObject<Texture2D>();
@@ -39,7 +39,7 @@ void ResultScene::Init()
 }
 
 // 更新
-void ResultScene::Update()
+void GameOverScene::Update()
 {
 	// スペースキーを押してタイトルへ
 	if (Input::GetKeyTrigger(VK_SPACE))
@@ -55,7 +55,7 @@ void ResultScene::Update()
 }
 
 // 終了処理
-void ResultScene::Uninit()
+void GameOverScene::Uninit()
 {
 	// このシーンのオブジェクトを削除する
 	for (auto& o : m_MySceneObjects) {
