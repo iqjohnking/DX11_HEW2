@@ -544,7 +544,7 @@ void Stage2::UpdateEnemySpawn()
         phase4Flag = true;
     }
 
-    if (elapsedSeconds == 27 && phase5Flag == false)
+    if (elapsedSeconds == 29 && phase5Flag == false)
     {
         EnemySpawn(NORMAL, Vector3(60.0f, -400.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(-60.0f, -400.0f, 0.0f));
@@ -553,7 +553,7 @@ void Stage2::UpdateEnemySpawn()
         phase5Flag = true;
     }
 
-    if (elapsedSeconds == 35 && phase6Flag == false)
+    if (elapsedSeconds == 36 && phase6Flag == false)
     {
         EnemySpawn(NORMAL, Vector3(350.0f, 300.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(250.0f, 350.0f, 0.0f));
@@ -570,7 +570,7 @@ void Stage2::UpdateEnemySpawn()
         phase7Flag = true;
     }
 
-    if (elapsedSeconds == 48 && phase8Flag == false)
+    if (elapsedSeconds == 49 && phase8Flag == false)
     {
         EnemySpawn(NORMAL, Vector3(450.0f, 100.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(380.0f, 250.0f, 0.0f));
@@ -580,7 +580,7 @@ void Stage2::UpdateEnemySpawn()
         phase8Flag = true;
     }
 
-    if (elapsedSeconds == 54 && phase9Flag == false)
+    if (elapsedSeconds == 56 && phase9Flag == false)
     {
         EnemySpawn(NORMAL, Vector3(200.0f, -380.0f, 0.0f));
         EnemySpawn(NORMAL, Vector3(50.0f, -400.0f, 0.0f));
