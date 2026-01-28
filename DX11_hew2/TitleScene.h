@@ -10,6 +10,7 @@
 #include "TitleBG.h"
 #include "silkWall.h"
 #include "playerHand.h"
+#include "UI_redSilk.h"
 #include "Field.h"
 #include "Shrinemaiden.h"
 #include "EnemyBase.h"	
@@ -39,6 +40,7 @@ private:
 	Hashira*	hashiras[10]{};  // テスト用に10体
 	playerHand* m_HandL = nullptr; // 左手
 	playerHand* m_HandR = nullptr; // 右手
+	UI_redSilk*  m_UI_redSilk;    // UI用の赤い糸表示
 	int         m_NextSilkIndex = 0; // 次に使う糸
 
 	Shrinemaiden* m_Miko = nullptr;     // 巫女

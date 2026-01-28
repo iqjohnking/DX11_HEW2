@@ -60,4 +60,12 @@ public:
 	
 	int  GetDrawOrder() const { return m_DrawOrder; }
 	void SetDrawOrder(int order) { m_DrawOrder = order; }
+	//	0”wŒi
+	//	1ƒtƒB[ƒ‹ƒh
+	//	2…g
+	//	3–š/è
+	//	4…•Ç
+	//	5“G
+	//	6‹­‚¢“G^“Á•Ê“G
+	//  7›Ş—
 };

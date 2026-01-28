@@ -50,6 +50,10 @@ void TitleScene::Init()
 	m_HandR->SetAnotherHand(m_HandL);
 	//m_HandR->SetField(m_Field);
 
+	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
+	m_MySceneObjects.emplace_back(m_UI_redSilk);
+	m_UI_redSilk->SetHands(m_HandL, m_HandR);
+
 	////›Þ—
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(m_Miko);

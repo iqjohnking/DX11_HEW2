@@ -8,7 +8,9 @@ protected:
 	Texture2D m_Texture2D;
 	//Collision::Sphere m_Collider; // 当たり判定の為の情報　
 
+
 	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
+	int  getHitTimer = 0; //	m_Texture2D.PlayAnim("dying");
 	//static constexpr int kMayuFrames = 15; enemyBaseに移動済み
 
 public:

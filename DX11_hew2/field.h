@@ -24,7 +24,7 @@ protected:
 	std::vector<Edge> m_Edges;				// ‹«ŠEƒ|ƒŠƒSƒ“‚Ì‘S•Ó
 
 	Vector3 m_Center { 0.0f, 0.0f, 0.0f };	// ê’n’†S
-	float m_Radius = 450.0f;				// ê’n”¼Œa
+	float m_Radius = 480.0f;				// ê’n”¼Œa
 	int   m_EdgeCount = 16;					// •Ó‚Ì”
 
 public:

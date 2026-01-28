@@ -16,7 +16,7 @@ void Enemy1::Init()
 	SetVelocity(0.0f);      // ‰‘¬ƒ[ƒ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // ‰ŠúŒü‚«i‰½‚Å‚àOKj
 	SetIsAlive(true);
-	m_Radius = 25.0f; //ŒÂ•Ê’²®
+	m_Radius = 35.0f; //ŒÂ•Ê’²®
 	mayuingTimer = 0;
 
 	//‰Šú‰»ˆ—
@@ -30,13 +30,13 @@ void Enemy1::Init()
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
 
-	SetDrawOrder(4);
+	SetDrawOrder(5);
 
-	m_Texture2D.SetSpriteSheet(4, 3);
+	m_Texture2D.SetSpriteSheet(5, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
-	m_Texture2D.AddAnimClip("atk", 4, 7, 10);
-	m_Texture2D.AddAnimClip("spawn", 8, 11, 10);
-	m_Texture2D.AddAnimClip("dying", 8, 8, 20);
+	//m_Texture2D.AddAnimClip("atk", 4, 7, 10);
+	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
+	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -87,6 +87,12 @@ void Enemy1::move()
 	}
 	case EnemyState::ALIVE:
 	{
+		if (getHitTimer > 0) {
+			getHitTimer--;
+			if (getHitTimer <= 0) {
+				m_Texture2D.PlayAnim("idle");
+			}
+		}
 		if (stunTimer <= 0) {
 			// 1) ›Þ—‚ÖŒü‚©‚¤Šî–{•ûŒü
 			m_direction = miko_pos - now_pos;
@@ -188,7 +194,8 @@ void Enemy1::move()
 
 				int dmg = w->GetPoiseDmg();
 				m_Hitpoint -= dmg;
-			
+				getHitTimer = 10;
+				m_Texture2D.PlayAnim("dying");
 
 				break;
 			}
@@ -207,6 +214,9 @@ void Enemy1::move()
 	}
 	case EnemyState::ISMAYUING:
 	{
+
+		m_Texture2D.PlayAnim("dying");
+
 		mayuingTimer++; // 0 -> kMayuFrames
 
 		float t = (float)mayuingTimer / (float)kMayuFrames;
@@ -225,6 +235,9 @@ void Enemy1::move()
 	}
 	case EnemyState::DYING:
 	{
+
+		m_Texture2D.PlayAnim("dying");
+
 		dyingTimer++;
 		if (dyingTimer >= kMayuFrames)
 		{

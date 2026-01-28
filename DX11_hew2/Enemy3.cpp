@@ -17,7 +17,7 @@ void Enemy3::Init()
 	SetVelocity(0.0f);      // ‰‘¬ƒ[ƒ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // ‰ŠúŒü‚«i‰½‚Å‚àOKj
 	SetIsAlive(true);
-	m_Radius = 25.0f; //ŒÂ•Ê’²®
+	m_Radius = 35.0f; //ŒÂ•Ê’²®
 	mayuingTimer = 0;
 
 	//‰Šú‰»ˆ—
@@ -31,7 +31,7 @@ void Enemy3::Init()
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
 
-	SetDrawOrder(4);
+	SetDrawOrder(5);
 
 	m_Texture2D.SetSpriteSheet(4, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);

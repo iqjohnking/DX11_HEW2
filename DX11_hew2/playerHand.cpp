@@ -32,24 +32,24 @@ void playerHand::Init()
     }
 
     SetFieldCenter(m_Field->GetCenter());
-    SetRadius(m_Field->GetRadius() + 50.f);
-    Vector3 initScale = Vector3(100.0f, 50.0f, 0.0f);
+    SetFieldRadius(m_Field->GetRadius() + 30.f);
+    Vector3 initScale = Vector3(120.0f, 60.0f, 0.0f);
     SetScale(initScale);
 
     if (m_Side == HandSide::Left)
     {
         Vector3 pos;
         m_FiledAngleRad += PI;
-        pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_Radius;
-        pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_Radius;
+        pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_FieldRadius;
+        pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_FieldRadius;
         pos.z = 0.0f;
         SetPosition(pos);
     }
     else if (m_Side == HandSide::Right)
     {
         Vector3 pos;
-        pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_Radius;
-        pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_Radius;
+        pos.x = m_FiledCenter.x + cosf(m_FiledAngleRad) * m_FieldRadius;
+        pos.y = m_FiledCenter.y + sinf(m_FiledAngleRad) * m_FieldRadius;
         pos.z = 0.0f;
         m_Texture2D.SetFlipY(true);
         SetPosition(pos);
@@ -66,7 +66,7 @@ void playerHand::Init()
     m_Texture2D.SetRotation(m_Rotation);
     m_Texture2D.SetScale(100.0f, 50.0f, 0.0f);
 
-    SetDrawOrder(2);
+    SetDrawOrder(3);
 }
 
 void playerHand::Update()
@@ -193,8 +193,8 @@ void playerHand::Move()
     if (hasCandidate)
     {
         Vector3 candidatePos;
-        candidatePos.x = m_FiledCenter.x + cosf(candidateAngle) * m_Radius;
-        candidatePos.y = m_FiledCenter.y + sinf(candidateAngle) * m_Radius;
+        candidatePos.x = m_FiledCenter.x + cosf(candidateAngle) * m_FieldRadius;
+        candidatePos.y = m_FiledCenter.y + sinf(candidateAngle) * m_FieldRadius;
         candidatePos.z = 0.0f;
 
         //==================================================

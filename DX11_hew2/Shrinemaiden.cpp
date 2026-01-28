@@ -71,7 +71,7 @@ void Shrinemaiden::Init()
 	SetDirection(Vector3(1, 0, 0));
 	SetIsAlive(true);
 
-	m_Radius = 25.0f;
+	m_Radius = 35.0f;
 
 	m_Texture2D.Texture2D::Init();
 	m_Texture2D.SetTexture("assets/texture/mikoanime.png");
@@ -80,13 +80,13 @@ void Shrinemaiden::Init()
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
 
-	SetDrawOrder(6);
+	SetDrawOrder(7);
 
-	m_Texture2D.SetSpriteSheet(4, 4);
+	m_Texture2D.SetSpriteSheet(4, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("getH", 4, 7, 10);
-	m_Texture2D.AddAnimClip("mayu", 8, 11, 10);
-	m_Texture2D.AddAnimClip("test", 12, 15, 10);
+	m_Texture2D.AddAnimClip("mayu", 8, 8, 10);
+	//m_Texture2D.AddAnimClip("test", 12, 15, 10);
 	m_Texture2D.PlayAnim("idle");
 
 	// –³“GEŒŸõƒtƒ‰ƒO‰Šú‰»

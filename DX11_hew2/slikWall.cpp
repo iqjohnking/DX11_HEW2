@@ -33,7 +33,7 @@ void silkWall::Init()
 	m_Segment.start = m_StartPos;
 	m_Segment.end = m_StartPos;
 
-	SetDrawOrder(3);
+	SetDrawOrder(4);
 }
 
 void silkWall::Update()

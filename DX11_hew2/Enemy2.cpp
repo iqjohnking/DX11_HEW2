@@ -16,7 +16,7 @@ void Enemy2::Init()
 	SetVelocity(0.0f);      // 初速ゼロ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
 	SetIsAlive(true);
-	m_Radius = 25.0f; //個別調整
+	m_Radius = 40.0f; //個別調整
 
 	//初期化処理
 	m_Texture2D.Texture2D::Init();
@@ -29,7 +29,7 @@ void Enemy2::Init()
 	m_Collider.center = GetPosition();
 	m_Collider.radius = m_Radius;
 
-	SetDrawOrder(4);
+	SetDrawOrder(5);
 
 	m_Texture2D.SetSpriteSheet(4, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
@@ -204,7 +204,7 @@ void Enemy2::move()
 		// 4) 絹の壁との衝突判定
 		vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
 
-		// 攻?判定用（?撞球を少し大きくする）
+		// 攻?判定用（?を少し大きくする）
 		Collision::Sphere atkSphere = m_Collider;
 		static constexpr float kAttackRangeExtra = 12.0f; // 
 		atkSphere.radius = m_Collider.radius + kAttackRangeExtra;
