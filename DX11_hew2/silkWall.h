@@ -1,5 +1,6 @@
 #pragma once
 #include "Input.h"
+#include "Hashira.h"
 #include "Texture2D.h"
 #include "Collision.h" 
 

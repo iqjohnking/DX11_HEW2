@@ -150,6 +150,7 @@
     <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Hashira.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModeSelectScene.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="EnemyType.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Hashira.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="DeBugLine2D.h" />
