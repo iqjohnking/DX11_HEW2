@@ -4,6 +4,7 @@ using namespace DirectX::SimpleMath;
 
 void MessageUI::Init()
 {
+    m_Type = ObjectType::MESSAGE;
     m_Frame.Init();
 
     // 初期レイアウト

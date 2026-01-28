@@ -26,6 +26,7 @@ void TalkCharacter::ApplyLayoutToSprite()
 
 void TalkCharacter::Init()
 {
+    m_Type = ObjectType::MESSAGE;
     m_Sprite.Init();
     ApplyLayoutToSprite();
 

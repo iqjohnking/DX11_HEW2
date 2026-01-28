@@ -90,7 +90,9 @@ void Game::Update()
 		if (m_Instance->m_WorldStopped == true)
 		{
 			//Ÿ”s”»’è’†‚È‚çA”wŒi‚ÆƒtƒB[ƒ‹ƒhˆÈŠO‚ÌUpdate‚ðŽ~‚ß‚é
-			if (o->GetType() != ObjectType::BACKGROUND && o->GetType() != ObjectType::FIELD)
+			if (o->GetType() != ObjectType::BACKGROUND &&
+				o->GetType() != ObjectType::FIELD &&
+				o->GetType() != ObjectType::MESSAGE)
 				continue;
 		}
 		o->Update();
