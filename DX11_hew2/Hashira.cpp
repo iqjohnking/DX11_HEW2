@@ -18,16 +18,17 @@ void Hashira::Init()
 	m_Collider.radius = GetRadius();		// ‰Šú’l25,25,0//ŠO‚Å•Ï‚¦‚é
 
 	//animation İ’è
-	m_Texture2D.SetSpriteSheet(3, 3);
-	m_Texture2D.AddAnimClip("SPAWNING", 0, 0, 10);
-
-	m_Texture2D.PlayAnim("SPAWNING");
+	//m_Texture2D.SetSpriteSheet(3, 3);
+	//m_Texture2D.AddAnimClip("SPAWNING", 0, 0, 10);
+	//
+	//m_Texture2D.PlayAnim("SPAWNING");
 
 	SetDrawOrder(2);
 }
 
 void Hashira::Update()
 {
+
 }
 
 void Hashira::Draw(Camera* cam)

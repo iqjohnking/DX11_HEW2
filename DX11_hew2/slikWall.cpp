@@ -1,5 +1,7 @@
 #include "silkWall.h"
+#include "Game.h"
 
+using namespace std;
 using namespace DirectX::SimpleMath;
 
 void silkWall::Init()
@@ -47,7 +49,7 @@ void silkWall::Update()
 	}
 
 
-	if(m_PoiseTimer>0)
+	if (m_PoiseTimer > 0)
 		m_PoiseTimer--;
 	else
 		m_PoiseLevel = 0;
@@ -55,20 +57,27 @@ void silkWall::Update()
 
 	Vector3 ScaleNow = m_Scale;
 
-	// 目標位置までの長さを超えたら止める
-	if (ScaleNow.x >= m_TargetLength)
+	// 成長フラグが立っているときだけ伸ばす
+	if (m_IsGrowing)
 	{
-		ScaleNow.x = m_TargetLength; // 今の長さを確認
-		m_IsGrowing = false;       // 停止
-	}
-	else {
-		ScaleNow.x += m_ExpandSpeed; // ｘ方向に伸ばす
+		// 目標位置までの長さを超えたら止める
+		if (ScaleNow.x >= m_TargetLength)
+		{
+			ScaleNow.x = m_TargetLength; // 今の長さを確認
+			m_IsGrowing = false;       // 停止
+		}
+		else {
+			ScaleNow.x += m_ExpandSpeed; // ｘ方向に伸ばす
+		}
 	}
 
-	Vector3 newScale = Vector3(ScaleNow.x, GetScale().y, 0.0f);
+	Vector3 newScale = Vector3(ScaleNow.x, GetScale().y, GetScale().z);
 	SetScale(newScale); // 親クラスのスケールも更新しておく
 
 	UpdateCollider();
+
+	// 衝突判定を毎フレーム実行して当たっていたら成長を止める
+	HandleCollisionAndGrowth();
 }
 
 void silkWall::Draw(Camera* cam)
@@ -79,7 +88,7 @@ void silkWall::Draw(Camera* cam)
 	m_Texture2D.SetScale(GetScale());	// 親クラスの大きさを反映
 	m_Texture2D.SetRotation(GetRotation()); // 親クラスの回転を反映
 
-	if(m_PoiseLevel==0)
+	if (m_PoiseLevel == 0)
 	{
 		// 白
 		m_Texture2D.SetMulColor(DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -139,7 +148,11 @@ void silkWall::reInit()
 {
 	// 場に影響しない状態へ
 	isActive = false;      // UpdateCollider() が長さ0にする
+
 	m_IsGrowing = false;     // 伸張停止
+	m_Hitpoint = 3;        // 体力回復
+	m_IsHashiraed = false; // 柱当たりフラグリセット
+
 	m_TargetLength = 0.0f;   // 任意: 目標長さもゼロに戻す（次回Fire時に再設定）
 
 	// 表示スケールのX（長さ）をゼロへ。Y/Zは太さ維持ならそのままでもOK
@@ -161,7 +174,7 @@ void silkWall::UpdateCollider()
 	if (isActive == false)
 	{
 		m_Segment.start = m_StartPos;
-		m_Segment.end	= m_StartPos;
+		m_Segment.end = m_StartPos;
 		return;
 	}
 
@@ -171,7 +184,7 @@ void silkWall::UpdateCollider()
 	{
 		// 方向が取れないときも長さ 0 にしておく
 		m_Segment.start = m_StartPos;
-		m_Segment.end	= m_StartPos;
+		m_Segment.end = m_StartPos;
 		return;
 	}
 	dir.Normalize();
@@ -185,10 +198,14 @@ void silkWall::UpdateCollider()
 	// 判定用に両端を延長する
 	// ------------------------------
 	// ゲームスケールに合わせて調整（例: 20?40）
-	const float extendLen = 100.0f;
+
+	float extendLen = 100.0f;
+	if (m_IsHashiraed)
+		extendLen = 0.f;
+
 
 	// 実際の線分の有効長さ（スタート?ターゲット）
-	const float maxLength = m_TargetLength;
+	float maxLength = m_TargetLength;
 
 	// 片側 extendLen ずつ延長したいので、両端で合計 2*extendLen 長くなる。
 	// ただし元の start から target を超えないようにクランプ。
@@ -201,5 +218,35 @@ void silkWall::UpdateCollider()
 
 	// コライダ更新
 	m_Segment.start = collStart;
-	m_Segment.end	= collEnd;
+	m_Segment.end = collEnd;
+}
+
+
+
+void silkWall::HandleCollisionAndGrowth()
+{
+	// m_IsGrowing のときに Hashira との当たり判定を行い、当たったら伸長を停止する。
+	if (m_IsGrowing)
+	{
+		vector<Hashira*> hashiras = Game::GetInstance()->GetObjects<Hashira>();
+
+		for (auto h : hashiras)
+		{
+			Vector3 contactPoint;
+			if (Collision::CheckHit(GetSegment(), h->GetCollider(), contactPoint))
+			{
+				if (m_IsHashiraed) {
+					// 当たったら伸長停止
+					m_IsGrowing = false;
+				}
+				else {
+
+					m_IsHashiraed = true;
+				}
+
+
+				break;
+			}
+		}
+	}
 }

@@ -20,6 +20,7 @@ protected:
 
 	int m_Hitpoint   = 3;    // 体力
 	bool m_IsGrowing = false; // 伸び中フラグ
+	bool m_IsHashiraed = false; // 柱に当たったフラグ
 	int m_PoiseLevel  = 0; // 毒状態フラグ
 	int m_PoiseTimer  = 0; // 毒状態フラグ
 	int hitStopTimer = 0;
@@ -28,6 +29,7 @@ protected:
 	float m_TargetLength   = 0.0f;  // 目標位置までの最大長さ
 
 	void UpdateCollider();        // 内部用
+	void HandleCollisionAndGrowth(); // 当たり判定と伸長処理
 
 public:
 	void Init() override;
