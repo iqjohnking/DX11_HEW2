@@ -102,6 +102,121 @@ void ModeSelectScene::Update()
 	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
 
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+
+	if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_LEFT) || stick.x < -0.5f)
+	{
+		m_SelectIndex = 0; // ストーリーモード
+	}
+
+
+	if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
+	{
+		m_SelectIndex = 1; // エンドレスモード
+	}
+
+
+	if (mouseMoved)
+	{
+		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
+
+	}
+
+
+	if (m_StoryBtn && m_EndlessBtn)
+	{
+		if (m_SelectIndex == 0) // ストーリー選択中
+		{
+			Vector3 sml_m_StoryBtn = Vector3(400.0f, 150.0f, 0.0f);
+			Vector3 sml_m_mode_in_L = Vector3(600.0f, 750.0f, 0.0f);
+			Vector3 sml_m_mode_out_L = Vector3(730.0f, 930.0f, 0.0f);
+
+			Vector3 big_m_EndlessBtn = Vector3(440.0f, 165.0f, 0.0f);
+			Vector3 big_m_mode_in_R = Vector3(610.0f, 760.0f, 0.0f);
+			Vector3 big_m_mode_out_R = Vector3(740.0f, 940.0f, 0.0f);
+
+
+
+
+			// 左側を大きく
+			m_StoryBtn->SetScale(440.0f, 165.0f, 0.0f);
+			m_mode_in_L->SetScale(610.0f, 760.0f, 0.0f);
+			m_mode_out_L->SetScale(740.0f, 940.0f, 0.0f);
+			// 右側を通常サイズ
+			m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f);
+			m_mode_in_R->SetScale(600.0f, 750.0f, 0.0f);
+			m_mode_out_R->SetScale(730.0f, 930.0f, 0.0f);
+		}
+		else // エンドレス選択中
+		{
+			// 左側を通常サイズ
+			m_StoryBtn->SetScale(400.0f, 150.0f, 0.0f);
+			m_mode_in_L->SetScale(600.0f, 750.0f, 0.0f);
+			m_mode_out_L->SetScale(730.0f, 930.0f, 0.0f);
+			// 右側を大きく
+			m_EndlessBtn->SetScale(440.0f, 165.0f, 0.0f);
+			m_mode_in_R->SetScale(610.0f, 760.0f, 0.0f);
+			m_mode_out_R->SetScale(740.0f, 940.0f, 0.0f);
+		}
+	}
+
+	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_R)));
+
+	// --- 決定処理 (Aボタン or 左クリック or Enterキー) ---
+	if (Input::GetButtonTrigger(XINPUT_A) ||
+		Input::GetKeyTrigger(VK_RETURN) ||
+		isMouseClickOnButton)
+
+	{
+		if (m_SelectIndex == 0)
+		{
+			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+		}
+		else if (isAllCleared)
+		{
+			Game::GetInstance()->ChangeScene(STAGE10);
+		}
+		return;
+	}
+
+	//一個戻る
+	if (Input::GetButtonTrigger(XINPUT_B) ||
+		Input::GetKeyTrigger(VK_SHIFT))
+	{
+		Game::GetInstance()->ChangeScene(START);
+		return;
+	}
+
+
+
+	if (isAllCleared)
+	{
+		// エンドレス解放
+		m_mode_in_R->SetBrightness(1.0f); // 明るく
+		m_mode_out_R->SetBrightness(1.0f);
+		m_EndlessBtn->SetBrightness(1.0f);
+
+	}
+	else
+	{
+		// まだ制限中
+		m_mode_in_R->SetBrightness(0.3f); // 暗い
+		m_mode_out_R->SetBrightness(0.3f);
+		m_EndlessBtn->SetBrightness(0.3f);
+	}
+	
+	/*
+	//マウス入力
+	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
+	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
+
+	bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
+	lastMousePos = currentMousePos;
+
+	//クリアしたか
+	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
+
+	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 	if (stick.x < -0.5f) { m_SelectIndex = 0; } // 左
 	if (stick.x > 0.5f) { m_SelectIndex = 1; } // 右
 
@@ -143,7 +258,7 @@ void ModeSelectScene::Update()
 	if (Input::GetKeyTrigger(VK_RIGHT)) { m_SelectIndex = 1; }
 	*/
 	
-
+	/*
 	if (m_StoryBtn && m_EndlessBtn)
 	{
 		if (m_SelectIndex == 0) // ストーリー選択中
@@ -217,7 +332,7 @@ void ModeSelectScene::Update()
 		m_mode_out_R->SetBrightness(0.3f);
 		m_EndlessBtn->SetBrightness(0.3f);
 	}
-
+	*/
 }
 
 void ModeSelectScene::Uninit()

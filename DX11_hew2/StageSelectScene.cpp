@@ -217,10 +217,9 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT))
 	{
-		if (m_SelectIndex == 0)
-		{
-			Game::GetInstance()->ChangeScene(MODE_SELECT);
-		}
+		
+		Game::GetInstance()->ChangeScene(MODE_SELECT);
+		
 		return;
 	}
 
