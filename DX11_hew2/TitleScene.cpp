@@ -8,20 +8,20 @@ using namespace DirectX::SimpleMath;
 // コンストラクタ
 TitleScene::TitleScene()
 {
-	
+
 }
 
 // デストラクタ
 TitleScene::~TitleScene()
 {
-	
+
 }
 
 // 初期化
 void TitleScene::Init()
 {
 	// 背景
-	auto* bg  = Game::GetInstance()->AddObject<TitleBG>();
+	auto* bg = Game::GetInstance()->AddObject<TitleBG>();
 	m_MySceneObjects.emplace_back(bg);
 	bg->Texture2D::SetPosition(0.0f, 0.0f, 2.0f); // Z順序を最後に
 
@@ -54,7 +54,17 @@ void TitleScene::Init()
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
-	
+
+	// hashira
+	for (int i = 0; i < 1; ++i)
+	{
+		hashiras[i] = Game::GetInstance()->AddObject<Hashira>();
+		hashiras[i]->SetPosition({ 0.f , 0.f , 0.0f });
+		m_MySceneObjects.emplace_back(hashiras[i]);
+	}
+
+
+	//敵1
 	for (int i = 0; i < 10; ++i)
 	{
 		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
@@ -72,24 +82,6 @@ void TitleScene::Init()
 	}
 
 
-	//敵1
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-		Enemy1List[i]->SetTarget(m_Miko);
-		Enemy1List[i]->SetField(m_Field);
-		if (i < 5) {
-	
-			Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius()+5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy1List[i]);
-	}
-	
-	
 	//for (int i = 0; i < 10; ++i)
 	//{
 	//	Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
@@ -105,7 +97,7 @@ void TitleScene::Init()
 	//	}
 	//	m_MySceneObjects.emplace_back(Enemy2List[i]);
 	//}
-	
+
 	//for (int i = 0; i < 10; ++i)
 	//{
 	//	Enemy3List[i] = Game::GetInstance()->AddObject<Enemy3>();
@@ -172,7 +164,7 @@ void TitleScene::Update()
 
 		++it;
 	}
-	
+
 
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER))   // 
 	{
