@@ -302,7 +302,7 @@ void Texture2D::PlayAnim(const std::string& name)
 			const AnimClip& clip = m_AnimClips[m_CurrentClipIndex];
 
 			m_AnimFrame = clip.startFrame;
-			m_AnimTimer = 0.0f;
+			m_AnimTimer = 0;
 			m_AnimEnabled = true;
 
 			return;
@@ -315,7 +315,7 @@ void Texture2D::StopAnimation()
 	m_AnimEnabled = false;
 	m_CurrentClipIndex = -1;
 	m_AnimFrame = 0;
-	m_AnimTimer = 0.0f;
+	m_AnimTimer = 0;
 }
 
 void Texture2D::PauseAnimation(bool pause)

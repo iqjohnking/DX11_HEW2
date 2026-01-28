@@ -116,7 +116,7 @@ void Enemy4::move()
 				chargeTimer = 0;
 
 				// ŽŸ‰ñ‚Ì‘Ò‹@ŽžŠÔ
-				chargeTiming = (float)get_rand_range(2, 4);
+				chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
 				chargeTarget = miko_pos;
 				chargeTarget.z = 0.0f;
@@ -163,7 +163,7 @@ void Enemy4::move()
 					// ‘Ò‹@‚Ö–ß‚·
 					isCharging = false;
 					chargeTimer = 0;
-					chargeTiming = (float)get_rand_range(2, 4);
+					chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
 					m_velocity = 0.0f;
 					stunTimer = kHitCooldown; // ˜A‘±ƒqƒbƒg–hŽ~
@@ -219,7 +219,7 @@ void Enemy4::move()
 				{
 					isCharging = false;
 					chargeTimer = 0;
-					chargeTiming = (float)get_rand_range(2, 4);
+					chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
 					m_velocity = 0.0f;
 					stunTimer = kHitCooldown;
@@ -242,7 +242,7 @@ void Enemy4::move()
 			{
 				isCharging = false;
 				chargeTimer = 0;
-				chargeTiming = (float)get_rand_range(2, 4);
+				chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
 				m_velocity = 0.0f;
 			}

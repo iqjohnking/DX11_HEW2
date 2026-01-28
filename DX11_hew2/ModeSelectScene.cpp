@@ -215,7 +215,7 @@ void ModeSelectScene::Update()
 		// ‚Ü‚¾§ŒÀ’†
 		m_mode_in_R->SetBrightness(0.3f); // ˆÃ‚¢
 		m_mode_out_R->SetBrightness(0.3f);
-		m_EndlessBtn->SetBrightness(0.3);
+		m_EndlessBtn->SetBrightness(0.3f);
 	}
 
 }

@@ -80,7 +80,7 @@ protected:
 	DirectX::SimpleMath::Vector3 m_StartMayuPos  = DirectX::SimpleMath::Vector3::Zero; // 起
 	DirectX::SimpleMath::Vector3 m_TargetMayuPos = DirectX::SimpleMath::Vector3::Zero; // 迄
 
-	float kMayuFrames = 15.0f; // 繭になるまでのフレーム数
+	int kMayuFrames = 15; // 繭になるまでのフレーム数
 	int   m_MAYUINGTimer = 15; // 繭になる時間
 	int   m_DYINGTimer   = 180; // 消滅アニメーション時間
 
