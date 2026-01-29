@@ -17,7 +17,7 @@ void Enemy3::Init()
 	SetVelocity(0.0f);      // 初速ゼロ
 	SetDirection(Vector3(1.0f, 0.0f, 0.0f)); // 初期向き（何でもOK）
 	SetIsAlive(true);
-	m_Radius = 35.0f; //個別調整
+	m_Radius = 50.0f; //個別調整
 	mayuingTimer = 0;
 
 	//初期化処理
@@ -34,10 +34,12 @@ void Enemy3::Init()
 	SetDrawOrder(5);
 
 	m_Texture2D.SetSpriteSheet(5, 3);
-	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
-	//m_Texture2D.AddAnimClip("atk", 4, 7, 10);
 	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
+	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
+	m_Texture2D.AddAnimClip("tame", 10, 11, 5);
+	m_Texture2D.AddAnimClip("atk", 12, 13, 5);
+
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -133,6 +135,17 @@ void Enemy3::move()
 {
 	if (!m_Miko) return;
 
+	if (atkAnimeTimer > 0)
+	{
+		atkAnimeTimer--;
+		if (atkAnimeTimer <= 0)
+		{
+			m_Texture2D.PlayAnim("idle");
+		}
+		return;
+	}
+
+
 	Vector3 now_pos = GetPosition();
 	Vector3 target_pos = Vector3(0, 0, 0);
 
@@ -163,7 +176,7 @@ void Enemy3::move()
 	{
 		m_TargetMayu = nearestMayu;
 		m_MayuDestroyTimer = 0;
-
+		Game::GetSound()->Stop(SOUND_LABEL_SE_013);
 		m_Texture2D.PlayAnim("idle");
 
 	}
@@ -181,26 +194,33 @@ void Enemy3::move()
 			m_velocity = 0.0f;
 
 			// 180f 計時
-
-			m_Texture2D.PlayAnim("atk");
-			++m_MayuDestroyTimer;
+			if (m_MayuDestroyTimer < kMayuDestroyFrames){
+				m_Texture2D.PlayAnim("tame");
+				if (m_MayuDestroyTimer == 0) {
+					Game::GetSound()->Play(SOUND_LABEL_SE_013);
+				}
+				++m_MayuDestroyTimer;
+			}
 			if (m_MayuDestroyTimer >= kMayuDestroyFrames)
 			{
 				// Mayu を破壊状態へ（中身は EnemyMayu 側であとから実装でOK）
 				// どっちか使える方だけ残してね：
-				m_TargetMayu->SetIsExploding(true);
-				// m_TargetMayu->state = MayuState::ISDESTROING;
+				Game::GetSound()->Stop(SOUND_LABEL_SE_013);
 
-				m_TargetMayu = nullptr;
+				Game::GetSound()->Play(SOUND_LABEL_SE_004);
+				m_Texture2D.PlayAnim("atk");
+				atkAnimeTimer = 30;
+
 				m_MayuDestroyTimer = 0;
-
-				m_Texture2D.PlayAnim("idle");
+				m_TargetMayu->SetIsExploding(true);
+				m_TargetMayu = nullptr;
 			}
 			return; // このフレームは移動しない
 		}
 	}
 	else
 	{
+		Game::GetSound()->Stop(SOUND_LABEL_SE_013);
 		m_MayuDestroyTimer = 0;
 	}
 

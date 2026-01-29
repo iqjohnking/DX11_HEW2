@@ -4,22 +4,18 @@
 #include "EnemyMayu.h"
 
 
-
 class Enemy3 : public EnemyBase
 {
 protected:
 	Texture2D m_Texture2D;
 	//Collision::Sphere m_Collider; // 当たり判定の為の情報　
 
-	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
-	//static constexpr int kMayuFrames = 15; enemyBaseに移動済み
-
 	EnemyMayu* m_TargetMayu = nullptr;
 	int m_MayuDestroyTimer = 0;
 	static constexpr int kMayuDestroyFrames = 180;
 
-
-
+	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
+	int atkAnimeTimer = 0; //攻撃アニメーション用タイマー
 
 public:
 	void Init() override;

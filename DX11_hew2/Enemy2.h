@@ -13,9 +13,9 @@ protected:
 	float m_cutTimer = 0.0f;       // 停止（切断）タイマー
 	silkWall* m_targetWall = nullptr; // 今切っている糸
 	
+
 	float stunTimer = 0.0f; //ターゲットを見失ったときのタイマー 
 	int atkAnimeTimer = 0; //攻撃アニメーション用タイマー
-
 
 public:
 	void Init() override;

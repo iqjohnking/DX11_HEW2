@@ -115,7 +115,7 @@ void Shrinemaiden::Update()
 		if (m_MutekiTimer > 0)
 		{
 			--m_MutekiTimer;
-			if (m_MutekiTimer <= 60)
+			if (m_MutekiTimer <= 80)
 			{
 				m_IgnoreEnemyInSearch = false;
 			}

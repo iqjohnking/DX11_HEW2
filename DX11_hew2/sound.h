@@ -264,6 +264,7 @@ typedef enum
 	SOUND_LABEL_SE_010,
 	SOUND_LABEL_SE_011,
 	SOUND_LABEL_SE_012,
+	SOUND_LABEL_SE_013,
 
 	//Another Voice
 	SOUND_LABEL_VOICE_ANOTHER_000,
@@ -513,6 +514,7 @@ private:
 		{ "assets/sound/SE/SE010.wav", false, 1.0f },
 		{ "assets/sound/SE/SE011.wav", false, 1.0f },
 		{ "assets/sound/SE/SE012.wav", false, 1.0f },
+		{ "assets/sound/SE/SE013.wav", false, 0.5f },
 
 		//Another Voice
 		{ "assets/sound/voice/another/Clear1.wav", false,0.5f },      // 0

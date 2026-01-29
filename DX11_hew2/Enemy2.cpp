@@ -35,7 +35,6 @@ void Enemy2::Init()
 	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
-
 	m_Texture2D.AddAnimClip("tame", 9, 10, 10);
 	m_Texture2D.AddAnimClip("atk", 11, 14, 8);
 
@@ -190,6 +189,7 @@ void Enemy2::move()
 						{
 							Game::GetSound()->Play(SOUND_LABEL_SE_007);
 							m_Texture2D.PlayAnim("atk");
+
 							atkAnimeTimer = 32;
 							m_targetWall->Uninit();
 							m_targetWall->SetIsActive(false);
