@@ -67,6 +67,23 @@ void Stage6::Init()
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
 
+	//柱1本目
+	hashiras[0] = Game::GetInstance()->AddObject<Hashira>();
+	hashiras[0]->SetPosition({ 200.0f , 150.0f , 0.0f });
+	m_MySceneObjects.emplace_back(hashiras[0]);
+	//柱2本目
+	hashiras[1] = Game::GetInstance()->AddObject<Hashira>();
+	hashiras[1]->SetPosition({ 200.0f , -150.0f , 0.0f });
+	m_MySceneObjects.emplace_back(hashiras[1]);
+	//柱3本目
+	hashiras[2] = Game::GetInstance()->AddObject<Hashira>();
+	hashiras[2]->SetPosition({ -200.0f , 150.0f , 0.0f });
+	m_MySceneObjects.emplace_back(hashiras[2]);
+	//柱4本目
+	hashiras[3] = Game::GetInstance()->AddObject<Hashira>();
+	hashiras[3]->SetPosition({ -200.0f , -150.0f , 0.0f });
+	m_MySceneObjects.emplace_back(hashiras[3]);
+
 	//経過したフレーム数と秒数を0にリセット
 	elapsedFrames = 0;
 	elapsedSeconds = 0;

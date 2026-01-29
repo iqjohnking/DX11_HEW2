@@ -74,14 +74,14 @@ void Stage4::Init()
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
 
-	//柱1本目
-	hashiras[0] = Game::GetInstance()->AddObject<Hashira>();
+	//柱
+	for (int i = 0; i < 2; i++)
+	{
+		hashiras[i] = Game::GetInstance()->AddObject<Hashira>();
+		m_MySceneObjects.emplace_back(hashiras[i]);
+	}
 	hashiras[0]->SetPosition({ 0.0f , 200.0f , 0.0f });
-	m_MySceneObjects.emplace_back(hashiras[0]);
-	//柱2本目
-	hashiras[1] = Game::GetInstance()->AddObject<Hashira>();
 	hashiras[1]->SetPosition({ 0.0f , -200.0f , 0.0f });
-	m_MySceneObjects.emplace_back(hashiras[1]);
 
 	//経過したフレーム数と秒数を0にリセット
 	elapsedFrames = 0;
@@ -177,8 +177,6 @@ void Stage4::MessageUpdate()
 
 void Stage4::GameUpdate()
 {
-	if (m_Flow != Flow::Gameplay) return;
-
 	if (m_Flow != Flow::Gameplay) return;
 
 	//m_MySceneObjects中の空間オブジェクトを削除する（erase）
