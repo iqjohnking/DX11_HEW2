@@ -85,7 +85,7 @@ void Shrinemaiden::Init()
 	m_Texture2D.SetSpriteSheet(4, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("getH", 4, 7, 10);
-	m_Texture2D.AddAnimClip("mayu", 8, 8, 10);
+	m_Texture2D.AddAnimClip("mayu", 8, 11, 10);
 	//m_Texture2D.AddAnimClip("test", 12, 15, 10);
 	m_Texture2D.PlayAnim("idle");
 

@@ -201,6 +201,7 @@
     <ClCompile Include="TitleBG.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TriangleSilk.cpp" />
+    <ClCompile Include="UI_mikoHp.cpp" />
     <ClCompile Include="UI_redSilk.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
@@ -279,6 +280,7 @@
     <ClInclude Include="TitleBG.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TriangleSilk.h" />
+    <ClInclude Include="UI_mikoHp.h" />
     <ClInclude Include="UI_redSilk.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="VertexBuffer.h" />
