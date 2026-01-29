@@ -93,6 +93,8 @@ void Stage7::Init()
 	StagekillCount = 0;     //倒した敵の数をリセット
 	StageEnemyCount = 49;   //ステージの敵の総数を設定
 
+	ResultVoice_flg = false;
+
 	m_ClearFlg = false;
 	m_ClearImageFlg = false;
 	m_ClearChangeImageFlg = false;
@@ -409,6 +411,42 @@ void Stage7::SoundUpdate()
 		m_Conversation_BGM_flg_2 = true;
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
 		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_006);
+	}
+
+	//勝敗ボイス
+	if (m_ClearFlg == true && ResultVoice_flg == false)
+	{
+		ResultVoice_flg = true;
+		static std::mt19937 rng{ std::random_device{}() };
+		std::uniform_int_distribution<int> dist(1, 2);
+
+		int v = dist(rng);
+
+		if (v == 1)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_000);
+		}
+		else if (v == 2)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_001);
+		}
+	}
+	if (m_GameOverFlg == true && ResultVoice_flg == false)
+	{
+		ResultVoice_flg = true;
+		static std::mt19937 rng{ std::random_device{}() };
+		std::uniform_int_distribution<int> dist(1, 2);
+
+		int v = dist(rng);
+
+		if (v == 1)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_005);
+		}
+		else if (v == 2)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_006);
+		}
 	}
 }
 

@@ -67,6 +67,8 @@ protected:
 	int m_ChangeClearCount = 60;//クリア演出用の時間
 	bool m_GameUpdateBlock = false;
 
+	bool ResultVoice_flg = false;//勝敗ボイス再生用
+
 	//勝利、敗北時にセレクトへなどを選択するための変数
 	int m_SelectIndex = 0;
 

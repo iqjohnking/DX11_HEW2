@@ -50,6 +50,21 @@ void StartScene::Init()
     m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);         
     m_FadePanel->SetAlpha(1.0f);                           // 最初は黒
     m_MySceneObjects.emplace_back(m_FadePanel);
+
+    //開始ボイス用の乱数
+    static std::mt19937 rng{ std::random_device{}() };
+    std::uniform_int_distribution<int> dist(1, 2);
+
+    int v = dist(rng);
+
+    if (v == 1)
+    {
+		Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_007);
+	}
+    else if (v == 2)
+    {
+		Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_008);
+	}
 }
 
 void StartScene::Update()
