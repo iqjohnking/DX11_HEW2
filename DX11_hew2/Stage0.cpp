@@ -404,7 +404,7 @@ void Stage0::GameUpdate()
         //m_Flow = Flow::EndTalk;     //ˆê’UI—¹‰ï˜b‚É”ò‚Î‚·
     }
 
-    if (Input::GetKeyTrigger(VK_E) || Input::GetButtonTrigger(XINPUT_A))
+    if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
     {
         if (UI1Flag == true && UI2Flag == false)
         {
