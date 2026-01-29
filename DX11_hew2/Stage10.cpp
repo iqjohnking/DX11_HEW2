@@ -1,5 +1,6 @@
 #include "Stage10.h"
 #include "Game.h"
+#include<iostream>
 
 void Stage10::Init()
 {
@@ -295,6 +296,7 @@ void Stage10::GameUpdate()
 		{
 			int eliminatedCount = 0;
 			bool mikoMayuCount = false;
+			ScoreMultiplier = 0.9f; //スコア倍率リセット
 
 			// 敵を調べる
 			for (auto* obj : m_MySceneObjects)
@@ -311,6 +313,9 @@ void Stage10::GameUpdate()
 					Vector3 centroid = (A + B + C) / 3.0f;
 					enemy->StartMayuing(centroid);
 					++eliminatedCount;
+					ScoreMultiplier += 0.1f;	//1体目は1倍、以降0.1倍ずつ倍率アップ
+					Score += baseScore * ScoreMultiplier;	//100*スコア倍率
+					std::cout << Score << std::endl;
 				}
 			}
 

@@ -85,7 +85,7 @@ protected:
 	//“G‚ğ“|‚µ‚½‚Æ‚«‚ÌŠî‘bƒXƒRƒA
 	const int baseScore = 100;
 	//ƒXƒRƒA”{—¦A1“x‚É“G‚ğ‘½‚­“|‚·‚Ù‚Ç”{—¦‚ªã‚ª‚é
-	float ComboMultiplier = 1.0f;
+	float ScoreMultiplier = 0.9f;
 	//¶‘¶ŠÔ
 	int survivalTime = 0;
 
