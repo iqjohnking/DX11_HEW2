@@ -276,14 +276,14 @@ void ModeSelectScene::Update()
 	{
 		if (m_SelectIndex == 0)
 		{
-			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
 			m_NextSceneID = 2;//ステージセレクトへ
 			m_isStarting = true;
 			//Game::GetInstance()->ChangeScene(STAGE_SELECT);
 		}
 		else if (isAllCleared)
 		{
-			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
 			m_NextSceneID = 3;//エンドレスへ
 			m_isStarting = true;
 			//Game::GetInstance()->ChangeScene(STAGE10);

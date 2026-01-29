@@ -312,7 +312,7 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_RETURN) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
 	{
 		m_isStarting = true;
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		if (m_Chapter == 1) 
 		{
 			// ‘æ1Í
@@ -341,7 +341,7 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT))
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_isStarting = true;
 		m_NextSceneID = 10; // MODE_SELECT ‚Ö
 		//Game::GetInstance()->ChangeScene(MODE_SELECT);
