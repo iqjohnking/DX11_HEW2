@@ -227,7 +227,7 @@ void TitleScene::Update()
 		for (int i = 0; i < 3; ++i)
 		{
 			// 糸壁が非アクティブなら、そこを使う
-			if ((m_SilkWalls[i]->IsActive()) == false)
+			if (!(m_SilkWalls[i]->IsActive()))
 			{
 				w = m_SilkWalls[i];
 				break;
