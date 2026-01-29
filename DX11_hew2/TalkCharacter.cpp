@@ -12,12 +12,14 @@ void TalkCharacter::ApplyLayoutToSprite()
     {
         m_Sprite.SetPosition(m_BasePosL);
         m_Sprite.SetFlipX(false);
+        m_Sprite.SetScale(900.0f, 1100.0f,1.0f);
     }
     else
     {
         m_Sprite.SetPosition(m_BasePosR);
         // 右側キャラを左右反転したいなら true（素材による）
         m_Sprite.SetFlipX(false);
+        m_Sprite.SetScale(700.0f, 1000.0f, 1.0f);
     }
 
     // フォーカス状態に応じて明るさを反映
