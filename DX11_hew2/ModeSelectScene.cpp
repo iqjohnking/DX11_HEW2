@@ -55,7 +55,7 @@ void ModeSelectScene::Init()
 	m_modesentaku= Game::GetInstance()->AddObject<Texture2D>();
 	m_modesentaku->SetTexture("assets/texture/ui/modesentaku.png");
 	m_modesentaku->SetPosition(0.0f, -490.0f, 0.0f);
-	m_modesentaku->SetScale(350.0f, 100.0f, 0.0f);
+	m_modesentaku->SetScale(650.0f, 130.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_modesentaku);
 
 	//ƒ‚[ƒh‘I‘ğ‚Ì•¶š˜g
