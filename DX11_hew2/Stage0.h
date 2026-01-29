@@ -10,15 +10,24 @@ private:
 	bool phase3Flag = false;
 
 	//フェーズごとのUIフラグ
-	bool phase1UIFlag = false;
-	bool phase2UIFlag = false;
-	bool phase3UIFlag = false;
+	bool UI1Flag = false;
+	bool UI2Flag = false;
+	bool UI3Flag = false;
+	bool UI4Flag = false;
+	bool UI5Flag = false;
+	bool UI6Flag = false;
+
+	//フラグ管理がややこしすぎたので追加
+	int nowUI = 0;
 
 	//SoundFlg
 	bool m_Conversation_BGM_flg_1 = false;
 	bool m_Conversation_BGM_flg_2 = false;
 
 	//チュートリアル用UI
+	Texture2D* m_tutorialpic1 = nullptr;
+	Texture2D* m_tutorialpic2 = nullptr;
+	Texture2D* m_tutorialpic3 = nullptr;
 	Texture2D* m_tutorialarrow = nullptr;
 	Texture2D* m_tutorialarrow_sankaku = nullptr;
 	Texture2D* m_tutorialstagetext000 = nullptr;
