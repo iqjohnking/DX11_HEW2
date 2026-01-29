@@ -663,14 +663,9 @@ void Stage2::StageClearCheck()
 
 void Stage2::StageFailedCheck()
 {
-    //“G‚ð‘S‚Ä“|‚µ‚½‚©‚Ç‚¤‚©
-    if (StagekillCount >= StageEnemyCount)
+    if (m_Miko->GetDYINGTimer() <= 0)
     {
-        m_ChangeClearCount--;
-    }
-    if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
-    {
-        m_ClearFlg = true;
+        m_GameOverFlg = true;
     }
 }
 
