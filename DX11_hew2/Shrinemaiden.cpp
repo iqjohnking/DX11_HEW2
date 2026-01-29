@@ -171,7 +171,7 @@ void Shrinemaiden::Update()
 	}
 	case mikoState::DEAD:
 	{
-		Game::GetInstance()->DeleteObject(this);
+	//	Game::GetInstance()->DeleteObject(this);
 		break;
 	}
 	default:
