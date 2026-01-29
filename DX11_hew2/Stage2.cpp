@@ -88,9 +88,6 @@ void Stage2::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 30;   //ステージの敵の総数を設定
 
-    ClearImage[0, 1, 2] = { nullptr };
-    GameOverImage[0, 1, 2] = { nullptr };
-
     m_ClearFlg = false;//クリアできたかどうか
     m_ClearImageFlg = false;//クリアできたかどうか
     m_ClearChangeImageFlg = false;//クリアできたかどうか
@@ -681,9 +678,14 @@ void Stage2::StageClearCheck()
 
 void Stage2::StageFailedCheck()
 {
-    if (m_Miko->GetDYINGTimer() <= 0)
+    //敵を全て倒したかどうか
+    if (StagekillCount >= StageEnemyCount)
     {
-        m_GameOverFlg = true;
+        m_ChangeClearCount--;
+    }
+    if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
+    {
+        m_ClearFlg = true;
     }
 }
 

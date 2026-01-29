@@ -99,9 +99,6 @@ void Stage4::Init()
 	StagekillCount = 0;     //倒した敵の数をリセット
 	StageEnemyCount = 34;   //ステージの敵の総数を設定
 
-	ClearImage[0, 1, 2] = { nullptr };
-	GameOverImage[0, 1, 2] = { nullptr };
-
 	m_ClearFlg = false;
 	m_ClearImageFlg = false;
 	m_ClearChangeImageFlg = false;
@@ -835,10 +832,6 @@ void Stage4::StageClearCheck()
 	if (StagekillCount >= StageEnemyCount)
 	{
 		m_ChangeClearCount--;
-		/*BuildEndPages();
-		m_Message->SetPages(m_Pages);
-		m_Message->Play();
-		m_Flow = Flow::EndTalk;*/
 	}
 	if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
 	{
