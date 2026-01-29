@@ -27,8 +27,8 @@ void Stage5::Init()
 
         m_Flow = Flow::StartTalk;
 
-        //BGM開始
-        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+        ////BGM開始
+        Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_004);
     }
     else // Gameplay開始
     {

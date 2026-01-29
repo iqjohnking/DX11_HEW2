@@ -236,6 +236,8 @@ void Game::ChangeScene(SceneName sceneName)
 	default:
 		break;
 	}
+
+	m_Scenebg = sceneName;
 	if (m_Instance->m_Scene)
 	{
 		m_Instance->m_Scene->Init();

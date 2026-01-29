@@ -58,6 +58,7 @@ private:
 
 	SceneName m_OldScene;
 	SceneName m_CurrentScene;
+	SceneName m_Scenebg;
 
 	// カメラ
 	Camera  m_Camera;
@@ -113,7 +114,7 @@ public:
 
 	void ChangeScene(SceneName sceneName); // シーン変更
 	void ChangeOldScene();	//前のシーンに戻る
-	SceneName GetCurrentScene() { return m_CurrentScene; }
+	SceneName GetScenebg() { return m_Scenebg; }
 
 	void DeleteObject(Object* ptr); // オブジェクト削除
 	void DeleteAllObjects(); // オブジェクト全削除

@@ -8,7 +8,7 @@ void TitleBG::Init()
 	// 親クラスの初期化処理を呼び出す
 	Texture2D::Init();
 	// テクスチャを指定
-	SceneName currentScene = Game::GetInstance()->GetCurrentScene();
+	SceneName currentScene = Game::GetInstance()->GetScenebg();
 
 	switch (currentScene) 
 	{
