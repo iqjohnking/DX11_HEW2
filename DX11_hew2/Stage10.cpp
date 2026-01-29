@@ -123,7 +123,7 @@ void Stage10::Update()
 	{
 		if (!m_Message->IsPlaying())
 		{
-			Game::GetInstance()->ChangeScene(GAMEOVER);
+			Game::GetInstance()->ChangeScene(SceneName::GAMEOVER);
 		}
 	}
 }

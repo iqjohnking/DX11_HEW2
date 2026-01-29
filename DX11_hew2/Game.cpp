@@ -44,7 +44,7 @@ void Game::Init()
 
 	// ‰ŠúƒV[ƒ“‚ðÝ’è
 	//m_Instance->ChangeScene(STAGE1);
-	m_Instance->ChangeScene(START);
+	m_Instance->ChangeScene(SceneName::START);
 
 }
 
@@ -185,57 +185,59 @@ void Game::ChangeScene(SceneName sceneName)
 	m_Instance->DeleteAllObjects();
 	m_Instance->m_WorldStopped = false;
 	switch (sceneName) {
-	case START:
+	case SceneName::START:
 		m_Instance->m_Scene = new StartScene();
 		break;
-	case TITLE:
+	case SceneName::TITLE:
 		m_Instance->m_Scene = new TitleScene();
 		break;
-	case MODE_SELECT:
+	case SceneName::MODE_SELECT:
 		m_Instance->m_Scene = new ModeSelectScene();
 		break;
-	case STAGE_SELECT:
+	case SceneName::STAGE_SELECT:
 		m_Instance->m_Scene = new StageSelectScene();
 		break;
-	case STAGE0:
+	case SceneName::STAGE0:
 		m_Instance->m_Scene = new Stage0();
 		break;
-	case STAGE1:
+	case SceneName::STAGE1:
 		m_Instance->m_Scene = new Stage1();
 		break;
-	case STAGE2:
+	case SceneName::STAGE2:
 		m_Instance->m_Scene = new Stage2();
 		break;
-	case STAGE3:
+	case SceneName::STAGE3:
 		m_Instance->m_Scene = new Stage3();
 		break;
-	case STAGE4:
+	case SceneName::STAGE4:
 		m_Instance->m_Scene = new Stage4();
 		break;
-	case STAGE5:
+	case SceneName::STAGE5:
 		m_Instance->m_Scene = new Stage5();
 		break;
-	case STAGE6:
+	case SceneName::STAGE6:
 		m_Instance->m_Scene = new Stage6();
 		break;
-	case STAGE7:
+	case SceneName::STAGE7:
 		m_Instance->m_Scene = new Stage7();
 		break;
-	case STAGE8:
+	case SceneName::STAGE8:
 		m_Instance->m_Scene = new Stage8();
 		break;
-	case STAGE9:
+	case SceneName::STAGE9:
 		m_Instance->m_Scene = new Stage9();
 		break;
-	case STAGE10:
+	case SceneName::STAGE10:
 		m_Instance->m_Scene = new Stage10();
 		break;
-	case GAMEOVER:
+	case SceneName::GAMEOVER:
 		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:
 		break;
 	}
+
+	m_Scenebg = sceneName;
 	if (m_Instance->m_Scene)
 	{
 		m_Instance->m_Scene->Init();
@@ -256,25 +258,25 @@ void Game::ChangeOldScene()
 	m_Instance->DeleteAllObjects();
 	m_Instance->m_WorldStopped = false;
 	switch (m_OldScene) {
-	case TITLE:
+	case SceneName::TITLE:
 		m_Instance->m_Scene = new TitleScene();
 		break;
-	case MODE_SELECT:
+	case SceneName::MODE_SELECT:
 		m_Instance->m_Scene = new ModeSelectScene();
 		break;
-	case STAGE_SELECT:
+	case SceneName::STAGE_SELECT:
 		m_Instance->m_Scene = new StageSelectScene();
 		break;
-	case STAGE1:
+	case SceneName::STAGE1:
 		m_Instance->m_Scene = new Stage1();
 		break;
-	case STAGE2:
+	case SceneName::STAGE2:
 		m_Instance->m_Scene = new Stage2();
 		break;
-	case STAGE3:
+	case SceneName::STAGE3:
 		m_Instance->m_Scene = new Stage3();
 		break;
-	case GAMEOVER:
+	case SceneName::GAMEOVER:
 		m_Instance->m_Scene = new GameOverScene();
 		break;
 	default:

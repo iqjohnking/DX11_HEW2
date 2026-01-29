@@ -443,13 +443,13 @@
     <ClInclude Include="SelectBG.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
-    <ClInclude Include="Hashira.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="UI_redSilk.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="UI_mikoHp.h">
+      <Filter>ヘッダー ファイル\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashira.h">
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
   </ItemGroup>

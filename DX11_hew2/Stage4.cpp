@@ -17,7 +17,7 @@ void Stage4::Init()
 	// 会話素材の指定
 	m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
-	m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
+	m_Message->SetBackgroundPath("assets/texture/Message/bg/background_001.jpg");
 
 	if (startMode == StageStartMode::StartTalk)
 	{
@@ -984,7 +984,7 @@ void Stage4::IssueUpdate()
 			else
 			{
 				//ステージセレクトへ
-				Game::GetInstance()->ChangeScene(STAGE_SELECT);
+				Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 				return;
 			}
 		}
@@ -1099,13 +1099,13 @@ void Stage4::IssueUpdate()
 				if (m_SelectIndex == 0)
 				{
 					//次のステージへ
-					Game::GetInstance()->ChangeScene(STAGE5);
+					Game::GetInstance()->ChangeScene(SceneName::STAGE5);
 					return;
 				}
 				else
 				{
 					//セレクトへ
-					Game::GetInstance()->ChangeScene(STAGE_SELECT);
+					Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 					return;
 				}
 			}
@@ -1124,6 +1124,6 @@ void Stage4::RePlay()
 	Game::GetInstance()->SetNextStageStartMode(4, StageStartMode::Gameplay);
 
 	// ステージを作り直す（安全）
-	Game::GetInstance()->ChangeScene(STAGE4);
+	Game::GetInstance()->ChangeScene(SceneName::STAGE4);
 	return;
 }

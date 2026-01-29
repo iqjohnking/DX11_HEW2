@@ -150,7 +150,7 @@ void StartScene::Update()
     // シーン切り替え判定（タイマーが1.0になったら）
     if (m_isStarting && m_shojiTimer >= 1.0f)
     {
-        Game::GetInstance()->ChangeScene(MODE_SELECT);
+        Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
         return;
     }
 
