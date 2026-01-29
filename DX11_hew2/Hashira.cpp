@@ -28,6 +28,8 @@ void Hashira::Init()
 
 void Hashira::Update()
 {
+	m_Collider.center = GetPosition();		
+	m_Collider.radius = GetRadius();		
 
 }
 
