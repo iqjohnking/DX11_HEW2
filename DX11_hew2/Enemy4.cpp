@@ -31,11 +31,11 @@ void Enemy4::Init()
 
 	SetDrawOrder(5);
 
-	m_Texture2D.SetSpriteSheet(4, 3);
+	m_Texture2D.SetSpriteSheet(5, 3);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
-	m_Texture2D.AddAnimClip("atk", 4, 7, 10);
-	m_Texture2D.AddAnimClip("spawn", 8, 11, 10);
-	m_Texture2D.AddAnimClip("dying", 8, 8, 20);
+	//m_Texture2D.AddAnimClip("atk", 4, 7, 10);
+	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
+	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
