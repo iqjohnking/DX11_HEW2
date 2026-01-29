@@ -1298,8 +1298,16 @@ void Stage9::IssueUpdate()
 			DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 			static bool stickFree_GameOver = true;
 
+			bool leftKey = Input::GetKeyTrigger(VK_A);
+			bool rightKey = Input::GetKeyTrigger(VK_D);
+
 			if (stickFree_GameOver)
 			{
+				if (leftKey || rightKey)
+				{
+					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
+					stickFree_GameOver = false;
+				}
 				if (stick.x < -0.5f)
 				{
 					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1

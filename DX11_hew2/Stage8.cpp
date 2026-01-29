@@ -101,7 +101,8 @@ void Stage8::Init()
 	phase10Flag = false;
 
 	StagekillCount = 0;     //倒した敵の数をリセット
-	StageEnemyCount = 46;   //ステージの敵の総数を設定
+	//StageEnemyCount = 46;   //ステージの敵の総数を設定
+	StageEnemyCount = 42;   //ステージの敵の総数を設定
 
 	//BGM開始
 	Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
@@ -759,8 +760,8 @@ void Stage8::UpdateEnemySpawn()
 
 	if (elapsedSeconds == 35 && phase6Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(350.0f, -100.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(250.0f, -200.0f, 0.0f));
+		//EnemySpawn(NORMAL, Vector3(350.0f, -100.0f, 0.0f));
+		//EnemySpawn(NORMAL, Vector3(250.0f, -200.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(125.0f, -300.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(-125.0f, 300.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(-250.0f, 200.0f, 0.0f));
@@ -799,8 +800,8 @@ void Stage8::UpdateEnemySpawn()
 
 	if (elapsedSeconds == 62 && phase10Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(-100.0f, 320.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-100.0f, -320.0f, 0.0f));
+		//EnemySpawn(NORMAL, Vector3(-100.0f, 320.0f, 0.0f));
+		//EnemySpawn(NORMAL, Vector3(-100.0f, -320.0f, 0.0f));
 		EnemySpawn(TACKLE, Vector3(-200.0f, 200.0f, 0.0f));
 		EnemySpawn(TACKLE, Vector3(-200.0f, -200.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(-250.0f, 300.0f, 0.0f));
@@ -876,8 +877,16 @@ void Stage8::IssueUpdate()
 			DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 			static bool stickFree_GameOver = true;
 
+			bool leftKey = Input::GetKeyTrigger(VK_A);
+			bool rightKey = Input::GetKeyTrigger(VK_D);
+
 			if (stickFree_GameOver)
 			{
+				if (leftKey || rightKey)
+				{
+					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
+					stickFree_GameOver = false;
+				}
 				if (stick.x < -0.5f)
 				{
 					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
@@ -988,8 +997,16 @@ void Stage8::IssueUpdate()
 				DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 				static bool stickFree_ClearResult = true;
 
+				bool leftKey = Input::GetKeyTrigger(VK_A);
+				bool rightKey = Input::GetKeyTrigger(VK_D);
+
 				if (stickFree_ClearResult)
 				{
+					if (leftKey || rightKey)
+					{
+						m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
+						stickFree_ClearResult = false;
+					}
 					if (stick.x < -0.5f)
 					{
 						m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
