@@ -74,14 +74,14 @@ void Stage5::Init()
     m_MySceneObjects.emplace_back(m_Miko);
     m_Miko->SetField(m_Field);
 
-    //柱1本目
-    hashiras[0] = Game::GetInstance()->AddObject<Hashira>();
+    //柱
+    for (int i = 0; i < 2; i++)
+    {
+        hashiras[i] = Game::GetInstance()->AddObject<Hashira>();
+        m_MySceneObjects.emplace_back(hashiras[i]);
+    }
     hashiras[0]->SetPosition({ 250.0f , 0.0f , 0.0f });
-    m_MySceneObjects.emplace_back(hashiras[0]);
-    //柱2本目
-    hashiras[1] = Game::GetInstance()->AddObject<Hashira>();
     hashiras[1]->SetPosition({ -250.0f , 0.0f , 0.0f });
-    m_MySceneObjects.emplace_back(hashiras[1]);
 
     //経過したフレーム数と秒数を0にリセット
     elapsedFrames = 0;
