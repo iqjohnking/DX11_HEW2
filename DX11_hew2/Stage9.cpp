@@ -1389,6 +1389,7 @@ void Stage9::IssueUpdate()
 	{
 		if (!m_Message->IsPlaying())
 		{
+			m_GameUpdateBlock = true;
 			// 初回だけ画像生成
 			if (m_ClearChangeImageFlg == false)
 			{
@@ -1397,16 +1398,16 @@ void Stage9::IssueUpdate()
 				GameOverImage[1] = Game::GetInstance()->AddObject<Texture2D>();
 				GameOverImage[1]->SetTexture("assets/texture/lose002.png");
 				GameOverImage[1]->SetPosition(0.0f, 0.0f, 0.0f);
-				GameOverImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
+				GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
 				GameOverImage[1]->SetDrawOrder(10000);
-				m_MySceneObjects.emplace_back(GameOverImage[2]);
+				m_MySceneObjects.emplace_back(GameOverImage[1]);
 
 				m_SelectIndex = 0;
 				m_GameOverImageFlg = true;
 
 
 				//次のステージへ
-				ClearImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+				//ClearImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
 				////次のステージへ
 				//ClearImage[1] = Game::GetInstance()->AddObject<Texture2D>();
 				//ClearImage[1]->SetTexture("assets/texture/win002.png");
@@ -1490,10 +1491,8 @@ void Stage9::RePlay()
 	GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
 	GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
 
-	// 次回のStage2はGameplay開始にする
 	Game::GetInstance()->SetNextStageStartMode(9, StageStartMode::Gameplay);
 
-	// ステージを作り直す（安全）
 	Game::GetInstance()->ChangeScene(STAGE9);
 	return;
 }
