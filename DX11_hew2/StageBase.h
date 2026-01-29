@@ -20,6 +20,8 @@
 #include "EnemyType.h"
 #include "Hashira.h"
 #include <random>
+#include "UI_redSilk.h"
+#include "UI_mikoHp.h"
 
 #include <vector>
 #include "MessageManager.h"
@@ -41,6 +43,9 @@ protected:
 
 	Field* m_Field = nullptr;      // フィールド（境界判定用）
 
+	UI_redSilk* m_UI_redSilk;    // UI用の赤い糸表示
+	UI_mikoHp* m_UI_mikoHp;    // UI用のHP
+
 	silkWall* m_SilkWalls[3]{};   // 糸の壁 最大3本
 	Enemy1* Enemy1List[60]{};  // テスト用に60体
 	Enemy2* Enemy2List[10]{};  // テスト用に10体
@@ -58,6 +63,8 @@ protected:
 
 	Texture2D* ClearImage[3] = {};
 	Texture2D* GameOverImage[3] = {};
+
+	int m_SilkCount = 0;
 
 	bool m_ClearFlg = false;//クリアできたかどうか
 	bool m_ClearImageFlg = false;//クリア画像用

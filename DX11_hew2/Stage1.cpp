@@ -70,6 +70,16 @@ void Stage1::Init()
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
 
+	// UI用の赤い糸表示
+	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
+	m_MySceneObjects.emplace_back(m_UI_redSilk);
+	m_UI_redSilk->SetHands(m_HandL, m_HandR);
+
+	// UI用の赤い糸表示
+	m_UI_mikoHp = Game::GetInstance()->AddObject<UI_mikoHp>();
+	m_MySceneObjects.emplace_back(m_UI_mikoHp);
+	m_UI_mikoHp->SetMiko(m_Miko);
+
 	//経過したフレーム数と秒数を0にリセット
 	elapsedFrames = 0;
 	elapsedSeconds = 0;
@@ -84,6 +94,8 @@ void Stage1::Init()
 
 	StagekillCount = 0;     //倒した敵の数をリセット
 	StageEnemyCount = 11;   //ステージの敵の総数を設定
+
+	m_SilkCount = 0;
 
 	m_Conversation_BGM_flg_1 = false;
 	m_Conversation_BGM_flg_2 = false;
@@ -214,7 +226,7 @@ void Stage1::GameUpdate()
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)
 		{
-			if (!m_SilkWalls[i]->IsActive())
+			if (m_SilkWalls[i]->IsActive() == false)
 			{
 				w = m_SilkWalls[i];
 				break;
@@ -232,6 +244,7 @@ void Stage1::GameUpdate()
 		if (w && m_HandL && m_HandR)
 		{
 			w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+			w->SetUID(m_SilkCount++);
 		}
 	}
 
@@ -264,7 +277,35 @@ void Stage1::GameUpdate()
 			Vector3 targetPos = m_HandL->GetPosition(); // 左手
 
 			w->Fire(startPos, targetPos);
+			w->SetUID(m_SilkCount++);
 		}
+	}
+
+	int count = 0;
+	int minIndex = -1;
+	int minUID = 0;
+	for (int i = 0; i < 3; ++i)
+	{
+		auto* w = m_SilkWalls[i];
+		if (!w) continue;
+		//if (m_SilkWalls[i]->IsActive() == false) continue;
+		if (w->IsActive())
+		{
+			++count;
+		}
+		w->SetOldOne(false);   // 先全部清掉
+		int uid = w->GetUID();
+		if (minIndex == -1 || uid < minUID)
+		{
+			minUID = uid;
+			minIndex = i;
+		}
+	}
+	//  3 以上ときOldOneを設定 
+	if (count > 2 && minIndex != -1)
+	{
+
+		m_SilkWalls[minIndex]->SetOldOne(true);
 	}
 
 	//if (Input::GetKeyTrigger('R'))   // 
