@@ -32,10 +32,13 @@ void Enemy2::Init()
 	SetDrawOrder(5);
 
 	m_Texture2D.SetSpriteSheet(5, 3);
-	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
-	//m_Texture2D.AddAnimClip("atk", 4, 7, 10);
 	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
+	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
 	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
+
+	m_Texture2D.AddAnimClip("tame", 9, 10, 10);
+	m_Texture2D.AddAnimClip("atk", 11, 14, 8);
+
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -88,6 +91,16 @@ void Enemy2::move()
 	}
 	case EnemyState::ALIVE:
 	{
+		if(atkAnimeTimer > 0)
+		{
+			atkAnimeTimer--;
+			if(atkAnimeTimer <= 0)
+			{
+				m_Texture2D.PlayAnim("idle");
+			}
+			return;
+		}
+
 		if (stunTimer <= 0) {
 			// 1) 巫女へ向かう基本方向
 			m_direction = miko_pos - now_pos;
@@ -171,15 +184,16 @@ void Enemy2::move()
 					{
 						m_cutTimer -= 1.0f / 60.0f;
 
-						m_Texture2D.PlayAnim("atk");
+						m_Texture2D.PlayAnim("tame");
 
 						if (m_cutTimer <= 0.0f)
 						{
 							Game::GetSound()->Play(SOUND_LABEL_SE_007);
+							m_Texture2D.PlayAnim("atk");
+							atkAnimeTimer = 32;
 							m_targetWall->Uninit();
 							m_targetWall->SetIsActive(false);
 							m_cutTimer = 0.0f;
-							m_Texture2D.PlayAnim("idle");
 							m_targetWall = nullptr;
 						}
 						return;
@@ -220,10 +234,11 @@ void Enemy2::move()
 			if (Collision::CheckHit(w->GetSegment(), atkSphere, contactPoint))
 			{
 				m_targetWall = w;   // ターゲットをロック
-				m_cutTimer = 2.5f;  // タイマーセット
+				m_cutTimer = 5.f;  // タイマーセット
 				SetVelocity(0.0f);  // 即座に止まる
 
 				int dmg = w->GetPoiseDmg();
+				m_Texture2D.PlayAnim("dying");
 				m_Hitpoint -= dmg;
 
 				break;
@@ -244,17 +259,21 @@ void Enemy2::move()
 	}
 	case EnemyState::ISMAYUING:
 	{
-		float t = 1.0f - (float)mayuingTimer / 60.0f;
+
+		m_Texture2D.PlayAnim("dying");
+
+		mayuingTimer++; // 0 -> kMayuFrames
+
+		float t = (float)mayuingTimer / (float)kMayuFrames;
+		if (t > 1.0f) t = 1.0f;
 
 		Vector3 pos = m_StartMayuPos + (m_TargetMayuPos - m_StartMayuPos) * t;
 		SetPosition(pos);
 
-		mayuingTimer--;
-		if (mayuingTimer <= 0)
+		if (mayuingTimer >= kMayuFrames)
 		{
 			SetPosition(m_TargetMayuPos);
-			mayuingTimer = 0;
-
+			mayuingTimer = kMayuFrames;
 			state = EnemyState::DEAD;
 		}
 		break;

@@ -16,13 +16,13 @@ void silkWall::Init()
 
 	SetPosition(Vector3(-500000.0f, -500000.0f, 0.0f));// 初期位置（画面外）
 
-	m_Scale = DirectX::SimpleMath::Vector3(0.0f, 15.0f, .0f);
+	m_Scale = DirectX::SimpleMath::Vector3(0.0f, 35.0f, .0f);
 
 	// 親クラス的初始化
 	m_Texture2D.Texture2D::Init();
 	// 重複テクスチャを有効に（レンダラー側でもサンプラがWRAPなら有効）
 	m_Texture2D.SetRepeatTexture(m_RepeatTexture::xOnly);
-	m_Texture2D.SetTexture("assets/texture/spiderSilkKari.png");
+	m_Texture2D.SetTexture("assets/texture/spiderSilk.png");
 	m_Texture2D.SetPosition(m_Position);
 	m_Texture2D.SetRotation(Vector3(0.0f, 0.0f, 180.0f));
 	m_Texture2D.SetScale(0.0f, 15.f, 0.0f);
