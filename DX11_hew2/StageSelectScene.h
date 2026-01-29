@@ -23,6 +23,12 @@ private:
 	Texture2D* m_mode_in_M = nullptr;
 	Texture2D* m_mode_in_R = nullptr;
 
+	Texture2D* m_FadePanel = nullptr;
+
+	int m_NextSceneID = 0; // 1~9:各ステージ 10:ModeSelect
+	float m_fadeAlpha = 1.0f;
+	bool m_isStarting = false;
+
 	float m_curScaleL = 400.0f;
 	float m_curScaleM = 400.0f;
 	float m_curScaleR = 400.0f;

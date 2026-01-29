@@ -14,8 +14,12 @@ private:
     Texture2D* m_Title_hurigana = nullptr;
     Texture2D* m_PressEnterwakuImg = nullptr;
     Texture2D* m_PressEnterImg = nullptr;
+    Texture2D* m_FadePanel = nullptr; //フェード用
 
     float m_curWakuScale = 500.0f;
+   
+    float m_fadeAlpha = 0.0f;    // 0.0(透明) ～ 1.0(真っ黒)
+    bool m_isStarting = false;   // 決定ボタンを押したか
 
     bool IsMouseOver(Texture2D* obj);
 public:

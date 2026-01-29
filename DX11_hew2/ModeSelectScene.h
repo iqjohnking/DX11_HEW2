@@ -22,9 +22,15 @@ private:
 	Texture2D* m_modesentakugamen_waku = nullptr;
 	Texture2D* m_StoryBtn = nullptr;
 	Texture2D* m_EndlessBtn = nullptr;
+	Texture2D* m_FadePanel = nullptr; // フェード用
+	
+	float m_fadeAlpha = 1.0f;       
+	bool m_isStarting = false;		// 決定ボタンを押したか
 
 	float m_curStoryScale = 400.0f;
 	float m_curEndlessScale = 400.0f;
+
+	int m_NextSceneID = 0; //1 : START, 2 : STAGE_SELECT, 3 : STAGE10）
 
 	bool IsMouseOver(Texture2D* obj);
 public:

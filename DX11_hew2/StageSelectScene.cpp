@@ -84,10 +84,100 @@ void StageSelectScene::Init()
 	m_storysentaku->SetScale(650.0f, 200.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_storysentaku);
 	
+	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
+	m_FadePanel->SetTexture("assets/texture/terrain.png");
+	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
+	m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);
+	m_FadePanel->SetAlpha(1.0f);                           // 最初は黒
+	m_MySceneObjects.emplace_back(m_FadePanel);
 }
 
 void StageSelectScene::Update()
 {
+	// --- フェードのタイマー ---
+	const float FADE_TIME = 0.2f; //0.5秒で終了
+	float Time = 1.0f / 60.0f;
+
+	if (m_isStarting)
+	{
+		m_fadeAlpha += Time / FADE_TIME;
+	}
+	else
+	{
+		m_fadeAlpha -= Time / FADE_TIME;
+	}
+
+	if (m_fadeAlpha > 1.0f) m_fadeAlpha = 1.0f;
+	if (m_fadeAlpha < 0.0f) m_fadeAlpha = 0.0f;
+
+	// アルファ値を反映
+	if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
+
+	// 暗転完了後の切り替え
+	if (m_isStarting && m_fadeAlpha >= 1.0f)
+	{
+		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(STAGE1);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE2);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE3);
+		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(STAGE4);
+		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(STAGE5);
+		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(STAGE6);
+		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(STAGE7);
+		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(STAGE8);
+		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(STAGE9);
+		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(MODE_SELECT);
+		return;
+	}
+
+	if (m_isStarting) return;
+	/*
+	// --- フェード処理 ---
+	float targetAlpha;
+	if (m_isStarting)
+	{
+		targetAlpha = 1.0f;
+	}
+	else
+	{
+		targetAlpha = 0.0f;
+
+	}
+
+	float fadeSpeed ;
+	if (m_isStarting)
+	{
+		fadeSpeed = 0.09;
+	}
+	else
+	{
+		fadeSpeed = 0.09;
+	}
+
+	m_fadeAlpha += (targetAlpha - m_fadeAlpha) * fadeSpeed;
+
+	if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
+
+	// 暗転完了後の切り替え
+	if (m_isStarting && m_fadeAlpha > 0.99f)
+	{
+		
+			 if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(STAGE1);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE2);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE3);
+		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(STAGE4);
+		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(STAGE5);
+		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(STAGE6);
+		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(STAGE7);
+		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(STAGE8);
+		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(STAGE9);
+		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(MODE_SELECT);
+		
+		return;
+	}
+
+	// フェードアウト中（暗転中）は以下の操作を受け付けない
+	if (m_isStarting) return;
+	*/
 	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
 	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
 
@@ -96,9 +186,18 @@ void StageSelectScene::Update()
 
 	if (mouseMoved)
 	{
-		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) m_SelectIndex = 0;
-		if (m_mode_in_M && IsMouseOver(m_mode_in_M)) m_SelectIndex = 1;
-		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) m_SelectIndex = 2;
+		if (m_mode_in_L && IsMouseOver(m_mode_in_L))
+		{
+			m_SelectIndex = 0;
+		}
+		if (m_mode_in_M && IsMouseOver(m_mode_in_M))
+		{
+			m_SelectIndex = 1;
+		}
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) 
+		{
+			m_SelectIndex = 2;
+		}
 
 	}
 	
@@ -139,8 +238,16 @@ void StageSelectScene::Update()
 	if (abs(stick.x) < 0.2f) stickFree = true; // スティックを離したら入力を受け付ける
 
 	// --- コントローラーの左右で選択を動かす ---
-	if (Input::GetButtonTrigger(XINPUT_LEFT)) { m_SelectIndex = (m_SelectIndex + 2) % 3; }
-	if (Input::GetButtonTrigger(XINPUT_RIGHT)){ m_SelectIndex = (m_SelectIndex + 1) % 3; }
+	if (Input::GetButtonTrigger(XINPUT_LEFT)&&Input::GetKeyTrigger(VK_A)) 
+	{ 
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		m_SelectIndex = (m_SelectIndex + 2) % 3; 
+	}
+	if (Input::GetButtonTrigger(XINPUT_RIGHT) && Input::GetKeyTrigger(VK_D))
+	{ 
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		m_SelectIndex = (m_SelectIndex + 1) % 3; 
+	}
 	
 	// --- 目標サイズ ---
 	float targetL;
@@ -202,28 +309,30 @@ void StageSelectScene::Update()
 	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
 
 	// --- 決定処理（Aボタン） ---
-	if (Input::GetButtonTrigger(XINPUT_A) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
+	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_RETURN) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
 	{
+		m_isStarting = true;
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
 		if (m_Chapter == 1) 
 		{
 			// 第1章
-			if (m_SelectIndex == 0) Game::GetInstance()->ChangeScene(STAGE1);
-			if (m_SelectIndex == 1) Game::GetInstance()->ChangeScene(STAGE2);
-			if (m_SelectIndex == 2) Game::GetInstance()->ChangeScene(STAGE3);
+			if (m_SelectIndex == 0) m_NextSceneID = 1; // STAGE1
+			if (m_SelectIndex == 1 )m_NextSceneID = 2; // STAGE2
+			if (m_SelectIndex == 2) m_NextSceneID = 3; // STAGE3
 		}
 		else if (m_Chapter == 2)
 		{
 			// 第2章
-			if (m_SelectIndex == 0) Game::GetInstance()->ChangeScene(STAGE4);
-			if (m_SelectIndex == 1) Game::GetInstance()->ChangeScene(STAGE5);
-			if (m_SelectIndex == 2) Game::GetInstance()->ChangeScene(STAGE6);
+			if (m_SelectIndex == 0) m_NextSceneID = 4; // STAGE4
+			if (m_SelectIndex == 1) m_NextSceneID = 5; // STAGE5
+			if (m_SelectIndex == 2) m_NextSceneID = 6; // STAGE6
 		}
 		else if (m_Chapter == 3)
 		{
 			// 第3章
-			if (m_SelectIndex == 0) Game::GetInstance()->ChangeScene(STAGE7);
-			if (m_SelectIndex == 1) Game::GetInstance()->ChangeScene(STAGE8);
-			if (m_SelectIndex == 2) Game::GetInstance()->ChangeScene(STAGE9);
+			if (m_SelectIndex == 0) m_NextSceneID = 7; // STAGE7
+			if (m_SelectIndex == 1) m_NextSceneID = 8; // STAGE8
+			if (m_SelectIndex == 2) m_NextSceneID = 9; // STAGE9
 		}
 		return;
 	}
@@ -232,8 +341,10 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT))
 	{
-		
-		Game::GetInstance()->ChangeScene(MODE_SELECT);
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		m_isStarting = true;
+		m_NextSceneID = 10; // MODE_SELECT へ
+		//Game::GetInstance()->ChangeScene(MODE_SELECT);
 		
 		return;
 	}
@@ -242,6 +353,7 @@ void StageSelectScene::Update()
 	// --- Lボタン(LB)でチャプター切り替え ---
 	if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| Input::GetKeyTrigger(VK_RIGHT))
 	{
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
 		m_Chapter++;
 		if (m_Chapter > 3) m_Chapter = 1; // 3章（3-3）までなので、4になったら1に戻す
 

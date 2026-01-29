@@ -87,83 +87,185 @@ void ModeSelectScene::Init()
 	m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_EndlessBtn);
 	
+	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
+	m_FadePanel->SetTexture("assets/texture/terrain.png");
+	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
+	m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);
+	m_FadePanel->SetAlpha(m_fadeAlpha); // 最初は黒
+	m_MySceneObjects.emplace_back(m_FadePanel);
 }
 
 void ModeSelectScene::Update()
 {
-	//マウス入力
-	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
-	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
+	// --- フェードのタイマー ---
+	const float FADE_TIME = 0.2f;// 0.5秒で終了
+	float Time = 1.0f / 60.0f;
 
-	bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
-	lastMousePos = currentMousePos;
+	if (m_isStarting)
+	{
+		m_fadeAlpha += Time / FADE_TIME;
+	}
+	else
+	{
+		m_fadeAlpha -= Time / FADE_TIME;
+	}
+
+	if (m_fadeAlpha > 1.0f)
+	{
+		m_fadeAlpha = 1.0f;
+	}
+	
+	if (m_fadeAlpha < 0.0f)
+	{
+		m_fadeAlpha = 0.0f;
+	}
+	//アルファ値を反映
+	if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
+
+	// シーン切り替え判定
+	if (m_isStarting && m_fadeAlpha >= 1.0f)
+	{
+		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(START);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE_SELECT);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE10);
+		return;
+	}
+
+	if (m_isStarting) return;
+	/*
+	float targetAlpha;
+	if (m_isStarting)
+	{
+		targetAlpha = 1.0f; // フェードアウト中：真っ黒へ
+	}
+	else
+	{
+		targetAlpha = 0.0f; // フェードイン中：透明へ
+	}
+
+	const float fadeSpeed = 0.09f;
+
+	// 滑らかに
+	m_fadeAlpha += (targetAlpha - m_fadeAlpha) * fadeSpeed;
+
+	if (m_FadePanel)
+	{
+		m_FadePanel->SetAlpha(m_fadeAlpha);
+	}
+	*/
 
 	//クリアしたか
 	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
 
-	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
-
-	if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_LEFT) || stick.x < -0.5f)
+	// --- 真っ黒になったらシーン切り替え ---
+	if (m_isStarting && m_fadeAlpha > 0.99f)
 	{
-		m_SelectIndex = 0; // ストーリーモード
+		if (m_NextSceneID == 1)
+		{
+			Game::GetInstance()->ChangeScene(START);
+		}
+		else if (m_NextSceneID == 2)
+		{
+			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+		}
+		else if (m_NextSceneID == 3)
+		{
+			Game::GetInstance()->ChangeScene(STAGE10);
+		}
+		
+		if (m_SelectIndex == 0)
+		{
+			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+		}
+		else if (isAllCleared)
+		{
+			Game::GetInstance()->ChangeScene(STAGE10);
+		}
+		
+		return;
 	}
 
+	// --- フェードアウト中は操作を無視 ---
+	if (m_isStarting) return;
 
-	if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
+	
+	if (!m_isStarting)
 	{
-		m_SelectIndex = 1; // エンドレスモード
-	}
+		//マウス入力
+		static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
+		DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
+
+		bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
+		lastMousePos = currentMousePos;
 
 
-	if (mouseMoved)
-	{
-		if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
-		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
 
-	}
+		DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
-	float targetStory; //目標サイズ
+		if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_LEFT) || stick.x < -0.5f)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			m_SelectIndex = 0; // ストーリーモード
+		}
 
-	if (m_SelectIndex == 0) 
-	{
-		targetStory = 440.0f; // 選択中なら大きく
-	}
-	else 
-	{
-		targetStory = 400.0f; // 選択してないなら普通
-	}
 
-	float targetEndless; // 目標サイズ
+		if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			m_SelectIndex = 1; // エンドレスモード
+		}
 
-	if (m_SelectIndex == 1) 
-	{
-		targetEndless = 440.0f; // 選択中なら大きく
-	}
-	else 
-	{
-		targetEndless = 400.0f; // 選択してないなら普通
+
+		if (mouseMoved)
+		{
+			if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
+			if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
+
+		}
+
+		float targetStory; //目標サイズ
+
+		if (m_SelectIndex == 0)
+		{
+			targetStory = 440.0f; // 選択中なら大きく
+		}
+		else
+		{
+			targetStory = 400.0f; // 選択してないなら普通
+		}
+
+		float targetEndless; // 目標サイズ
+
+		if (m_SelectIndex == 1)
+		{
+			targetEndless = 440.0f; // 選択中なら大きく
+		}
+		else
+		{
+			targetEndless = 400.0f; // 選択してないなら普通
+		}
+
+		//滑らかに
+		const float speed = 0.5f;
+		m_curStoryScale += (targetStory - m_curStoryScale) * speed;
+		m_curEndlessScale += (targetEndless - m_curEndlessScale) * speed;
+
+		//サイズを反映
+		if (m_StoryBtn && m_EndlessBtn)
+		{
+			// 左側（ストーリー）一式を現在のスケールで更新
+			m_StoryBtn->SetScale(m_curStoryScale, m_curStoryScale * 0.375f, 0.0f);
+			m_mode_in_L->SetScale(m_curStoryScale * 1.38f, m_curStoryScale * 1.72f, 0.0f);
+			m_mode_out_L->SetScale(m_curStoryScale * 1.68f, m_curStoryScale * 2.13f, 0.0f);
+
+			// 右側（エンドレス）一式を現在のスケールで更新
+			m_EndlessBtn->SetScale(m_curEndlessScale, m_curEndlessScale * 0.375f, 0.0f);
+			m_mode_in_R->SetScale(m_curEndlessScale * 1.38f, m_curEndlessScale * 1.72f, 0.0f);
+			m_mode_out_R->SetScale(m_curEndlessScale * 1.68f, m_curEndlessScale * 2.13f, 0.0f);
+
+		}
 	}
 	
-	//滑らかに
-	const float speed = 0.5f;
-	m_curStoryScale += (targetStory - m_curStoryScale) * speed;
-	m_curEndlessScale += (targetEndless - m_curEndlessScale) * speed;
-
-	//サイズを反映
-	if (m_StoryBtn && m_EndlessBtn)
-	{
-		// 左側（ストーリー）一式を現在のスケールで更新
-		m_StoryBtn->SetScale(m_curStoryScale, m_curStoryScale * 0.375f, 0.0f);
-		m_mode_in_L->SetScale(m_curStoryScale * 1.38f, m_curStoryScale * 1.72f, 0.0f);
-		m_mode_out_L->SetScale(m_curStoryScale * 1.68f, m_curStoryScale * 2.13f, 0.0f);
-
-		// 右側（エンドレス）一式を現在のスケールで更新
-		m_EndlessBtn->SetScale(m_curEndlessScale, m_curEndlessScale * 0.375f, 0.0f);
-		m_mode_in_R->SetScale(m_curEndlessScale * 1.38f, m_curEndlessScale * 1.72f, 0.0f);
-		m_mode_out_R->SetScale(m_curEndlessScale * 1.68f, m_curEndlessScale * 2.13f, 0.0f);
-
-	}
-
 	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_R)));
 
 	// --- 決定処理 (Aボタン or 左クリック or Enterキー) ---
@@ -174,11 +276,17 @@ void ModeSelectScene::Update()
 	{
 		if (m_SelectIndex == 0)
 		{
-			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			m_NextSceneID = 2;//ステージセレクトへ
+			m_isStarting = true;
+			//Game::GetInstance()->ChangeScene(STAGE_SELECT);
 		}
 		else if (isAllCleared)
 		{
-			Game::GetInstance()->ChangeScene(STAGE10);
+			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			m_NextSceneID = 3;//エンドレスへ
+			m_isStarting = true;
+			//Game::GetInstance()->ChangeScene(STAGE10);
 		}
 		return;
 	}
@@ -187,7 +295,10 @@ void ModeSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT))
 	{
-		Game::GetInstance()->ChangeScene(START);
+		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		m_NextSceneID = 1;//スタートシーンへ
+		m_isStarting = true;
+		//Game::GetInstance()->ChangeScene(START);
 		return;
 	}
 

@@ -43,10 +43,53 @@ void StartScene::Init()
     m_PressEnterImg->SetPosition(0.0f, -250.0f, 0.0f);
     m_PressEnterImg->SetScale(600.0f, 100.0f, 0.0f);
     m_MySceneObjects.emplace_back(m_PressEnterImg);
+
+    m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
+    m_FadePanel->SetTexture("assets/texture/terrain.png"); 
+    m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);            
+    m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);         
+    m_FadePanel->SetAlpha(1.0f);                           // 最初は黒
+    m_MySceneObjects.emplace_back(m_FadePanel);
 }
 
 void StartScene::Update()
 {
+    // --- フェードのタイマー ---
+    const float FADE_TIME = 0.2f; // 0.5秒で終了
+    float Time = 1.0f / 60.0f;
+
+    if (m_isStarting)
+    {
+        m_fadeAlpha += Time / FADE_TIME;
+    }
+    else
+    {
+        m_fadeAlpha -= Time / FADE_TIME;
+    }
+
+   
+    if (m_fadeAlpha > 1.0f)
+    {
+        m_fadeAlpha = 1.0f;
+    }
+    
+    if (m_fadeAlpha < 0.0f)
+    {
+        m_fadeAlpha = 0.0f;
+    }
+
+    // アルファ値を反映
+    if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
+
+    // シーン切り替え
+    if (m_isStarting && m_fadeAlpha >= 1.0f)
+    {
+        Game::GetInstance()->ChangeScene(MODE_SELECT);
+        return;
+    }
+
+    if (m_isStarting) return;
+
     // --- 入力の取得 ---
     static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
     DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
@@ -54,7 +97,7 @@ void StartScene::Update()
     bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
     lastMousePos = currentMousePos;
 
-    static bool isSelected = true;
+    static bool isSelected = false;
     bool prevSelected = isSelected; // 前フレームの選択状態を保存
 
     DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
@@ -71,6 +114,7 @@ void StartScene::Update()
     if (Input::GetButtonTrigger(XINPUT_DOWN) || Input::GetKeyTrigger(VK_DOWN) || stick.y < -0.5f)
     {
         isSelected = true;
+        Game::GetSound()->Play(SOUND_LABEL_SE_000);
     }
     
 
@@ -113,23 +157,45 @@ void StartScene::Update()
 
     // ---決定処理 ---
     bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && IsMouseOver(m_PressEnterwakuImg));
-
-    if (isMouseClickOnButton ||
-        Input::GetButtonTrigger(XINPUT_A) ||
-        Input::GetKeyTrigger(VK_RETURN))
+    bool isEnterPressed = Input::GetKeyTrigger(VK_RETURN) || Input::GetButtonTrigger(XINPUT_A);
+    
+    if (isMouseClickOnButton || isEnterPressed)
     {
-        // 選択されている（ボタンが大きくなっている）時だけ決定できる
-        if (isSelected)
-        {
-            // SE
+        m_isStarting = true;
+        Game::GetSound()->Play(SOUND_LABEL_SE_000);
+        // Enterで決定した時も強制的にボタンを大きく
+        isSelected = true;
 
-            Game::GetInstance()->ChangeScene(MODE_SELECT);
-            return;
-        }
+        //SE
     }
 
-   
-   
+    /*
+    float targetAlpha;
+    
+    if (m_isStarting)
+    {
+       targetAlpha = 1.0f;
+    }
+    else
+    {
+        targetAlpha = 0.0f;
+    }
+    const float fadeSpeed = 0.09f;
+    
+    m_fadeAlpha += (targetAlpha - m_fadeAlpha) * fadeSpeed;
+
+    if (m_FadePanel)
+    {
+        m_FadePanel->SetAlpha(m_fadeAlpha);
+    }
+
+    // フェードアウトが完了したらシーン切り替え
+    if (m_isStarting && m_fadeAlpha > 0.99f)
+    {
+        Game::GetInstance()->ChangeScene(MODE_SELECT);
+        return;
+    }
+    */
 }
 
 void StartScene::Uninit()
