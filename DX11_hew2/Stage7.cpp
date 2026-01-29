@@ -151,14 +151,6 @@ void Stage7::MessageUpdate()
 		break;
 
 	case Flow::Gameplay:
-		// 仮：Enterでステージ終了扱い→終了会話へ
-		if (Input::GetKeyTrigger(VK_SPACE))
-		{
-			BuildEndPages();
-			m_Message->SetPages(m_Pages);
-			m_Message->Play();
-			m_Flow = Flow::EndTalk;
-		}
 		break;
 
 	case Flow::EndTalk:

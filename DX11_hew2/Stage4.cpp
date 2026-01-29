@@ -3,7 +3,7 @@
 
 void Stage4::Init()
 {
-	const int kStageNo = 1;
+	const int kStageNo = 4;
 	// 次回開始モードを取得
 	StageStartMode startMode = Game::GetInstance()->ConsumeNextStageStartMode(kStageNo);
 
