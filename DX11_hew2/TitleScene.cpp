@@ -50,9 +50,6 @@ void TitleScene::Init()
 	m_HandR->SetAnotherHand(m_HandL);
 	//m_HandR->SetField(m_Field);
 
-	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
-	m_MySceneObjects.emplace_back(m_UI_redSilk);
-	m_UI_redSilk->SetHands(m_HandL, m_HandR);
 
 	////巫女
 	m_Miko = Game::GetInstance()->AddObject<Shrinemaiden>();
@@ -66,6 +63,16 @@ void TitleScene::Init()
 		hashiras[i]->SetPosition({ 0.f , 0.f , 0.0f });
 		m_MySceneObjects.emplace_back(hashiras[i]);
 	}
+
+	// UI用の赤い糸表示
+	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
+	m_MySceneObjects.emplace_back(m_UI_redSilk);
+	m_UI_redSilk->SetHands(m_HandL, m_HandR);
+
+	// UI用の赤い糸表示
+	m_UI_mikoHp = Game::GetInstance()->AddObject<UI_mikoHp>();
+	m_MySceneObjects.emplace_back(m_UI_mikoHp);
+	m_UI_mikoHp->SetMiko(m_Miko);
 
 
 	//敵1
