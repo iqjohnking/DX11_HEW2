@@ -16,6 +16,13 @@ private:
     Texture2D* m_PressEnterImg = nullptr;
     Texture2D* m_FadePanel = nullptr; //フェード用
 
+    Texture2D* m_FadeL = nullptr;   // 左の障子
+    Texture2D* m_FadeR = nullptr;   // 右の障子
+    Texture2D* m_FadeLL = nullptr;   // 左の障子
+    Texture2D* m_FadeRR = nullptr;   // 右の障子
+
+    float m_shojiTimer = 0.0f;      // 0.0(全開) ～ 1.0(全閉)
+
     float m_curWakuScale = 500.0f;
    
     float m_fadeAlpha = 0.0f;    // 0.0(透明) ～ 1.0(真っ黒)

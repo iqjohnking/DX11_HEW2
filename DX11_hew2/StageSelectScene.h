@@ -17,6 +17,9 @@ private:
 	Texture2D* m_daiissyou_waku = nullptr;
 	Texture2D* m_migiyazirusi = nullptr;
 	Texture2D* m_storysentaku = nullptr;
+	Texture2D* m_storysentaku2 = nullptr;
+	Texture2D* m_storysentaku3 = nullptr;
+	Texture2D* m_storysentaku4 = nullptr;
 	
 	//ステージ選択(仮)
 	Texture2D* m_mode_in_L = nullptr;

@@ -24,6 +24,13 @@ private:
 	Texture2D* m_EndlessBtn = nullptr;
 	Texture2D* m_FadePanel = nullptr; // フェード用
 	
+	//キャラの立ち絵
+	Texture2D* m_CharacterImg = nullptr;
+	Texture2D* m_CharacterImg2 = nullptr;
+	Texture2D* m_Enemy1Img = nullptr;
+	Texture2D* m_Enemy2Img = nullptr;
+	Texture2D* m_Enemy3Img = nullptr;
+
 	float m_fadeAlpha = 1.0f;       
 	bool m_isStarting = false;		// 決定ボタンを押したか
 

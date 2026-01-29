@@ -24,22 +24,22 @@ void StageSelectScene::Init()
 
 	//モード選択場所の内背景
 	m_mode_in_L = Game::GetInstance()->AddObject<Texture2D>();
-	m_mode_in_L->SetTexture("assets/texture/enemy.png");
+	m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
 	m_mode_in_L->SetPosition(-550.0f, 50.0f, 0.0f);
-	m_mode_in_L->SetScale(400.0f, 400.0f, 0.0f);
+	m_mode_in_L->SetScale(m_curScaleL * 2.0f, m_curScaleL, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_L);
 
 	m_mode_in_M = Game::GetInstance()->AddObject<Texture2D>();
-	m_mode_in_M->SetTexture("assets/texture/enemy.png");
+	m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
 	m_mode_in_M->SetPosition(0.0f, 50.0f, 0.0f);
-	m_mode_in_M->SetScale(400.0f, 400.0f, 0.0f);
+	m_mode_in_M->SetScale(m_curScaleM * 2.0f, m_curScaleM, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_M);
 
 	//モード選択場所の内背景
 	m_mode_in_R = Game::GetInstance()->AddObject<Texture2D>();
-	m_mode_in_R->SetTexture("assets/texture/enemy.png");
+	m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
 	m_mode_in_R->SetPosition(550.0f, 50.0f, 0.0f);
-	m_mode_in_R->SetScale(400.0f, 400.0f, 0.0f);
+	m_mode_in_R->SetScale(m_curScaleR * 2.0f, m_curScaleR, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_R);
 
 	//ステージ選択画面　文字枠
@@ -59,31 +59,49 @@ void StageSelectScene::Init()
 	//第一章　文字枠
 	m_daiissyou_waku = Game::GetInstance()->AddObject<Texture2D>();
 	m_daiissyou_waku->SetTexture("assets/texture/ui/daiissyou_waku.png");
-	m_daiissyou_waku->SetPosition(0.0f, -330.0f, 0.0f);
+	m_daiissyou_waku->SetPosition(0.0f, -380.0f, 0.0f);
 	m_daiissyou_waku->SetScale(400.0f, 200.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_daiissyou_waku);
 
 	//第一章　文字
 	m_daiissyou = Game::GetInstance()->AddObject<Texture2D>();
 	m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
-	m_daiissyou->SetPosition(0.0f, -330.0f, 0.0f);
+	m_daiissyou->SetPosition(0.0f, -380.0f, 0.0f);
 	m_daiissyou->SetScale(200.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_daiissyou);
 
 	//右矢印
 	m_migiyazirusi= Game::GetInstance()->AddObject<Texture2D>();
 	m_migiyazirusi->SetTexture("assets/texture/ui/migiyazirusi.png");
-	m_migiyazirusi->SetPosition(350.0f, -330.0f, 0.0f);
+	m_migiyazirusi->SetPosition(350.0f, -380.0f, 0.0f);
 	m_migiyazirusi ->SetScale(100.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_migiyazirusi);
 	
 	//ストーリー選択　説明
 	m_storysentaku= Game::GetInstance()->AddObject<Texture2D>();
-	m_storysentaku->SetTexture("assets/texture/ui/storysentaku.png");
-	m_storysentaku->SetPosition(0.0f, -480.0f, 0.0f);
-	m_storysentaku->SetScale(650.0f, 200.0f, 0.0f);
+	m_storysentaku->SetTexture("assets/texture/stageselecthint/stageselecthint000.png");
+	m_storysentaku->SetPosition(0.0f, 380.0f, 0.0f);
+	m_storysentaku->SetScale(650.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_storysentaku);
+
+	m_storysentaku2 = Game::GetInstance()->AddObject<Texture2D>();
+	m_storysentaku2->SetTexture("assets/texture/stageselecthint/stageselecthint001.png");
+	m_storysentaku2->SetPosition(550.0f, 380.0f, 0.0f);
+	m_storysentaku2->SetScale(250.0f, 100.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_storysentaku2);
+
+	m_storysentaku3 = Game::GetInstance()->AddObject<Texture2D>();
+	m_storysentaku3->SetTexture("assets/texture/stageselecthint/stageselecthint002.png");
+	m_storysentaku3->SetPosition(0.0f, -300.0f, 0.0f);
+	m_storysentaku3->SetScale(250.0f, 100.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_storysentaku3);
 	
+	m_storysentaku4 = Game::GetInstance()->AddObject<Texture2D>();
+	m_storysentaku4->SetTexture("assets/texture/stageselecthint/stageselecthint003.png");
+	m_storysentaku4->SetPosition(650.0f, -500.0f, 0.0f);
+	m_storysentaku4->SetScale(250.0f, 100.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_storysentaku3);
+
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
 	m_FadePanel->SetTexture("assets/texture/terrain.png");
 	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
@@ -130,54 +148,7 @@ void StageSelectScene::Update()
 	}
 
 	if (m_isStarting) return;
-	/*
-	// --- フェード処理 ---
-	float targetAlpha;
-	if (m_isStarting)
-	{
-		targetAlpha = 1.0f;
-	}
-	else
-	{
-		targetAlpha = 0.0f;
-
-	}
-
-	float fadeSpeed ;
-	if (m_isStarting)
-	{
-		fadeSpeed = 0.09;
-	}
-	else
-	{
-		fadeSpeed = 0.09;
-	}
-
-	m_fadeAlpha += (targetAlpha - m_fadeAlpha) * fadeSpeed;
-
-	if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
-
-	// 暗転完了後の切り替え
-	if (m_isStarting && m_fadeAlpha > 0.99f)
-	{
-		
-			 if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(STAGE1);
-		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE2);
-		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE3);
-		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(STAGE4);
-		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(STAGE5);
-		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(STAGE6);
-		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(STAGE7);
-		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(STAGE8);
-		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(STAGE9);
-		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(MODE_SELECT);
-		
-		return;
-	}
-
-	// フェードアウト中（暗転中）は以下の操作を受け付けない
-	if (m_isStarting) return;
-	*/
+	
 	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
 	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
 
@@ -201,20 +172,6 @@ void StageSelectScene::Update()
 
 	}
 	
-	/*
-	if (m_mode_in_L && IsMouseOver(m_mode_in_L))
-	{
-		m_SelectIndex = 0;
-	}
-	if (m_mode_in_M && IsMouseOver(m_mode_in_M))
-	{
-		m_SelectIndex = 1;
-	}
-	if (m_mode_in_R && IsMouseOver(m_mode_in_R))
-	{
-		m_SelectIndex = 2;
-	}
-	*/
 
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
@@ -256,29 +213,29 @@ void StageSelectScene::Update()
 
 	if (m_SelectIndex == 0) 
 	{
-		targetL = 440.0f;// 選択中なら大きく
+		targetL = 620.0f;// 選択中なら大きく
 	}
 	else 
 	{
-		targetL = 400.0f;// 選択してないなら普通
+		targetL = 600.0f;// 選択してないなら普通
 	}
 
 	if (m_SelectIndex == 1) 
 	{
-		targetM = 440.0f;// 選択中なら大きく
+		targetM = 620.0f;// 選択中なら大きく
 	}
 	else 
 	{
-		targetM = 400.0f;// 選択してないなら普通
+		targetM = 600.0f;// 選択してないなら普通
 	}
 
 	if (m_SelectIndex == 2) 
 	{
-		targetR = 440.0f;// 選択中なら大きく
+		targetR = 620.0f;// 選択中なら大きく
 	}
 	else 
 	{
-		targetR = 400.0f;// 選択してないなら普通
+		targetR = 600.0f;// 選択してないなら普通
 	}
 
 	// 滑らかに 
@@ -291,19 +248,19 @@ void StageSelectScene::Update()
 	// 左ボタン
 	if (m_mode_in_L) 
 	{
-		m_mode_in_L->SetScale(m_curScaleL, m_curScaleL, 0.0f);
+		m_mode_in_L->SetScale(m_curScaleL * 2.0f, m_curScaleL, 0.0f);
 	}
 	
 	// 真ん中ボタン
 	if (m_mode_in_M) 
 	{
-		m_mode_in_M->SetScale(m_curScaleM, m_curScaleM, 0.0f);
+		m_mode_in_M->SetScale(m_curScaleM * 2.0f, m_curScaleM, 0.0f);
 	}
 	
 	// 右ボタン
 	if (m_mode_in_R) 
 	{
-		m_mode_in_R->SetScale(m_curScaleR, m_curScaleR, 0.0f);
+		m_mode_in_R->SetScale(m_curScaleR * 2.0f, m_curScaleR, 0.0f);
 	}
 
 	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
@@ -361,25 +318,25 @@ void StageSelectScene::Update()
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
 
-			m_mode_in_L->SetTexture("assets/texture/enemy.png");
-			m_mode_in_M->SetTexture("assets/texture/enemy.png");
-			m_mode_in_R->SetTexture("assets/texture/enemy.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
 		}
 		else if (m_Chapter == 2)
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
 
-			m_mode_in_L->SetTexture("assets/texture/miko.png");
-			m_mode_in_M->SetTexture("assets/texture/miko.png");
-			m_mode_in_R->SetTexture("assets/texture/miko.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect003.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect004.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect005.png");
 		}
 		else if (m_Chapter == 3)
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
 
-			m_mode_in_L->SetTexture("assets/texture/ground.png");
-			m_mode_in_M->SetTexture("assets/texture/ground.png");
-			m_mode_in_R->SetTexture("assets/texture/ground.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect006.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect007.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
 		}
 	}
 	else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT))
@@ -391,25 +348,26 @@ void StageSelectScene::Update()
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
 
-			m_mode_in_L->SetTexture("assets/texture/enemy.png");
-			m_mode_in_M->SetTexture("assets/texture/enemy.png");
-			m_mode_in_R->SetTexture("assets/texture/enemy.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
+			
 		}
 		else if (m_Chapter == 2)
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
 
-			m_mode_in_L->SetTexture("assets/texture/miko.png");
-			m_mode_in_M->SetTexture("assets/texture/miko.png");
-			m_mode_in_R->SetTexture("assets/texture/miko.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect003.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect004.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect005.png");
 		}
 		else if (m_Chapter == 3)
 		{
 			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
 
-			m_mode_in_L->SetTexture("assets/texture/ground.png");
-			m_mode_in_M->SetTexture("assets/texture/ground.png");
-			m_mode_in_R->SetTexture("assets/texture/ground.png");
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect006.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect007.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
 		}
 	}
 
@@ -434,13 +392,22 @@ bool StageSelectScene::IsMouseOver(Texture2D* obj)
 
 	DirectX::SimpleMath::Vector3 pos = obj->GetPosition();
 	DirectX::SimpleMath::Vector3 scale = obj->GetScale();
+	
+	float hitWidth = scale.y;
+	float hitHeight = scale.y;
 
+	// 画像の中心から上下左右の端を計算
+	float left = pos.x - (hitWidth / 2.0f);
+	float right = pos.x + (hitWidth / 2.0f);
+	float top = pos.y + (hitHeight / 2.0f);
+	float bottom = pos.y - (hitHeight / 2.0f);
+	/*
 	// 画像の中心から上下左右の端を計算
 	float left = pos.x - (scale.x / 2.0f);
 	float right = pos.x + (scale.x / 2.0f);
 	float top = pos.y + (scale.y / 2.0f);
 	float bottom = pos.y - (scale.y / 2.0f);
-
+	*/
 	return (mouse.x >= left && mouse.x <= right && mouse.y >= bottom && mouse.y <= top);
 }
 

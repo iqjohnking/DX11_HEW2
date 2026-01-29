@@ -44,12 +44,40 @@ void StartScene::Init()
     m_PressEnterImg->SetScale(600.0f, 100.0f, 0.0f);
     m_MySceneObjects.emplace_back(m_PressEnterImg);
 
+    /*
     m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
     m_FadePanel->SetTexture("assets/texture/terrain.png"); 
     m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);            
     m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);         
     m_FadePanel->SetAlpha(1.0f);                           // 最初は黒
     m_MySceneObjects.emplace_back(m_FadePanel);
+    */
+
+    // 左の障子
+    m_FadeL = Game::GetInstance()->AddObject<Texture2D>();
+    m_FadeL->SetTexture("assets/texture/Cloud.png"); // 障子用の画像があれば差し替え
+    m_FadeL->SetScale(960.0f, 450.0f, 0.0f);
+
+
+    // 左の障子
+    m_FadeLL = Game::GetInstance()->AddObject<Texture2D>();
+    m_FadeLL->SetTexture("assets/texture/Cloud.png"); // 障子用の画像があれば差し替え
+    m_FadeLL->SetScale(960.0f, 450.0f, 0.0f);
+
+    // 右の障子
+    m_FadeR = Game::GetInstance()->AddObject<Texture2D>();
+    m_FadeR->SetTexture("assets/texture/Cloud.png");
+    m_FadeR->SetScale(960.0f, 450.0f, 0.0f);
+
+
+    // 右の障子
+    m_FadeRR = Game::GetInstance()->AddObject<Texture2D>();
+    m_FadeRR->SetTexture("assets/texture/Cloud.png");
+    m_FadeRR->SetScale(960.0f, 450.0f, 0.0f);
+
+    // 最初はフェードイン（障子が開く状態）から始めたいのでタイマーを1.0(全閉)に
+    m_shojiTimer = 1.0f;
+    m_isStarting = false;
 
     //開始ボイス用の乱数
     static std::mt19937 rng{ std::random_device{}() };
@@ -69,41 +97,65 @@ void StartScene::Init()
 
 void StartScene::Update()
 {
-    // --- フェードのタイマー ---
-    const float FADE_TIME = 0.2f; // 0.5秒で終了
-    float Time = 1.0f / 60.0f;
+    // --- 障子フェード処理 ---
+    const float FADE_DURATION = 1.0f; // 0.5秒で閉まる
+    float deltaTime = 1.0f / 60.0f;
 
     if (m_isStarting)
     {
-        m_fadeAlpha += Time / FADE_TIME;
+        m_shojiTimer += deltaTime / FADE_DURATION;
     }
     else
     {
-        m_fadeAlpha -= Time / FADE_TIME;
+        m_shojiTimer -= deltaTime / FADE_DURATION;
     }
 
-   
-    if (m_fadeAlpha > 1.0f)
+    // 0.0 ～ 1.0
+    if (m_shojiTimer > 1.0f) m_shojiTimer = 1.0f;
+    if (m_shojiTimer < 0.0f) m_shojiTimer = 0.0f;
+
+    // --- 座標の計算 ---
+    // 全開(0.0)のとき左右に隠れる、全閉(1.0)のとき真ん中で合わさる
+    // 中心を0として、左障子は -960(開) ⇔ -460(閉)
+    // 中心を0として、右障子は  960(開) ⇔  460(閉)
+    float openX = 960.0f;  // 画面の外
+    float closeX = 460.0f; // 画面の半分
+
+    // 線形補間(Lerp)で現在のX座標を出す
+    float timer1 = m_shojiTimer;
+    float currentX = openX + (closeX - openX) * timer1;
+
+    float timer2 = m_shojiTimer;
+    float currentXX = openX + (closeX - openX) * timer2;
+
+
+    if (m_FadeL && m_FadeLL && m_FadeR && m_FadeRR)
     {
-        m_fadeAlpha = 1.0f;
-    }
-    
-    if (m_fadeAlpha < 0.0f)
-    {
-        m_fadeAlpha = 0.0f;
+        m_FadeL->SetPosition(-currentX, -200.0f, 0.0f);
+        m_FadeR->SetPosition(currentX, 0.0f, 0.0f);
+        m_FadeLL->SetPosition(-currentXX, 200.0f, 0.0f);
+        m_FadeRR->SetPosition(currentXX, -400.0f, 0.0f);
+       
+         // アルファも連動
+        float alpha = m_shojiTimer;
+
+        m_FadeL->SetAlpha(alpha);
+        m_FadeRR->SetAlpha(alpha);
+
+        
+        m_FadeLL->SetAlpha(alpha * 0.8f);
+        m_FadeR->SetAlpha(alpha * 0.8f);
     }
 
-    // アルファ値を反映
-    if (m_FadePanel) m_FadePanel->SetAlpha(m_fadeAlpha);
-
-    // シーン切り替え
-    if (m_isStarting && m_fadeAlpha >= 1.0f)
+    // シーン切り替え判定（タイマーが1.0になったら）
+    if (m_isStarting && m_shojiTimer >= 1.0f)
     {
         Game::GetInstance()->ChangeScene(MODE_SELECT);
         return;
     }
 
-    if (m_isStarting) return;
+    if (m_isStarting) return; // 閉まりかけの時は入力を受け付けない
+    
 
     // --- 入力の取得 ---
     static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
@@ -177,33 +229,7 @@ void StartScene::Update()
         //SE
     }
 
-    /*
-    float targetAlpha;
-    
-    if (m_isStarting)
-    {
-       targetAlpha = 1.0f;
-    }
-    else
-    {
-        targetAlpha = 0.0f;
-    }
-    const float fadeSpeed = 0.09f;
-    
-    m_fadeAlpha += (targetAlpha - m_fadeAlpha) * fadeSpeed;
-
-    if (m_FadePanel)
-    {
-        m_FadePanel->SetAlpha(m_fadeAlpha);
-    }
-
-    // フェードアウトが完了したらシーン切り替え
-    if (m_isStarting && m_fadeAlpha > 0.99f)
-    {
-        Game::GetInstance()->ChangeScene(MODE_SELECT);
-        return;
-    }
-    */
+  
 }
 
 void StartScene::Uninit()
