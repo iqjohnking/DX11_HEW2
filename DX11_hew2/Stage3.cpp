@@ -94,9 +94,6 @@ void Stage3::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 37;   //ステージの敵の総数を設定
 
-    ClearImage[0, 1, 2] = { nullptr };
-    GameOverImage[0, 1, 2] = { nullptr };
-
     m_ClearFlg = false;
     m_ClearImageFlg = false;
     m_ClearChangeImageFlg = false;
