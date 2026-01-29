@@ -265,6 +265,17 @@ typedef enum
 	SOUND_LABEL_SE_011,
 	SOUND_LABEL_SE_012,
 
+	//Another Voice
+	SOUND_LABEL_VOICE_ANOTHER_000,
+	SOUND_LABEL_VOICE_ANOTHER_001,
+	SOUND_LABEL_VOICE_ANOTHER_002,
+	SOUND_LABEL_VOICE_ANOTHER_003,
+	SOUND_LABEL_VOICE_ANOTHER_004,
+	SOUND_LABEL_VOICE_ANOTHER_005,
+	SOUND_LABEL_VOICE_ANOTHER_006,
+	SOUND_LABEL_VOICE_ANOTHER_007,
+	SOUND_LABEL_VOICE_ANOTHER_008,
+
 
 
 	SOUND_LABEL_MAX,
@@ -502,6 +513,17 @@ private:
 		{ "assets/sound/SE/SE010.wav", false, 1.0f },
 		{ "assets/sound/SE/SE011.wav", false, 1.0f },
 		{ "assets/sound/SE/SE012.wav", false, 1.0f },
+
+		//Another Voice
+		{ "assets/sound/voice/another/Clear1.wav", false,0.5f },      // 0
+		{ "assets/sound/voice/another/Clear2.wav", false,0.5f },      // 1
+		{ "assets/sound/voice/another/DamageVoice1.wav", false,0.8f },// 2
+		{ "assets/sound/voice/another/DamageVoice2.wav", false,0.8f },// 3
+		{ "assets/sound/voice/another/DamageVoice3.wav", false,0.8f },// 4
+		{ "assets/sound/voice/another/Lose1.wav", false,0.5f },		  // 5
+		{ "assets/sound/voice/another/Lose2.wav", false,0.5f },		  // 6
+		{ "assets/sound/voice/another/Title1.wav", false,0.5f },	  // 7
+		{ "assets/sound/voice/another/Title2.wav", false,0.5f },	  // 8
 
 
 	};

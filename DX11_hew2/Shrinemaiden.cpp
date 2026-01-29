@@ -472,6 +472,13 @@ void Shrinemaiden::move()
 				m_MutekiTimer = 180;            // ‚±‚±‚ğ’²®
 				m_IgnoreEnemyInSearch = true;  // Šù‚ÉH‚É‚ ‚é‚Ì‚Åg‚¤
 				m_Texture2D.PlayAnim("getH");  // ó‚¯‚½‰‰o
+
+				int pick = static_cast<int>(fabsf(e->GetPosition().x)) % 2;
+				if (pick == 0)
+					Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_003);
+				else
+					Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_004);
+				
 				--m_Hitpoint;
 				break;
 			}
