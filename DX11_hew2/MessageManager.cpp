@@ -52,7 +52,7 @@ void MessageManager::Update()
 	//}
 
 	// ‰Ÿ‚µ‚Ä‚éŠÔ true
-	const bool spaceDown = Input::GetKeyPress(VK_E);
+	const bool spaceDown = Input::GetKeyPress(VK_SPACE);
 	const bool AButtonDown = Input::GetButtonPress(XINPUT_A);
 
 	// 60fps‘O’ñ‚Å2•b
