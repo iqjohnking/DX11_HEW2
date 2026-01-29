@@ -835,10 +835,6 @@ void Stage4::StageClearCheck()
 	if (StagekillCount >= StageEnemyCount)
 	{
 		m_ChangeClearCount--;
-		/*BuildEndPages();
-		m_Message->SetPages(m_Pages);
-		m_Message->Play();
-		m_Flow = Flow::EndTalk;*/
 	}
 	if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
 	{

@@ -90,9 +90,6 @@ void Stage1::Init()
 	m_Conversation_BGM_flg_3 = false;
 	m_Conversation_BGM_flg_4 = false;
 
-	ClearImage[0,1,2] = {nullptr};
-	GameOverImage[0,1,2] = { nullptr };
-
 	m_ClearFlg = false;
 	m_ClearImageFlg = false;
 	m_ClearChangeImageFlg = false;
@@ -999,10 +996,11 @@ void Stage1::StageClearCheck()
 	//“G‚ð‘S‚Ä“|‚µ‚½‚©‚Ç‚¤‚©
 	if (StagekillCount >= StageEnemyCount)
 	{
-		BuildEndPages();
-		m_Message->SetPages(m_Pages);
-		m_Message->Play();
-		m_Flow = Flow::EndTalk;
+		m_ChangeClearCount--;
+	}
+	if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
+	{
+		m_ClearFlg = true;
 	}
 
 	Game::GetInstance()->SetMaxClearedStage(1);

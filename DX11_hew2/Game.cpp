@@ -44,7 +44,7 @@ void Game::Init()
 
 	// ‰ŠúƒV[ƒ“‚ðÝ’è
 	//m_Instance->ChangeScene(TITLE);
-	m_Instance->ChangeScene(STAGE6);
+	m_Instance->ChangeScene(STAGE9);
 
 }
 
