@@ -43,7 +43,7 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// ‰ŠúƒV[ƒ“‚ðÝ’è
-	m_Instance->ChangeScene(STAGE10);
+	m_Instance->ChangeScene(STAGE0);
 	//m_Instance->ChangeScene(START);
 
 }

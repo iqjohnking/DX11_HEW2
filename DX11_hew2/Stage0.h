@@ -41,6 +41,8 @@ public:
 	void Init() override; // 初期化
 	void Uninit() override; // 終了処理
 	void Update() override; // 更新
+	void IssueUpdate();				//勝敗判定に応じた処理を行う
+	void RePlay();
 
 	void MessageUpdate() override;	//会話パート更新
 	void GameUpdate() override;		//ゲームパート更新
