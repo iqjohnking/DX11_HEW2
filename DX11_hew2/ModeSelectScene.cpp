@@ -87,12 +87,28 @@ void ModeSelectScene::Init()
 	m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_EndlessBtn);
 	
+	
+
+	m_CharacterImg2 = Game::GetInstance()->AddObject<Texture2D>();
+	m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_normal.png");
+	m_CharacterImg2->SetPosition(-420.0f, -65.0f, 0.0f);
+	m_CharacterImg2->SetScale(400.0f, 600.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_CharacterImg2);
+
+	m_CharacterImg = Game::GetInstance()->AddObject<Texture2D>();
+	m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
+	m_CharacterImg->SetPosition(-240.0f, -80.0f, 0.0f);
+	m_CharacterImg->SetScale(400.0f, 600.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_CharacterImg);
+
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
 	m_FadePanel->SetTexture("assets/texture/terrain.png");
 	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
 	m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);
 	m_FadePanel->SetAlpha(m_fadeAlpha); // 最初は黒
 	m_MySceneObjects.emplace_back(m_FadePanel);
+
+	
 }
 
 void ModeSelectScene::Update()
@@ -223,16 +239,24 @@ void ModeSelectScene::Update()
 
 		}
 
-		float targetStory; //目標サイズ
+		
 
+		float targetStory; //目標サイズ
 		if (m_SelectIndex == 0)
 		{
-			targetStory = 440.0f; // 選択中なら大きく
+			//m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_smile.png");
+			//m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_smile.png");
+				targetStory = 440.0f; // 選択中なら大きく
 		}
 		else
 		{
+			//m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_normal.png");
+			m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
 			targetStory = 400.0f; // 選択してないなら普通
+
 		}
+	
+		
 
 		float targetEndless; // 目標サイズ
 
@@ -256,6 +280,8 @@ void ModeSelectScene::Update()
 			// 左側（ストーリー）一式を現在のスケールで更新
 			m_StoryBtn->SetScale(m_curStoryScale, m_curStoryScale * 0.375f, 0.0f);
 			m_mode_in_L->SetScale(m_curStoryScale * 1.38f, m_curStoryScale * 1.72f, 0.0f);
+			m_CharacterImg->SetScale(m_curStoryScale* 0.8f, m_curStoryScale* 1.3f, 0.0f);
+			m_CharacterImg2->SetScale(m_curStoryScale* 1.1f, m_curStoryScale* 1.4f, 0.0f);
 			m_mode_out_L->SetScale(m_curStoryScale * 1.68f, m_curStoryScale * 2.13f, 0.0f);
 
 			// 右側（エンドレス）一式を現在のスケールで更新
