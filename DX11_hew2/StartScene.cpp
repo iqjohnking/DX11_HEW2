@@ -98,7 +98,7 @@ void StartScene::Update()
     lastMousePos = currentMousePos;
 
     static bool isSelected = false;
-    bool prevSelected = isSelected; // 前フレームの選択状態を保存
+    //bool prevSelected = isSelected; // 前フレームの選択状態を保存
 
     DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
@@ -122,13 +122,6 @@ void StartScene::Update()
     if (mouseMoved)
     {
         isSelected = IsMouseOver(m_PressEnterwakuImg);
-    }
-
-  
-    if (isSelected != prevSelected)
-    {
-        // SE 
-      
     }
 
     float targetStart;
@@ -162,7 +155,7 @@ void StartScene::Update()
     if (isMouseClickOnButton || isEnterPressed)
     {
         m_isStarting = true;
-        Game::GetSound()->Play(SOUND_LABEL_SE_000);
+        Game::GetSound()->Play(SOUND_LABEL_SE_010);
         // Enterで決定した時も強制的にボタンを大きく
         isSelected = true;
 

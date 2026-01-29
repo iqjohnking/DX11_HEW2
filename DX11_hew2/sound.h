@@ -261,6 +261,7 @@ typedef enum
 	SOUND_LABEL_SE_007,
 	SOUND_LABEL_SE_008,
 	SOUND_LABEL_SE_009,
+	SOUND_LABEL_SE_010,
 
 
 
@@ -496,6 +497,7 @@ private:
 		{ "assets/sound/SE/SE007.wav", false, 1.0f },
 		{ "assets/sound/SE/SE008.wav", false, 1.0f },
 		{ "assets/sound/SE/SE009.wav", false, 1.0f },
+		{ "assets/sound/SE/SE010.wav", false, 1.0f },
 
 
 	};
