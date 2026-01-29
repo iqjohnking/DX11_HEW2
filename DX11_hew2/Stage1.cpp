@@ -115,6 +115,10 @@ void Stage1::Uninit()
 	m_Pages.clear();
 
 	//BGMを停止
+	if (m_Flow == Flow::Gameplay)
+	{
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
+	}
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
 
 	// このシーンのオブジェクトを削除する
@@ -428,10 +432,15 @@ void Stage1::SoundUpdate()
 		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_001);
 	}
 
+	if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_1 == false)
+	{
+		m_Conversation_BGM_flg_1 = true;
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
+	}
+
 	if (m_Flow == Flow::Gameplay && m_Conversation_BGM_flg_3 == false)
 	{
 		m_Conversation_BGM_flg_3 = true;
-		Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_000);
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_001);
 		Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
 	}
@@ -990,15 +999,10 @@ void Stage1::StageClearCheck()
 	//敵を全て倒したかどうか
 	if (StagekillCount >= StageEnemyCount)
 	{
-		m_ChangeClearCount--;
-		/*BuildEndPages();
+		BuildEndPages();
 		m_Message->SetPages(m_Pages);
 		m_Message->Play();
-		m_Flow = Flow::EndTalk;*/
-	}
-	if (m_ChangeClearCount <= 0 && m_ClearFlg == false)
-	{
-		m_ClearFlg = true;
+		m_Flow = Flow::EndTalk;
 	}
 
 	Game::GetInstance()->SetMaxClearedStage(1);

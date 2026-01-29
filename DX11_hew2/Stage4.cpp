@@ -26,9 +26,6 @@ void Stage4::Init()
 		m_Message->Play();
 
 		m_Flow = Flow::StartTalk;
-
-		//BGM開始
-		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
 	}
 	else // Gameplay開始
 	{
@@ -126,7 +123,7 @@ void Stage4::Uninit()
 
 	m_Pages.clear();
 
-	if (m_Conversation_BGM_flg_3 = false)
+	if (m_Flow == Flow::Gameplay)
 	{
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
 	}
@@ -1072,7 +1069,7 @@ void Stage4::RePlay()
 	GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
 
 	// 次回のStage1はGameplay開始にする
-	Game::GetInstance()->SetNextStageStartMode(1, StageStartMode::Gameplay);
+	Game::GetInstance()->SetNextStageStartMode(4, StageStartMode::Gameplay);
 
 	// ステージを作り直す（安全）
 	Game::GetInstance()->ChangeScene(STAGE4);
