@@ -401,13 +401,6 @@ void Stage4::GameUpdate()
 		}
 	}
 
-	if (m_Miko->GetDYINGTimer() <= 0) {
-		BuildEndPages();
-		m_Message->SetPages(m_Pages);
-		m_Message->Play();
-		m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
-	}
-
 	//ステージクリアと失敗のチェック
 	StageClearCheck();
 	StageFailedCheck();
