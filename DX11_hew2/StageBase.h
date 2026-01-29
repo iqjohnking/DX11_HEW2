@@ -78,6 +78,15 @@ protected:
 	//敵がスポーンするかどうかのフラグ
 	bool EnemySpawnFlag = false;
 
+	//スコア
+	int Score = 0;
+	//敵を倒したときの基礎スコア
+	const int baseScore = 100;
+	//スコア倍率、1度に敵を多く倒すほど倍率が上がる
+	float ComboMultiplier = 1.0f;
+	//生存時間
+	int survivalTime = 0;
+
 	//ランダム
 	float rand = 0.0f;
 	

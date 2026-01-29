@@ -16,7 +16,7 @@ private:
 
 	//30秒経過するごとに出現する敵の数を増やすための変数
 	int EnemySpawnplus = 0;
-
+	//敵の出現を管理するフラグ
 	bool EnemySpawnFlag = false;
 
 public:
