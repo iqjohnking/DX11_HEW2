@@ -109,11 +109,18 @@ void Stage0::Init()
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 3;   //ステージの敵の総数を設定
 
+    ResultVoice_flg = false;
+
     m_ClearFlg = false;
+    m_ClearImageFlg = false;
+    m_ClearChangeImageFlg = false;
     m_GameOverFlg = false;
-    m_ChangeClearCount = 0;
+    m_GameOverImageFlg = false;
+    m_ChangeClearCount = 60;
 
     m_SelectIndex = 0;
+
+    m_GameUpdateBlock = false;
 }
 
 void Stage0::Uninit()
@@ -141,6 +148,7 @@ void Stage0::Update()
         GameUpdate();
         UpdateEnemySpawn();
         MessageUpdate();
+		UIUpdate();
     }
 
     SoundUpdate();
