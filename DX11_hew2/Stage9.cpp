@@ -87,7 +87,7 @@ void Stage9::Init()
 	phase14Flag = false;
 
 	StagekillCount = 0;     //倒した敵の数をリセット
-	StageEnemyCount = 68;   //ステージの敵の総数を設定
+	StageEnemyCount = 64;   //ステージの敵の総数を設定
 
 	//BGM開始
 	Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
@@ -1103,139 +1103,135 @@ void Stage9::UpdateEnemySpawn()
 {
 	if (elapsedSeconds == 5 && phase1Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(-350.0f, 200.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-350.0f, -200.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, 100.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, -100.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-300.0f, 150.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-300.0f, -150.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-350.0f, 50.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-350.0f, -50.0f, 0.0f));
 		phase1Flag = true;
 	}
 
-	if (elapsedSeconds == 9 && phase2Flag == false)
+	if (elapsedSeconds == 10 && phase2Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(200.0f, 350.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(200.0f, -350.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(100.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(100.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-100.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-100.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-200.0f, 350.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-200.0f, -350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(200.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(200.0f, -300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(50.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(50.0f, -350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-50.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-50.0f, -350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-200.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-200.0f, -300.0f, 0.0f));
 		phase2Flag = true;
 	}
 
-	if (elapsedSeconds == 12 && phase3Flag == false)
+	if (elapsedSeconds == 14 && phase3Flag == false)
 	{
-		EnemySpawn(MAYU, Vector3(400.0f, 0.0f, 0.0f));
-		EnemySpawn(MAYU, Vector3(-400.0f, 0.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(350.0f, 0.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(-350.0f, 0.0f, 0.0f));
 		phase3Flag = true;
 	}
 
-	if (elapsedSeconds == 16 && phase4Flag == false)
+	if (elapsedSeconds == 18 && phase4Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(0.0f, -420.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-200.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-350.0f, -200.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-450.0f, 0.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, -400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-150.0f, -350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-320.0f, -150.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-400.0f, 0.0f, 0.0f));
 		phase4Flag = true;
 	}
 
-	if (elapsedSeconds == 20 && phase5Flag == false)
+	if (elapsedSeconds == 25 && phase5Flag == false)
 	{
-		EnemySpawn(CUTTER, Vector3(250.0f, 300.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(125.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(0.0f, 450.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-125.0f, 400.0f, 0.0f));
-		EnemySpawn(CUTTER, Vector3(-250.0f, 300.0f, 0.0f));
+		EnemySpawn(CUTTER, Vector3(200.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(100.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-100.0f, 350.0f, 0.0f));
+		EnemySpawn(CUTTER, Vector3(-200.0f, 300.0f, 0.0f));
 		phase5Flag = true;
 	}
 
-	if (elapsedSeconds == 22 && phase6Flag == false)
+	if (elapsedSeconds == 27 && phase6Flag == false)
 	{
-		EnemySpawn(CUTTER, Vector3(0.0f, -420.0f, 0.0f));
+		EnemySpawn(CUTTER, Vector3(0.0f, -400.0f, 0.0f));
 		phase6Flag = true;
 	}
 
-	if (elapsedSeconds == 26 && phase7Flag == false)
+	if (elapsedSeconds == 34 && phase7Flag == false)
 	{
-		EnemySpawn(TACKLE, Vector3(420.0f, 0.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(400.0f, 200.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(280.0f, 300.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(140.0f, 400.0f, 0.0f));
-		EnemySpawn(TACKLE, Vector3(0.0f, 420.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(400.0f, 0.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(350.0f, 150.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(250.0f, 250.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(125.0f, 375.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(0.0f, 400.0f, 0.0f));
 		phase7Flag = true;
 	}
 
-	if (elapsedSeconds == 30 && phase8Flag == false)
+	if (elapsedSeconds == 40 && phase8Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(-100.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-175.0f, -325.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-250.0f, -250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-325.0f, -175.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, -100.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-100.0f, -350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-162.5f, -287.5f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-225.0f, -225.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-287.5f, -162.5f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-350.0f, -100.0f, 0.0f));
 		phase8Flag = true;
 	}
 
-	if (elapsedSeconds == 33 && phase9Flag == false)
+	if (elapsedSeconds == 46 && phase9Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(-100.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-175.0f, 325.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-250.0f, 250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-325.0f, 175.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, 100.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-100.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-162.5f, 287.5f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-225.0f, 225.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-287.5f, 162.5f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-350.0f, 100.0f, 0.0f));
 		phase9Flag = true;
 	}
 
-	if (elapsedSeconds == 37 && phase10Flag == false)
+	if (elapsedSeconds == 54 && phase10Flag == false)
 	{
 		EnemySpawn(TACKLE, Vector3(400.0f, 0.0f, 0.0f));
-		EnemySpawn(MAYU, Vector3(350.0f, 150.0f, 0.0f));
-		EnemySpawn(MAYU, Vector3(350.0f, -150.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(320.0f, 100.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(320.0f, -100.0f, 0.0f));
 		phase10Flag = true;
 	}
 
-	if (elapsedSeconds == 41 && phase11Flag == false)
+	if (elapsedSeconds == 57 && phase11Flag == false)
 	{
 		EnemySpawn(CUTTER, Vector3(0.0f, 0.0f, 0.0f));
 		phase11Flag = true;
 	}
 
-	if (elapsedSeconds == 44 && phase12Flag == false)
+	if (elapsedSeconds == 60 && phase12Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(350.0f, 250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(250.0f, 350.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(125.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(0.0f, 450.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-125.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-250.0f, 350.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-350.0f, 250.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(300.0f, 200.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(200.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(100.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-100.0f, 350.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-200.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-300.0f, 200.0f, 0.0f));
 		phase12Flag = true;
 	}
 
-	if (elapsedSeconds == 48 && phase13Flag == false)
+	if (elapsedSeconds == 64 && phase13Flag == false)
 	{
-		EnemySpawn(MAYU, Vector3(300.0f, -300.0f, 0.0f));
-		EnemySpawn(TACKLE, Vector3(100.0f, -400.0f, 0.0f));
-		EnemySpawn(TACKLE, Vector3(-100.0f, -400.0f, 0.0f));
-		EnemySpawn(MAYU, Vector3(-300.0f, -300.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(250.0f, -250.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(100.0f, -350.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(-100.0f, -350.0f, 0.0f));
+		EnemySpawn(MAYU, Vector3(-250.0f, -250.0f, 0.0f));
 		phase13Flag = true;
 	}
 
-	if (elapsedSeconds == 53 && phase14Flag == false)
+	if (elapsedSeconds == 70 && phase14Flag == false)
 	{
-		EnemySpawn(NORMAL, Vector3(400.0f, 100.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(400.0f, -100.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(300.0f, 250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(300.0f, -250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(150.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(150.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(0.0f, 420.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(0.0f, -420.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-150.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-150.0f, -400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-300.0f, 250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-300.0f, -250.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, 100.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-400.0f, -100.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(300.0f, 200.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(300.0f, -200.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(150.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(150.0f, -300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(0.0f, -400.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-150.0f, 300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-150.0f, -300.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-300.0f, 200.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-300.0f, -200.0f, 0.0f));
 		phase14Flag = true;
 	}
 }
