@@ -388,13 +388,13 @@ void TitleScene::Update()
 	//-----------------------------------------------------------------------------
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Game::GetInstance()->ChangeScene(STAGE1);
+		Game::GetInstance()->ChangeScene(SceneName::STAGE1);
 
 		return;
 	}
 
 	if (m_Miko->GetDYINGTimer() <= 0) {
-		Game::GetInstance()->ChangeScene(STAGE1);
+		Game::GetInstance()->ChangeScene(SceneName::STAGE1);
 	}
 
 

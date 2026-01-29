@@ -17,7 +17,7 @@ void Stage6::Init()
 	// 会話素材の指定
 	m_Message->SetFramePath("assets/texture/Message/UI/MessageUI.png");
 
-	m_Message->SetBackgroundPath("assets/texture/Message/bg/bg_stage1.jpg");
+	m_Message->SetBackgroundPath("assets/texture/Message/bg/background_002.jpg");
 
 	if (startMode == StageStartMode::StartTalk)
 	{
@@ -212,16 +212,16 @@ void Stage6::GameUpdate()
 	// 操作／INPUT
 	//-----------------------------------------------------------------------------
 
-    float rt = Input::GetRightTrigger();
-    float lt = Input::GetLeftTrigger();
-    static bool prevLT = false;
-    static bool prevRT = false;
-    bool nowLT = (lt >= 0.5f);
-    bool nowRT = (rt >= 0.5f);
-    bool ltTriggerOnce = (nowLT && !prevLT);
-    bool rtTriggerOnce = (nowRT && !prevRT);
-    prevLT = nowLT;
-    prevRT = nowRT;
+	float rt = Input::GetRightTrigger();
+	float lt = Input::GetLeftTrigger();
+	static bool prevLT = false;
+	static bool prevRT = false;
+	bool nowLT = (lt >= 0.5f);
+	bool nowRT = (rt >= 0.5f);
+	bool ltTriggerOnce = (nowLT && !prevLT);
+	bool rtTriggerOnce = (nowRT && !prevRT);
+	prevLT = nowLT;
+	prevRT = nowRT;
 
 	if (Input::GetKeyTrigger('D') || Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || ltTriggerOnce)   // 
 	{
@@ -1109,7 +1109,7 @@ void Stage6::IssueUpdate()
 			else
 			{
 				//ステージセレクトへ
-				Game::GetInstance()->ChangeScene(STAGE_SELECT);
+				Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 				return;
 			}
 		}
@@ -1224,13 +1224,13 @@ void Stage6::IssueUpdate()
 				if (m_SelectIndex == 0)
 				{
 					//次のステージへ
-					Game::GetInstance()->ChangeScene(STAGE7);
+					Game::GetInstance()->ChangeScene(SceneName::STAGE7);
 					return;
 				}
 				else
 				{
 					//セレクトへ
-					Game::GetInstance()->ChangeScene(STAGE_SELECT);
+					Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 					return;
 				}
 			}
@@ -1247,6 +1247,6 @@ void Stage6::RePlay()
 
 	Game::GetInstance()->SetNextStageStartMode(6, StageStartMode::Gameplay);
 
-	Game::GetInstance()->ChangeScene(STAGE6);
+	Game::GetInstance()->ChangeScene(SceneName::STAGE6);
 	return;
 }

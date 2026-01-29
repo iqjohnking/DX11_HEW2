@@ -116,16 +116,16 @@ void StageSelectScene::Update()
 	// ˆÃ“]Š®—¹Œã‚ÌØ‚è‘Ö‚¦
 	if (m_isStarting && m_fadeAlpha >= 1.0f)
 	{
-		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(STAGE1);
-		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE2);
-		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE3);
-		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(STAGE4);
-		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(STAGE5);
-		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(STAGE6);
-		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(STAGE7);
-		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(STAGE8);
-		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(STAGE9);
-		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(MODE_SELECT);
+		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(SceneName::STAGE1);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(SceneName::STAGE2);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(SceneName::STAGE3);
+		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(SceneName::STAGE4);
+		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(SceneName::STAGE5);
+		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(SceneName::STAGE6);
+		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(SceneName::STAGE7);
+		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(SceneName::STAGE8);
+		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(SceneName::STAGE9);
+		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
 		return;
 	}
 
@@ -161,16 +161,16 @@ void StageSelectScene::Update()
 	if (m_isStarting && m_fadeAlpha > 0.99f)
 	{
 		
-			 if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(STAGE1);
-		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE2);
-		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE3);
-		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(STAGE4);
-		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(STAGE5);
-		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(STAGE6);
-		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(STAGE7);
-		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(STAGE8);
-		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(STAGE9);
-		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(MODE_SELECT);
+			 if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(SceneName::STAGE1);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(SceneName::STAGE2);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(SceneName::STAGE3);
+		else if (m_NextSceneID == 4) Game::GetInstance()->ChangeScene(SceneName::STAGE4);
+		else if (m_NextSceneID == 5) Game::GetInstance()->ChangeScene(SceneName::STAGE5);
+		else if (m_NextSceneID == 6) Game::GetInstance()->ChangeScene(SceneName::STAGE6);
+		else if (m_NextSceneID == 7) Game::GetInstance()->ChangeScene(SceneName::STAGE7);
+		else if (m_NextSceneID == 8) Game::GetInstance()->ChangeScene(SceneName::STAGE8);
+		else if (m_NextSceneID == 9) Game::GetInstance()->ChangeScene(SceneName::STAGE9);
+		else if (m_NextSceneID == 10) Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
 		
 		return;
 	}
@@ -344,7 +344,7 @@ void StageSelectScene::Update()
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_isStarting = true;
 		m_NextSceneID = 10; // MODE_SELECT ‚Ö
-		//Game::GetInstance()->ChangeScene(MODE_SELECT);
+		//Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
 		
 		return;
 	}

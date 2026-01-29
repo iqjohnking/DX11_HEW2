@@ -125,9 +125,9 @@ void ModeSelectScene::Update()
 	// シーン切り替え判定
 	if (m_isStarting && m_fadeAlpha >= 1.0f)
 	{
-		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(START);
-		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(STAGE_SELECT);
-		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(STAGE10);
+		if (m_NextSceneID == 1) Game::GetInstance()->ChangeScene(SceneName::START);
+		else if (m_NextSceneID == 2) Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
+		else if (m_NextSceneID == 3) Game::GetInstance()->ChangeScene(SceneName::STAGE10);
 		return;
 	}
 
@@ -162,24 +162,24 @@ void ModeSelectScene::Update()
 	{
 		if (m_NextSceneID == 1)
 		{
-			Game::GetInstance()->ChangeScene(START);
+			Game::GetInstance()->ChangeScene(SceneName::START);
 		}
 		else if (m_NextSceneID == 2)
 		{
-			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+			Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 		}
 		else if (m_NextSceneID == 3)
 		{
-			Game::GetInstance()->ChangeScene(STAGE10);
+			Game::GetInstance()->ChangeScene(SceneName::STAGE10);
 		}
 		
 		if (m_SelectIndex == 0)
 		{
-			Game::GetInstance()->ChangeScene(STAGE_SELECT);
+			Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 		}
 		else if (isAllCleared)
 		{
-			Game::GetInstance()->ChangeScene(STAGE10);
+			Game::GetInstance()->ChangeScene(SceneName::STAGE10);
 		}
 		
 		return;
@@ -279,14 +279,14 @@ void ModeSelectScene::Update()
 			Game::GetSound()->Play(SOUND_LABEL_SE_010);
 			m_NextSceneID = 2;//ステージセレクトへ
 			m_isStarting = true;
-			//Game::GetInstance()->ChangeScene(STAGE_SELECT);
+			//Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 		}
 		else if (isAllCleared)
 		{
 			Game::GetSound()->Play(SOUND_LABEL_SE_010);
 			m_NextSceneID = 3;//エンドレスへ
 			m_isStarting = true;
-			//Game::GetInstance()->ChangeScene(STAGE10);
+			//Game::GetInstance()->ChangeScene(SceneName::STAGE10);
 		}
 		return;
 	}
@@ -298,7 +298,7 @@ void ModeSelectScene::Update()
 		Game::GetSound()->Play(SOUND_LABEL_SE_000);
 		m_NextSceneID = 1;//スタートシーンへ
 		m_isStarting = true;
-		//Game::GetInstance()->ChangeScene(START);
+		//Game::GetInstance()->ChangeScene(SceneName::START);
 		return;
 	}
 

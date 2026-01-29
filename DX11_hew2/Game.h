@@ -22,7 +22,7 @@
 #include "Stage10.h"
 #include <array>
 
-enum SceneName {
+enum class SceneName {
 	START,
 	TITLE,
 	STAGE0,
@@ -57,7 +57,7 @@ private:
 	Scene* m_Scene;
 
 	SceneName m_OldScene;
-	SceneName m_CurrentScene;	
+	SceneName m_CurrentScene;
 
 	// カメラ
 	Camera  m_Camera;
@@ -113,6 +113,7 @@ public:
 
 	void ChangeScene(SceneName sceneName); // シーン変更
 	void ChangeOldScene();	//前のシーンに戻る
+	SceneName GetCurrentScene() { return m_CurrentScene; }
 
 	void DeleteObject(Object* ptr); // オブジェクト削除
 	void DeleteAllObjects(); // オブジェクト全削除
@@ -124,7 +125,7 @@ public:
 	void ApplyDeleteQueue();
 
 	// 勝敗確定でゲーム内の動きを止める
-	static void SetWorldStopped(bool v) {m_Instance->m_WorldStopped = v;}
+	static void SetWorldStopped(bool v) { m_Instance->m_WorldStopped = v; }
 	//static bool IsWorldStopped() {return m_Instance->m_WorldStopped;}
 
 	//サウンドを取得
@@ -152,7 +153,7 @@ public:
 
 	// オブジェクトを追加する（※テンプレート関数）// 引数なしバージョン
 	/*
-	template <typename T> 
+	template <typename T>
 	T* AddObject()
 	{
 		T* ptr = new T;
@@ -161,7 +162,7 @@ public:
 		return ptr;
 	}
 	//オブジェクトを取得する（※テンプレート関数）
-	template<typename T> 
+	template<typename T>
 	std::vector<T*> GetObjects()
 	{
 		std::vector<T*> result;
