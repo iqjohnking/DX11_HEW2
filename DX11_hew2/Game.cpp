@@ -43,20 +43,20 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// ‰ŠúƒV[ƒ“‚ðÝ’è
-	m_Instance->ChangeScene(STAGE0);
-	//m_Instance->ChangeScene(START);
+	//m_Instance->ChangeScene(STAGE1);
+	m_Instance->ChangeScene(START);
 
 }
 
 void Game::SetNextStageStartMode(int stageNo, StageStartMode mode)
 {
-	if (stageNo < 1 || stageNo > 10) return;
+	if (stageNo < 0 || stageNo > 10) return;
 	m_NextStageStartMode[stageNo] = mode;
 }
 
 StageStartMode Game::ConsumeNextStageStartMode(int stageNo)
 {
-	if (stageNo < 1 || stageNo > 10)
+	if (stageNo < 0 || stageNo > 10)
 		return StageStartMode::StartTalk;
 
 	StageStartMode mode = m_NextStageStartMode[stageNo];

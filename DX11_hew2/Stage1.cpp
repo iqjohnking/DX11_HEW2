@@ -141,13 +141,13 @@ void Stage1::Uninit()
 
 void Stage1::Update()
 {
-	if(m_GameUpdateBlock != true)
+	if (m_GameUpdateBlock != true)
 	{
 		GameUpdate();
 		UpdateEnemySpawn();
 		MessageUpdate();
 	}
-	
+
 	SoundUpdate();
 	IssueUpdate();
 }
@@ -1126,13 +1126,12 @@ void Stage1::IssueUpdate()
 			bool rightKey = Input::GetKeyTrigger(VK_D);
 
 			if (stickFree_GameOver)
-
+			{
 				if (leftKey || rightKey)
 				{
 					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
 					stickFree_GameOver = false;
 				}
-			{
 				if (stick.x < -0.5f)
 				{
 					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
@@ -1247,13 +1246,13 @@ void Stage1::IssueUpdate()
 				bool rightKey = Input::GetKeyTrigger(VK_D);
 
 				if (stickFree_ClearResult)
-
+				{
 					if (leftKey || rightKey)
 					{
 						m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
 						stickFree_ClearResult = false;
 					}
-				{
+
 					if (stick.x < -0.5f)
 					{
 						m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
