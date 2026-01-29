@@ -31,9 +31,9 @@ private:
     Texture2D m_Sprite;
 
     // 仮のレイアウト//要調整
-    DirectX::SimpleMath::Vector3 m_BasePosL = DirectX::SimpleMath::Vector3(-500.0f, -50.0f, 0.0f);
-    DirectX::SimpleMath::Vector3 m_BasePosR = DirectX::SimpleMath::Vector3(500.0f, -50.0f, 0.0f);
-    DirectX::SimpleMath::Vector3 m_Size = DirectX::SimpleMath::Vector3(700.0f, 900.0f, 1.0f);
+    DirectX::SimpleMath::Vector3 m_BasePosL = DirectX::SimpleMath::Vector3(-500.0f, -150.0f, 0.0f);
+    DirectX::SimpleMath::Vector3 m_BasePosR = DirectX::SimpleMath::Vector3(500.0f, -150.0f, 0.0f);
+    DirectX::SimpleMath::Vector3 m_Size = DirectX::SimpleMath::Vector3(800.0f, 1000.0f, 1.0f);
 
     // 最後に適用したパス
     std::string m_LastAppliedPath;
