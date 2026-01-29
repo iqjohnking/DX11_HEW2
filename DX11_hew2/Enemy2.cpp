@@ -169,10 +169,12 @@ void Enemy2::move()
 					if (m_cutTimer > 0.0f)
 					{
 						m_cutTimer -= 1.0f / 60.0f;
+
 						m_Texture2D.PlayAnim("atk");
 
 						if (m_cutTimer <= 0.0f)
 						{
+							Game::GetSound()->Play(SOUND_LABEL_SE_007);
 							m_targetWall->Uninit();
 							m_targetWall->SetIsActive(false);
 							m_cutTimer = 0.0f;

@@ -490,13 +490,13 @@ private:
 		//SE
 
 		{ "assets/sound/SE/SE000.wav", false, 1.0f },
-		{ "assets/sound/SE/SE001.wav", false, 1.0f },
+		{ "assets/sound/SE/SE001.wav", false, 0.2f },
 		{ "assets/sound/SE/SE002.wav", false, 1.0f },
 		{ "assets/sound/SE/SE003.wav", false, 1.5f },
-		{ "assets/sound/SE/SE004.wav", false, 1.0f },
-		{ "assets/sound/SE/SE005.wav", false, 1.0f },
+		{ "assets/sound/SE/SE004.wav", false, 0.3f },
+		{ "assets/sound/SE/SE005.wav", false, 0.3f },
 		{ "assets/sound/SE/SE006.wav", false, 1.0f },
-		{ "assets/sound/SE/SE007.wav", false, 1.0f },
+		{ "assets/sound/SE/SE007.wav", false, 0.5f },
 		{ "assets/sound/SE/SE008.wav", false, 1.0f },
 		{ "assets/sound/SE/SE009.wav", false, 1.0f },
 		{ "assets/sound/SE/SE010.wav", false, 1.0f },

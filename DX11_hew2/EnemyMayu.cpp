@@ -2,6 +2,7 @@
 #include "Shrinemaiden.h"
 #include "Field.h"
 #include "Game.h"
+#include "sound.h"
 #include "silkWall.h"
 
 using namespace std;
@@ -55,6 +56,10 @@ void EnemyMayu::Update()
 
 				m_Collider.radius = 0; //oŒ»’†‚Í“–‚½‚è”»’è‚È‚µ
 				spawnTimer++;
+				int hageTimer = kspawnTime / 2;
+				if (spawnTimer == hageTimer) {
+					Game::GetSound()->Play(SOUND_LABEL_SE_003);
+				}
 				//kspawnTime is 30 
 			}
 			else {
@@ -66,6 +71,8 @@ void EnemyMayu::Update()
 		case MayuState::ALIVE:
 		{
 
+
+
 			// 1)Œ¦‚ÌŽ…“–‚½‚è”»’è
 			vector<silkWall*> silkWalls = Game::GetInstance()->GetObjects<silkWall>();
 			for (auto w : silkWalls)
@@ -74,6 +81,8 @@ void EnemyMayu::Update()
 				{
 					if (!isExploding)
 					{
+						//Game::GetSound()->Play(SOUND_LABEL_SE_004);
+						Game::GetSound()->Play(SOUND_LABEL_SE_005);
 						SetRadius(m_Radius * 2); //“–‚½‚è”»’è‘å‚«‚­‚·‚é
 						w->AddPoiseLevel();
 						w->SetHitStopTimer(5);

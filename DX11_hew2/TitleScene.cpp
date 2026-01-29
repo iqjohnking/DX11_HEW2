@@ -69,38 +69,38 @@ void TitleScene::Init()
 
 
 	//“G1
-	for (int i = 0; i < 10; ++i)
-	{
-		Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
-		Enemy1List[i]->SetTarget(m_Miko);
-		Enemy1List[i]->SetField(m_Field);
-		if (i < 5) {
-
-			Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
-		}
-		else {
-			Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-			Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius() + 5.f);
-		}
-		m_MySceneObjects.emplace_back(Enemy1List[i]);
-	}
-
-
 	//for (int i = 0; i < 10; ++i)
 	//{
-	//	Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
-	//	Enemy2List[i]->SetTarget(m_Miko);
-	//	Enemy2List[i]->SetField(m_Field);
+	//	Enemy1List[i] = Game::GetInstance()->AddObject<Enemy1>();
+	//	Enemy1List[i]->SetTarget(m_Miko);
+	//	Enemy1List[i]->SetField(m_Field);
 	//	if (i < 5) {
 	//
-	//		Enemy2List[i]->SetPosition({ -400.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+	//		Enemy1List[i]->SetPosition({ -350.f ,  200.f - 50.0f * (i + 1) , 0.0f });
 	//	}
 	//	else {
-	//		Enemy2List[i]->SetPosition({ 400.f ,  200.f - 50.0f * (i - 4) , 0.0f });
-	//		Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
+	//		Enemy1List[i]->SetPosition({ 350.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+	//		Enemy1List[i]->SetRadius(Enemy1List[i]->GetRadius() + 5.f);
 	//	}
-	//	m_MySceneObjects.emplace_back(Enemy2List[i]);
+	//	m_MySceneObjects.emplace_back(Enemy1List[i]);
 	//}
+
+
+	for (int i = 0; i < 10; ++i)
+	{
+		Enemy2List[i] = Game::GetInstance()->AddObject<Enemy2>();
+		Enemy2List[i]->SetTarget(m_Miko);
+		Enemy2List[i]->SetField(m_Field);
+		if (i < 5) {
+	
+			Enemy2List[i]->SetPosition({ -400.f ,  200.f - 50.0f * (i + 1) , 0.0f });
+		}
+		else {
+			Enemy2List[i]->SetPosition({ 400.f ,  200.f - 50.0f * (i - 4) , 0.0f });
+			Enemy2List[i]->SetRadius(Enemy2List[i]->GetRadius() + 5.f);
+		}
+		m_MySceneObjects.emplace_back(Enemy2List[i]);
+	}
 
 	//for (int i = 0; i < 10; ++i)
 	//{

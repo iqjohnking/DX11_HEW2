@@ -159,7 +159,12 @@ void silkWall::Fire(const Vector3& startPos, const Vector3& targetPos)
 	Vector3 resetScale = Vector3(0.0f, GetScale().y, GetScale().z);
 	SetScale(resetScale);
 
+
+
 	UpdateCollider();
+
+
+	Game::GetSound()->Play(SOUND_LABEL_SE_001);
 }
 
 void silkWall::reInit()
