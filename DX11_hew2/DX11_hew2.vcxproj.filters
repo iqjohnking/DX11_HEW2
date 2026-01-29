@@ -231,13 +231,13 @@
     <ClCompile Include="Select.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
-    <ClCompile Include="Hashira.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="UI_redSilk.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
     <ClCompile Include="UI_mikoHp.cpp">
+      <Filter>ソース ファイル\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Hashira.cpp">
       <Filter>ソース ファイル\obj</Filter>
     </ClCompile>
   </ItemGroup>

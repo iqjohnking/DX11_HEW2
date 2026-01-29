@@ -262,6 +262,8 @@ typedef enum
 	SOUND_LABEL_SE_008,
 	SOUND_LABEL_SE_009,
 	SOUND_LABEL_SE_010,
+	SOUND_LABEL_SE_011,
+	SOUND_LABEL_SE_012,
 
 
 
@@ -490,7 +492,7 @@ private:
 		{ "assets/sound/SE/SE000.wav", false, 1.0f },
 		{ "assets/sound/SE/SE001.wav", false, 1.0f },
 		{ "assets/sound/SE/SE002.wav", false, 1.0f },
-		{ "assets/sound/SE/SE003.wav", false, 1.0f },
+		{ "assets/sound/SE/SE003.wav", false, 1.5f },
 		{ "assets/sound/SE/SE004.wav", false, 1.0f },
 		{ "assets/sound/SE/SE005.wav", false, 1.0f },
 		{ "assets/sound/SE/SE006.wav", false, 1.0f },
@@ -498,6 +500,8 @@ private:
 		{ "assets/sound/SE/SE008.wav", false, 1.0f },
 		{ "assets/sound/SE/SE009.wav", false, 1.0f },
 		{ "assets/sound/SE/SE010.wav", false, 1.0f },
+		{ "assets/sound/SE/SE011.wav", false, 1.0f },
+		{ "assets/sound/SE/SE012.wav", false, 1.0f },
 
 
 	};
