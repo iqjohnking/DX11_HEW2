@@ -104,7 +104,7 @@ void Stage0::Init()
     UI5Flag = false;
     UI6Flag = false;
 
-    nowUI = 0;
+    nowUI = 0; 
 
     StagekillCount = 0;     //倒した敵の数をリセット
     StageEnemyCount = 3;   //ステージの敵の総数を設定
@@ -170,14 +170,6 @@ void Stage0::MessageUpdate()
         break;
 
     case Flow::Gameplay:
-        // 仮：Enterでステージ終了扱い→終了会話へ
-        if (Input::GetKeyTrigger(VK_SPACE))
-        {
-            BuildEndPages();
-            m_Message->SetPages(m_Pages);
-            m_Message->Play();
-            m_Flow = Flow::EndTalk;
-        }
         break;
 
     case Flow::EndTalk:
