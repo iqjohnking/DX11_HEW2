@@ -110,6 +110,10 @@ void Stage2::Uninit()
 
     m_Pages.clear();
 
+    if (m_Flow == Flow::Gameplay)
+    {
+        Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
+    }
     Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_002);
 
     // このシーンのオブジェクトを削除する
@@ -894,10 +898,8 @@ void Stage2::RePlay()
     GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
     GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
 
-    // 次回のStage2はGameplay開始にする
     Game::GetInstance()->SetNextStageStartMode(2, StageStartMode::Gameplay);
 
-    // ステージを作り直す（安全）
     Game::GetInstance()->ChangeScene(STAGE2);
     return;
 }

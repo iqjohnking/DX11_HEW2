@@ -22,9 +22,6 @@
     <Filter Include="ヘッダー ファイル\lib">
       <UniqueIdentifier>{233af66a-8075-4e4b-ba46-81de2e8ca1d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\render">
-      <UniqueIdentifier>{0a97a4c7-de39-4f74-bbb8-782b93425d60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\render">
       <UniqueIdentifier>{c2e1aafb-67a4-4d85-b91c-4ecebb9e9904}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="ソース ファイル\obj">
       <UniqueIdentifier>{992c08d4-c0dd-44d9-aa7c-ef4af91fdf2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage\render">
+      <UniqueIdentifier>{0a97a4c7-de39-4f74-bbb8-782b93425d60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,19 +249,19 @@
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>ヘッダー ファイル\lib</Filter>
@@ -279,13 +279,13 @@
       <Filter>ヘッダー ファイル\lib</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>ヘッダー ファイル\scenes</Filter>
@@ -336,7 +336,7 @@
       <Filter>ヘッダー ファイル\obj</Filter>
     </ClInclude>
     <ClInclude Include="DeBugLine2D.h">
-      <Filter>ヘッダー ファイル\render</Filter>
+      <Filter>ヘッダー ファイル\Stage\render</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>ヘッダー ファイル\app</Filter>

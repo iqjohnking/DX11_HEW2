@@ -43,13 +43,8 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// 初期シーンを設定
-	m_Instance->ChangeScene(TITLE);
-	//m_Instance->ChangeScene(STAGE0);
-
-	//m_Instance->ChangeScene(STAGE_SELECT);
-	
-	//会話シーンテスト用
-	//m_Instance->ChangeScene(STAGE10);
+	//m_Instance->ChangeScene(TITLE);
+	m_Instance->ChangeScene(STAGE6);
 
 }
 
