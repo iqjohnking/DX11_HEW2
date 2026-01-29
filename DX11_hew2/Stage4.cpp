@@ -80,6 +80,17 @@ void Stage4::Init()
 	hashiras[0]->SetPosition({ 0.0f , 200.0f , 0.0f });
 	hashiras[1]->SetPosition({ 0.0f , -200.0f , 0.0f });
 
+	// UI用の赤い糸表示
+	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
+	m_MySceneObjects.emplace_back(m_UI_redSilk);
+	m_UI_redSilk->SetHands(m_HandL, m_HandR);
+
+	// UI用の赤い糸表示
+	m_UI_mikoHp = Game::GetInstance()->AddObject<UI_mikoHp>();
+	m_MySceneObjects.emplace_back(m_UI_mikoHp);
+	m_UI_mikoHp->SetMiko(m_Miko);
+	m_SilkCount = 0;
+
 	//経過したフレーム数と秒数を0にリセット
 	elapsedFrames = 0;
 	elapsedSeconds = 0;
@@ -221,7 +232,7 @@ void Stage4::GameUpdate()
 		// 1. まず、非アクティブ（消えている）スロットを探す
 		for (int i = 0; i < 3; ++i)
 		{
-			if (!m_SilkWalls[i]->IsActive())
+			if (m_SilkWalls[i]->IsActive() == false)
 			{
 				w = m_SilkWalls[i];
 				break;
@@ -239,6 +250,7 @@ void Stage4::GameUpdate()
 		if (w && m_HandL && m_HandR)
 		{
 			w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+			w->SetUID(m_SilkCount++);
 		}
 	}
 
@@ -271,34 +283,36 @@ void Stage4::GameUpdate()
 			Vector3 targetPos = m_HandL->GetPosition(); // 左手
 
 			w->Fire(startPos, targetPos);
+			w->SetUID(m_SilkCount++);
 		}
 	}
 
-	//if (Input::GetKeyTrigger('R'))   // 
-	//{
-	//	std::vector<Object*> removeList;
+	int count = 0;
+	int minIndex = -1;
+	int minUID = 0;
+	for (int i = 0; i < 3; ++i)
+	{
+		auto* w = m_SilkWalls[i];
+		if (!w) continue;
+		//if (m_SilkWalls[i]->IsActive() == false) continue;
+		if (w->IsActive())
+		{
+			++count;
+		}
+		w->SetOldOne(false);   // 先全部清掉
+		int uid = w->GetUID();
+		if (minIndex == -1 || uid < minUID)
+		{
+			minUID = uid;
+			minIndex = i;
+		}
+	}
+	//  3 以上ときOldOneを設定 
+	if (count > 2 && minIndex != -1)
+	{
 
-	//	//Enemyを探す
-	//	for (auto* obj : m_MySceneObjects)
-	//	{
-	//		if (dynamic_cast<EnemyBase*>(obj))
-	//		{
-	//			removeList.push_back(obj);
-	//		}
-	//	}
-
-	//	//　見つけたEnemy1を削除する
-	//	for (auto* obj : removeList)
-	//	{
-	//		Game::GetInstance()->DeleteObject(obj);
-
-	//		auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-	//		if (it != m_MySceneObjects.end())
-	//		{
-	//			m_MySceneObjects.erase(it);
-	//		}
-	//	}
-	//}
+		m_SilkWalls[minIndex]->SetOldOne(true);
+	}
 
 	for (int i = 0; i < 3; ++i)
 	{

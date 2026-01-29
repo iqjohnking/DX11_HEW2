@@ -76,6 +76,17 @@ void Stage3::Init()
     elapsedFrames = 0;
     elapsedSeconds = 0;
 
+    // UI用の赤い糸表示
+    m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
+    m_MySceneObjects.emplace_back(m_UI_redSilk);
+    m_UI_redSilk->SetHands(m_HandL, m_HandR);
+
+    // UI用の赤い糸表示
+    m_UI_mikoHp = Game::GetInstance()->AddObject<UI_mikoHp>();
+    m_MySceneObjects.emplace_back(m_UI_mikoHp);
+    m_UI_mikoHp->SetMiko(m_Miko);
+    m_SilkCount = 0;
+
     //敵が出現するフェーズのフラグをリセット
     phase1Flag = false;
     phase2Flag = false;
@@ -216,7 +227,7 @@ void Stage3::GameUpdate()
         // 1. まず、非アクティブ（消えている）スロットを探す
         for (int i = 0; i < 3; ++i)
         {
-            if (!m_SilkWalls[i]->IsActive())
+            if (m_SilkWalls[i]->IsActive() == false)
             {
                 w = m_SilkWalls[i];
                 break;
@@ -234,6 +245,7 @@ void Stage3::GameUpdate()
         if (w && m_HandL && m_HandR)
         {
             w->Fire(m_HandL->GetPosition(), m_HandR->GetPosition());
+            w->SetUID(m_SilkCount++);
         }
     }
 
@@ -266,34 +278,36 @@ void Stage3::GameUpdate()
             Vector3 targetPos = m_HandL->GetPosition(); // 左手
 
             w->Fire(startPos, targetPos);
+            w->SetUID(m_SilkCount++);
         }
     }
 
-    //if (Input::GetKeyTrigger('R'))   // 
-    //{
-    //	std::vector<Object*> removeList;
+    int count = 0;
+    int minIndex = -1;
+    int minUID = 0;
+    for (int i = 0; i < 3; ++i)
+    {
+        auto* w = m_SilkWalls[i];
+        if (!w) continue;
+        //if (m_SilkWalls[i]->IsActive() == false) continue;
+        if (w->IsActive())
+        {
+            ++count;
+        }
+        w->SetOldOne(false);   // 先全部清掉
+        int uid = w->GetUID();
+        if (minIndex == -1 || uid < minUID)
+        {
+            minUID = uid;
+            minIndex = i;
+        }
+    }
+    //  3 以上ときOldOneを設定 
+    if (count > 2 && minIndex != -1)
+    {
 
-    //	//Enemyを探す
-    //	for (auto* obj : m_MySceneObjects)
-    //	{
-    //		if (dynamic_cast<EnemyBase*>(obj))
-    //		{
-    //			removeList.push_back(obj);
-    //		}
-    //	}
-
-    //	//　見つけたEnemy1を削除する
-    //	for (auto* obj : removeList)
-    //	{
-    //		Game::GetInstance()->DeleteObject(obj);
-
-    //		auto it = std::find(m_MySceneObjects.begin(), m_MySceneObjects.end(), obj);
-    //		if (it != m_MySceneObjects.end())
-    //		{
-    //			m_MySceneObjects.erase(it);
-    //		}
-    //	}
-    //}
+        m_SilkWalls[minIndex]->SetOldOne(true);
+    }
 
     for (int i = 0; i < 3; ++i)
     {
