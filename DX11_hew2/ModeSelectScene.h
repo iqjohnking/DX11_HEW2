@@ -27,6 +27,7 @@ private:
 	//ƒLƒƒƒ‰‚Ì—§‚¿ŠG
 	Texture2D* m_CharacterImg = nullptr;
 	Texture2D* m_CharacterImg2 = nullptr;
+	
 	Texture2D* m_Enemy1Img = nullptr;
 	Texture2D* m_Enemy2Img = nullptr;
 	Texture2D* m_Enemy3Img = nullptr;

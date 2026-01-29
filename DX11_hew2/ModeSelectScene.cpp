@@ -101,6 +101,27 @@ void ModeSelectScene::Init()
 	m_CharacterImg->SetScale(400.0f, 600.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_CharacterImg);
 
+	/*
+	m_Enemy1Img= Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy1Img->SetTexture("assets/texture/stageselecthint/enemy_1.png");
+	m_Enemy1Img->SetPosition(240.0f, -80.0f, 0.0f);
+	m_Enemy1Img->SetScale(200.0f, 200.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_Enemy1Img);
+
+	m_Enemy2Img = Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy2Img->SetTexture("assets/texture/stageselecthint/enemy_2.png");
+	m_Enemy2Img->SetPosition(420.0f, 0.0f, 0.0f);
+	m_Enemy2Img->SetScale(200.0f, 200.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_Enemy2Img);
+
+	m_Enemy3Img = Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy3Img->SetTexture("assets/texture/stageselecthint/enemy_3.png");
+	m_Enemy3Img->SetPosition(300.0f, 80.0f, 0.0f);
+	m_Enemy3Img->SetScale(200.0f, 200.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_Enemy3Img);
+	*/
+
+
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
 	m_FadePanel->SetTexture("assets/texture/terrain.png");
 	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
@@ -214,48 +235,92 @@ void ModeSelectScene::Update()
 		bool mouseMoved = (currentMousePos.x != lastMousePos.x || currentMousePos.y != lastMousePos.y);
 		lastMousePos = currentMousePos;
 
-
-
 		DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+		static bool stickFree = true;
+
+		int nextSelect = m_SelectIndex;//今回のフレームで選ぼうとしてる番号
 
 		if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_LEFT) || stick.x < -0.5f)
 		{
+			nextSelect = 0;
+
+			/*
 			Game::GetSound()->Play(SOUND_LABEL_SE_000);
 			m_SelectIndex = 0; // ストーリーモード
+			*/
 		}
 
 
 		if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
 		{
+			nextSelect = 1;
+			/*
 			Game::GetSound()->Play(SOUND_LABEL_SE_000);
 			m_SelectIndex = 1; // エンドレスモード
+			*/
 		}
 
+		// スティック入力（一度倒したら stickFree を false にして連続入力を防ぐ）
+		if (stickFree) 
+		{
+			if (stick.x < -0.5f) 
+			{ 
+				nextSelect = 0; 
+				stickFree = false; 
+			}
+			else if (stick.x > 0.5f) 
+			{ 
+				nextSelect = 1; 
+				stickFree = false; 
+			}
+		}
+		if (abs(stick.x) < 0.2f) stickFree = true; // スティックを戻したら次を受け付ける
 
 		if (mouseMoved)
 		{
-			if (m_mode_in_L && IsMouseOver(m_mode_in_L)) { m_SelectIndex = 0; }
-			if (m_mode_in_R && IsMouseOver(m_mode_in_R)) { m_SelectIndex = 1; }
+			if (m_mode_in_L && IsMouseOver(m_mode_in_L)) 
+			{
+				nextSelect = 0;
+			}
+			if (m_mode_in_R && IsMouseOver(m_mode_in_R)) 
+			{
+				nextSelect = 1;
+			}
 
 		}
 
 		
 
-		float targetStory; //目標サイズ
-		if (m_SelectIndex == 0)
+		//float targetStory; //目標サイズ
+		if (nextSelect!=m_SelectIndex)
 		{
-			//m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_smile.png");
-			//m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_smile.png");
-				targetStory = 440.0f; // 選択中なら大きく
+			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			if (m_CharacterImg)
+			{
+				if (nextSelect == 0)
+				{
+					m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_smile.png");
+				}
+				else
+				{
+					m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
+
+				}
+			}
+			m_SelectIndex = nextSelect;
+	
 		}
+		
+		float targetStory;// 目標サイズ
+
+		if (m_SelectIndex == 0) 
+		{
+			targetStory = 440.0f;// 選択中なら大きく
+		} 
 		else
 		{
-			//m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_normal.png");
-			m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
-			targetStory = 400.0f; // 選択してないなら普通
-
+			targetStory=400.0f;// 選択してないなら普通
 		}
-	
 		
 
 		float targetEndless; // 目標サイズ
