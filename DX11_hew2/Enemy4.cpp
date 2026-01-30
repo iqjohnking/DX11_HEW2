@@ -31,11 +31,13 @@ void Enemy4::Init()
 
 	SetDrawOrder(5);
 
-	m_Texture2D.SetSpriteSheet(5, 3);
+	m_Texture2D.SetSpriteSheet(4, 4);
 	m_Texture2D.AddAnimClip("idle", 0, 3, 10);
-	//m_Texture2D.AddAnimClip("atk", 4, 7, 10);
-	m_Texture2D.AddAnimClip("spawn", 5, 8, 10);
-	m_Texture2D.AddAnimClip("dying", 4, 4, 20);
+	m_Texture2D.AddAnimClip("spawn", 4, 7, 10);
+	m_Texture2D.AddAnimClip("dying", 8, 11, 20);
+	m_Texture2D.AddAnimClip("red", 12, 13, 10);
+	m_Texture2D.AddAnimClip("atk", 14, 15, 10);
+
 	m_Texture2D.PlayAnim("spawn");
 	state = EnemyState::SPAWNING;
 }
@@ -57,7 +59,16 @@ void Enemy4::Update()
 void Enemy4::Draw(Camera* cam)
 {
 	m_Texture2D.SetScale(m_Radius * 2, m_Radius * 2, 0);
-	m_Texture2D.SetPosition(GetPosition());
+	m_Texture2D.SetPosition(GetPosition());	
+	
+	if (isCharging) {
+		if (!m_Miko) return;
+		float angleZ = atan2f(m_dirN.y, m_dirN.x);
+		m_Texture2D.SetRotationRad(0, 0, angleZ);
+	}
+	else {
+		m_Texture2D.SetRotation(0, 0, 0);
+	}
 	m_Texture2D.Draw(cam);
 }
 
@@ -113,6 +124,7 @@ void Enemy4::move()
 			if (chargeTimer > chargeTiming * 60 && stunTimer <= 0.0f)
 			{
 				isCharging = true;
+				m_dirN = GetPosition() - m_Miko->GetPosition();
 				chargeTimer = 0;
 
 				// 次回の待機時間
@@ -162,6 +174,7 @@ void Enemy4::move()
 
 					// 待機へ戻す
 					isCharging = false;
+					m_Texture2D.PlayAnim("idle");
 					chargeTimer = 0;
 					chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
@@ -186,6 +199,8 @@ void Enemy4::move()
 		//------------------------------------------------------------------------------
 		if (isCharging)
 		{
+
+			m_Texture2D.PlayAnim("atk");
 			// 速度調整
 			if (m_velocity < m_TargetSpeed)
 			{
@@ -218,6 +233,7 @@ void Enemy4::move()
 				if (stunTimer <= 0.0f) // 毎フレームリセットしない
 				{
 					isCharging = false;
+					m_Texture2D.PlayAnim("idle");
 					chargeTimer = 0;
 					chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
@@ -241,6 +257,7 @@ void Enemy4::move()
 			if (toTarget.LengthSquared() <= (kArriveRadius * kArriveRadius))
 			{
 				isCharging = false;
+				m_Texture2D.PlayAnim("idle");
 				chargeTimer = 0;
 				chargeTiming = static_cast<int>(get_rand_range(2, 4));
 
@@ -250,6 +267,8 @@ void Enemy4::move()
 
 		if (m_Hitpoint <= 0)
 		{
+
+			m_Texture2D.PlayAnim("dying");
 			state = EnemyState::DYING;
 		}
 
@@ -258,6 +277,7 @@ void Enemy4::move()
 
 	case EnemyState::ISMAYUING:
 	{
+		m_Texture2D.PlayAnim("dying");
 		mayuingTimer++; // 0 -> kMayuFrames
 
 		float t = (float)mayuingTimer / (float)kMayuFrames;
@@ -277,6 +297,7 @@ void Enemy4::move()
 	case EnemyState::DYING:
 	{
 		dyingTimer++;
+		m_Texture2D.PlayAnim("dying");
 		if (dyingTimer >= kMayuFrames)
 		{
 			dyingTimer = kMayuFrames;

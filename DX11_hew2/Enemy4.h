@@ -24,6 +24,10 @@ protected:
 	const float kKnockbackDist = 30.0f;  // まず大きめで確認（効いたら好みに下げる）
 	const float kHitCooldown = 10.0f;  // 連続判定防止（フレーム）
 
+
+	DirectX::SimpleMath::Vector3 m_dirN = DirectX::SimpleMath::Vector3::Zero;
+		//GetPosition() - m_Miko->GetPosition();
+
 	//ランダム
 	float rand = 0.0f;
 
