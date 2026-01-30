@@ -114,7 +114,7 @@ void StageSelectScene::Init()
 	m_MySceneObjects.emplace_back(m_storysentaku4);
 
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
-	m_FadePanel->SetTexture("assets/texture/terrain.png");
+	m_FadePanel->SetTexture("assets/texture/black.png");
 	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
 	m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);
 	m_FadePanel->SetAlpha(1.0f);                           // Å‰‚Í•
