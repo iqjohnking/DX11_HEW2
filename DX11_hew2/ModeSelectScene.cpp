@@ -72,6 +72,39 @@ void ModeSelectScene::Init()
 	m_modesentakugamen->SetScale(400.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_modesentakugamen);
 
+	m_CharacterImg2 = Game::GetInstance()->AddObject<Texture2D>();
+	m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_normal.png");
+	m_CharacterImg2->SetPosition(-420.0f, -65.0f, 0.0f);
+	m_CharacterImg2->SetScale(400.0f, 600.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_CharacterImg2);
+
+	m_CharacterImg = Game::GetInstance()->AddObject<Texture2D>();
+	m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
+	m_CharacterImg->SetPosition(-240.0f, -80.0f, 0.0f);
+	m_CharacterImg->SetScale(400.0f, 600.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_CharacterImg);
+
+	
+	m_Enemy2Img = Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy2Img->SetTexture("assets/texture/stageselecthint/oni.png");
+	m_Enemy2Img->SetPosition(350.0f, 100.0f, 0.0f);
+	m_Enemy2Img->SetScale(200.0f, 200.0f, 0.0f);
+	//m_Enemy2Img->SetUV(1, 1, 5, 3);
+	m_MySceneObjects.emplace_back(m_Enemy2Img);
+
+	m_Enemy1Img= Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy1Img->SetTexture("assets/texture/stageselecthint/tyoutin.png");
+	m_Enemy1Img->SetPosition(200.0f, -150.0f, 0.0f);
+	m_Enemy1Img->SetScale(200.0f, 200.0f, 0.0f);
+	//m_Enemy1Img->SetUV(1, 1, 5, 3);
+	m_MySceneObjects.emplace_back(m_Enemy1Img);
+
+	m_Enemy3Img = Game::GetInstance()->AddObject<Texture2D>();
+	m_Enemy3Img->SetTexture("assets/texture/stageselecthint/tengu.png");
+	m_Enemy3Img->SetPosition(500.0f, -150.0f, 0.0f);
+	m_Enemy3Img->SetScale(200.0f, 200.0f, 0.0f);
+	//m_Enemy3Img->SetUV(1, 1, 5, 3);
+	m_MySceneObjects.emplace_back(m_Enemy3Img);
 	
 	// ストーリーボタン 
 	m_StoryBtn = Game::GetInstance()->AddObject<Texture2D>();
@@ -86,44 +119,9 @@ void ModeSelectScene::Init()
 	m_EndlessBtn->SetPosition(350.0f, 280.0f, 0.0f);
 	m_EndlessBtn->SetScale(400.0f, 150.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_EndlessBtn);
-	
-	
-
-	m_CharacterImg2 = Game::GetInstance()->AddObject<Texture2D>();
-	m_CharacterImg2->SetTexture("assets/texture/stageselecthint/kumo_normal.png");
-	m_CharacterImg2->SetPosition(-420.0f, -65.0f, 0.0f);
-	m_CharacterImg2->SetScale(400.0f, 600.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_CharacterImg2);
-
-	m_CharacterImg = Game::GetInstance()->AddObject<Texture2D>();
-	m_CharacterImg->SetTexture("assets/texture/stageselecthint/miko_normal.png");
-	m_CharacterImg->SetPosition(-240.0f, -80.0f, 0.0f);
-	m_CharacterImg->SetScale(400.0f, 600.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_CharacterImg);
-
-	/*
-	m_Enemy1Img= Game::GetInstance()->AddObject<Texture2D>();
-	m_Enemy1Img->SetTexture("assets/texture/stageselecthint/enemy_1.png");
-	m_Enemy1Img->SetPosition(240.0f, -80.0f, 0.0f);
-	m_Enemy1Img->SetScale(200.0f, 200.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_Enemy1Img);
-
-	m_Enemy2Img = Game::GetInstance()->AddObject<Texture2D>();
-	m_Enemy2Img->SetTexture("assets/texture/stageselecthint/enemy_2.png");
-	m_Enemy2Img->SetPosition(420.0f, 0.0f, 0.0f);
-	m_Enemy2Img->SetScale(200.0f, 200.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_Enemy2Img);
-
-	m_Enemy3Img = Game::GetInstance()->AddObject<Texture2D>();
-	m_Enemy3Img->SetTexture("assets/texture/stageselecthint/enemy_3.png");
-	m_Enemy3Img->SetPosition(300.0f, 80.0f, 0.0f);
-	m_Enemy3Img->SetScale(200.0f, 200.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_Enemy3Img);
-	*/
-
 
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
-	m_FadePanel->SetTexture("assets/texture/terrain.png");
+	m_FadePanel->SetTexture("assets/texture/black.png");
 	m_FadePanel->SetPosition(0.0f, 0.0f, 0.0f);
 	m_FadePanel->SetScale(2000.0f, 2000.0f, 0.0f);
 	m_FadePanel->SetAlpha(m_fadeAlpha); // 最初は黒
@@ -135,7 +133,7 @@ void ModeSelectScene::Init()
 void ModeSelectScene::Update()
 {
 	// --- フェードのタイマー ---
-	const float FADE_TIME = 0.2f;// 0.5秒で終了
+	const float FADE_TIME = 0.5f;// 0.5秒で終了
 	float Time = 1.0f / 60.0f;
 
 	if (m_isStarting)
@@ -193,7 +191,10 @@ void ModeSelectScene::Update()
 
 	//クリアしたか
 	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
-
+	if (Input::GetKeyPress(VK_E))
+	{
+		isAllCleared = true;
+	}
 	// --- 真っ黒になったらシーン切り替え ---
 	if (m_isStarting && m_fadeAlpha > 0.99f)
 	{
@@ -351,6 +352,9 @@ void ModeSelectScene::Update()
 
 			// 右側（エンドレス）一式を現在のスケールで更新
 			m_EndlessBtn->SetScale(m_curEndlessScale, m_curEndlessScale * 0.375f, 0.0f);
+			m_Enemy1Img->SetScale(m_curEndlessScale * 0.7f, m_curEndlessScale * 0.7f, 0.0f);
+			m_Enemy2Img->SetScale(m_curEndlessScale * 0.7f, m_curEndlessScale * 0.7f, 0.0f);
+			m_Enemy3Img->SetScale(m_curEndlessScale * 0.7f, m_curEndlessScale * 0.7f, 0.0f);
 			m_mode_in_R->SetScale(m_curEndlessScale * 1.38f, m_curEndlessScale * 1.72f, 0.0f);
 			m_mode_out_R->SetScale(m_curEndlessScale * 1.68f, m_curEndlessScale * 2.13f, 0.0f);
 
@@ -402,6 +406,9 @@ void ModeSelectScene::Update()
 		m_mode_in_R->SetBrightness(1.0f); // 明るく
 		m_mode_out_R->SetBrightness(1.0f);
 		m_EndlessBtn->SetBrightness(1.0f);
+		m_Enemy1Img->SetBrightness(1.0f);
+		m_Enemy2Img->SetBrightness(1.0f);
+		m_Enemy3Img->SetBrightness(1.0f);
 
 	}
 	else
@@ -410,6 +417,9 @@ void ModeSelectScene::Update()
 		m_mode_in_R->SetBrightness(0.3f); // 暗い
 		m_mode_out_R->SetBrightness(0.3f);
 		m_EndlessBtn->SetBrightness(0.3f);
+		m_Enemy1Img->SetBrightness(0.3f);
+		m_Enemy2Img->SetBrightness(0.3f);
+		m_Enemy3Img->SetBrightness(0.3f);
 	}
 	
 	
