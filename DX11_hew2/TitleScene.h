@@ -12,6 +12,7 @@
 #include "playerHand.h"
 #include "UI_redSilk.h"
 #include "UI_mikoHp.h"
+#include "UI_control.h"
 #include "Field.h"
 #include "Shrinemaiden.h"
 #include "EnemyBase.h"	
@@ -43,6 +44,7 @@ private:
 	playerHand* m_HandR = nullptr; // 右手
 	UI_redSilk* m_UI_redSilk;    // UI用の赤い糸表示
 	UI_mikoHp*  m_UI_mikoHp;    // UI用のHP
+	UI_control*  m_UI_control;    // UI用のHP
 	int         m_NextSilkIndex = 0; // 次に使う糸
 
 	int m_SilkCount = 0;
