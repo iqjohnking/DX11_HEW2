@@ -1029,50 +1029,50 @@ void Stage0::IssueUpdate()
 			GameOverImage[1]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(GameOverImage[1]);
 
-			//ステージセレクトへ
-			GameOverImage[2] = Game::GetInstance()->AddObject<Texture2D>();
-			GameOverImage[2]->SetTexture("assets/texture/lose002.png");
-			GameOverImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
-			GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
-			GameOverImage[2]->SetDrawOrder(10000);
-			m_MySceneObjects.emplace_back(GameOverImage[2]);
+			////ステージセレクトへ
+			//GameOverImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+			//GameOverImage[2]->SetTexture("assets/texture/lose002.png");
+			//GameOverImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
+			//GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+			//GameOverImage[2]->SetDrawOrder(10000);
+			//m_MySceneObjects.emplace_back(GameOverImage[2]);
 
 			m_SelectIndex = 0;
 			m_GameOverImageFlg = true;
 		}
 
 		// スティックで選択
-		{
-			DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
-			static bool stickFree_GameOver = true;
+		//{
+		//	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+		//	static bool stickFree_GameOver = true;
 
-			bool leftKey = Input::GetKeyTrigger(VK_A);
-			bool rightKey = Input::GetKeyTrigger(VK_D);
+		//	bool leftKey = Input::GetKeyTrigger(VK_A);
+		//	bool rightKey = Input::GetKeyTrigger(VK_D);
 
-			if (stickFree_GameOver)
-			{
-				if (leftKey || rightKey)
-				{
-					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
-					stickFree_GameOver = false;
-				}
-				if (stick.x < -0.5f)
-				{
-					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
-					stickFree_GameOver = false;
-				}
-				else if (stick.x > 0.5f)
-				{
-					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
-					stickFree_GameOver = false;
-				}
-			}
-			if (fabsf(stick.x) < 0.2f) stickFree_GameOver = true;
-		}
+		//	if (stickFree_GameOver)
+		//	{
+		//		if (leftKey || rightKey)
+		//		{
+		//			m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
+		//			stickFree_GameOver = false;
+		//		}
+		//		if (stick.x < -0.5f)
+		//		{
+		//			m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+		//			stickFree_GameOver = false;
+		//		}
+		//		else if (stick.x > 0.5f)
+		//		{
+		//			m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+		//			stickFree_GameOver = false;
+		//		}
+		//	}
+		//	if (fabsf(stick.x) < 0.2f) stickFree_GameOver = true;
+		//}
 
 		// 見た目反映
 		//選択してる方を大きく、選択していないほうを小さく
-		if (m_SelectIndex == 0)
+		/*if (m_SelectIndex == 0)
 		{
 			GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
 			GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
@@ -1081,23 +1081,26 @@ void Stage0::IssueUpdate()
 		{
 			GameOverImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
 			GameOverImage[2]->SetScale(2048.0f, 1152.0f, 0.0f);
-		}
+		}*/
+		GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
 
 		// 決定
 		if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
 		{
-			//もう一度プレイ
-			if (m_SelectIndex == 0)
-			{
-				RePlay();
-				return;
-			}
-			else
-			{
-				//ステージセレクトへ
-				Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
-				return;
-			}
+			////もう一度プレイ
+			//if (m_SelectIndex == 0)
+			//{
+			//	RePlay();
+			//	return;
+			//}
+			//else
+			//{
+			//	//ステージセレクトへ
+			//	Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
+			//	return;
+			//}
+			RePlay();
+			return;
 		}
 		return;
 	}
@@ -1237,7 +1240,7 @@ void Stage0::RePlay()
 	// 画面消す
 	GameOverImage[0]->SetScale(0.0f, 0.0f, 0.0f);
 	GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
-	GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+	//GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
 
 	Game::GetInstance()->SetNextStageStartMode(0, StageStartMode::Gameplay);
 
