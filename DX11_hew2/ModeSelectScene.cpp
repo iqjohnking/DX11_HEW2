@@ -240,7 +240,7 @@ void ModeSelectScene::Update()
 
 		int nextSelect = m_SelectIndex;//今回のフレームで選ぼうとしてる番号
 
-		if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_LEFT) || stick.x < -0.5f)
+		if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_A) || stick.x < -0.5f)
 		{
 			nextSelect = 0;
 
@@ -251,7 +251,7 @@ void ModeSelectScene::Update()
 		}
 
 
-		if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_RIGHT) || stick.x > 0.5f)
+		if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_D) || stick.x > 0.5f)
 		{
 			nextSelect = 1;
 			/*
@@ -294,7 +294,7 @@ void ModeSelectScene::Update()
 		//float targetStory; //目標サイズ
 		if (nextSelect!=m_SelectIndex)
 		{
-			Game::GetSound()->Play(SOUND_LABEL_SE_000);
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
 			if (m_CharacterImg)
 			{
 				if (nextSelect == 0)
@@ -384,9 +384,10 @@ void ModeSelectScene::Update()
 
 	//一個戻る
 	if (Input::GetButtonTrigger(XINPUT_B) ||
-		Input::GetKeyTrigger(VK_SHIFT))
+		Input::GetKeyTrigger(VK_SHIFT)	  ||
+		Input::GetMouseButtonTrigger(1))
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_NextSceneID = 1;//スタートシーンへ
 		m_isStarting = true;
 		//Game::GetInstance()->ChangeScene(SceneName::START);

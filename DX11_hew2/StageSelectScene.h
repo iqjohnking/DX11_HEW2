@@ -16,6 +16,7 @@ private:
 	Texture2D* m_daiissyou= nullptr;
 	Texture2D* m_daiissyou_waku = nullptr;
 	Texture2D* m_migiyazirusi = nullptr;
+	Texture2D* m_hidariyazirusi = nullptr;
 	Texture2D* m_storysentaku = nullptr;
 	Texture2D* m_storysentaku2 = nullptr;
 	Texture2D* m_storysentaku3 = nullptr;

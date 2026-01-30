@@ -181,7 +181,7 @@ void StartScene::Update()
     if (Input::GetButtonTrigger(XINPUT_DOWN) || Input::GetKeyTrigger(VK_DOWN) || stick.y < -0.5f)
     {
         isSelected = true;
-        Game::GetSound()->Play(SOUND_LABEL_SE_000);
+        Game::GetSound()->Play(SOUND_LABEL_SE_010);
     }
     
 

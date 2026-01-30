@@ -25,20 +25,20 @@ void StageSelectScene::Init()
 	//モード選択場所の内背景
 	m_mode_in_L = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
-	m_mode_in_L->SetPosition(-550.0f, 50.0f, 0.0f);
+	m_mode_in_L->SetPosition(-530.0f, 50.0f, 0.0f);
 	m_mode_in_L->SetScale(m_curScaleL * 2.0f, m_curScaleL, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_L);
 
 	m_mode_in_M = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
-	m_mode_in_M->SetPosition(0.0f, 50.0f, 0.0f);
+	m_mode_in_M->SetPosition(30.0f, 50.0f, 0.0f);
 	m_mode_in_M->SetScale(m_curScaleM * 2.0f, m_curScaleM, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_M);
 
 	//モード選択場所の内背景
 	m_mode_in_R = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
-	m_mode_in_R->SetPosition(550.0f, 50.0f, 0.0f);
+	m_mode_in_R->SetPosition(580.0f, 50.0f, 0.0f);
 	m_mode_in_R->SetScale(m_curScaleR * 2.0f, m_curScaleR, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_R);
 
@@ -59,48 +59,59 @@ void StageSelectScene::Init()
 	//第一章　文字枠
 	m_daiissyou_waku = Game::GetInstance()->AddObject<Texture2D>();
 	m_daiissyou_waku->SetTexture("assets/texture/ui/daiissyou_waku.png");
-	m_daiissyou_waku->SetPosition(0.0f, -380.0f, 0.0f);
+	m_daiissyou_waku->SetPosition(0.0f, -250.0f, 0.0f);
 	m_daiissyou_waku->SetScale(400.0f, 200.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_daiissyou_waku);
 
 	//第一章　文字
 	m_daiissyou = Game::GetInstance()->AddObject<Texture2D>();
 	m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
-	m_daiissyou->SetPosition(0.0f, -380.0f, 0.0f);
+	m_daiissyou->SetPosition(0.0f, -250.0f, 0.0f);
 	m_daiissyou->SetScale(200.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_daiissyou);
 
 	//右矢印
 	m_migiyazirusi= Game::GetInstance()->AddObject<Texture2D>();
 	m_migiyazirusi->SetTexture("assets/texture/ui/migiyazirusi.png");
-	m_migiyazirusi->SetPosition(350.0f, -380.0f, 0.0f);
+	m_migiyazirusi->SetPosition(260.0f, -250.0f, 0.0f);
 	m_migiyazirusi ->SetScale(100.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_migiyazirusi);
+
+	//右矢印
+	m_hidariyazirusi = Game::GetInstance()->AddObject<Texture2D>();
+	m_hidariyazirusi->SetTexture("assets/texture/ui/migiyazirusi.png");
+	m_hidariyazirusi->SetPosition(-260.0f, -250.0f, 0.0f);
+	m_hidariyazirusi->SetRotation(0.0f, 0.0f, 180.0f);
+	m_hidariyazirusi->SetScale(100.0f, 100.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_hidariyazirusi);
 	
-	//ストーリー選択　説明
+	//左右ステージを選ぶ
 	m_storysentaku= Game::GetInstance()->AddObject<Texture2D>();
 	m_storysentaku->SetTexture("assets/texture/stageselecthint/stageselecthint000.png");
-	m_storysentaku->SetPosition(0.0f, 380.0f, 0.0f);
-	m_storysentaku->SetScale(650.0f, 100.0f, 0.0f);
+	m_storysentaku->SetPosition(-700.0f, -495.0f, 0.0f);
+	m_storysentaku->SetScale(500.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_storysentaku);
 
+	//下で決定
 	m_storysentaku2 = Game::GetInstance()->AddObject<Texture2D>();
 	m_storysentaku2->SetTexture("assets/texture/stageselecthint/stageselecthint001.png");
-	m_storysentaku2->SetPosition(550.0f, 380.0f, 0.0f);
+	m_storysentaku2->SetPosition(430.0f, -495.0f, 0.0f);
 	m_storysentaku2->SetScale(250.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_storysentaku2);
 
+	//LR
 	m_storysentaku3 = Game::GetInstance()->AddObject<Texture2D>();
 	m_storysentaku3->SetTexture("assets/texture/stageselecthint/stageselecthint002.png");
-	m_storysentaku3->SetPosition(0.0f, -300.0f, 0.0f);
-	m_storysentaku3->SetScale(250.0f, 100.0f, 0.0f);
+	m_storysentaku3->SetPosition(-250.0f, -495.0f, 0.0f);
+	m_storysentaku3->SetScale(350.0f, 100.0f, 0.0f);
 	m_MySceneObjects.emplace_back(m_storysentaku3);
 	
+	//モード選択へ
 	m_storysentaku4 = Game::GetInstance()->AddObject<Texture2D>();
 	m_storysentaku4->SetTexture("assets/texture/stageselecthint/stageselecthint003.png");
-	m_storysentaku4->SetPosition(650.0f, -500.0f, 0.0f);
-	m_storysentaku4->SetScale(250.0f, 100.0f, 0.0f);
-	m_MySceneObjects.emplace_back(m_storysentaku3);
+	m_storysentaku4->SetPosition(700.0f, -502.0f, 0.0f);
+	m_storysentaku4->SetScale(350.0f, 100.0f, 0.0f);
+	m_MySceneObjects.emplace_back(m_storysentaku4);
 
 	m_FadePanel = Game::GetInstance()->AddObject<Texture2D>();
 	m_FadePanel->SetTexture("assets/texture/terrain.png");
@@ -113,7 +124,7 @@ void StageSelectScene::Init()
 void StageSelectScene::Update()
 {
 	// --- フェードのタイマー ---
-	const float FADE_TIME = 0.2f; //0.5秒で終了
+	const float FADE_TIME = 0.5f; //0.5秒で終了
 	float Time = 1.0f / 60.0f;
 
 	if (m_isStarting)
@@ -195,14 +206,14 @@ void StageSelectScene::Update()
 	if (abs(stick.x) < 0.2f) stickFree = true; // スティックを離したら入力を受け付ける
 
 	// --- コントローラーの左右で選択を動かす ---
-	if (Input::GetButtonTrigger(XINPUT_LEFT)&&Input::GetKeyTrigger(VK_A)) 
+	if (Input::GetButtonTrigger(XINPUT_LEFT)||Input::GetKeyTrigger(VK_A)) 
 	{ 
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_SelectIndex = (m_SelectIndex + 2) % 3; 
 	}
-	if (Input::GetButtonTrigger(XINPUT_RIGHT) && Input::GetKeyTrigger(VK_D))
+	if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_D))
 	{ 
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_SelectIndex = (m_SelectIndex + 1) % 3; 
 	}
 	
@@ -269,7 +280,7 @@ void StageSelectScene::Update()
 	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_RETURN) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
 	{
 		m_isStarting = true;
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		Game::GetSound()->Play(SOUND_LABEL_SE_011);
 		if (m_Chapter == 1) 
 		{
 			// 第1章
@@ -296,7 +307,8 @@ void StageSelectScene::Update()
 	
 	//一個戻る
 	if (Input::GetButtonTrigger(XINPUT_B) ||
-		Input::GetKeyTrigger(VK_SHIFT))
+		Input::GetKeyTrigger(VK_SHIFT)	  ||
+		Input::GetMouseButtonTrigger(1))
 	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_isStarting = true;
@@ -306,13 +318,33 @@ void StageSelectScene::Update()
 		return;
 	}
 
+	// --- 矢印の表示制御 ---
+	if (m_Chapter == 1) 
+	{
+		// 1章のときは左に戻れないので、左矢印を半透明にする
+		if (m_hidariyazirusi) m_hidariyazirusi->SetAlpha(0.2f);
+	}
+	else 
+	{
+		if (m_hidariyazirusi) m_hidariyazirusi->SetAlpha(1.0f);
+	}
+
+	if (m_Chapter == 3) 
+	{
+		// 3章のときは右に行けないので、右矢印を半透明にする
+		if (m_migiyazirusi) m_migiyazirusi->SetAlpha(0.2f);
+	}
+	else 
+	{
+		if (m_migiyazirusi) m_migiyazirusi->SetAlpha(1.0f);
+	}
 
 	// --- Lボタン(LB)でチャプター切り替え ---
 	if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| Input::GetKeyTrigger(VK_RIGHT))
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_000);
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter++;
-		if (m_Chapter > 3) m_Chapter = 1; // 3章（3-3）までなので、4になったら1に戻す
+		if (m_Chapter >= 3) m_Chapter = 3; // 3章（3-3）までなので、4になったら1に戻す
 
 		if (m_Chapter == 1)
 		{
@@ -341,8 +373,9 @@ void StageSelectScene::Update()
 	}
 	else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT))
 	{
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter--;
-		if (m_Chapter < 1) m_Chapter = 3;
+		if (m_Chapter <= 1) m_Chapter = 1;
 		
 		if (m_Chapter == 1)
 		{
