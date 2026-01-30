@@ -1158,7 +1158,7 @@ void Stage7::UpdateEnemySpawn()
 
 	if (elapsedSeconds == 62 && phase11Flag == false)
 	{
-		EnemySpawn(TACKLE, Vector3(-200.0f, 350.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(200.0f, 350.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(200.0f, -320.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(100.0f, -360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(0.0f, -400.0f, 0.0f));
