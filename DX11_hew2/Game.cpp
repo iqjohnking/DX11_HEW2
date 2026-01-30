@@ -391,3 +391,56 @@ void Game::ApplyDeleteQueue()
 	// íœˆË—Š‚ğˆ—‚µI‚í‚Á‚½‚Ì‚ÅƒNƒŠƒA
 	m_DeleteQueue.clear();
 }
+
+void Game::SetStageClearFlag(int stageNum)
+{
+	switch (stageNum)
+	{
+	case 1:
+		Stage1ClearFlag = true;
+		break;
+	case 2:
+		Stage2ClearFlag = true;
+		break;
+	case 3:
+		Stage3ClearFlag = true;
+		break;
+	case 4:
+		Stage4ClearFlag = true;
+		break;
+	case 5:
+		Stage5ClearFlag = true;
+		break;
+	case 6:
+		Stage6ClearFlag = true;
+		break;
+	case 7:
+		Stage7ClearFlag = true;
+		break;
+	case 8:
+		Stage8ClearFlag = true;
+		break;
+	case 9:
+		Stage9ClearFlag = true;
+		break;
+	default:
+		break;
+	}
+}
+
+bool Game::GetAllStageClearFlag()
+{
+	if (Stage1ClearFlag == true &&
+		Stage2ClearFlag == true &&
+		Stage3ClearFlag == true &&
+		Stage4ClearFlag == true &&
+		Stage5ClearFlag == true &&
+		Stage6ClearFlag == true &&
+		Stage7ClearFlag == true &&
+		Stage8ClearFlag == true &&
+		Stage9ClearFlag == true)
+	{
+		AllStageClearFlag = true;
+	}
+		return AllStageClearFlag;
+}

@@ -1293,6 +1293,7 @@ void Stage7::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		Game::GetInstance()->SetStageClearFlag(7);
 		m_GameUpdateBlock = true;
 		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)

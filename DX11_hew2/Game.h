@@ -84,6 +84,20 @@ private:
 
 	int m_MaxClearedStage = 0; // どこまでクリアしたかを保存
 
+	//ステージ1~9のクリアフラグ
+	bool Stage1ClearFlag = false;
+	bool Stage2ClearFlag = false;
+	bool Stage3ClearFlag = false;
+	bool Stage4ClearFlag = false;
+	bool Stage5ClearFlag = false;
+	bool Stage6ClearFlag = false;
+	bool Stage7ClearFlag = false;
+	bool Stage8ClearFlag = false;
+	bool Stage9ClearFlag = false;
+
+	//全ステージをクリアしたかのフラグ
+	bool AllStageClearFlag = false;
+
 	// ステージごとの次回開始モード
 	std::array<StageStartMode, 11> m_NextStageStartMode{};
 
@@ -141,6 +155,11 @@ public:
 	//サウンドを取得
 	static Sound* GetSound() { return &m_Sound; }
 
+	//ステージクリアフラグのセッターとゲッター
+	void SetStageClearFlag(int stageNum);
+	//全ステージをクリアしたときにtrueを返す
+	bool GetAllStageClearFlag();
+	
 	template <typename T, typename... Args>
 	T* AddObject(Args&&... args)
 	{

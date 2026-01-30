@@ -190,7 +190,7 @@ void ModeSelectScene::Update()
 	*/
 
 	//ƒNƒŠƒA‚µ‚½‚©
-	bool isAllCleared = (Game::GetInstance()->GetMaxClearedStage() >= 9);
+	bool isAllCleared = (Game::GetInstance()->GetAllStageClearFlag());
 	if (Input::GetKeyPress(VK_E))
 	{
 		isAllCleared = true;
