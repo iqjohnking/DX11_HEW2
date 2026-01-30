@@ -1,6 +1,5 @@
 #include "Stage10.h"
 #include "Game.h"
-#include<iostream>
 
 void Stage10::Init()
 {
@@ -63,10 +62,6 @@ void Stage10::Init()
 	m_MySceneObjects.emplace_back(m_Miko);
 	m_Miko->SetField(m_Field);
 
-	//経過したフレーム数と秒数を0にリセット
-	elapsedFrames = 0;
-	elapsedSeconds = 0;
-
 	// UI用の赤い糸表示
 	m_UI_redSilk = Game::GetInstance()->AddObject<UI_redSilk>();
 	m_MySceneObjects.emplace_back(m_UI_redSilk);
@@ -92,13 +87,38 @@ void Stage10::Init()
 	phase6Flag = false;
 	*/
 
+	//経過したフレーム数と秒数を0にリセット
+	elapsedFrames = 0;
+	elapsedSeconds = 0;
+	survivalTime = 0;
+
+	//スコアをリセット
+	Score = 0;
+
+	survivalTime_100 = 0; //生存時間100の位
+	survivalTime_10 = 0; //生存時間10の位
+	survivalTime_1 = 0; //生存時間1の位
+
+	Score_10000 = 0;     //スコア10000の位
+	Score_1000 = 0;     //スコア1000の位
+	Score_100 = 0;      //スコア100の位
+	Score_10 = 0;       //スコア10の位
+	Score_1 = 0;        //スコア1の位
+
 	EnemySpawnFlag = false;
+
+	m_GameOverFlg = false;
+	m_GameOverImageFlg = false;
+
+	m_SelectIndex = 0;
+
+	m_GameUpdateBlock = false;
 
 	StagekillCount = 0;     //倒した敵の数をリセット
 	//StageEnemyCount = 11;   //ステージの敵の総数を設定（エンドレスなので不要）
 
 	//BGM開始
-	Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_000);
+	Game::GetSound()->Play(SOUND_LABEL_BGM_STAGE_000);
 }
 
 void Stage10::Uninit()
@@ -107,6 +127,8 @@ void Stage10::Uninit()
 	{
 		m_Message->Stop();
 	}
+
+	Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_000);
 
 	m_Pages.clear();
 
@@ -119,17 +141,15 @@ void Stage10::Uninit()
 
 void Stage10::Update()
 {
-	MessageUpdate();
-	GameUpdate();
-	UpdateEnemySpawn();
-	// 終了会話が終わったらリザルトへ
-	if (m_Flow == Flow::EndTalk)
+	if (m_GameUpdateBlock != true)
 	{
-		if (!m_Message->IsPlaying())
-		{
-			Game::GetInstance()->ChangeScene(SceneName::GAMEOVER);
-		}
+		MessageUpdate();
+		GameUpdate();
+		UpdateEnemySpawn();
 	}
+
+	IssueUpdate();
+
 }
 
 void Stage10::MessageUpdate()
@@ -140,10 +160,11 @@ void Stage10::MessageUpdate()
 	{
 	case Flow::StartTalk:
 		// 開始会話が終わったらゲーム開始へ
-		if (!m_Message->IsPlaying())
-		{
-			m_Flow = Flow::Gameplay;
-		}
+		//if (!m_Message->IsPlaying())
+		//{
+		//	
+		//}
+		m_Flow = Flow::Gameplay;
 		break;
 
 	case Flow::Gameplay:
@@ -333,7 +354,10 @@ void Stage10::GameUpdate()
 					++eliminatedCount;
 					ScoreMultiplier += 0.1f;	//1体目は1倍、以降0.1倍ずつ倍率アップ
 					Score += baseScore * ScoreMultiplier;	//100*スコア倍率
-					std::cout << Score << std::endl;
+					if (Score >= 99999)
+					{
+						Score = 99999; //スコアカンスト
+					}
 				}
 			}
 
@@ -396,15 +420,6 @@ void Stage10::GameUpdate()
 		}
 	}
 
-	if (m_Miko->GetDYINGTimer() <= 0) {
-		BuildEndPages();
-		m_Message->SetPages(m_Pages);
-		m_Message->Play();
-		m_Flow = Flow::EndTalk;     //一旦終了会話に飛ばす
-	}
-
-	//ステージクリアと失敗のチェック
-	//StageClearCheck();
 	StageFailedCheck();
 
 }
@@ -593,23 +608,482 @@ void Stage10::UpdateEnemySpawn()
 
 void Stage10::StageClearCheck()
 {
-	/*
 	//敵を全て倒したかどうか
-	if (StagekillCount >= StageEnemyCount)
-	{
-		m_Flow = Flow::EndTalk;
-	}
-	*/
+	//エンドレスなのでなし	
 }
 
 void Stage10::StageFailedCheck()
 {
 	//ステージ失敗かどうか
-	//巫女のHPが0になったら失敗にする
-	/*
-	BuildEndPages();
-	m_Message->SetPages(m_Pages);
-	m_Message->Play();
-	m_Flow = Flow::EndTalk;
-	*/
+	if (m_Miko->GetDYINGTimer() <= 0)
+	{
+		m_GameOverFlg = true;
+		survivalTime = elapsedSeconds;
+	}
+}
+
+void Stage10::IssueUpdate()
+{
+	if (m_GameOverFlg == true)
+	{
+		m_GameUpdateBlock = true;
+		Game::GetInstance()->SetWorldStopped(true);
+		// 初回だけ画像生成
+		if (m_GameOverImageFlg == false)
+		{
+			ScoreCheck();
+			//スコア
+			ScoreImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+			ScoreImage[0]->SetTexture("assets/texture/ui/score.png");
+			ScoreImage[0]->SetPosition(-300.0f, 250.0f, 0.0f);
+			ScoreImage[0]->SetScale(426.0f, 144.0f, 0.0f);
+			ScoreImage[0]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[0]);
+
+			ScoreImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (Score_10000)
+			{
+				case 0:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time0.png");				
+					break;
+				case 1:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time1.png");
+					break;
+				case 2:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time2.png");
+					break;
+				case 3:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time3.png");
+					break;
+				case 4:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time4.png");
+					break;
+				case 5:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time5.png");
+					break;
+				case 6:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time6.png");
+					break;
+				case 7:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time7.png");
+					break;
+				case 8:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time8.png");
+					break;
+				case 9:
+					ScoreImage[1]->SetTexture("assets/texture/ui/time9.png");
+					break;
+			}
+			ScoreImage[1]->SetPosition(0.0f, 250.0f, 0.0f);
+			ScoreImage[1]->SetScale(144.0f, 144.0f, 0.0f);
+			ScoreImage[1]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[1]);
+
+			ScoreImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (Score_1000)
+			{
+			case 0:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				ScoreImage[2]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			ScoreImage[2]->SetPosition(100.0f, 250.0f, 0.0f);
+			ScoreImage[2]->SetScale(144.0f, 144.0f, 0.0f);
+			ScoreImage[2]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[2]);
+
+			ScoreImage[3] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (Score_100)
+			{
+			case 0:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				ScoreImage[3]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			ScoreImage[3]->SetPosition(200.0f, 250.0f, 0.0f);
+			ScoreImage[3]->SetScale(144.0f, 144.0f, 0.0f);
+			ScoreImage[3]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[3]);
+
+			ScoreImage[4] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (Score_10)
+			{
+			case 0:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				ScoreImage[4]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			ScoreImage[4]->SetPosition(300.0f, 250.0f, 0.0f);
+			ScoreImage[4]->SetScale(144.0f, 144.0f, 0.0f);
+			ScoreImage[4]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[4]);
+
+			ScoreImage[5] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (Score_1)
+			{
+			case 0:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				ScoreImage[5]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			ScoreImage[5]->SetPosition(400.0f, 250.0f, 0.0f);
+			ScoreImage[5]->SetScale(144.0f, 144.0f, 0.0f);
+			ScoreImage[5]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(ScoreImage[5]);
+
+			//生存時間
+			SurvivalTimeImage[0] = Game::GetInstance()->AddObject<Texture2D>();
+			SurvivalTimeImage[0]->SetTexture("assets/texture/ui/timetext.png");
+			SurvivalTimeImage[0]->SetPosition(-300.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[0]->SetScale(426.0f, 144.0f, 0.0f);
+			SurvivalTimeImage[0]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(SurvivalTimeImage[0]);
+
+			SurvivalTimeImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (survivalTime_100)
+			{
+				case 0:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time0.png");
+					break;
+				case 1:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time1.png");
+					break;
+				case 2:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time2.png");
+					break;
+				case 3:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time3.png");
+					break;
+				case 4:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time4.png");
+					break;
+				case 5:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time5.png");
+					break;
+				case 6:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time6.png");
+					break;
+				case 7:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time7.png");
+					break;
+				case 8:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time8.png");
+					break;
+				case 9:
+					SurvivalTimeImage[1]->SetTexture("assets/texture/ui/time9.png");
+					break;
+			}
+			SurvivalTimeImage[1]->SetPosition(0.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[1]->SetScale(144.0f, 144.0f, 0.0f);
+			SurvivalTimeImage[1]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(SurvivalTimeImage[1]);
+
+			SurvivalTimeImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (survivalTime_10)
+			{
+			case 0:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			SurvivalTimeImage[2]->SetPosition(100.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[2]->SetScale(144.0f, 144.0f, 0.0f);
+			SurvivalTimeImage[2]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(SurvivalTimeImage[2]);
+
+			SurvivalTimeImage[3] = Game::GetInstance()->AddObject<Texture2D>();
+			switch (survivalTime_1)
+			{
+			case 0:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time0.png");
+				break;
+			case 1:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time1.png");
+				break;
+			case 2:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time2.png");
+				break;
+			case 3:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time3.png");
+				break;
+			case 4:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time4.png");
+				break;
+			case 5:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time5.png");
+				break;
+			case 6:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time6.png");
+				break;
+			case 7:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time7.png");
+				break;
+			case 8:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time8.png");
+				break;
+			case 9:
+				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time9.png");
+				break;
+			}
+			SurvivalTimeImage[3]->SetPosition(200.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[3]->SetScale(144.0f, 144.0f, 0.0f);
+			SurvivalTimeImage[3]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(SurvivalTimeImage[3]);
+
+			SurvivalTimeImage[4] = Game::GetInstance()->AddObject<Texture2D>();
+			SurvivalTimeImage[4]->SetTexture("assets/texture/ui/timetext2.png");
+			SurvivalTimeImage[4]->SetPosition(320.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[4]->SetScale(144.0f, 144.0f, 0.0f);
+			SurvivalTimeImage[4]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(SurvivalTimeImage[4]);
+
+			//もう一度遊ぶ
+			GameOverImage[1] = Game::GetInstance()->AddObject<Texture2D>();
+			GameOverImage[1]->SetTexture("assets/texture/lose001.png");
+			GameOverImage[1]->SetPosition(0.0f, 0.0f, 0.0f);
+			GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+			GameOverImage[1]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(GameOverImage[1]);
+
+			//ステージセレクトへ
+			GameOverImage[2] = Game::GetInstance()->AddObject<Texture2D>();
+			GameOverImage[2]->SetTexture("assets/texture/lose002.png");
+			GameOverImage[2]->SetPosition(0.0f, 0.0f, 0.0f);
+			GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+			GameOverImage[2]->SetDrawOrder(10000);
+			m_MySceneObjects.emplace_back(GameOverImage[2]);
+
+			m_SelectIndex = 0;
+			m_GameOverImageFlg = true;
+		}
+
+		// スティックで選択
+		{
+			DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
+			static bool stickFree_GameOver = true;
+
+			bool leftKey = Input::GetKeyTrigger(VK_A);
+			bool rightKey = Input::GetKeyTrigger(VK_D);
+
+			if (stickFree_GameOver)
+			{
+				if (leftKey || rightKey)
+				{
+					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0 <-> 1
+					stickFree_GameOver = false;
+				}
+				if (stick.x < -0.5f)
+				{
+					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+					stickFree_GameOver = false;
+				}
+				else if (stick.x > 0.5f)
+				{
+					m_SelectIndex = (m_SelectIndex + 1) % 2; // 0<->1
+					stickFree_GameOver = false;
+				}
+			}
+			if (fabsf(stick.x) < 0.2f) stickFree_GameOver = true;
+		}
+
+		// 見た目反映
+		//選択してる方を大きく、選択していないほうを小さく
+		if (m_SelectIndex == 0)
+		{
+			GameOverImage[1]->SetScale(2048.0f, 1152.0f, 0.0f);
+			GameOverImage[2]->SetScale(1280.0f, 720.0f, 0.0f);
+		}
+		else
+		{
+			GameOverImage[1]->SetScale(1280.0f, 720.0f, 0.0f);
+			GameOverImage[2]->SetScale(2048.0f, 1152.0f, 0.0f);
+		}
+
+		// 決定
+		if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
+		{
+			//もう一度プレイ
+			if (m_SelectIndex == 0)
+			{
+				RePlay();
+				return;
+			}
+			else
+			{
+				//ステージセレクトへ
+				Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
+				return;
+			}
+		}
+		return;
+	}	
+}
+
+void Stage10::RePlay()
+{
+	// 画面消す
+	ScoreImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+	ScoreImage[1]->SetScale(0.0f, 0.0f, 0.0f);
+	ScoreImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+	ScoreImage[3]->SetScale(0.0f, 0.0f, 0.0f);
+	ScoreImage[4]->SetScale(0.0f, 0.0f, 0.0f);
+	ScoreImage[5]->SetScale(0.0f, 0.0f, 0.0f);
+	SurvivalTimeImage[0]->SetScale(0.0f, 0.0f, 0.0f);
+	SurvivalTimeImage[1]->SetScale(0.0f, 0.0f, 0.0f);
+	SurvivalTimeImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+	SurvivalTimeImage[3]->SetScale(0.0f, 0.0f, 0.0f);
+	SurvivalTimeImage[4]->SetScale(0.0f, 0.0f, 0.0f);
+	GameOverImage[1]->SetScale(0.0f, 0.0f, 0.0f);
+	GameOverImage[2]->SetScale(0.0f, 0.0f, 0.0f);
+
+	// 次回のStageはGameplay開始にする
+	Game::GetInstance()->SetNextStageStartMode(10, StageStartMode::Gameplay);
+
+	// ステージを作り直す（安全）
+	Game::GetInstance()->ChangeScene(SceneName::STAGE10);
+	return;
+}
+
+void Stage10::ScoreCheck()
+{
+	//スコアと生存時間を桁ごとに分ける
+	survivalTime_100 = survivalTime / 100;
+	survivalTime_10 = survivalTime / 10;
+	survivalTime_1 = survivalTime % 10;
+
+	Score_10000 = Score / 10000;
+	Score_1000 = (Score / 1000) % 10;
+	Score_100 = (Score / 100) % 10;
+	Score_10 = (Score / 10) % 10;
+	Score_1 = Score % 10;
 }

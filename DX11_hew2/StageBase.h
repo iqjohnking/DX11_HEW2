@@ -66,6 +66,8 @@ protected:
 
 	Texture2D* ClearImage[3] = {};
 	Texture2D* GameOverImage[3] = {};
+	Texture2D* ScoreImage[6] = {};
+	Texture2D* SurvivalTimeImage[5] = {};
 
 	int m_SilkCount = 0;
 
