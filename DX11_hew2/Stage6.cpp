@@ -996,7 +996,7 @@ void Stage6::UpdateEnemySpawn()
 		EnemySpawn(NORMAL, Vector3(250.0f, 320.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(150.0f, 360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-150.0f, 460.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-150.0f, 360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(-250.0f, 320.0f, 0.0f));
 		EnemySpawn(MAYU, Vector3(-400.0f, 0.0f, 0.0f));
 		phase10Flag = true;
