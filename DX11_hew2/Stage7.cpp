@@ -127,6 +127,11 @@ void Stage7::Uninit()
 
 	m_Pages.clear();
 
+	if (m_Flow == Flow::Gameplay)
+	{
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
+	}
+
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_006);
 
 	// このシーンのオブジェクトを削除する

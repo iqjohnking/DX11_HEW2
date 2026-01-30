@@ -138,6 +138,12 @@ void Stage6::Uninit()
 
 	m_Pages.clear();
 
+	if(m_Flow == Flow::Gameplay)
+	{
+		// BGM停止
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+	}
+
 	// このシーンのオブジェクトを削除する
 	for (auto& o : m_MySceneObjects) {
 		Game::GetInstance()->DeleteObject(o);
@@ -433,7 +439,7 @@ void Stage6::SoundUpdate()
 	{
 		m_Conversation_BGM_flg_2 = true;
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
-		Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
 	}
 
 	//勝敗ボイス
