@@ -1390,6 +1390,8 @@ void Stage9::IssueUpdate()
 		// Œˆ’è
 		if (Input::GetKeyTrigger(VK_SPACE) || Input::GetButtonTrigger(XINPUT_A))
 		{
+			Game::GetInstance()->SetMaxClearedStage(9);
+
 			//‚à‚¤ˆê“xƒvƒŒƒC
 			if (m_SelectIndex == 0)
 			{
