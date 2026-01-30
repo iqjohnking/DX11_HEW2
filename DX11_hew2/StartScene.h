@@ -28,6 +28,8 @@ private:
     float m_fadeAlpha = 0.0f;    // 0.0(透明) ～ 1.0(真っ黒)
     bool m_isStarting = false;   // 決定ボタンを押したか
 
+    bool m_HasChangedScene = false;//遷移したか,初回決定時にチュートリアルへ飛ばすのに使う
+
     bool IsMouseOver(Texture2D* obj);
 public:
     StartScene();

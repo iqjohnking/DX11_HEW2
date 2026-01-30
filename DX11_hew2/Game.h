@@ -90,6 +90,11 @@ private:
 	//ゲームの勝敗判定中に、手や敵のUpdateをブロックする
 	bool m_WorldStopped = false;
 
+	//クリア用フラグ
+	//タイトルを押したときにfalse(未クリア)ならチュートリアルへ
+	//true(クリア済み)ならセレクトへ
+	bool IsTutorialDone = false;
+
 public:
 	Game(); // コンストラクタ
 	~Game(); // デストラクタ
@@ -100,6 +105,10 @@ public:
 	static void Uninit(); // 終了処理
 
 	static Game* GetInstance();
+
+	//チュートリアルはプレイした？//セッター
+	bool IsTutorialPlay() { return IsTutorialDone; }
+	void SetTutorialPlay(bool done) { IsTutorialDone = done; }
 
 	//再プレイ用の関数
 	// 次回の開始モードをセット

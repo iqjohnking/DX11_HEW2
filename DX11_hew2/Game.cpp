@@ -12,6 +12,8 @@ Game::Game()
 
 	m_WorldStopped = false;
 
+	IsTutorialDone = false;
+
 	// 全部 StartTalk で初期化（stageNo 1..10）
 	for (int i = 0; i <= 10; ++i)
 	{
@@ -44,9 +46,9 @@ void Game::Init()
 
 	// 初期シーンを設定
 	//m_Instance->ChangeScene(SceneName::TITLE);
-	m_Instance->ChangeScene(SceneName::STAGE0);
-	//m_Instance->ChangeScene(SceneName::START);
+	//m_Instance->ChangeScene(SceneName::STAGE0);
 	//m_Instance->ChangeScene(SceneName::STAGE_SELECT);
+	m_Instance->ChangeScene(SceneName::START);
 
 }
 
