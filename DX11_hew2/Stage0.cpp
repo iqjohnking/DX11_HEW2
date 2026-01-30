@@ -134,6 +134,9 @@ void Stage0::Uninit()
 		m_Message->Stop();
 	}
 
+	//チュートリアルプレイ済みに
+	Game::GetInstance()->SetTutorialPlay(true);
+
 	m_Pages.clear();
 
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_010);
