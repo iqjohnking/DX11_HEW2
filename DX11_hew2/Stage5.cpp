@@ -116,6 +116,10 @@ void Stage5::Init()
     m_UI_mikoHp->SetMiko(m_Miko);
     m_SilkCount = 0;
 
+    // UI —p‚Ì‘€ìà–¾•\Ž¦
+    m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+    m_MySceneObjects.emplace_back(m_UI_control);
+
     ResultVoice_flg = false;
 
     m_ClearFlg = false;

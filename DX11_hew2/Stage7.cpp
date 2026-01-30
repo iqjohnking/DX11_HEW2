@@ -88,6 +88,10 @@ void Stage7::Init()
 	m_UI_mikoHp->SetMiko(m_Miko);
 	m_SilkCount = 0;
 
+	// UI 用の操作説明表示
+	m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+	m_MySceneObjects.emplace_back(m_UI_control);
+
 	//敵が出現するフェーズのフラグをリセット
 	phase1Flag = false;
 	phase2Flag = false;

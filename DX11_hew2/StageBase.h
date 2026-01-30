@@ -22,6 +22,7 @@
 #include <random>
 #include "UI_redSilk.h"
 #include "UI_mikoHp.h"
+#include"UI_control.h"
 
 #include <vector>
 #include "MessageManager.h"
@@ -57,6 +58,8 @@ protected:
 	int         m_NextSilkIndex = 0; // 次に使う糸
 
 	Shrinemaiden* m_Miko = nullptr;     // 巫女
+
+	UI_control* m_UI_control; //コントローラーUI
 
 	int StagekillCount = 0;	//倒した敵の数
 	int StageEnemyCount = 0; //ステージの敵の総数
