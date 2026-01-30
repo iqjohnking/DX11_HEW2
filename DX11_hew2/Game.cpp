@@ -44,8 +44,8 @@ void Game::Init()
 
 	// ‰ŠúƒV[ƒ“‚ðÝ’è
 	//m_Instance->ChangeScene(STAGE1);
-	//m_Instance->ChangeScene(SceneName::START);
-	m_Instance->ChangeScene(SceneName::STAGE_SELECT);
+	m_Instance->ChangeScene(SceneName::START);
+	//m_Instance->ChangeScene(SceneName::STAGE_SELECT);
 
 }
 
