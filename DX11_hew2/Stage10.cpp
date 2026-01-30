@@ -713,7 +713,7 @@ void Stage10::IssueUpdate()
 				ScoreImage[2]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			ScoreImage[2]->SetPosition(100.0f, 250.0f, 0.0f);
+			ScoreImage[2]->SetPosition(80.0f, 250.0f, 0.0f);
 			ScoreImage[2]->SetScale(144.0f, 144.0f, 0.0f);
 			ScoreImage[2]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(ScoreImage[2]);
@@ -752,7 +752,7 @@ void Stage10::IssueUpdate()
 				ScoreImage[3]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			ScoreImage[3]->SetPosition(200.0f, 250.0f, 0.0f);
+			ScoreImage[3]->SetPosition(160.0f, 250.0f, 0.0f);
 			ScoreImage[3]->SetScale(144.0f, 144.0f, 0.0f);
 			ScoreImage[3]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(ScoreImage[3]);
@@ -791,7 +791,7 @@ void Stage10::IssueUpdate()
 				ScoreImage[4]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			ScoreImage[4]->SetPosition(300.0f, 250.0f, 0.0f);
+			ScoreImage[4]->SetPosition(240.0f, 250.0f, 0.0f);
 			ScoreImage[4]->SetScale(144.0f, 144.0f, 0.0f);
 			ScoreImage[4]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(ScoreImage[4]);
@@ -830,7 +830,7 @@ void Stage10::IssueUpdate()
 				ScoreImage[5]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			ScoreImage[5]->SetPosition(400.0f, 250.0f, 0.0f);
+			ScoreImage[5]->SetPosition(320.0f, 250.0f, 0.0f);
 			ScoreImage[5]->SetScale(144.0f, 144.0f, 0.0f);
 			ScoreImage[5]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(ScoreImage[5]);
@@ -916,7 +916,7 @@ void Stage10::IssueUpdate()
 				SurvivalTimeImage[2]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			SurvivalTimeImage[2]->SetPosition(100.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[2]->SetPosition(80.0f, 50.0f, 0.0f);
 			SurvivalTimeImage[2]->SetScale(144.0f, 144.0f, 0.0f);
 			SurvivalTimeImage[2]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(SurvivalTimeImage[2]);
@@ -955,14 +955,14 @@ void Stage10::IssueUpdate()
 				SurvivalTimeImage[3]->SetTexture("assets/texture/ui/time9.png");
 				break;
 			}
-			SurvivalTimeImage[3]->SetPosition(200.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[3]->SetPosition(160.0f, 50.0f, 0.0f);
 			SurvivalTimeImage[3]->SetScale(144.0f, 144.0f, 0.0f);
 			SurvivalTimeImage[3]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(SurvivalTimeImage[3]);
 
 			SurvivalTimeImage[4] = Game::GetInstance()->AddObject<Texture2D>();
 			SurvivalTimeImage[4]->SetTexture("assets/texture/ui/timetext2.png");
-			SurvivalTimeImage[4]->SetPosition(320.0f, 50.0f, 0.0f);
+			SurvivalTimeImage[4]->SetPosition(250.0f, 50.0f, 0.0f);
 			SurvivalTimeImage[4]->SetScale(144.0f, 144.0f, 0.0f);
 			SurvivalTimeImage[4]->SetDrawOrder(10000);
 			m_MySceneObjects.emplace_back(SurvivalTimeImage[4]);
