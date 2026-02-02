@@ -12,6 +12,8 @@ Game::Game()
 
 	m_WorldStopped = false;
 
+	IsTutorialDone = false;
+
 	// 全部 StartTalk で初期化（stageNo 1..10）
 	for (int i = 0; i <= 10; ++i)
 	{
@@ -43,9 +45,10 @@ void Game::Init()
 	m_Instance->m_Sound.Init();
 
 	// 初期シーンを設定
-	//m_Instance->ChangeScene(STAGE1);
-	m_Instance->ChangeScene(SceneName::START);
+	//m_Instance->ChangeScene(SceneName::TITLE);
+	//m_Instance->ChangeScene(SceneName::STAGE0);
 	//m_Instance->ChangeScene(SceneName::STAGE_SELECT);
+	m_Instance->ChangeScene(SceneName::START);
 
 }
 
@@ -387,4 +390,57 @@ void Game::ApplyDeleteQueue()
 
 	// 削除依頼を処理し終わったのでクリア
 	m_DeleteQueue.clear();
+}
+
+void Game::SetStageClearFlag(int stageNum)
+{
+	switch (stageNum)
+	{
+	case 1:
+		Stage1ClearFlag = true;
+		break;
+	case 2:
+		Stage2ClearFlag = true;
+		break;
+	case 3:
+		Stage3ClearFlag = true;
+		break;
+	case 4:
+		Stage4ClearFlag = true;
+		break;
+	case 5:
+		Stage5ClearFlag = true;
+		break;
+	case 6:
+		Stage6ClearFlag = true;
+		break;
+	case 7:
+		Stage7ClearFlag = true;
+		break;
+	case 8:
+		Stage8ClearFlag = true;
+		break;
+	case 9:
+		Stage9ClearFlag = true;
+		break;
+	default:
+		break;
+	}
+}
+
+bool Game::GetAllStageClearFlag()
+{
+	if (Stage1ClearFlag == true &&
+		Stage2ClearFlag == true &&
+		Stage3ClearFlag == true &&
+		Stage4ClearFlag == true &&
+		Stage5ClearFlag == true &&
+		Stage6ClearFlag == true &&
+		Stage7ClearFlag == true &&
+		Stage8ClearFlag == true &&
+		Stage9ClearFlag == true)
+	{
+		AllStageClearFlag = true;
+	}
+		return AllStageClearFlag;
 }

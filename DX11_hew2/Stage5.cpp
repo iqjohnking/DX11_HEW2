@@ -116,6 +116,10 @@ void Stage5::Init()
     m_UI_mikoHp->SetMiko(m_Miko);
     m_SilkCount = 0;
 
+    // UI —p‚Ì‘€ìà–¾•\Ž¦
+    m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+    m_MySceneObjects.emplace_back(m_UI_control);
+
     ResultVoice_flg = false;
 
     m_ClearFlg = false;
@@ -875,6 +879,7 @@ void Stage5::IssueUpdate()
 
     if (m_ClearFlg == true)
     {
+        Game::GetInstance()->SetStageClearFlag(5);
         m_GameUpdateBlock = true;
         Game::GetInstance()->SetWorldStopped(true);
         if (m_ClearImageFlg == false)

@@ -115,6 +115,10 @@ void Stage6::Init()
 	m_UI_mikoHp->SetMiko(m_Miko);
 	m_SilkCount = 0;
 
+	// UI 用の操作説明表示
+	m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+	m_MySceneObjects.emplace_back(m_UI_control);
+
 	ResultVoice_flg = false;
 
 	m_ClearFlg = false;
@@ -137,6 +141,12 @@ void Stage6::Uninit()
 	}
 
 	m_Pages.clear();
+
+	if(m_Flow == Flow::Gameplay)
+	{
+		// BGM停止
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
+	}
 
 	// このシーンのオブジェクトを削除する
 	for (auto& o : m_MySceneObjects) {
@@ -433,7 +443,7 @@ void Stage6::SoundUpdate()
 	{
 		m_Conversation_BGM_flg_2 = true;
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_001);
-		Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_003);
+		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_003);
 	}
 
 	//勝敗ボイス
@@ -986,7 +996,7 @@ void Stage6::UpdateEnemySpawn()
 		EnemySpawn(NORMAL, Vector3(250.0f, 320.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(150.0f, 360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(0.0f, 400.0f, 0.0f));
-		EnemySpawn(NORMAL, Vector3(-150.0f, 460.0f, 0.0f));
+		EnemySpawn(NORMAL, Vector3(-150.0f, 360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(-250.0f, 320.0f, 0.0f));
 		EnemySpawn(MAYU, Vector3(-400.0f, 0.0f, 0.0f));
 		phase10Flag = true;
@@ -1118,6 +1128,7 @@ void Stage6::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		Game::GetInstance()->SetStageClearFlag(6);
 		m_GameUpdateBlock = true;
 		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)

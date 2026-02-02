@@ -115,6 +115,10 @@ void Stage8::Init()
 	m_UI_mikoHp->SetMiko(m_Miko);
 	m_SilkCount = 0;
 
+	// UI 用の操作説明表示
+	m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+	m_MySceneObjects.emplace_back(m_UI_control);
+
 	ResultVoice_flg = false;
 
 	//BGM開始
@@ -988,6 +992,7 @@ void Stage8::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		Game::GetInstance()->SetStageClearFlag(8);
 		m_GameUpdateBlock = true;
 		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)

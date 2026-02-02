@@ -93,6 +93,8 @@ void StartScene::Init()
     {
 		Game::GetSound()->Play(SOUND_LABEL_VOICE_ANOTHER_008);
 	}
+
+    m_HasChangedScene = false;
 }
 
 void StartScene::Update()
@@ -150,8 +152,25 @@ void StartScene::Update()
     // シーン切り替え判定（タイマーが1.0になったら）
     if (m_isStarting && m_shojiTimer >= 1.0f)
     {
-        Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
-        return;
+        //遷移先分岐
+        if(m_HasChangedScene == false)
+        {
+            //多重遷移を防ぐためにflgをtrueに
+            //一度だけ遷移させる
+            m_HasChangedScene = true;
+
+            //チュートリアル未プレイならチュートリアルへ
+            if(Game::GetInstance()->IsTutorialPlay() == false)
+            {
+                Game::GetInstance()->ChangeScene(SceneName::STAGE0);
+                return;
+            }
+			else // チュートリアルクリア済みならモード選択へ
+            {
+                Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
+                return;
+            }
+        }
     }
 
     if (m_isStarting) return; // 閉まりかけの時は入力を受け付けない

@@ -22,6 +22,7 @@
 #include <random>
 #include "UI_redSilk.h"
 #include "UI_mikoHp.h"
+#include"UI_control.h"
 
 #include <vector>
 #include "MessageManager.h"
@@ -58,11 +59,15 @@ protected:
 
 	Shrinemaiden* m_Miko = nullptr;     // 巫女
 
+	UI_control* m_UI_control; //コントローラーUI
+
 	int StagekillCount = 0;	//倒した敵の数
 	int StageEnemyCount = 0; //ステージの敵の総数
 
 	Texture2D* ClearImage[3] = {};
 	Texture2D* GameOverImage[3] = {};
+	Texture2D* ScoreImage[6] = {};
+	Texture2D* SurvivalTimeImage[5] = {};
 
 	int m_SilkCount = 0;
 

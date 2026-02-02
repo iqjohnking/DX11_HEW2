@@ -32,7 +32,7 @@ public:
 
         // もし Texture2D の実装が「scale.x = 長さ」ならそのまま
         // 「scale.x = 元テクスチャ幅に対する倍率」なら、補正が必要
-        SetScale(len, 1.0f, 1.0f);
+        SetScale(len, 50.0f, 1.0f);
 
         // 必要ならピボットも中央に
         // SetPivot(0.5f, 0.5f, 0.0f); // Texture2D の仕様に合わせて

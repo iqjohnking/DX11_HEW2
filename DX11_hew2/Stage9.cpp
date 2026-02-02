@@ -86,6 +86,10 @@ void Stage9::Init()
 	m_UI_mikoHp->SetMiko(m_Miko);
 	m_SilkCount = 0;
 
+	// UI 用の操作説明表示
+	m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+	m_MySceneObjects.emplace_back(m_UI_control);
+
 	//経過したフレーム数と秒数を0にリセット
 	elapsedFrames = 0;
 	elapsedSeconds = 0;
@@ -131,6 +135,11 @@ void Stage9::Uninit()
 	}
 
 	m_Pages.clear();
+
+	if (m_Flow == Flow::Gameplay)
+	{
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_003);
+	}
 
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_009);
 
@@ -1410,6 +1419,7 @@ void Stage9::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		Game::GetInstance()->SetStageClearFlag(9);
 		m_GameUpdateBlock = true;
 		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)

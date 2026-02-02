@@ -88,6 +88,10 @@ void Stage7::Init()
 	m_UI_mikoHp->SetMiko(m_Miko);
 	m_SilkCount = 0;
 
+	// UI 用の操作説明表示
+	m_UI_control = Game::GetInstance()->AddObject<UI_control>();
+	m_MySceneObjects.emplace_back(m_UI_control);
+
 	//敵が出現するフェーズのフラグをリセット
 	phase1Flag = false;
 	phase2Flag = false;
@@ -126,6 +130,11 @@ void Stage7::Uninit()
 	}
 
 	m_Pages.clear();
+
+	if (m_Flow == Flow::Gameplay)
+	{
+		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
+	}
 
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_006);
 
@@ -1149,7 +1158,7 @@ void Stage7::UpdateEnemySpawn()
 
 	if (elapsedSeconds == 62 && phase11Flag == false)
 	{
-		EnemySpawn(TACKLE, Vector3(-200.0f, 350.0f, 0.0f));
+		EnemySpawn(TACKLE, Vector3(200.0f, 350.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(200.0f, -320.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(100.0f, -360.0f, 0.0f));
 		EnemySpawn(NORMAL, Vector3(0.0f, -400.0f, 0.0f));
@@ -1284,6 +1293,7 @@ void Stage7::IssueUpdate()
 
 	if (m_ClearFlg == true)
 	{
+		Game::GetInstance()->SetStageClearFlag(7);
 		m_GameUpdateBlock = true;
 		Game::GetInstance()->SetWorldStopped(true);
 		if (m_ClearImageFlg == false)
