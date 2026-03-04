@@ -277,7 +277,7 @@ void StageSelectScene::Update()
 	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
 
 	// --- 決定処理（Aボタン） ---
-	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_RETURN) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
+	if (Input::GetButtonTrigger(XINPUT_A) || Input::GetKeyTrigger(VK_RETURN) || Input::GetKeyTrigger(VK_SPACE) || (Input::GetMouseButtonTrigger(0) && isMouseClickOnButton))
 	{
 		m_isStarting = true;
 		Game::GetSound()->Play(SOUND_LABEL_SE_011);
@@ -308,6 +308,7 @@ void StageSelectScene::Update()
 	//一個戻る
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT)	  ||
+		Input::GetKeyTrigger(VK_BACK)	  ||
 		Input::GetMouseButtonTrigger(1))
 	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
@@ -340,7 +341,7 @@ void StageSelectScene::Update()
 	}
 
 	// --- Lボタン(LB)でチャプター切り替え ---
-	if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| Input::GetKeyTrigger(VK_RIGHT))
+	if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER)|| Input::GetKeyTrigger(VK_RIGHT) || Input::GetKeyTrigger(VK_L))
 	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter++;
@@ -371,7 +372,7 @@ void StageSelectScene::Update()
 			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
 		}
 	}
-	else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT))
+	else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT) || Input::GetKeyTrigger(VK_J))
 	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter--;
