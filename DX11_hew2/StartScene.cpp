@@ -180,6 +180,7 @@ void StartScene::Update()
 	if (m_isStarting) return; // 閉まりかけの時は入力を受け付けない
 
 
+
 	// --- 入力の取得 ---
 	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
 	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
@@ -190,23 +191,44 @@ void StartScene::Update()
 	static bool isSelected = false;
 	//bool prevSelected = isSelected; // 前フレームの選択状態を保存
 
+	// スティックの「倒しっぱなし」を防止するフラグ
+	static bool stickFree = true;
+
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
 
 	// --- 選択状態の切り替え ---
 	// 上入力でOFF（isSelected = false）
 
-	if (Input::GetButtonTrigger(XINPUT_UP) || Input::GetKeyTrigger(VK_UP) || stick.y > 0.5f)
+	if (Input::GetButtonTrigger(XINPUT_UP) || Input::GetKeyTrigger(VK_UP) || (stickFree && stick.y > 0.5f))
 	{
+		if (isSelected == true)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		}
 		isSelected = false;
+		
+		if (stick.y > 0.5f) stickFree = false;
 	}
 
 	// 下入力でON（isSelected = true）
-	if (Input::GetButtonTrigger(XINPUT_DOWN) || Input::GetKeyTrigger(VK_DOWN) || stick.y < -0.5f)
+	if (Input::GetButtonTrigger(XINPUT_DOWN) || Input::GetKeyTrigger(VK_DOWN) || (stickFree && stick.y < -0.5f))
 	{
+	
+		if (isSelected == false)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		}
 		isSelected = true;
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
-	}
 
+		
+		if (stick.y < -0.5f) stickFree = false;
+	}
+	
+	// スティックが中央付近に戻ったら、再び入力を受け付け
+	if (stick.y < 0.2f && stick.y > -0.2f)
+	{
+		stickFree = true;
+	}
 
 	// マウス
 	if (mouseMoved)
@@ -237,6 +259,7 @@ void StartScene::Update()
 		// 中の文字
 		m_PressEnterImg->SetScale(m_curWakuScale * 0.42f, m_curWakuScale * 0.22f, 0.0f);
 	}
+	
 
 	// ---決定処理 ---
 	bool isMouseClickOnButton = (Input::GetMouseButtonTrigger(0) && IsMouseOver(m_PressEnterwakuImg));
