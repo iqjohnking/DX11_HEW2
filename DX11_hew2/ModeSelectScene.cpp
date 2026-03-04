@@ -366,6 +366,7 @@ void ModeSelectScene::Update()
 	// --- 決定処理 (Aボタン or 左クリック or Enterキー) ---
 	if (Input::GetButtonTrigger(XINPUT_A) ||
 		Input::GetKeyTrigger(VK_RETURN) ||
+		Input::GetKeyTrigger(VK_SPACE) ||
 		isMouseClickOnButton)
 
 	{
@@ -389,6 +390,7 @@ void ModeSelectScene::Update()
 	//一個戻る
 	if (Input::GetButtonTrigger(XINPUT_B) ||
 		Input::GetKeyTrigger(VK_SHIFT)	  ||
+		Input::GetKeyTrigger(VK_BACK)	  ||
 		Input::GetMouseButtonTrigger(1))
 	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
