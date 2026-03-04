@@ -353,7 +353,7 @@ void Stage10::GameUpdate()
 					enemy->StartMayuing(centroid);
 					++eliminatedCount;
 					ScoreMultiplier += 0.1f;	//1体目は1倍、以降0.1倍ずつ倍率アップ
-					Score += baseScore * ScoreMultiplier;	//100*スコア倍率
+					Score += static_cast<int>(baseScore * ScoreMultiplier);	//100*スコア倍率
 					if (Score >= 99999)
 					{
 						Score = 99999; //スコアカンスト

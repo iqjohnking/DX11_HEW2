@@ -1228,7 +1228,7 @@ void Stage0::IssueUpdate()
 				//	Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
 				//	return;
 				//}
-				Game::GetInstance()->ChangeScene(SceneName::STAGE_SELECT);
+				Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
 				return;
 			}
 		}

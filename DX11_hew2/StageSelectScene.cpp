@@ -23,23 +23,46 @@ void StageSelectScene::Init()
 	m_MySceneObjects.emplace_back(bg);
 
 	//モード選択場所の内背景
+
+
+
+	m_mode_in_L_back = Game::GetInstance()->AddObject<Texture2D>();
+	m_mode_in_M_back = Game::GetInstance()->AddObject<Texture2D>();
+	m_mode_in_R_back = Game::GetInstance()->AddObject<Texture2D>();
+	m_mode_in_L_back->SetTexture("assets/texture/stageselect/back.png");
+	m_mode_in_M_back->SetTexture("assets/texture/stageselect/back.png");
+	m_mode_in_R_back->SetTexture("assets/texture/stageselect/back.png");
+	m_mode_in_L_back->SetPosition(-560.0f, 50.0f, 0.0f);
+	m_mode_in_M_back->SetPosition(-000.0f, 50.0f, 0.0f);
+	m_mode_in_R_back->SetPosition( 550.0f, 50.0f, 0.0f);
+	m_mode_in_L_back->SetScale(450.f, 450.f, 0.0f);
+	m_mode_in_M_back->SetScale(450.f, 450.f, 0.0f);
+	m_mode_in_R_back->SetScale(450.f, 450.f, 0.0f);
+	m_MySceneObjects.emplace_back(m_mode_in_L_back);
+	m_MySceneObjects.emplace_back(m_mode_in_M_back);
+	m_MySceneObjects.emplace_back(m_mode_in_R_back);
+	m_mode_in_L_back->SetAlpha(1.0f);
+	m_mode_in_M_back->SetAlpha(0.0f);
+	m_mode_in_R_back->SetAlpha(0.0f);
+
+
 	m_mode_in_L = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
 	m_mode_in_L->SetPosition(-530.0f, 50.0f, 0.0f);
-	m_mode_in_L->SetScale(m_curScaleL * 2.0f, m_curScaleL, 0.0f);
+	m_mode_in_L->SetScale(m_curScaleL * 1.7778f, m_curScaleL, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_L);
 
 	m_mode_in_M = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
 	m_mode_in_M->SetPosition(30.0f, 50.0f, 0.0f);
-	m_mode_in_M->SetScale(m_curScaleM * 2.0f, m_curScaleM, 0.0f);
+	m_mode_in_M->SetScale(m_curScaleM * 1.7778f, m_curScaleM, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_M);
 
 	//モード選択場所の内背景
 	m_mode_in_R = Game::GetInstance()->AddObject<Texture2D>();
 	m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
 	m_mode_in_R->SetPosition(580.0f, 50.0f, 0.0f);
-	m_mode_in_R->SetScale(m_curScaleR * 2.0f, m_curScaleR, 0.0f);
+	m_mode_in_R->SetScale(m_curScaleR * 1.7778f, m_curScaleR, 0.0f);
 	m_MySceneObjects.emplace_back(m_mode_in_R);
 
 	//ステージ選択画面　文字枠
@@ -206,15 +229,38 @@ void StageSelectScene::Update()
 	if (abs(stick.x) < 0.2f) stickFree = true; // スティックを離したら入力を受け付ける
 
 	// --- コントローラーの左右で選択を動かす ---
-	if (Input::GetButtonTrigger(XINPUT_LEFT)||Input::GetKeyTrigger(VK_A)) 
-	{ 
+	if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_A))
+	{
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
-		m_SelectIndex = (m_SelectIndex + 2) % 3; 
+
+		if ((m_Chapter == 2 && m_SelectIndex == 0) || 
+			(m_Chapter == 3 && m_SelectIndex == 0)) {
+			ChangeStageSelectScene(-1);
+		}
+		else
+		{
+			m_SelectIndex = (m_SelectIndex + 2) % 3;
+		}
+		if (m_mode_in_L_back) m_mode_in_L_back->SetAlpha(m_SelectIndex == 0 ? 1.0f : 0.0f);
+		if (m_mode_in_M_back) m_mode_in_M_back->SetAlpha(m_SelectIndex == 1 ? 1.0f : 0.0f);
+		if (m_mode_in_R_back) m_mode_in_R_back->SetAlpha(m_SelectIndex == 2 ? 1.0f : 0.0f);
+
 	}
 	if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_D))
 	{ 
 		Game::GetSound()->Play(SOUND_LABEL_SE_010);
-		m_SelectIndex = (m_SelectIndex + 1) % 3; 
+		if ((m_Chapter == 1 && m_SelectIndex == 2) ||
+			(m_Chapter == 2 && m_SelectIndex == 2)) {
+			ChangeStageSelectScene(1);
+		}
+		else
+		{
+		m_SelectIndex = (m_SelectIndex + 1) % 3;
+		}
+		if (m_mode_in_L_back) m_mode_in_L_back->SetAlpha(m_SelectIndex == 0 ? 1.0f : 0.0f);
+		if (m_mode_in_M_back) m_mode_in_M_back->SetAlpha(m_SelectIndex == 1 ? 1.0f : 0.0f);
+		if (m_mode_in_R_back) m_mode_in_R_back->SetAlpha(m_SelectIndex == 2 ? 1.0f : 0.0f);
+
 	}
 	
 	// --- 目標サイズ ---
@@ -259,19 +305,19 @@ void StageSelectScene::Update()
 	// 左ボタン
 	if (m_mode_in_L) 
 	{
-		m_mode_in_L->SetScale(m_curScaleL * 2.0f, m_curScaleL, 0.0f);
+		m_mode_in_L->SetScale(m_curScaleL * 1.7778f, m_curScaleL, 0.0f);	
 	}
 	
 	// 真ん中ボタン
 	if (m_mode_in_M) 
 	{
-		m_mode_in_M->SetScale(m_curScaleM * 2.0f, m_curScaleM, 0.0f);
+		m_mode_in_M->SetScale(m_curScaleM * 1.7778f, m_curScaleM, 0.0f);
 	}
 	
 	// 右ボタン
 	if (m_mode_in_R) 
 	{
-		m_mode_in_R->SetScale(m_curScaleR * 2.0f, m_curScaleR, 0.0f);
+		m_mode_in_R->SetScale(m_curScaleR * 1.7778f, m_curScaleR, 0.0f);
 	}
 
 	bool isMouseClickOnButton = (IsMouseOver(m_mode_in_L) || IsMouseOver(m_mode_in_M) || IsMouseOver(m_mode_in_R));
@@ -443,5 +489,77 @@ bool StageSelectScene::IsMouseOver(Texture2D* obj)
 	float bottom = pos.y - (scale.y / 2.0f);
 	*/
 	return (mouse.x >= left && mouse.x <= right && mouse.y >= bottom && mouse.y <= top);
+}
+
+void StageSelectScene::ChangeStageSelectScene(int houkou)
+{
+	// --- Lボタン(LB)でチャプター切り替え ---
+	//if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || Input::GetKeyTrigger(VK_RIGHT) || Input::GetKeyTrigger(VK_L))
+	if (houkou == 1)
+	{
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		m_Chapter++;
+		if (m_Chapter >= 3) m_Chapter = 3; // 3章（3-3）までなので、4になったら1に戻す
+		m_SelectIndex = 0;
+
+		if (m_Chapter == 1)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
+		}
+		else if (m_Chapter == 2)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect003.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect004.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect005.png");
+		}
+		else if (m_Chapter == 3)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect006.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect007.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
+		}
+	}
+	//else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT) || Input::GetKeyTrigger(VK_J))
+	else if (houkou == -1)
+	{
+		Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		m_Chapter--;
+		if (m_Chapter <= 1) m_Chapter = 1;
+		m_SelectIndex = 2;
+
+		if (m_Chapter == 1)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/daiissyou.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect000.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect001.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect002.png");
+
+		}
+		else if (m_Chapter == 2)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/2222.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect003.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect004.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect005.png");
+		}
+		else if (m_Chapter == 3)
+		{
+			m_daiissyou->SetTexture("assets/texture/ui/3333.png");
+
+			m_mode_in_L->SetTexture("assets/texture/stageselect/stageselect006.png");
+			m_mode_in_M->SetTexture("assets/texture/stageselect/stageselect007.png");
+			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
+		}
+	}
 }
 

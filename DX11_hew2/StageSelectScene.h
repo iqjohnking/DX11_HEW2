@@ -26,6 +26,9 @@ private:
 	Texture2D* m_mode_in_L = nullptr;
 	Texture2D* m_mode_in_M = nullptr;
 	Texture2D* m_mode_in_R = nullptr;
+	Texture2D* m_mode_in_L_back = nullptr;
+	Texture2D* m_mode_in_M_back = nullptr;
+	Texture2D* m_mode_in_R_back = nullptr;
 
 	Texture2D* m_FadePanel = nullptr;
 
@@ -41,6 +44,8 @@ private:
 
 	int m_SelectIndex = 0; // 0?2	ボタンの選択
 	int m_Chapter = 1;     // 1:一章, 2:二章 3:三章
+
+	void ChangeStageSelectScene( int houkou);
 
 public:
 	StageSelectScene();
