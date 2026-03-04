@@ -42,6 +42,8 @@ void silkWall::Update()
 {
 	if (isActive == false)
 	{
+		m_PoiseLevel = 0;
+		m_PoiseTimer = 0;
 		return;
 	}
 	if (hitStopTimer > 0)
@@ -175,6 +177,9 @@ void silkWall::reInit()
 	m_IsGrowing = false;     // 伸張停止
 	m_Hitpoint = 3;        // 体力回復
 	m_IsHashiraed = false; // 柱当たりフラグリセット
+
+	m_PoiseLevel = 0; //毒リセット
+	m_PoiseTimer = 0; //毒リセット
 
 	m_TargetLength = 0.0f;   // 任意: 目標長さもゼロに戻す（次回Fire時に再設定）
 

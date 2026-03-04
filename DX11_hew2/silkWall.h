@@ -61,7 +61,7 @@ public:
 
 	void AddPoiseLevel() {
 		static constexpr int kMaxPoiseLevel = 3; 
-		if (m_PoiseLevel <= kMaxPoiseLevel) m_PoiseLevel++;
+		if (m_PoiseLevel < kMaxPoiseLevel) m_PoiseLevel++;
 		m_PoiseTimer = 180;
 	}
 	int GetPoiseDmg() const { 
