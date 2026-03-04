@@ -150,6 +150,14 @@ void Stage0::Uninit()
 
 void Stage0::Update()
 {
+	if (Input::GetKeyPress(VK_O))
+	{
+		if (Input::GetKeyTrigger(VK_P)){
+		Game::GetInstance()->ChangeScene(SceneName::MODE_SELECT);
+		return;
+		}
+	}
+
 	if (m_GameUpdateBlock != true)
 	{
 		GameUpdate();
