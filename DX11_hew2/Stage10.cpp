@@ -92,7 +92,7 @@ void Stage10::Init()
 	elapsedSeconds = 0;
 	survivalTime = 0;
 
-	//スコアをリセット
+	//スコアを0にリセット
 	Score = 0;
 
 	survivalTime_100 = 0; //生存時間100の位
@@ -203,7 +203,7 @@ void Stage10::GameUpdate()
 	elapsedFrames++;
 	elapsedSeconds = elapsedFrames / 60;
 
-	//30秒経過するごとに出現する敵の数を増やす
+	//24秒経過するごとに出現する敵の数を増やす
 	EnemySpawnplus = elapsedSeconds / 24;
 
 	//-----------------------------------------------------------------------------
@@ -545,7 +545,7 @@ void Stage10::UpdateEnemySpawn()
 		{
 			int i = get_rand_range(1, 3);
 			i += EnemySpawnplus; //24秒ごとに出現する敵の数を増やす
-			for (i; i > 0; i--)
+			for (; i > 0; i--)
 			{
 				//ランダムな位置にEnemyをスポーンさせる
 				float x = static_cast<float>(get_rand_range(-300, 300));    //+-300以内にしないとステージ外にスポーンする可能性あり
@@ -1078,7 +1078,7 @@ void Stage10::ScoreCheck()
 {
 	//スコアと生存時間を桁ごとに分ける
 	survivalTime_100 = survivalTime / 100;
-	survivalTime_10 = survivalTime / 10;
+	survivalTime_10 = (survivalTime / 10) % 10;
 	survivalTime_1 = survivalTime % 10;
 
 	Score_10000 = Score / 10000;
