@@ -93,6 +93,10 @@ void playerHand::Move()
 {
     Vector3 pos = GetPosition();
 
+    
+    if (Input::GetKeyTrigger(VK_B))
+        changeController = !changeController;
+
     //==================================================
     // 1) アナログスティックの入力を取る
     //    ※ DeadZone は Input 側で処理済み
@@ -129,51 +133,79 @@ void playerHand::Move()
     {
         float x = stick.x;
         float y = stick.y;
-    
-        // ほぼ 0 ベクトルのときは、最低限の方向を与える
-        if ((x * x + y * y) < 1e-6f)
+        if(changeController)
         {
-            x = (m_Side == HandSide::Left) ? -1.0f : 1.0f;
-            // y はそのまま（下方向が潰れないように）
-        }
-    
+            //ほぼ0 ベクトルのときは、最低限の方向を与える
+            if ((x * x + y * y) <1e-6f)
+            {
+                x = (m_Side == HandSide::Left) ? -1.0f :1.0f;
+                // y はそのまま（下方向が潰れないように）
+            }
         candidateAngle = atan2f(y, x);
         hasCandidate = true;
+        }
+        else 
+        {
+            // changeController が false のときは、アナログで角度を少しずつ回す（キーボード操作と同等）
+            float dAngle =0.0f;
+            // 上下入力で回転量を決める。左手は上で角度を減らす挙動に合わせる
+            if (m_Side == HandSide::Left)
+            dAngle = -y * m_AngleSpeed;
+            else
+            dAngle = y * m_AngleSpeed;
+
+            if (dAngle !=0.0f)
+            {
+                candidateAngle = m_FiledAngleRad + dAngle;
+
+                //角度を -PI ～ PI に収める
+                if (candidateAngle > PI) candidateAngle -= TWO_PI;
+                else if (candidateAngle < -PI) candidateAngle += TWO_PI;
+
+                hasCandidate = true;
+            }
+        }
+        
     }
     //---------- キーボード操作：角度を少しずつ回す ----------
     else
     {
         float dAngle = 0.0f;
 
-
-        if (m_Side == HandSide::Left)
+        if (changeController)
         {
-            if (Input::GetKeyPress(VK_W))
-                dAngle -= m_AngleSpeed;
-            if (Input::GetKeyPress(VK_S))
-                dAngle += m_AngleSpeed;
+            if (m_Side == HandSide::Left)
+            {
+                if (Input::GetKeyPress(VK_W))
+                    dAngle -= m_AngleSpeed;
+                if (Input::GetKeyPress(VK_S))
+                    dAngle += m_AngleSpeed;
+            }
+            else
+            {
+                if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I))
+                    dAngle += m_AngleSpeed;
+                if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K))
+                    dAngle -= m_AngleSpeed;
+            }
         }
         else
         {
-            if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I) )
-                dAngle += m_AngleSpeed;
-            if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K) )
-                dAngle -= m_AngleSpeed;
+            if (m_Side == HandSide::Left)
+            {
+                if (Input::GetKeyPress(VK_W) || stick.y > 0.5f)
+                    dAngle -= m_AngleSpeed;
+                if (Input::GetKeyPress(VK_S) || stick.y < -0.5f)
+                    dAngle += m_AngleSpeed;
+            }
+            else
+            {
+                if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I) || stick.y > 0.5f)
+                    dAngle += m_AngleSpeed;
+                if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K) || stick.y < -0.5f)
+                    dAngle -= m_AngleSpeed;
+            }
         }
-       // if (m_Side == HandSide::Left)
-       // {
-       //     if (Input::GetKeyPress(VK_W)|| stick.y >0.5f)
-       //         dAngle -= m_AngleSpeed;
-       //     if (Input::GetKeyPress(VK_S)|| stick.y <-0.5f)
-       //         dAngle += m_AngleSpeed;
-       // }
-       // else
-       // {
-       //     if (Input::GetKeyPress(VK_UP) || Input::GetKeyPress(VK_I)|| stick.y > 0.5f)
-       //         dAngle += m_AngleSpeed;
-       //     if (Input::GetKeyPress(VK_DOWN) || Input::GetKeyPress(VK_K)|| stick.y < -0.5f)
-       //         dAngle -= m_AngleSpeed;
-       // }
 
         if (dAngle != 0.0f)
         {

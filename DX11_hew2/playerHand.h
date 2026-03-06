@@ -31,6 +31,8 @@ protected:
 	playerHand* m_AnotherHand = nullptr;;
 	Field* m_Field = nullptr;
 
+	bool changeController = true; //コントローラー操作に切り替えたかどうか
+
 public:
 
 	playerHand(int side);
