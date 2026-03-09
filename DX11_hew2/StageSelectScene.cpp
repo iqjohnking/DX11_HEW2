@@ -183,6 +183,10 @@ void StageSelectScene::Update()
 
 	if (m_isStarting) return;
 	
+	// --- 選択の音声---
+	bool playMoveSound = false;
+
+	// --- マウスの位置で選択を動かす ---
 	static DirectX::XMFLOAT2 lastMousePos = { 0, 0 };
 	DirectX::XMFLOAT2 currentMousePos = Input::GetMousePosition();
 
@@ -191,6 +195,8 @@ void StageSelectScene::Update()
 
 	if (mouseMoved)
 	{
+		const int prevSelectIndex = m_SelectIndex;
+
 		if (m_mode_in_L && IsMouseOver(m_mode_in_L))
 		{
 			m_SelectIndex = 0;
@@ -199,30 +205,34 @@ void StageSelectScene::Update()
 		{
 			m_SelectIndex = 1;
 		}
-		if (m_mode_in_R && IsMouseOver(m_mode_in_R)) 
+		if (m_mode_in_R && IsMouseOver(m_mode_in_R))
 		{
 			m_SelectIndex = 2;
 		}
 
+		playMoveSound = (m_SelectIndex != prevSelectIndex);
+
+		if (m_mode_in_L_back) m_mode_in_L_back->SetAlpha(m_SelectIndex == 0 ? 1.0f : 0.0f);
+		if (m_mode_in_M_back) m_mode_in_M_back->SetAlpha(m_SelectIndex == 1 ? 1.0f : 0.0f);
+		if (m_mode_in_R_back) m_mode_in_R_back->SetAlpha(m_SelectIndex == 2 ? 1.0f : 0.0f);
 	}
-	
 
 	DirectX::XMFLOAT2 stick = Input::GetLeftAnalogStick();
-
 	// スティックの倒し始めを判定するための変数
 	static bool stickFree = true;
 
-	if (stickFree) 
+	int moveDirection = 0;
+
+	if (stickFree)
 	{
 		if (stick.x < -0.5f) // 左に倒した
 		{
-			
-			m_SelectIndex = (m_SelectIndex + 2) % 3;
+			moveDirection = -1;
 			stickFree = false;
 		}
-		else if (stick.x > 0.5f)// 右に倒した 
-		{ 
-			m_SelectIndex = (m_SelectIndex + 1) % 3;
+		else if (stick.x > 0.5f) // 右に倒した
+		{
+			moveDirection = 1;
 			stickFree = false;
 		}
 	}
@@ -231,36 +241,50 @@ void StageSelectScene::Update()
 	// --- コントローラーの左右で選択を動かす ---
 	if (Input::GetButtonTrigger(XINPUT_LEFT) || Input::GetKeyTrigger(VK_A))
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
-
-		if ((m_Chapter == 2 && m_SelectIndex == 0) || 
-			(m_Chapter == 3 && m_SelectIndex == 0)) {
-			ChangeStageSelectScene(-1);
-		}
-		else
-		{
-			m_SelectIndex = (m_SelectIndex + 2) % 3;
-		}
-		if (m_mode_in_L_back) m_mode_in_L_back->SetAlpha(m_SelectIndex == 0 ? 1.0f : 0.0f);
-		if (m_mode_in_M_back) m_mode_in_M_back->SetAlpha(m_SelectIndex == 1 ? 1.0f : 0.0f);
-		if (m_mode_in_R_back) m_mode_in_R_back->SetAlpha(m_SelectIndex == 2 ? 1.0f : 0.0f);
-
+		moveDirection = -1;
+		playMoveSound = true;
 	}
 	if (Input::GetButtonTrigger(XINPUT_RIGHT) || Input::GetKeyTrigger(VK_D))
-	{ 
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
-		if ((m_Chapter == 1 && m_SelectIndex == 2) ||
-			(m_Chapter == 2 && m_SelectIndex == 2)) {
-			ChangeStageSelectScene(1);
+	{
+		moveDirection = 1;
+		playMoveSound = true;
+	}
+
+	if (moveDirection != 0)
+	{
+		if (moveDirection < 0)
+		{
+			if ((m_Chapter == 2 && m_SelectIndex == 0) ||
+				(m_Chapter == 3 && m_SelectIndex == 0))
+			{
+				ChangeStageSelectScene(-1);
+			}
+			else
+			{
+				m_SelectIndex = (m_SelectIndex + 2) % 3;
+			}
 		}
 		else
 		{
-		m_SelectIndex = (m_SelectIndex + 1) % 3;
+			if ((m_Chapter == 1 && m_SelectIndex == 2) ||
+				(m_Chapter == 2 && m_SelectIndex == 2))
+			{
+				ChangeStageSelectScene(1);
+			}
+			else{}
+			{
+				m_SelectIndex = (m_SelectIndex + 1) % 3;
+			}
 		}
+
+		if (playMoveSound)
+		{
+			Game::GetSound()->Play(SOUND_LABEL_SE_010);
+		}
+
 		if (m_mode_in_L_back) m_mode_in_L_back->SetAlpha(m_SelectIndex == 0 ? 1.0f : 0.0f);
 		if (m_mode_in_M_back) m_mode_in_M_back->SetAlpha(m_SelectIndex == 1 ? 1.0f : 0.0f);
 		if (m_mode_in_R_back) m_mode_in_R_back->SetAlpha(m_SelectIndex == 2 ? 1.0f : 0.0f);
-
 	}
 	
 	// --- 目標サイズ ---

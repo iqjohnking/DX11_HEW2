@@ -98,6 +98,12 @@ void Shrinemaiden::Init()
 
 void Shrinemaiden::Update()
 {
+	if (Input::GetKeyPress(VK_O)) {
+		if (Input::GetKeyTrigger(VK_B)) {
+			SetDebugTriOnOff();
+		}
+	}
+
 	switch (m_MoveState)
 	{
 	case mikoState::SPAWNING:
@@ -190,7 +196,7 @@ void Shrinemaiden::Draw(Camera* cam)
 
 
 	m_Texture2D.Draw(cam);
-	//DrawDebugTriangles(cam);
+	DrawDebugTriangles(cam);
 }
 
 void Shrinemaiden::Uninit()

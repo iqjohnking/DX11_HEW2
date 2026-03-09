@@ -5,6 +5,7 @@
 #include "EnemyBase.h"
 #include "silkWall.h"
 #include "DeBugLine2D.h"
+#include "control.h"
 
 #include <vector>
 
@@ -103,9 +104,10 @@ protected:
 	// Debug
 	//==================================================
 	std::vector<DebugTri> m_DebugTris;
-	bool m_DrawDebugTris = true;
+	bool m_DrawDebugTris = false;
 
 	void DrawDebugTriangles(Camera* cam);
+	void SetDebugTriOnOff() { m_DrawDebugTris = !m_DrawDebugTris; }
 
 public:
 	//==================================================

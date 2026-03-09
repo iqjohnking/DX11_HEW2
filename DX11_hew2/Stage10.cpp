@@ -338,13 +338,25 @@ void Stage10::GameUpdate()
 			ScoreMultiplier = 0.9f; //スコア倍率リセット
 
 			// 敵を調べる
-			for (auto* obj : m_MySceneObjects)
+			//for (auto* obj : m_MySceneObjects)
+			//{
+			//	if (!obj) continue;
+			//	if (obj->ToBeDeleted()) continue;
+			//
+			//	auto* enemy = dynamic_cast<EnemyBase*>(obj);
+			//	if (!enemy) continue;
+			//
+			//	const auto pos = enemy->GetPosition();
+			//	if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
+			//	{
+			//		Vector3 centroid = (A + B + C) / 3.0f;
+			//		enemy->StartMayuing(centroid);
+			//		++eliminatedCount;
+			//	}
+			//}
+			for (auto* enemy : Game::GetInstance()->GetObjects<EnemyBase>())
 			{
-				if (!obj) continue;
-				if (obj->ToBeDeleted()) continue;
-
-				auto* enemy = dynamic_cast<EnemyBase*>(obj);
-				if (!enemy) continue;
+				if (!enemy || enemy->ToBeDeleted()) continue;
 
 				const auto pos = enemy->GetPosition();
 				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
@@ -352,12 +364,6 @@ void Stage10::GameUpdate()
 					Vector3 centroid = (A + B + C) / 3.0f;
 					enemy->StartMayuing(centroid);
 					++eliminatedCount;
-					ScoreMultiplier += 0.1f;	//1体目は1倍、以降0.1倍ずつ倍率アップ
-					Score += static_cast<int>(baseScore * ScoreMultiplier);	//100*スコア倍率
-					if (Score >= 99999)
-					{
-						Score = 99999; //スコアカンスト
-					}
 				}
 			}
 

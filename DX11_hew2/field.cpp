@@ -54,6 +54,9 @@ void Field::DrawDebug(Camera* cam)
 	for (const auto& ed : m_Edges)
 	{
 		line.SetLine(ed.p0, ed.p1);
+		line.SetScale(line.GetScale().x,
+						50.0f,
+						1.0f);
 		line.Draw(cam);
 	}
 }

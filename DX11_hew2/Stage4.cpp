@@ -345,13 +345,25 @@ void Stage4::GameUpdate()
 			bool mikoMayuCount = false;
 
 			// “G‚ð’²‚×‚é
-			for (auto* obj : m_MySceneObjects)
+			//for (auto* obj : m_MySceneObjects)
+			//{
+			//	if (!obj) continue;
+			//	if (obj->ToBeDeleted()) continue;
+			//
+			//	auto* enemy = dynamic_cast<EnemyBase*>(obj);
+			//	if (!enemy) continue;
+			//
+			//	const auto pos = enemy->GetPosition();
+			//	if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
+			//	{
+			//		Vector3 centroid = (A + B + C) / 3.0f;
+			//		enemy->StartMayuing(centroid);
+			//		++eliminatedCount;
+			//	}
+			//}
+			for (auto* enemy : Game::GetInstance()->GetObjects<EnemyBase>())
 			{
-				if (!obj) continue;
-				if (obj->ToBeDeleted()) continue;
-
-				auto* enemy = dynamic_cast<EnemyBase*>(obj);
-				if (!enemy) continue;
+				if (!enemy || enemy->ToBeDeleted()) continue;
 
 				const auto pos = enemy->GetPosition();
 				if (TriangleSilk::IsInsideTriangleXY(pos, A, B, C))
