@@ -136,14 +136,14 @@ void Stage9::Uninit()
 
 	m_Pages.clear();
 
-	if (m_Flow == Flow::Gameplay)
-	{
-		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_003);
-	}
+	// 戰鬥BGM一律停
+	Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_003);
 
+	// 對話BGM都停乾淨（Stage9 可能用到 007/008/009）
+	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_007);
+	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_008);
 	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_009);
 
-	// このシーンのオブジェクトを削除する
 	for (auto& o : m_MySceneObjects) {
 		Game::GetInstance()->DeleteObject(o);
 	}
@@ -453,6 +453,9 @@ void Stage9::SoundUpdate()
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_003);
 		Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_008);
 	}
+
+	// 防呆：避免 m_Message 為空時存取
+	if (!m_Message) return;
 
 	if (m_Message->GetIndex() == 7 && m_Conversation_BGM_flg_3 == false)
 	{
