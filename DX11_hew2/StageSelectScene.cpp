@@ -271,7 +271,7 @@ void StageSelectScene::Update()
 			{
 				ChangeStageSelectScene(1);
 			}
-			else{}
+			else
 			{
 				m_SelectIndex = (m_SelectIndex + 1) % 3;
 			}
@@ -521,7 +521,6 @@ void StageSelectScene::ChangeStageSelectScene(int houkou)
 	//if (Input::GetButtonTrigger(XINPUT_RIGHT_SHOULDER) || Input::GetKeyTrigger(VK_RIGHT) || Input::GetKeyTrigger(VK_L))
 	if (houkou == 1)
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter++;
 		if (m_Chapter >= 3) m_Chapter = 3; // 3Íi3-3j‚Ü‚Å‚È‚Ì‚ÅA4‚É‚È‚Á‚½‚ç1‚É–ß‚·
 		m_SelectIndex = 0;
@@ -551,10 +550,8 @@ void StageSelectScene::ChangeStageSelectScene(int houkou)
 			m_mode_in_R->SetTexture("assets/texture/stageselect/stageselect008.png");
 		}
 	}
-	//else if (Input::GetButtonTrigger(XINPUT_LEFT_SHOULDER) || Input::GetKeyTrigger(VK_LEFT) || Input::GetKeyTrigger(VK_J))
 	else if (houkou == -1)
 	{
-		Game::GetSound()->Play(SOUND_LABEL_SE_010);
 		m_Chapter--;
 		if (m_Chapter <= 1) m_Chapter = 1;
 		m_SelectIndex = 2;

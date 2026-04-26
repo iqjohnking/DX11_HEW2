@@ -48,6 +48,7 @@ void Field::DrawDebug(Camera* cam)
 		line.Texture2D::Init();
 		line.Init();
 		line.SetTexture("assets/texture/rope.png"); // 1x1 ”’
+		//line.SetTexture("assets/texture/ui_back.png"); // 1x1 ”’
 		initialized = true;
 	}
 

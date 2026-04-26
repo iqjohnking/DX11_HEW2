@@ -121,8 +121,8 @@ void Stage8::Init()
 
 	ResultVoice_flg = false;
 
-	//BGM開始
-	Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
+	// ※ここでの重複再生は削除する
+	// Game::GetSound()->Play(SOUND_LABEL_BGM_CONVERSATION_007);
 
 	m_ClearFlg = false;
 	m_ClearImageFlg = false;
@@ -132,7 +132,6 @@ void Stage8::Init()
 	m_ChangeClearCount = 60;
 
 	m_SelectIndex = 0;
-
 	m_GameUpdateBlock = false;
 }
 
@@ -149,6 +148,9 @@ void Stage8::Uninit()
 	{
 		Game::GetSound()->Stop(SOUND_LABEL_BGM_STAGE_002);
 	}
+
+	// 会話BGMも必ず停止
+	Game::GetSound()->Stop(SOUND_LABEL_BGM_CONVERSATION_007);
 
 	// このシーンのオブジェクトを削除する
 	for (auto& o : m_MySceneObjects) {
