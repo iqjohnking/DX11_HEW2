@@ -185,6 +185,11 @@ bool Application::InitApp()
 	Renderer::ResizeWindow(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
 	
 	SendMessage(m_hWnd, WM_KEYDOWN, VK_F11, 0);
+	ShowWindow(m_hWnd, SW_SHOW);
+	BringWindowToTop(m_hWnd);
+	SetForegroundWindow(m_hWnd);
+	SetActiveWindow(m_hWnd);
+	SetFocus(m_hWnd);
 
 	// 正常終了
 	return true;
